@@ -21,8 +21,8 @@ namespace Youregone.PlayerControls
         [Header("Sheep Config")]
         [SerializeField] private float _jumpForce;
         [SerializeField] private float _ramTimeMax;
-        [SerializeField] private float _ramMoveSpeed;
         [SerializeField] private float _baseMoveSpeed;
+        [SerializeField] private float _ramMoveSpeed;
         [SerializeField] private int _maxHealth;
         [SerializeField] private float _ramCooldownMax;
 

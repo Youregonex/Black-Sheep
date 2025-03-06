@@ -6,7 +6,59 @@
     "activeFile": "Tileset/TileSet.tsx",
     "expandedProjectPaths": [
     ],
+    "file.lastUsedOpenFilter": "Все файлы (*)",
     "fileStates": {
+        "Chunks/10TiledBridge.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 391.5,
+                "y": 298
+            }
+        },
+        "Chunks/6TiledBridge.tmx": {
+            "scale": 1.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 305.66666666666663,
+                "y": 365.3333333333333
+            }
+        },
+        "Chunks/8TiledBridge.tmx": {
+            "scale": 1.0844669117647059,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 293.69268582083225,
+                "y": 355.9352487498941
+            }
+        },
+        "Chunks/TileSet.tsx": {
+            "scaleInDock": 1
+        },
+        "Tileset/10TiledBridge.tmx": {
+            "scale": 1,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 415.5,
+                "y": 383
+            }
+        },
+        "Tileset/6TiledBridge.tmx": {
+            "scale": 1.09546875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 392.9824561403509,
+                "y": 291.19954357438314
+            }
+        },
+        "Tileset/8TiledBridge.tmx": {
+            "scale": 1.09546875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 413.97803451718727,
+                "y": 309.45656824989305
+            }
+        },
         "Tileset/Chunk0.tmx": {
             "scale": 1,
             "selectedLayer": 0,
@@ -20,6 +72,7 @@
             "scaleInEditor": 4
         }
     },
+    "last.externalTilesetPath": "D:/Obsidian/Paul's vault/Projects/BlackSheep/Tiled/Tileset",
     "last.imagePath": "D:/Obsidian/Paul's vault/Projects/BlackSheep/Tiled/Tileset",
     "map.height": 34,
     "map.lastUsedFormat": "tmx",
@@ -32,6 +85,12 @@
     ],
     "project": "BlackSheep.tiled-project",
     "recentFiles": [
+        "Chunks/6TiledBridge.tmx",
+        "Chunks/8TiledBridge.tmx",
+        "Chunks/10TiledBridge.tmx",
+        "Tileset/10TiledBridge.tmx",
+        "Tileset/6TiledBridge.tmx",
+        "Tileset/8TiledBridge.tmx",
         "Tileset/Chunk0.tmx",
         "Tileset/TileSet.tsx"
     ],

@@ -7,7 +7,6 @@ namespace Youregone.LevelGeneration
     public class PlatformSpawner : MonoBehaviour
     {
         [Header("Preferences")]
-        [SerializeField] private float _playerDistanceRemoveChunk;
         [SerializeField] private float _playerDistanceSpawnChunk;
 
         [Header("Chunk Settings")]

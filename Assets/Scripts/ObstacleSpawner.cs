@@ -11,6 +11,7 @@ namespace Youregone.LevelGeneration
         [SerializeField] private float _obstacleSpawnTimeMax;
         [SerializeField] private float _obstacleSpawnRangeMin;
         [SerializeField] private float _obstacleSpawnRangeMax;
+        [SerializeField] private float _obstacleYOffset;
 
         [SerializeField] private List<Obstacle> _obstacleList;
 
@@ -54,7 +55,7 @@ namespace Youregone.LevelGeneration
             _nextObstacleTimer = UnityEngine.Random.Range(_obstacleSpawnTimeMin, _obstacleSpawnTimeMax);
             int randomObstacleIndex = UnityEngine.Random.Range(0, _obstacleList.Count);
 
-            Vector2 obstacleRangeToPlayer = new(UnityEngine.Random.Range(_obstacleSpawnRangeMin, _obstacleSpawnRangeMax), 0f);
+            Vector2 obstacleRangeToPlayer = new(UnityEngine.Random.Range(_obstacleSpawnRangeMin, _obstacleSpawnRangeMax), _obstacleYOffset);
 
             Obstacle spawnedObstacle = Instantiate(_obstacleList[randomObstacleIndex], obstacleRangeToPlayer, Quaternion.identity);
             MovingObjectHandler.instance.AddObject(spawnedObstacle);
