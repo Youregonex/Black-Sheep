@@ -11,6 +11,7 @@ namespace Youregone.PlayerControls
         public Action OnRamStart;
         public Action OnRamStop;
         public Action OnDeath;
+        public Action OnDamageTaken;
 
         private const string ANIMATION_JUMP_TRIGGER = "JUMP";
         private const string ANIMATION_LAND_TRIGGER = "LAND";
@@ -23,6 +24,7 @@ namespace Youregone.PlayerControls
         [SerializeField] private float _ramMoveSpeed;
         [SerializeField] private float _baseMoveSpeed;
         [SerializeField] private int _maxHealth;
+        [SerializeField] private float _ramCooldownMax;
 
         [Header("Components")]
         [SerializeField] private Animator _animator;
@@ -30,6 +32,7 @@ namespace Youregone.PlayerControls
 
         [Header("Test")]
         [SerializeField] private float _ramTimeCurrent;
+        [SerializeField] private float _ramCooldownCurrent;
         [SerializeField] private bool _isGrounded = true;
         [SerializeField] private bool _isRaming = false;
         [SerializeField] private int _currentHealth;
@@ -38,6 +41,7 @@ namespace Youregone.PlayerControls
         public bool IsRaming => _isRaming;
         public float BaseMoveSpeed => _baseMoveSpeed;
         public float RamMoveSpeed => _ramMoveSpeed;
+        public int CurrentHealth => _currentHealth;
 
         private Rigidbody2D rb;
 
@@ -52,10 +56,13 @@ namespace Youregone.PlayerControls
 
         private void Update()
         {
+            if (!_isRaming && _ramCooldownCurrent > 0)
+                _ramCooldownCurrent -= Time.deltaTime;
+                
             if (Input.GetKeyDown(KeyCode.Space) && !_isRaming)
                 Jump();
 
-            if (Input.GetKeyDown(KeyCode.F) && _isGrounded)
+            if (Input.GetKeyDown(KeyCode.F) && _isGrounded && _ramCooldownCurrent <= 0)
                 StartRam();
 
             if (_isRaming)
@@ -80,14 +87,15 @@ namespace Youregone.PlayerControls
 
         private void TakeDamage()
         {
-            if (_currentHealth == 1)
+            _currentHealth--;
+            OnDamageTaken?.Invoke();
+
+            if (_currentHealth == 0)
             {
                 Debug.Log("Death");
                 OnDeath?.Invoke();
                 return;
             }
-
-            _currentHealth--;
         }
 
         private void StartRam()
@@ -96,6 +104,7 @@ namespace Youregone.PlayerControls
             _ramTimeCurrent = _ramTimeMax;
             OnRamStart?.Invoke();
             _animator.SetTrigger(ANIMATION_STARTRAM_TRIGGER);
+            _ramCooldownCurrent = _ramCooldownMax; 
         }
 
         private void StopRam()
