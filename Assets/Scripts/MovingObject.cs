@@ -1,5 +1,4 @@
 using UnityEngine;
-using Youregone.PlayerControls;
 
 namespace Youregone.LevelGeneration
 {
@@ -14,7 +13,7 @@ namespace Youregone.LevelGeneration
 
         protected virtual void OnCollisionEnter2D(Collision2D collision)
         {
-            if (!collision.transform.GetComponent<PlayerController>())
+            if (collision.transform.GetComponent<MovingObjectDestroyer>())
                 Destroy(gameObject);
         }
 

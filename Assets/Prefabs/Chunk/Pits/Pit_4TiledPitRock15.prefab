@@ -1,67 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &5135408882800360697
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 4494710165812392606}
-    m_Modifications:
-    - target: {fileID: -4641380556421734200, guid: 850821f0396824db2b01a987c06eb73a, type: 3}
-      propertyPath: m_Name
-      value: 2TiledPitRock15
-      objectReference: {fileID: 0}
-    - target: {fileID: -2346030071839018110, guid: 850821f0396824db2b01a987c06eb73a, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -2346030071839018110, guid: 850821f0396824db2b01a987c06eb73a, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -2346030071839018110, guid: 850821f0396824db2b01a987c06eb73a, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -2346030071839018110, guid: 850821f0396824db2b01a987c06eb73a, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -2346030071839018110, guid: 850821f0396824db2b01a987c06eb73a, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -2346030071839018110, guid: 850821f0396824db2b01a987c06eb73a, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -2346030071839018110, guid: 850821f0396824db2b01a987c06eb73a, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -2346030071839018110, guid: 850821f0396824db2b01a987c06eb73a, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -2346030071839018110, guid: 850821f0396824db2b01a987c06eb73a, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -2346030071839018110, guid: 850821f0396824db2b01a987c06eb73a, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: -2695619058785784247, guid: 850821f0396824db2b01a987c06eb73a, type: 3}
---- !u!4 &1744468929961906043 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -2346030071839018110, guid: 850821f0396824db2b01a987c06eb73a, type: 3}
-  m_PrefabInstance: {fileID: 5135408882800360697}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6714207481058975104
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -72,15 +10,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 164726969791134555, guid: 237b9b48c16b24b5f8cb2c229e5d6149, type: 3}
       propertyPath: m_Name
-      value: Pit_2TiledPitRock15
+      value: Pit_4TiledPitRock15
       objectReference: {fileID: 0}
     - target: {fileID: 3219839268467561836, guid: 237b9b48c16b24b5f8cb2c229e5d6149, type: 3}
       propertyPath: m_Size.x
-      value: 3.033319
+      value: 2.5950541
       objectReference: {fileID: 0}
     - target: {fileID: 3219839268467561836, guid: 237b9b48c16b24b5f8cb2c229e5d6149, type: 3}
       propertyPath: m_Offset.x
-      value: 0.9972465
+      value: 1.2298913
       objectReference: {fileID: 0}
     - target: {fileID: 5941132070058190634, guid: 237b9b48c16b24b5f8cb2c229e5d6149, type: 3}
       propertyPath: m_LocalPosition.x
@@ -122,12 +60,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7155590017532817182, guid: 237b9b48c16b24b5f8cb2c229e5d6149, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 7155590017532817182, guid: 237b9b48c16b24b5f8cb2c229e5d6149, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1744468929961906043}
+      addedObject: {fileID: 221640649231925370}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 164726969791134555, guid: 237b9b48c16b24b5f8cb2c229e5d6149, type: 3}
       insertIndex: -1
@@ -175,7 +117,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 5.271738, y: 0.5}
+  m_Offset: {x: 6.0247602, y: 0.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -186,5 +128,67 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3.531296, y: 0.20000005}
+  m_Size: {x: 3.0372338, y: 0.20000005}
   m_EdgeRadius: 0
+--- !u!1001 &8323980585723368697
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 4494710165812392606}
+    m_Modifications:
+    - target: {fileID: 8113187185769550979, guid: 0bf3464208b564affbf7a29c42203049, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8113187185769550979, guid: 0bf3464208b564affbf7a29c42203049, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8113187185769550979, guid: 0bf3464208b564affbf7a29c42203049, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8113187185769550979, guid: 0bf3464208b564affbf7a29c42203049, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8113187185769550979, guid: 0bf3464208b564affbf7a29c42203049, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8113187185769550979, guid: 0bf3464208b564affbf7a29c42203049, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8113187185769550979, guid: 0bf3464208b564affbf7a29c42203049, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8113187185769550979, guid: 0bf3464208b564affbf7a29c42203049, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8113187185769550979, guid: 0bf3464208b564affbf7a29c42203049, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8113187185769550979, guid: 0bf3464208b564affbf7a29c42203049, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8760328537200945777, guid: 0bf3464208b564affbf7a29c42203049, type: 3}
+      propertyPath: m_Name
+      value: 4TiledPitRock15
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: -2695619058785784247, guid: 0bf3464208b564affbf7a29c42203049, type: 3}
+--- !u!4 &221640649231925370 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8113187185769550979, guid: 0bf3464208b564affbf7a29c42203049, type: 3}
+  m_PrefabInstance: {fileID: 8323980585723368697}
+  m_PrefabAsset: {fileID: 0}

@@ -10,6 +10,7 @@ namespace Youregone.LevelGeneration
         [SerializeField] private float _playerDistanceSpawnChunk;
 
         [Header("Chunk Settings")]
+        [SerializeField] private Chunk _startingChunk;
         [SerializeField] private List<Chunk> _chunkPrefabList;
         [SerializeField] private float _chunkSpawnOffset;
 
@@ -56,14 +57,21 @@ namespace Youregone.LevelGeneration
         private Chunk SpawnNextChunk()
         {
             Vector2 nextChunkSpawnPosition;
+            Chunk chunkToSpawn;
 
             if (_lastChunk == null)
+            {
+                chunkToSpawn = _startingChunk;
                 nextChunkSpawnPosition = Vector2.zero;
+            }
             else
+            {
+                int randomChunkIndex = UnityEngine.Random.Range(0, _chunkPrefabList.Count);
+                chunkToSpawn = _chunkPrefabList[randomChunkIndex];
                 nextChunkSpawnPosition = new Vector2(_lastChunk.EndTransform.position.x + _chunkSpawnOffset, 0f);
+            }
 
-            int randomChunkIndex = UnityEngine.Random.Range(0, _chunkPrefabList.Count);
-            Chunk spawnedChunk = Instantiate(_chunkPrefabList[randomChunkIndex], nextChunkSpawnPosition, Quaternion.identity);
+            Chunk spawnedChunk = Instantiate(chunkToSpawn, nextChunkSpawnPosition, Quaternion.identity);
             MovingObjectHandler.instance.AddObject(spawnedChunk);
 
             float chunkMoveSpeed = PlayerController.instance.IsRaming ? PlayerController.instance.RamMoveSpeed : PlayerController.instance.BaseMoveSpeed;

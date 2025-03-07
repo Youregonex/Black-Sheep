@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2109287337838728093}
   - component: {fileID: 5780256725482360834}
   m_Layer: 3
-  m_Name: Bridge_6TiledBridgeRock15
+  m_Name: Empty_EmptyRock15
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -68,7 +68,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 3.2533007, y: 0.5}
+  m_Offset: {x: 3.7653883, y: 0.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -79,7 +79,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 7.528042, y: 0.20000005}
+  m_Size: {x: 7.588288, y: 0.20000005}
   m_EdgeRadius: 0
 --- !u!50 &2109287337838728093
 Rigidbody2D:
@@ -89,7 +89,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 164726969791134555}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -146,11 +146,11 @@ Transform:
   m_GameObject: {fileID: 5803017059336995698}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 14.1, z: 0}
+  m_LocalPosition: {x: 0, y: 14.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4645755976555335633}
+  - {fileID: 8558477077027329259}
   m_Father: {fileID: 5941132070058190634}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6997204108233839866
@@ -184,7 +184,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 5941132070058190634}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &8098282369557317697
+--- !u!1001 &4943142065878702710
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -192,57 +192,57 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7155590017532817182}
     m_Modifications:
-    - target: {fileID: -5756749747759134832, guid: acf83550d7c1d4d19afb17321dcddaaf, type: 3}
+    - target: {fileID: 1804913879037952447, guid: 52713704e53f1404e85f213363bbf485, type: 3}
+      propertyPath: m_Name
+      value: EmptyRock15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3628845812864519837, guid: 52713704e53f1404e85f213363bbf485, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -5756749747759134832, guid: acf83550d7c1d4d19afb17321dcddaaf, type: 3}
+    - target: {fileID: 3628845812864519837, guid: 52713704e53f1404e85f213363bbf485, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -5756749747759134832, guid: acf83550d7c1d4d19afb17321dcddaaf, type: 3}
+    - target: {fileID: 3628845812864519837, guid: 52713704e53f1404e85f213363bbf485, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -5756749747759134832, guid: acf83550d7c1d4d19afb17321dcddaaf, type: 3}
+    - target: {fileID: 3628845812864519837, guid: 52713704e53f1404e85f213363bbf485, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: -5756749747759134832, guid: acf83550d7c1d4d19afb17321dcddaaf, type: 3}
+    - target: {fileID: 3628845812864519837, guid: 52713704e53f1404e85f213363bbf485, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -5756749747759134832, guid: acf83550d7c1d4d19afb17321dcddaaf, type: 3}
+    - target: {fileID: 3628845812864519837, guid: 52713704e53f1404e85f213363bbf485, type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -5756749747759134832, guid: acf83550d7c1d4d19afb17321dcddaaf, type: 3}
+    - target: {fileID: 3628845812864519837, guid: 52713704e53f1404e85f213363bbf485, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -5756749747759134832, guid: acf83550d7c1d4d19afb17321dcddaaf, type: 3}
+    - target: {fileID: 3628845812864519837, guid: 52713704e53f1404e85f213363bbf485, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -5756749747759134832, guid: acf83550d7c1d4d19afb17321dcddaaf, type: 3}
+    - target: {fileID: 3628845812864519837, guid: 52713704e53f1404e85f213363bbf485, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -5756749747759134832, guid: acf83550d7c1d4d19afb17321dcddaaf, type: 3}
+    - target: {fileID: 3628845812864519837, guid: 52713704e53f1404e85f213363bbf485, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -1326397777375693578, guid: acf83550d7c1d4d19afb17321dcddaaf, type: 3}
-      propertyPath: m_Name
-      value: 6TiledBridgeRock15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
-  m_SourcePrefab: {fileID: -2695619058785784247, guid: acf83550d7c1d4d19afb17321dcddaaf, type: 3}
---- !u!4 &4645755976555335633 stripped
+  m_SourcePrefab: {fileID: -2695619058785784247, guid: 52713704e53f1404e85f213363bbf485, type: 3}
+--- !u!4 &8558477077027329259 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: -5756749747759134832, guid: acf83550d7c1d4d19afb17321dcddaaf, type: 3}
-  m_PrefabInstance: {fileID: 8098282369557317697}
+  m_CorrespondingSourceObject: {fileID: 3628845812864519837, guid: 52713704e53f1404e85f213363bbf485, type: 3}
+  m_PrefabInstance: {fileID: 4943142065878702710}
   m_PrefabAsset: {fileID: 0}
