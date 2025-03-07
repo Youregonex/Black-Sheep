@@ -4,7 +4,11 @@ namespace Youregone.LevelGeneration
 {
     public class MovingObject : MonoBehaviour
     {
-        protected Rigidbody2D _rigidBody2D;
+        [Header("Test")]
+        [SerializeField] protected bool _movementLocked = false;
+        [SerializeField] protected Rigidbody2D _rigidBody2D;
+
+        public bool MovementLock => _movementLocked;
 
         private void Awake()
         {

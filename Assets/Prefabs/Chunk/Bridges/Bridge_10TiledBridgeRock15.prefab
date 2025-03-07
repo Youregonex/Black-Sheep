@@ -14,7 +14,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1520539080624317421, guid: 98b86754598cd495195ebbe7644db4cc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.7124984
+      value: 2.94
       objectReference: {fileID: 0}
     - target: {fileID: 1520539080624317421, guid: 98b86754598cd495195ebbe7644db4cc, type: 3}
       propertyPath: m_LocalPosition.z
@@ -51,6 +51,10 @@ PrefabInstance:
     - target: {fileID: 2044579174694916714, guid: 98b86754598cd495195ebbe7644db4cc, type: 3}
       propertyPath: m_Name
       value: WhiteSheep
+      objectReference: {fileID: 0}
+    - target: {fileID: 2044579174694916714, guid: 98b86754598cd495195ebbe7644db4cc, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -61,6 +61,7 @@ namespace Youregone.LevelGeneration
             MovingObjectHandler.instance.AddObject(spawnedObstacle);
 
             float obstacleMoveSpeed = PlayerController.instance.IsRaming ? PlayerController.instance.RamMoveSpeed : PlayerController.instance.BaseMoveSpeed;
+
             spawnedObstacle.StartMovement(obstacleMoveSpeed);
         }
     }

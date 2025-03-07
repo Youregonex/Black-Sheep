@@ -75,6 +75,7 @@ namespace Youregone.LevelGeneration
             MovingObjectHandler.instance.AddObject(spawnedChunk);
 
             float chunkMoveSpeed = PlayerController.instance.IsRaming ? PlayerController.instance.RamMoveSpeed : PlayerController.instance.BaseMoveSpeed;
+
             spawnedChunk.StartMovement(chunkMoveSpeed);
 
             return spawnedChunk;
