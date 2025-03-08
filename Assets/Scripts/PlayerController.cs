@@ -59,10 +59,10 @@ namespace Youregone.PlayerControls
             if (!_isRaming && _ramCooldownCurrent > 0)
                 _ramCooldownCurrent -= Time.deltaTime;
                 
-            if (Input.GetKeyDown(KeyCode.Space) && !_isRaming)
+            if (Input.GetKeyDown(KeyCode.Space) && !_isRaming && _currentHealth > 0)
                 Jump();
 
-            if (Input.GetKeyDown(KeyCode.F) && _isGrounded && _ramCooldownCurrent <= 0)
+            if (Input.GetKeyDown(KeyCode.F) && _currentHealth > 0 && _isGrounded && _ramCooldownCurrent <= 0)
                 StartRam();
 
             if (_isRaming)
