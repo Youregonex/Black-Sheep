@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using Youregone.LevelGeneration;
+using System.Collections;
 
 namespace Youregone.PlayerControls
 {
@@ -26,16 +27,24 @@ namespace Youregone.PlayerControls
         [SerializeField] private int _maxHealth;
         [SerializeField] private float _ramCooldownMax;
 
+        [Header("Sprite Flash Config")]
+        [SerializeField] private Material _flashMaterial;
+        [SerializeField] private float _flashDuration;
+
         [Header("Components")]
         [SerializeField] private Animator _animator;
         [SerializeField] private GroundCheck _groundCheck;
+        [SerializeField] private SpriteRenderer _spriteRenderer;
 
         [Header("Test")]
+        [SerializeField] private Material _baseMaterial;
         [SerializeField] private float _ramTimeCurrent;
         [SerializeField] private float _ramCooldownCurrent;
         [SerializeField] private bool _isGrounded = true;
         [SerializeField] private bool _isRaming = false;
         [SerializeField] private int _currentHealth;
+
+        private Coroutine _flashCoroutine;
 
         public bool IsGrounded => _isGrounded;
         public bool IsRaming => _isRaming;
@@ -49,6 +58,7 @@ namespace Youregone.PlayerControls
         {
             instance = this;
 
+            _baseMaterial = _spriteRenderer.material;
             rb = GetComponent<Rigidbody2D>();
             _groundCheck.Landed += Land;
             _currentHealth = _maxHealth;
@@ -80,6 +90,24 @@ namespace Youregone.PlayerControls
                 TakeDamage();
         }
 
+        private void Flash()
+        {
+            if (_flashCoroutine != null)
+                return;
+
+            _flashCoroutine = StartCoroutine(SpriteFlashCoroutine());
+        }
+
+        private IEnumerator SpriteFlashCoroutine()
+        {
+            _spriteRenderer.material = _flashMaterial;
+
+            yield return new WaitForSeconds(_flashDuration);
+
+            _spriteRenderer.material = _baseMaterial;
+            _flashCoroutine = null;
+        }
+
         private void OnDestroy()
         {
             _groundCheck.Landed -= Land;
@@ -89,6 +117,7 @@ namespace Youregone.PlayerControls
         {
             _currentHealth--;
             OnDamageTaken?.Invoke();
+            Flash();
 
             if (_currentHealth == 0)
             {
