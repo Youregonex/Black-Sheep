@@ -21,6 +21,9 @@ namespace Youregone.LevelGeneration
 
         public void SpawnObstacle(Vector2 position)
         {
+            if (UnityEngine.Random.Range(0f, 1f) <= .5f)
+                return;
+
             int randomObstacleIndex = UnityEngine.Random.Range(0, _obstaclePrefabList.Count);
 
             Obstacle spawnedObstacle = Instantiate(_obstaclePrefabList[randomObstacleIndex], position, Quaternion.identity);
