@@ -6,6 +6,9 @@ namespace Youregone.LevelGeneration
 {
     public class PlatformSpawner : MonoBehaviour
     {
+        private const string OBSTACLE_PARENT_NAME = "Rock";
+
+
         [Header("Preferences")]
         [SerializeField] private float _playerDistanceSpawnChunk;
 
@@ -75,10 +78,24 @@ namespace Youregone.LevelGeneration
             MovingObjectHandler.instance.AddObject(spawnedChunk);
 
             float chunkMoveSpeed = PlayerController.instance.IsRaming ? PlayerController.instance.RamMoveSpeed : PlayerController.instance.BaseMoveSpeed;
-
             spawnedChunk.StartMovement(chunkMoveSpeed);
 
+            PlaceObstacles();
+
             return spawnedChunk;
+        }
+
+        private void PlaceObstacles()
+        {
+            Transform obstacleParent = transform.GetChild(0).GetChild(0).GetChild(0).Find(OBSTACLE_PARENT_NAME);
+
+            if (obstacleParent == null || obstacleParent.GetChild(0) == null)
+                return;
+
+            foreach(Transform child in obstacleParent)
+            {
+                ObstacleSpawner.instance.SpawnObstacle(child.position);
+            }
         }
     }
 }

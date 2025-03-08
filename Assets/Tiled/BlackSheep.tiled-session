@@ -16,6 +16,142 @@
                 "y": 298
             }
         },
+        "Chunks/10TiledBridge30.tmx": {
+            "scale": 1.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 222.99999999999994,
+                "y": 432
+            }
+        },
+        "Chunks/10TiledBridgeRock10.tmx": {
+            "scale": 3,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 109.66666666666664,
+                "y": 446.66666666666663
+            }
+        },
+        "Chunks/10TiledBridgeRock15.tmx": {
+            "scale": 3,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 131.5,
+                "y": 444.66666666666663
+            }
+        },
+        "Chunks/1x3TiledDoublePitRock15.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": -289,
+                "y": 104
+            }
+        },
+        "Chunks/1x5TiledDoublePitRock15.tmx": {
+            "scale": 1.564705882352941,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 120.46992481203011,
+                "y": 272.2556390977444
+            }
+        },
+        "Chunks/2TiledPitMoss10.tmx": {
+            "scale": 4,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 139,
+                "y": 455.25
+            }
+        },
+        "Chunks/2TiledPitRock10.tmx": {
+            "scale": 4,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 121.25,
+                "y": 467
+            }
+        },
+        "Chunks/2TiledPitRock15.tmx": {
+            "scale": 1.564705882352941,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 120.46992481203011,
+                "y": 272.2556390977444
+            }
+        },
+        "Chunks/2x3TiledDoublePitRock15.tmx": {
+            "scale": 1.564705882352941,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 120.46992481203011,
+                "y": 272.2556390977444
+            }
+        },
+        "Chunks/2x5TiledDoublePitRock15.tmx": {
+            "scale": 1.564705882352941,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 120.46992481203011,
+                "y": 272.2556390977444
+            }
+        },
+        "Chunks/3TiledPitRock10.tmx": {
+            "scale": 3,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 142.33333333333334,
+                "y": 445
+            }
+        },
+        "Chunks/3TiledPitRock15.tmx": {
+            "scale": 1.564705882352941,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 120.46992481203011,
+                "y": 272.2556390977444
+            }
+        },
+        "Chunks/3x3TiledDoublePitRock15.tmx": {
+            "scale": 1.564705882352941,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 121.10902255639101,
+                "y": 312.51879699248127
+            }
+        },
+        "Chunks/4TiledPitRock10.tmx": {
+            "scale": 1.5,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 140,
+                "y": 302
+            }
+        },
+        "Chunks/4TiledPitRock15.tmx": {
+            "scale": 1.564705882352941,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 120.46992481203011,
+                "y": 272.2556390977444
+            }
+        },
+        "Chunks/5TiledBridgeRock15.tmx": {
+            "scale": 1.564705882352941,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 120.46992481203011,
+                "y": 272.2556390977444
+            }
+        },
+        "Chunks/5TiledPitRock15.tmx": {
+            "scale": 1.564705882352941,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 120.46992481203011,
+                "y": 272.2556390977444
+            }
+        },
         "Chunks/6TiledBridge.tmx": {
             "scale": 1.5,
             "selectedLayer": 0,
@@ -24,12 +160,196 @@
                 "y": 365.3333333333333
             }
         },
+        "Chunks/6TiledBridge30.tmx": {
+            "scale": 3,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 164.83333333333331,
+                "y": 440
+            }
+        },
+        "Chunks/6TiledBridgeMoss10.tmx": {
+            "scale": 2,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 23,
+                "y": 367.5
+            }
+        },
+        "Chunks/6TiledBridgeRock10.tmx": {
+            "scale": 5.5,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 122.1818181818182,
+                "y": 429.4545454545455
+            }
+        },
+        "Chunks/6TiledBridgeRock15.tmx": {
+            "scale": 1.564705882352941,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 120.46992481203011,
+                "y": 272.2556390977444
+            }
+        },
+        "Chunks/7TiledBridgeMoss10.tmx": {
+            "scale": 2,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 90.5,
+                "y": 375
+            }
+        },
+        "Chunks/7TiledBridgeRock10.tmx": {
+            "scale": 2,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 53.5,
+                "y": 396
+            }
+        },
+        "Chunks/7TiledBridgeRock15.tmx": {
+            "scale": 1.564705882352941,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 120.46992481203011,
+                "y": 272.2556390977444
+            }
+        },
         "Chunks/8TiledBridge.tmx": {
             "scale": 1.0844669117647059,
             "selectedLayer": 0,
             "viewCenter": {
                 "x": 293.69268582083225,
                 "y": 355.9352487498941
+            }
+        },
+        "Chunks/8TiledBridge30.tmx": {
+            "scale": 2,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 259.25,
+                "y": 361
+            }
+        },
+        "Chunks/8TiledBridgeMoss10.tmx": {
+            "scale": 3,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 114,
+                "y": 381.33333333333337
+            }
+        },
+        "Chunks/8TiledBridgeRock15.tmx": {
+            "scale": 1.564705882352941,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 120.46992481203011,
+                "y": 272.2556390977444
+            }
+        },
+        "Chunks/9TiledBridgeMoss10.tmx": {
+            "scale": 3,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 97.33333333333334,
+                "y": 395
+            }
+        },
+        "Chunks/9TiledBridgeRock15.tmx": {
+            "scale": 1.564705882352941,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 120.46992481203011,
+                "y": 272.2556390977444
+            }
+        },
+        "Chunks/EmptyMoss10.tmx": {
+            "scale": 1.5,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 173.3333333333333,
+                "y": 352
+            }
+        },
+        "Chunks/EmptyRock10.tmx": {
+            "scale": 1,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 237,
+                "y": 229
+            }
+        },
+        "Chunks/EmptyRock15.tmx": {
+            "scale": 2,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 235.25,
+                "y": 372
+            }
+        },
+        "Chunks/LeftRockRock15.tmx": {
+            "scale": 2,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 85.75,
+                "y": 383.5
+            }
+        },
+        "Chunks/LogMoss10.tmx": {
+            "scale": 3,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 121,
+                "y": 388.33333333333337
+            }
+        },
+        "Chunks/LogMoss15.tmx": {
+            "scale": 1.564705882352941,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 120.46992481203011,
+                "y": 272.2556390977444
+            }
+        },
+        "Chunks/LogRock10.tmx": {
+            "scale": 5.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 100.36363636363636,
+                "y": 417.6363636363636
+            }
+        },
+        "Chunks/LogRock15.tmx": {
+            "scale": 1.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 105,
+                "y": 256
+            }
+        },
+        "Chunks/MidRockRock15.tmx": {
+            "scale": 3,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 157.16666666666666,
+                "y": 415.3333333333333
+            }
+        },
+        "Chunks/RightRockRock15.tmx": {
+            "scale": 1.5,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 131.66666666666666,
+                "y": 260
+            }
+        },
+        "Chunks/StartMoss20.tmx": {
+            "scale": 1.5,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 225.3333333333333,
+                "y": 276
             }
         },
         "Chunks/TileSet.tsx": {
@@ -68,35 +388,38 @@
             }
         },
         "Tileset/TileSet.tsx": {
+            "dynamicWrapping": false,
             "scaleInDock": 1,
-            "scaleInEditor": 4
+            "scaleInEditor": 2
         }
     },
-    "last.externalTilesetPath": "D:/Obsidian/Paul's vault/Projects/BlackSheep/Tiled/Tileset",
     "last.imagePath": "D:/Obsidian/Paul's vault/Projects/BlackSheep/Tiled/Tileset",
-    "map.height": 34,
+    "map.height": 10,
     "map.lastUsedFormat": "tmx",
-    "map.tileHeight": 16,
-    "map.tileWidth": 16,
-    "map.width": 60,
+    "map.tileHeight": 24,
+    "map.tileWidth": 24,
+    "map.width": 23,
     "openFiles": [
-        "Tileset/TileSet.tsx",
-        "Tileset/Chunk0.tmx"
+        "Tileset/TileSet.tsx"
     ],
     "project": "BlackSheep.tiled-project",
     "recentFiles": [
-        "Chunks/6TiledBridge.tmx",
-        "Chunks/8TiledBridge.tmx",
-        "Chunks/10TiledBridge.tmx",
-        "Tileset/10TiledBridge.tmx",
-        "Tileset/6TiledBridge.tmx",
-        "Tileset/8TiledBridge.tmx",
-        "Tileset/Chunk0.tmx",
-        "Tileset/TileSet.tsx"
+        "Chunks/LogRock10.tmx",
+        "Chunks/LogMoss10.tmx",
+        "Chunks/EmptyMoss10.tmx",
+        "Chunks/EmptyRock10.tmx",
+        "Chunks/7TiledBridgeRock10.tmx",
+        "Chunks/6TiledBridgeRock10.tmx",
+        "Chunks/4TiledPitRock10.tmx",
+        "Chunks/3TiledPitRock10.tmx",
+        "Chunks/2TiledPitRock10.tmx",
+        "Chunks/2TiledPitMoss10.tmx",
+        "Tileset/TileSet.tsx",
+        "Chunks/StartMoss20.tmx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {
-        "height": 16,
-        "width": 16
+        "height": 24,
+        "width": 24
     }
 }

@@ -14,12 +14,14 @@ namespace Youregone.EnemyAI
         [Header("Components")]
         [SerializeField] private Animator _animator;
 
+        [Header("Test")]
+        [SerializeField] private Vector2 _sheepVelocity;
+
         private void Start()
         {
             MovingObjectHandler.instance.AddObject(this);
-
             float platformMoveSpeed = PlayerController.instance.IsRaming ? PlayerController.instance.RamMoveSpeed : PlayerController.instance.BaseMoveSpeed;
-
+            _sheepVelocity = Vector2.zero;
             StartMovement(platformMoveSpeed);
         }
 
@@ -35,12 +37,16 @@ namespace Youregone.EnemyAI
         {
             if(collision.transform.GetComponent<PlayerController>())
             {
+                _sheepVelocity = new Vector2(_moveSpeed, 0f);                
                 float platformMoveSpeed = PlayerController.instance.IsRaming ? PlayerController.instance.RamMoveSpeed : PlayerController.instance.BaseMoveSpeed;
-
-                _movementLocked = true;
-                _rigidBody2D.velocity = new Vector2(-(platformMoveSpeed + _moveSpeed), 0f);
+                _rigidBody2D.velocity = new Vector2(-(platformMoveSpeed + _sheepVelocity.x), 0f);
                 _animator.SetTrigger(ATTACK_TRIGGER);
             }
+        }
+
+        public override void ChangeVelocity(Vector2 newVelocity)
+        {
+            _rigidBody2D.velocity = -(newVelocity + _sheepVelocity);
         }
     }
 }

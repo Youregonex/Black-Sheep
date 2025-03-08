@@ -5,14 +5,17 @@ namespace Youregone.LevelGeneration
     public class MovingObject : MonoBehaviour
     {
         [Header("Test")]
-        [SerializeField] protected bool _movementLocked = false;
+        [SerializeField] private float _currentVelocityX;
         [SerializeField] protected Rigidbody2D _rigidBody2D;
-
-        public bool MovementLock => _movementLocked;
 
         private void Awake()
         {
             _rigidBody2D = transform.GetComponent<Rigidbody2D>();
+        }
+
+        private void Update()
+        {
+            _currentVelocityX = _rigidBody2D.velocity.x;
         }
 
         protected virtual void OnCollisionEnter2D(Collision2D collision)
@@ -21,7 +24,7 @@ namespace Youregone.LevelGeneration
                 Destroy(gameObject);
         }
 
-        private void OnDestroy()
+        protected virtual void OnDestroy()
         {
             MovingObjectHandler.instance.RemoveObject(this);
         }
@@ -32,7 +35,7 @@ namespace Youregone.LevelGeneration
             _rigidBody2D.velocity = chunkVelocity;
         }
 
-        public void ChangeVelocity(Vector2 newVelocity)
+        public virtual void ChangeVelocity(Vector2 newVelocity)
         {
             _rigidBody2D.velocity = -newVelocity;
         }

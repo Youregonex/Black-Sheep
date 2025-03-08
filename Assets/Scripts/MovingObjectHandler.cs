@@ -40,9 +40,6 @@ namespace Youregone.LevelGeneration
         {
             foreach (MovingObject movingObject in _spawnedObjects)
             {
-                if (movingObject.MovementLock)
-                    return;
-
                 Vector2 newObjectVelocity = new(PlayerController.instance.RamMoveSpeed, 0f);
                 movingObject.ChangeVelocity(newObjectVelocity);
             }
@@ -52,9 +49,6 @@ namespace Youregone.LevelGeneration
         {
             foreach (MovingObject movingObject in _spawnedObjects)
             {
-                if (movingObject.MovementLock)
-                    return;
-
                 Vector2 newObjectVelocity = new(PlayerController.instance.BaseMoveSpeed, 0f);
                 movingObject.ChangeVelocity(newObjectVelocity);
             }
