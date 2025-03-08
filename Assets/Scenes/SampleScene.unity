@@ -1200,7 +1200,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _jumpForce: 10
-  _ramTimeMax: 0.5
+  _ramTimeMax: 2
   _baseMoveSpeed: 10
   _ramMoveSpeed: 15
   _maxHealth: 3
