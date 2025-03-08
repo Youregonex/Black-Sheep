@@ -1204,7 +1204,7 @@ MonoBehaviour:
   _baseMoveSpeed: 10
   _ramMoveSpeed: 15
   _maxHealth: 3
-  _ramCooldownMax: 0
+  _ramCooldownMax: 2
   _animator: {fileID: 732167513}
   _groundCheck: {fileID: 56160748}
   _ramTimeCurrent: 0
