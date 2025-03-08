@@ -6,9 +6,16 @@ namespace Youregone.UI
 {
     public class ScoreCounter : MonoBehaviour
     {
+        public static ScoreCounter instance;
+
         [SerializeField] private TextMeshProUGUI _scoreText;
         [SerializeField] private float score = 0;
         [SerializeField] private bool _isPlayerDead = false;
+
+        private void Awake()
+        {
+            instance = this;
+        }
 
         private void Start()
         {
@@ -28,6 +35,8 @@ namespace Youregone.UI
         {
             PlayerController.instance.OnDeath -= Death;
         }
+
+        public void AddPoints(int points) => score += points;
 
         private void Death()
         {

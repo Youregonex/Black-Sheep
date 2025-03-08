@@ -629,7 +629,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 12.54, y: 7.38, z: -10}
+  m_LocalPosition: {x: 14.03, y: 7.38, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1105,12 +1105,12 @@ GameObject:
   - component: {fileID: 1426614468}
   - component: {fileID: 1426614469}
   m_Layer: 0
-  m_Name: ObstacleSpawner
+  m_Name: MovingObjectSpawnerSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1426614468
 Transform:
   m_ObjectHideFlags: 0
@@ -1135,15 +1135,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1426614467}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a18076b0cdfc4db0993f257e90f2d56, type: 3}
+  m_Script: {fileID: 11500000, guid: 6afc93786052b4ea68826902af84eef3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _obstacleSpawnTimeMin: 1
-  _obstacleSpawnTimeMax: 2
-  _obstacleSpawnRangeMin: 40
-  _obstacleSpawnRangeMax: 60
-  _obstacleYOffset: 0.6
-  _obstacleList:
+  _obstaclePrefabList:
   - {fileID: 4376247592429332925, guid: 4920bd351bfd447e584f3febfef802a7, type: 3}
   - {fileID: 7288890945467340022, guid: f12a392a14fcc43e7a87a8832f957e61, type: 3}
   - {fileID: 972619965670897136, guid: 86964e1c2e8ad447b9158c1699d0a6b0, type: 3}
@@ -1154,8 +1149,7 @@ MonoBehaviour:
   - {fileID: 4797351735213537896, guid: fc1933cab881b446ca9146e708ddb2cc, type: 3}
   - {fileID: 4797351735213537896, guid: 00e9a6360336241eba8826c43000638b, type: 3}
   - {fileID: 4797351735213537896, guid: 2fb5e08f68d814153b42310c6adf51ec, type: 3}
-  _nextObstacleTimer: 0
-  _canSpawn: 1
+  _collectablePrefab: {fileID: 5970340744938519519, guid: 405e3093b2ba7463f9130cb387deb1c4, type: 3}
 --- !u!1 &1458539858
 GameObject:
   m_ObjectHideFlags: 0
@@ -1168,6 +1162,7 @@ GameObject:
   - component: {fileID: 1458539861}
   - component: {fileID: 1458539862}
   - component: {fileID: 1458539863}
+  - component: {fileID: 1458539864}
   m_Layer: 0
   m_Name: Sheep
   m_TagString: Untagged
@@ -1251,7 +1246,7 @@ CircleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1458539858}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -1279,6 +1274,51 @@ CircleCollider2D:
   m_Offset: {x: 0.15355253, y: -0.036462545}
   serializedVersion: 2
   m_Radius: 0.765622
+--- !u!61 &1458539864
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1458539858}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.045975804, y: -0.19215411}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.1358638, y: 1.2635256}
+  m_EdgeRadius: 0
 --- !u!1 &1527969187
 GameObject:
   m_ObjectHideFlags: 0
@@ -1761,7 +1801,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerDistanceSpawnChunk: 60
-  _startingChunk: {fileID: 151219202837881634, guid: dfb5dbe3e5a0b484dbd64cf26927af0b, type: 3}
+  _startingChunk: {fileID: 9035846492804480370, guid: 2c75da9cc06fc46f891db8595ea3b377, type: 3}
   _chunkPrefabList:
   - {fileID: 151219202837881634, guid: 30e21017c2aee4e299480829050c6e24, type: 3}
   - {fileID: 151219202837881634, guid: 75b9d40dbe9c84389abe010ee4d00d2b, type: 3}
@@ -1770,7 +1810,8 @@ MonoBehaviour:
   - {fileID: 151219202837881634, guid: 7979700f4466e421abaa792d9493a47f, type: 3}
   - {fileID: 151219202837881634, guid: 46cadb0c16b054614b86f08294cc3aec, type: 3}
   - {fileID: 151219202837881634, guid: da8c4c8bdc67b474c8339a978be65613, type: 3}
-  _chunkSpawnOffset: 0
+  - {fileID: 151219202837881634, guid: 047ab94569aff4e5c81c72d3ea5844a6, type: 3}
+  - {fileID: 151219202837881634, guid: 1e83dbdee04a14c02b62bbc9dd5be137, type: 3}
   _lastChunk: {fileID: 0}
   _player: {fileID: 0}
   _canSpawn: 1

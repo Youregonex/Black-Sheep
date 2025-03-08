@@ -7,7 +7,7 @@ namespace Youregone.LevelGeneration
     public class PlatformSpawner : MonoBehaviour
     {
         private const string OBSTACLE_PARENT_NAME = "Rock";
-
+        private const string COLLECTABLES_PARENT_NAME = "PickUp";
 
         [Header("Preferences")]
         [SerializeField] private float _playerDistanceSpawnChunk;
@@ -15,7 +15,6 @@ namespace Youregone.LevelGeneration
         [Header("Chunk Settings")]
         [SerializeField] private Chunk _startingChunk;
         [SerializeField] private List<Chunk> _chunkPrefabList;
-        [SerializeField] private float _chunkSpawnOffset;
 
         [Header("Test")]
         [SerializeField] private Chunk _lastChunk;
@@ -71,7 +70,7 @@ namespace Youregone.LevelGeneration
             {
                 int randomChunkIndex = UnityEngine.Random.Range(0, _chunkPrefabList.Count);
                 chunkToSpawn = _chunkPrefabList[randomChunkIndex];
-                nextChunkSpawnPosition = new Vector2(_lastChunk.EndTransform.position.x + _chunkSpawnOffset, 0f);
+                nextChunkSpawnPosition = new Vector2(_lastChunk.EndTransform.position.x, 0f);
             }
 
             Chunk spawnedChunk = Instantiate(chunkToSpawn, nextChunkSpawnPosition, Quaternion.identity);
@@ -80,22 +79,42 @@ namespace Youregone.LevelGeneration
             float chunkMoveSpeed = PlayerController.instance.IsRaming ? PlayerController.instance.RamMoveSpeed : PlayerController.instance.BaseMoveSpeed;
             spawnedChunk.StartMovement(chunkMoveSpeed);
 
-            PlaceObstacles();
+            PlaceObstacles(spawnedChunk);
+            PlaceCollectables(spawnedChunk);
 
             return spawnedChunk;
         }
 
-        private void PlaceObstacles()
+        private void PlaceObstacles(Chunk chunk)
         {
-            Transform obstacleParent = transform.GetChild(0).GetChild(0).GetChild(0).Find(OBSTACLE_PARENT_NAME);
+            Transform obstacleParent = FindChunkPointsOfInterest(chunk, OBSTACLE_PARENT_NAME);
 
-            if (obstacleParent == null || obstacleParent.GetChild(0) == null)
+            if (obstacleParent == null || obstacleParent.childCount == 0)
                 return;
 
             foreach(Transform child in obstacleParent)
             {
-                ObstacleSpawner.instance.SpawnObstacle(child.position);
+                MovingObjectSpawner.instance.SpawnObstacle(child.position);
             }
+        }
+
+        private void PlaceCollectables(Chunk chunk)
+        {
+            Transform collectableParent = FindChunkPointsOfInterest(chunk, COLLECTABLES_PARENT_NAME);
+
+            if (collectableParent == null || collectableParent.childCount == 0)
+                return;
+
+            foreach (Transform child in collectableParent)
+            {
+                MovingObjectSpawner.instance.SpawnCollectable(child.position);
+            }
+        }
+
+        private Transform FindChunkPointsOfInterest(Chunk chunk, string parentName)
+        {
+            Transform parent = chunk.transform.GetChild(0).GetChild(0).GetChild(0).Find(parentName);
+            return parent;
         }
     }
 }
