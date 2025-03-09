@@ -29,22 +29,18 @@ namespace Youregone.LevelGeneration
             Obstacle spawnedObstacle = Instantiate(_obstaclePrefabList[randomObstacleIndex], position, Quaternion.identity);
             MovingObjectHandler.instance.AddObject(spawnedObstacle);
 
-            float obstacleMoveSpeed = PlayerController.instance.IsRaming ? PlayerController.instance.RamMoveSpeed : PlayerController.instance.BaseMoveSpeed;
-
-            spawnedObstacle.StartMovement(obstacleMoveSpeed);
+            spawnedObstacle.StartMovement(PlayerController.instance.CurrentSpeed);
         }
 
         public void SpawnCollectable(Vector2 position)
         {
-            if (UnityEngine.Random.Range(0f, 1f) <= .75f)
+            if (UnityEngine.Random.Range(0f, 1f) >= .25f)
                 return;
 
             Collectable spawnedCollectable = Instantiate(_collectablePrefab, position, Quaternion.identity);
             MovingObjectHandler.instance.AddObject(spawnedCollectable);
 
-            float spawnedCollectableSpeed = PlayerController.instance.IsRaming ? PlayerController.instance.RamMoveSpeed : PlayerController.instance.BaseMoveSpeed;
-
-            spawnedCollectable.StartMovement(spawnedCollectableSpeed);
+            spawnedCollectable.StartMovement(PlayerController.instance.CurrentSpeed);
         }
     }
 }

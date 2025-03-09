@@ -6,7 +6,7 @@ namespace Youregone.PlayerControls
 {
     public class GroundCheck : MonoBehaviour
     {
-        public Action Landed;
+        public event Action Landed;
 
         private void OnTriggerEnter2D(Collider2D collision)
         {

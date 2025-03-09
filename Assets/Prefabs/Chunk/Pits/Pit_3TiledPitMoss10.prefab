@@ -48,6 +48,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -8757443244947005520, guid: aa3804ba8bde84c46b8850f7858eb68a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -12
+      objectReference: {fileID: 0}
     - target: {fileID: -8680855092384114756, guid: aa3804ba8bde84c46b8850f7858eb68a, type: 3}
       propertyPath: m_Name
       value: 3TiledPitMoss10
@@ -63,6 +67,10 @@ PrefabInstance:
     - target: {fileID: -4657500204663361878, guid: aa3804ba8bde84c46b8850f7858eb68a, type: 3}
       propertyPath: m_Layer
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -4216405673693153274, guid: aa3804ba8bde84c46b8850f7858eb68a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -12
       objectReference: {fileID: 0}
     - target: {fileID: -3723270078229463101, guid: aa3804ba8bde84c46b8850f7858eb68a, type: 3}
       propertyPath: m_Layer

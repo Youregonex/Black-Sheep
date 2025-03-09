@@ -18,15 +18,15 @@ namespace Youregone.LevelGeneration
 
         private void Start()
         {
-            PlayerController.instance.OnRamStart += RamAcceleration;
-            PlayerController.instance.OnRamStop += RamDeacceleration;
+            PlayerController.instance.OnRamStart += ChangeVelocity;
+            PlayerController.instance.OnRamStop += ChangeVelocity;
             PlayerController.instance.OnDeath += StopObjects;
         }
 
         private void OnDestroy()
         {
-            PlayerController.instance.OnRamStart -= RamAcceleration;
-            PlayerController.instance.OnRamStop -= RamDeacceleration;
+            PlayerController.instance.OnRamStart -= ChangeVelocity;
+            PlayerController.instance.OnRamStop -= ChangeVelocity;
             PlayerController.instance.OnDeath -= StopObjects;
         }
 
@@ -36,20 +36,11 @@ namespace Youregone.LevelGeneration
                 movingObject.StopMovement();
         }
 
-        private void RamAcceleration()
+        private void ChangeVelocity()
         {
             foreach (MovingObject movingObject in _spawnedObjects)
             {
-                Vector2 newObjectVelocity = new(PlayerController.instance.RamMoveSpeed, 0f);
-                movingObject.ChangeVelocity(newObjectVelocity);
-            }
-        }
-
-        private void RamDeacceleration()
-        {
-            foreach (MovingObject movingObject in _spawnedObjects)
-            {
-                Vector2 newObjectVelocity = new(PlayerController.instance.BaseMoveSpeed, 0f);
+                Vector2 newObjectVelocity = new(PlayerController.instance.CurrentSpeed, 0f);
                 movingObject.ChangeVelocity(newObjectVelocity);
             }
         }

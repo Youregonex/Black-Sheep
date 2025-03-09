@@ -2,6 +2,8 @@ using UnityEngine;
 using System;
 using Youregone.LevelGeneration;
 using System.Collections;
+using UnityEngine.SceneManagement;
+using Youregone.EnemyAI;
 
 namespace Youregone.PlayerControls
 {
@@ -9,15 +11,16 @@ namespace Youregone.PlayerControls
     {
         public static PlayerController instance;
 
-        public Action OnRamStart;
-        public Action OnRamStop;
-        public Action OnDeath;
-        public Action OnDamageTaken;
+        public event Action OnRamStart;
+        public event Action OnRamStop;
+        public event Action OnDeath;
+        public event Action OnDamageTaken;
 
         private const string ANIMATION_JUMP_TRIGGER = "JUMP";
         private const string ANIMATION_LAND_TRIGGER = "LAND";
         private const string ANIMATION_STARTRAM_TRIGGER = "START_RAM";
         private const string ANIMATION_STOPRAM_TRIGGER = "STOP_RAM";
+        private const string ANIMATION_DEATH_TRIGGER = "DEATH";
 
         [Header("Sheep Config")]
         [SerializeField] private float _jumpForce;
@@ -37,6 +40,7 @@ namespace Youregone.PlayerControls
         [SerializeField] private SpriteRenderer _spriteRenderer;
 
         [Header("Test")]
+        [SerializeField] private float _currentSpeed;
         [SerializeField] private Material _baseMaterial;
         [SerializeField] private float _ramTimeCurrent;
         [SerializeField] private float _ramCooldownCurrent;
@@ -48,8 +52,7 @@ namespace Youregone.PlayerControls
 
         public bool IsGrounded => _isGrounded;
         public bool IsRaming => _isRaming;
-        public float BaseMoveSpeed => _baseMoveSpeed;
-        public float RamMoveSpeed => _ramMoveSpeed;
+        public float CurrentSpeed => _currentSpeed;
         public int CurrentHealth => _currentHealth;
 
         private Rigidbody2D rb;
@@ -62,6 +65,7 @@ namespace Youregone.PlayerControls
             rb = GetComponent<Rigidbody2D>();
             _groundCheck.Landed += Land;
             _currentHealth = _maxHealth;
+            _currentSpeed = 0f;
         }
 
         private void Update()
@@ -86,8 +90,11 @@ namespace Youregone.PlayerControls
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (collision.transform.GetComponent<Obstacle>() && !_isRaming)
+            if ((collision.transform.GetComponent<Obstacle>() && !_isRaming) || collision.transform.GetComponent<Enemy>())
+            {
                 TakeDamage();
+                return;
+            }
         }
 
         private void Flash()
@@ -123,6 +130,8 @@ namespace Youregone.PlayerControls
             {
                 Debug.Log("Death");
                 OnDeath?.Invoke();
+                _animator.SetTrigger(ANIMATION_DEATH_TRIGGER);
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
                 return;
             }
         }
@@ -131,6 +140,7 @@ namespace Youregone.PlayerControls
         {
             _isRaming = true;
             _ramTimeCurrent = _ramTimeMax;
+            _currentSpeed = _ramMoveSpeed;
             OnRamStart?.Invoke();
             _animator.SetTrigger(ANIMATION_STARTRAM_TRIGGER);
             _ramCooldownCurrent = _ramCooldownMax; 
@@ -139,6 +149,7 @@ namespace Youregone.PlayerControls
         private void StopRam()
         {
             _isRaming = false;
+            _currentSpeed = _baseMoveSpeed;
             OnRamStop?.Invoke();
             _animator.SetTrigger(ANIMATION_STOPRAM_TRIGGER);
         }

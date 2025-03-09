@@ -96,6 +96,14 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 1060590744261013883, guid: 5ed44e5729e88485883af4290fca4b8f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3490190585277414938, guid: 5ed44e5729e88485883af4290fca4b8f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -12
+      objectReference: {fileID: 0}
     - target: {fileID: 6011255446291416375, guid: 5ed44e5729e88485883af4290fca4b8f, type: 3}
       propertyPath: m_Name
       value: 4TiledPitMoss10

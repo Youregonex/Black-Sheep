@@ -20,9 +20,9 @@ namespace Youregone.EnemyAI
         private void Start()
         {
             MovingObjectHandler.instance.AddObject(this);
-            float platformMoveSpeed = PlayerController.instance.IsRaming ? PlayerController.instance.RamMoveSpeed : PlayerController.instance.BaseMoveSpeed;
+
             _sheepVelocity = Vector2.zero;
-            StartMovement(platformMoveSpeed);
+            StartMovement(PlayerController.instance.CurrentSpeed);
         }
 
         protected override void OnCollisionEnter2D(Collision2D collision)
@@ -38,8 +38,7 @@ namespace Youregone.EnemyAI
             if(collision.transform.GetComponent<PlayerController>())
             {
                 _sheepVelocity = new Vector2(_moveSpeed, 0f);                
-                float platformMoveSpeed = PlayerController.instance.IsRaming ? PlayerController.instance.RamMoveSpeed : PlayerController.instance.BaseMoveSpeed;
-                _rigidBody2D.velocity = new Vector2(-(platformMoveSpeed + _sheepVelocity.x), 0f);
+                _rigidBody2D.velocity = new Vector2(-(PlayerController.instance.CurrentSpeed + _sheepVelocity.x), 0f);
                 _animator.SetTrigger(ATTACK_TRIGGER);
             }
         }

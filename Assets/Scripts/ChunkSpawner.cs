@@ -76,8 +76,7 @@ namespace Youregone.LevelGeneration
             Chunk spawnedChunk = Instantiate(chunkToSpawn, nextChunkSpawnPosition, Quaternion.identity);
             MovingObjectHandler.instance.AddObject(spawnedChunk);
 
-            float chunkMoveSpeed = PlayerController.instance.IsRaming ? PlayerController.instance.RamMoveSpeed : PlayerController.instance.BaseMoveSpeed;
-            spawnedChunk.StartMovement(chunkMoveSpeed);
+            spawnedChunk.StartMovement(_player.CurrentSpeed);
 
             PlaceObstacles(spawnedChunk);
             PlaceCollectables(spawnedChunk);
