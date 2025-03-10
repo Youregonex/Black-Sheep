@@ -126,10 +126,10 @@ TextureImporter:
       name: WhiteSheepRamAnimation_0
       rect:
         serializedVersion: 2
-        x: 17
-        y: 22
-        width: 62
-        height: 44
+        x: 0
+        y: 0
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -147,10 +147,10 @@ TextureImporter:
       name: WhiteSheepRamAnimation_1
       rect:
         serializedVersion: 2
-        x: 116
-        y: 26
-        width: 68
-        height: 37
+        x: 100
+        y: 0
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -168,10 +168,10 @@ TextureImporter:
       name: WhiteSheepRamAnimation_2
       rect:
         serializedVersion: 2
-        x: 216
-        y: 24
-        width: 62
-        height: 38
+        x: 200
+        y: 0
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -189,10 +189,10 @@ TextureImporter:
       name: WhiteSheepRamAnimation_3
       rect:
         serializedVersion: 2
-        x: 316
-        y: 22
-        width: 57
-        height: 39
+        x: 300
+        y: 0
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -210,10 +210,10 @@ TextureImporter:
       name: WhiteSheepRamAnimation_4
       rect:
         serializedVersion: 2
-        x: 417
-        y: 22
-        width: 53
-        height: 39
+        x: 400
+        y: 0
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -231,10 +231,10 @@ TextureImporter:
       name: WhiteSheepRamAnimation_5
       rect:
         serializedVersion: 2
-        x: 517
-        y: 22
-        width: 53
-        height: 41
+        x: 500
+        y: 0
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -252,10 +252,10 @@ TextureImporter:
       name: WhiteSheepRamAnimation_6
       rect:
         serializedVersion: 2
-        x: 617
-        y: 22
-        width: 53
-        height: 42
+        x: 600
+        y: 0
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -273,10 +273,10 @@ TextureImporter:
       name: WhiteSheepRamAnimation_7
       rect:
         serializedVersion: 2
-        x: 717
-        y: 22
-        width: 57
-        height: 43
+        x: 700
+        y: 0
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
