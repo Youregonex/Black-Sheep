@@ -18,16 +18,19 @@ namespace Youregone.LevelGeneration
         [SerializeField] private List<Chunk> _bridgeChunkPrefab;
         [SerializeField] private List<Chunk> _platformChunkPrefabList;
         [SerializeField] private List<Chunk> _chunkPrefabList;
+        [SerializeField] private float _bridgeChunkSpawnCooldown;
 
         [Header("Test")]
         [SerializeField] private Chunk _lastChunk;
         [SerializeField] private Chunk _nextChunk;
         [SerializeField] private PlayerController _player;
         [SerializeField] private bool _canSpawn;
+        [SerializeField] private float _bridgeChunkSpawnCooldownCurrent;
 
         private void Start()
         {
             _player = PlayerController.instance;
+            _bridgeChunkSpawnCooldownCurrent = _bridgeChunkSpawnCooldown;
             _lastChunk = SpawnNextChunk();
 
             PlayerController.instance.OnDeath += StopSpawning;
@@ -35,6 +38,9 @@ namespace Youregone.LevelGeneration
 
         private void Update()
         {
+            if (_bridgeChunkSpawnCooldownCurrent > 0)
+                _bridgeChunkSpawnCooldownCurrent -= Time.deltaTime;
+
             if (!_canSpawn)
                 return;
 
@@ -81,26 +87,38 @@ namespace Youregone.LevelGeneration
 
             spawnedChunk.StartMovement(_player.CurrentSpeed);
 
-            PlaceObstacles(spawnedChunk);
-            PlaceCollectables(spawnedChunk);
-
             _nextChunk = PickNextChunk(spawnedChunk);
+
+            if(_nextChunk.ChunkType != ChunkType.Bridge)
+                PlaceObstacles(spawnedChunk);
+
+            PlaceCollectables(spawnedChunk);
 
             return spawnedChunk;
         }
 
         private Chunk PickNextChunk(Chunk lastChunk)
         {
-            if(lastChunk.ChunkType == ChunkType.Pit || lastChunk.ChunkType == ChunkType.Bridge)
+            List<Chunk> possibleChunks = new();
+
+            if (lastChunk.ChunkType != ChunkType.Pit && lastChunk.ChunkType != ChunkType.Bridge && _bridgeChunkSpawnCooldownCurrent <= 0)
             {
-                List<Chunk> possibleChunks = new();
+                _bridgeChunkSpawnCooldownCurrent = _bridgeChunkSpawnCooldown;
+                return _bridgeChunkPrefab[UnityEngine.Random.Range(0, _bridgeChunkPrefab.Count)];
+            }
+
+            if (lastChunk.ChunkType == ChunkType.Pit && lastChunk.ChunkType == ChunkType.Bridge)
+            {
                 possibleChunks.AddRange(_pitChunkPrefabList);
                 possibleChunks.AddRange(_platformChunkPrefabList);
 
                 return possibleChunks[UnityEngine.Random.Range(0, possibleChunks.Count)];
             }
 
-            return _chunkPrefabList[UnityEngine.Random.Range(0, _chunkPrefabList.Count)];
+            possibleChunks.AddRange(_pitChunkPrefabList);
+            possibleChunks.AddRange(_platformChunkPrefabList);
+
+            return possibleChunks[UnityEngine.Random.Range(0, possibleChunks.Count)];
         }
 
         private void PlaceObstacles(Chunk chunk)
@@ -111,9 +129,7 @@ namespace Youregone.LevelGeneration
                 return;
 
             foreach(Transform child in obstacleParent)
-            {
                 MovingObjectSpawner.instance.SpawnObstacle(child.position);
-            }
         }
 
         private void PlaceCollectables(Chunk chunk)
