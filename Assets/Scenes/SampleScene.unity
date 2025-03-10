@@ -1906,7 +1906,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4479110502401007619, guid: 2c9fa01af2a884879bc545b112ec0c23, type: 3}
       propertyPath: _paralaxFactor
-      value: 0.5
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 6125181468398745117, guid: 2c9fa01af2a884879bc545b112ec0c23, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2021,7 +2021,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8713819679083916954, guid: d6a6a57052c154affa01dce8b3ac5a54, type: 3}
       propertyPath: _paralaxFactor
-      value: 0.2
+      value: 0.15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2156,7 +2156,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5333221244204041262, guid: bd844bce582e34598a0147adbab52361, type: 3}
       propertyPath: _paralaxFactor
-      value: 0.3
+      value: 0.2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2221,7 +2221,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4877028104699730298, guid: dccb47c6216574ae19354d8f9e4cc14b, type: 3}
       propertyPath: _paralaxFactor
-      value: 0.4
+      value: 0.3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
