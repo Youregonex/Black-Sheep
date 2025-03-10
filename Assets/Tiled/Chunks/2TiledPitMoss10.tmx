@@ -21,7 +21,7 @@
 0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,
-44,44,44,44,44,44,44,44,44,44,
+44,44,44,37,37,37,38,44,44,44,
 44,44,44,44,44,44,44,44,44,44,
 44,44,44,44,44,44,44,44,44,44,
 44,44,44,44,44,44,44,44,44,44,
@@ -84,22 +84,13 @@
  </layer>
  <objectgroup color="#5500ff" id="3" name="Rock"/>
  <objectgroup color="#ffaa00" id="4" name="PickUp">
-  <object id="1" name="PickUp" x="16" y="421">
+  <object id="1" name="PickUp" x="48" y="408">
    <point/>
   </object>
-  <object id="2" name="PickUp" x="56" y="421">
+  <object id="4" name="PickUp" x="120" y="384">
    <point/>
   </object>
-  <object id="3" name="PickUp" x="96" y="408">
-   <point/>
-  </object>
-  <object id="4" name="PickUp" x="136" y="408">
-   <point/>
-  </object>
-  <object id="5" name="PickUp" x="176" y="421">
-   <point/>
-  </object>
-  <object id="6" name="PickUp" x="216" y="421">
+  <object id="5" name="PickUp" x="192" y="408">
    <point/>
   </object>
  </objectgroup>
