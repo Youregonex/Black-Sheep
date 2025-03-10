@@ -1146,7 +1146,15 @@ MonoBehaviour:
   _obstaclePrefabList:
   - {fileID: 4376247592429332925, guid: 4920bd351bfd447e584f3febfef802a7, type: 3}
   - {fileID: 7288890945467340022, guid: f12a392a14fcc43e7a87a8832f957e61, type: 3}
-  _obstacleSpawnChance: 1
+  - {fileID: 972619965670897136, guid: 86964e1c2e8ad447b9158c1699d0a6b0, type: 3}
+  - {fileID: 4797351735213537896, guid: 2f1d562fea4bd43f397ed14bc18dadbc, type: 3}
+  - {fileID: 4797351735213537896, guid: 23317cb44b04046dab25b7c1118cef9a, type: 3}
+  - {fileID: 4797351735213537896, guid: 8b6b9ba3541b4487ca6f53cbf95cb1a0, type: 3}
+  - {fileID: 4797351735213537896, guid: 1b4c4c9af4a2e4136935503d2e146505, type: 3}
+  - {fileID: 4797351735213537896, guid: fc1933cab881b446ca9146e708ddb2cc, type: 3}
+  - {fileID: 4797351735213537896, guid: 00e9a6360336241eba8826c43000638b, type: 3}
+  - {fileID: 4797351735213537896, guid: 2fb5e08f68d814153b42310c6adf51ec, type: 3}
+  _obstacleSpawnChance: 0.89
   _collectablePrefab: {fileID: 5970340744938519519, guid: 405e3093b2ba7463f9130cb387deb1c4, type: 3}
   _collectableSpawnChance: 0.138
 --- !u!1 &1458539858
@@ -1669,7 +1677,7 @@ Transform:
   m_GameObject: {fileID: 1969522049}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.65, y: 9.2, z: 0}
+  m_LocalPosition: {x: 10.65, y: 9.18, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
