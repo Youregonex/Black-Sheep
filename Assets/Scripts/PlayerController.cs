@@ -29,6 +29,7 @@ namespace Youregone.PlayerControls
         [SerializeField] private float _ramMoveSpeed;
         [SerializeField] private int _maxHealth;
         [SerializeField] private float _ramCooldownMax;
+        [SerializeField] private float _jumpCooldown = .25f;
 
         [Header("Sprite Flash Config")]
         [SerializeField] private Material _flashMaterial;
@@ -47,6 +48,7 @@ namespace Youregone.PlayerControls
         [SerializeField] private bool _isGrounded = true;
         [SerializeField] private bool _isRaming = false;
         [SerializeField] private int _currentHealth;
+        [SerializeField] private float _jumpCooldownCurrent = .25f;
 
         private Coroutine _flashCoroutine;
 
@@ -78,6 +80,9 @@ namespace Youregone.PlayerControls
 
             if (Input.GetKeyDown(KeyCode.F) && _currentHealth > 0 && _isGrounded && _ramCooldownCurrent <= 0)
                 StartRam();
+
+            if (_jumpCooldownCurrent > 0)
+                _jumpCooldownCurrent -= Time.deltaTime;
 
             if (_isRaming)
             {
@@ -162,12 +167,13 @@ namespace Youregone.PlayerControls
 
         private void Jump()
         {
-            if (!_isGrounded)
+            if (!_isGrounded || _jumpCooldownCurrent > 0)
                 return;
 
+            _isGrounded = false;
+            _jumpCooldownCurrent = _jumpCooldown;
             rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
             _animator.SetTrigger(ANIMATION_JUMP_TRIGGER);
-            _isGrounded = false;
         }
     }
 }

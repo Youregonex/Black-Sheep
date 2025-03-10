@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pit_3TiledPitRock10
       objectReference: {fileID: 0}
+    - target: {fileID: 5780256725482360834, guid: bb7511719052045baaa719a797728bbe, type: 3}
+      propertyPath: _chunkType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5941132070058190634, guid: bb7511719052045baaa719a797728bbe, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -147,7 +151,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2306286694660847781, guid: 1adab88bb633b467ea345038b152b5e8, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4590397022760253761, guid: 1adab88bb633b467ea345038b152b5e8, type: 3}
       propertyPath: m_Layer

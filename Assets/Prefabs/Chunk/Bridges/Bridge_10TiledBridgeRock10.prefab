@@ -74,6 +74,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bridge_10TiledBridgeRock10
       objectReference: {fileID: 0}
+    - target: {fileID: 5780256725482360834, guid: bb7511719052045baaa719a797728bbe, type: 3}
+      propertyPath: _chunkType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5941132070058190634, guid: bb7511719052045baaa719a797728bbe, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -201,7 +205,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -6105975140077815265, guid: 32fa42a5577964ba88576cfb686194c5, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: -4220077539390572537, guid: 32fa42a5577964ba88576cfb686194c5, type: 3}
       propertyPath: m_Layer
@@ -221,7 +225,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5446939798205399098, guid: 32fa42a5577964ba88576cfb686194c5, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 6036510930289016423, guid: 32fa42a5577964ba88576cfb686194c5, type: 3}
       propertyPath: m_Name

@@ -10,7 +10,7 @@ namespace Youregone.PlayerControls
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if ((collision.transform.GetComponent<Chunk>() || collision.transform.root.GetComponent<Chunk>())  && !PlayerController.instance.IsGrounded)
+            if ((collision.transform.GetComponent<Chunk>() || collision.transform.root.GetComponent<Chunk>()) && !PlayerController.instance.IsGrounded)
             {
                 Landed?.Invoke();
             }

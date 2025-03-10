@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bridge_6TiledBridgeRock10
       objectReference: {fileID: 0}
+    - target: {fileID: 5780256725482360834, guid: bb7511719052045baaa719a797728bbe, type: 3}
+      propertyPath: _chunkType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5941132070058190634, guid: bb7511719052045baaa719a797728bbe, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -75,7 +79,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8567488750324386885, guid: e161d53cbfb5447d482a8943897acf54, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -3237021909099581888, guid: e161d53cbfb5447d482a8943897acf54, type: 3}
       propertyPath: m_Layer
@@ -83,7 +87,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -500724122298470803, guid: e161d53cbfb5447d482a8943897acf54, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: -412056098296842017, guid: e161d53cbfb5447d482a8943897acf54, type: 3}
       propertyPath: m_Layer
@@ -91,7 +95,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 64693812327097015, guid: e161d53cbfb5447d482a8943897acf54, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 190137057676783476, guid: e161d53cbfb5447d482a8943897acf54, type: 3}
       propertyPath: m_Layer
@@ -103,15 +107,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1306357067429919050, guid: e161d53cbfb5447d482a8943897acf54, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1356709776991495906, guid: e161d53cbfb5447d482a8943897acf54, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2163417287961178053, guid: e161d53cbfb5447d482a8943897acf54, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2197123534661582441, guid: e161d53cbfb5447d482a8943897acf54, type: 3}
       propertyPath: m_Name
@@ -123,11 +127,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2302967663863899696, guid: e161d53cbfb5447d482a8943897acf54, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3595244018491327283, guid: e161d53cbfb5447d482a8943897acf54, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5883925096612699015, guid: e161d53cbfb5447d482a8943897acf54, type: 3}
       propertyPath: m_LocalPosition.x
@@ -171,11 +175,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6097737354331580222, guid: e161d53cbfb5447d482a8943897acf54, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8775370822706867266, guid: e161d53cbfb5447d482a8943897acf54, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

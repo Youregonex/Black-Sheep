@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bridge_9TiledBridgeRock10
       objectReference: {fileID: 0}
+    - target: {fileID: 5780256725482360834, guid: bb7511719052045baaa719a797728bbe, type: 3}
+      propertyPath: _chunkType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5941132070058190634, guid: bb7511719052045baaa719a797728bbe, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -127,7 +131,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4562869477188263009, guid: 3c68a1697d61c42409ffa3076b5d32a6, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5789364784102685928, guid: 3c68a1697d61c42409ffa3076b5d32a6, type: 3}
       propertyPath: m_Layer
@@ -175,7 +179,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8342927903051800071, guid: 3c68a1697d61c42409ffa3076b5d32a6, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

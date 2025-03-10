@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -9053509764011300240, guid: e1b2ad81ae2274590b977bbc8c3fc633, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7304809345851499784, guid: e1b2ad81ae2274590b977bbc8c3fc633, type: 3}
       propertyPath: m_LocalPosition.x
@@ -54,7 +54,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -5984624470484131483, guid: e1b2ad81ae2274590b977bbc8c3fc633, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -3405666876473391284, guid: e1b2ad81ae2274590b977bbc8c3fc633, type: 3}
       propertyPath: m_Layer
@@ -62,15 +62,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -1375253158500934103, guid: e1b2ad81ae2274590b977bbc8c3fc633, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1743042190415319818, guid: e1b2ad81ae2274590b977bbc8c3fc633, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2689206281872139339, guid: e1b2ad81ae2274590b977bbc8c3fc633, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2806394601445070976, guid: e1b2ad81ae2274590b977bbc8c3fc633, type: 3}
       propertyPath: m_Layer
@@ -82,11 +82,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4911103123976330557, guid: e1b2ad81ae2274590b977bbc8c3fc633, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6124393966640109524, guid: e1b2ad81ae2274590b977bbc8c3fc633, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 6221805361897334889, guid: e1b2ad81ae2274590b977bbc8c3fc633, type: 3}
       propertyPath: m_Name
@@ -98,15 +98,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7021399797038746203, guid: e1b2ad81ae2274590b977bbc8c3fc633, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7690271919461453101, guid: e1b2ad81ae2274590b977bbc8c3fc633, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8291216521286143321, guid: e1b2ad81ae2274590b977bbc8c3fc633, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8626995656429455796, guid: e1b2ad81ae2274590b977bbc8c3fc633, type: 3}
       propertyPath: m_Layer
@@ -133,6 +133,10 @@ PrefabInstance:
     - target: {fileID: 164726969791134555, guid: bb7511719052045baaa719a797728bbe, type: 3}
       propertyPath: m_Name
       value: Bridge_6TiledBridgeMoss10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5780256725482360834, guid: bb7511719052045baaa719a797728bbe, type: 3}
+      propertyPath: _chunkType
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5941132070058190634, guid: bb7511719052045baaa719a797728bbe, type: 3}
       propertyPath: m_LocalPosition.x

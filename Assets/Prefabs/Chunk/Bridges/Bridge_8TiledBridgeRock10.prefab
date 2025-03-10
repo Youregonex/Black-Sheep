@@ -90,7 +90,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4116031512333439282, guid: a467d3d951dd84925b565c0705c8f99f, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4859042184513443853, guid: a467d3d951dd84925b565c0705c8f99f, type: 3}
       propertyPath: m_Layer
@@ -102,7 +102,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7798205963984475750, guid: a467d3d951dd84925b565c0705c8f99f, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8545236913564180874, guid: a467d3d951dd84925b565c0705c8f99f, type: 3}
       propertyPath: m_Layer
@@ -133,6 +133,10 @@ PrefabInstance:
     - target: {fileID: 164726969791134555, guid: bb7511719052045baaa719a797728bbe, type: 3}
       propertyPath: m_Name
       value: Bridge_8TiledBridgeRock10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5780256725482360834, guid: bb7511719052045baaa719a797728bbe, type: 3}
+      propertyPath: _chunkType
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5941132070058190634, guid: bb7511719052045baaa719a797728bbe, type: 3}
       propertyPath: m_LocalPosition.x

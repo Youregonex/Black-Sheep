@@ -70,7 +70,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -4350921017815814556, guid: 5ed44e5729e88485883af4290fca4b8f, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: -3266409341697676107, guid: 5ed44e5729e88485883af4290fca4b8f, type: 3}
       propertyPath: m_Layer
@@ -137,6 +137,10 @@ PrefabInstance:
     - target: {fileID: 164726969791134555, guid: bb7511719052045baaa719a797728bbe, type: 3}
       propertyPath: m_Name
       value: Pit_4TiledPitMoss10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5780256725482360834, guid: bb7511719052045baaa719a797728bbe, type: 3}
+      propertyPath: _chunkType
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5941132070058190634, guid: bb7511719052045baaa719a797728bbe, type: 3}
       propertyPath: m_LocalPosition.x

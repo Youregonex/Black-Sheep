@@ -14,10 +14,14 @@ namespace Youregone.LevelGeneration
 
         [Header("Chunk Settings")]
         [SerializeField] private Chunk _startingChunk;
+        [SerializeField] private List<Chunk> _pitChunkPrefabList;
+        [SerializeField] private List<Chunk> _bridgeChunkPrefab;
+        [SerializeField] private List<Chunk> _platformChunkPrefabList;
         [SerializeField] private List<Chunk> _chunkPrefabList;
 
         [Header("Test")]
         [SerializeField] private Chunk _lastChunk;
+        [SerializeField] private Chunk _nextChunk;
         [SerializeField] private PlayerController _player;
         [SerializeField] private bool _canSpawn;
 
@@ -68,8 +72,7 @@ namespace Youregone.LevelGeneration
             }
             else
             {
-                int randomChunkIndex = UnityEngine.Random.Range(0, _chunkPrefabList.Count);
-                chunkToSpawn = _chunkPrefabList[randomChunkIndex];
+                chunkToSpawn = _nextChunk;
                 nextChunkSpawnPosition = new Vector2(_lastChunk.EndTransform.position.x, 0f);
             }
 
@@ -81,7 +84,23 @@ namespace Youregone.LevelGeneration
             PlaceObstacles(spawnedChunk);
             PlaceCollectables(spawnedChunk);
 
+            _nextChunk = PickNextChunk(spawnedChunk);
+
             return spawnedChunk;
+        }
+
+        private Chunk PickNextChunk(Chunk lastChunk)
+        {
+            if(lastChunk.ChunkType == ChunkType.Pit || lastChunk.ChunkType == ChunkType.Bridge)
+            {
+                List<Chunk> possibleChunks = new();
+                possibleChunks.AddRange(_pitChunkPrefabList);
+                possibleChunks.AddRange(_platformChunkPrefabList);
+
+                return possibleChunks[UnityEngine.Random.Range(0, possibleChunks.Count)];
+            }
+
+            return _chunkPrefabList[UnityEngine.Random.Range(0, _chunkPrefabList.Count)];
         }
 
         private void PlaceObstacles(Chunk chunk)

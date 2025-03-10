@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 56160746}
   - component: {fileID: 56160747}
   - component: {fileID: 56160748}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -187,7 +187,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.050155118, y: 0.03226255}
+  m_Offset: {x: -0.050155103, y: -0.01524815}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -198,7 +198,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.12136641}
+  m_Size: {x: 1, y: 0.08681315}
   m_EdgeRadius: 0
 --- !u!114 &56160748
 MonoBehaviour:
@@ -1105,7 +1105,7 @@ GameObject:
   - component: {fileID: 1426614468}
   - component: {fileID: 1426614469}
   m_Layer: 0
-  m_Name: MovingObjectSpawnerSpawner
+  m_Name: MovingObjectSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1149,7 +1149,9 @@ MonoBehaviour:
   - {fileID: 4797351735213537896, guid: fc1933cab881b446ca9146e708ddb2cc, type: 3}
   - {fileID: 4797351735213537896, guid: 00e9a6360336241eba8826c43000638b, type: 3}
   - {fileID: 4797351735213537896, guid: 2fb5e08f68d814153b42310c6adf51ec, type: 3}
+  _obstacleSpawnChance: 0
   _collectablePrefab: {fileID: 5970340744938519519, guid: 405e3093b2ba7463f9130cb387deb1c4, type: 3}
+  _collectableSpawnChance: 0.186
 --- !u!1 &1458539858
 GameObject:
   m_ObjectHideFlags: 0
@@ -1205,6 +1207,7 @@ MonoBehaviour:
   _ramMoveSpeed: 15
   _maxHealth: 3
   _ramCooldownMax: 2
+  _jumpCooldown: 0.25
   _flashMaterial: {fileID: 2100000, guid: ece80c6c2eac94c20bf7a7c178292a35, type: 2}
   _flashDuration: 0.125
   _animator: {fileID: 732167513}
@@ -1217,6 +1220,7 @@ MonoBehaviour:
   _isGrounded: 1
   _isRaming: 0
   _currentHealth: 0
+  _jumpCooldownCurrent: 0.25
 --- !u!50 &1458539862
 Rigidbody2D:
   serializedVersion: 4
@@ -1311,7 +1315,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.013715863, y: -0.24233621}
+  m_Offset: {x: -0.032016575, y: -0.30331284}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -1322,7 +1326,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.0713439, y: 1.184668}
+  m_Size: {x: 0.979879, y: 1.0627147}
   m_EdgeRadius: 0
 --- !u!1 &1527969187
 GameObject:
@@ -1778,7 +1782,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.109187365}
+  m_Offset: {x: 0, y: 14.036283}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -1789,7 +1793,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 13.3018}
+  m_Size: {x: 1, y: 57.16024}
   m_EdgeRadius: 0
 --- !u!4 &1975936354
 Transform:
@@ -1800,7 +1804,7 @@ Transform:
   m_GameObject: {fileID: 1975936352}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -23.1, y: 0, z: 0}
+  m_LocalPosition: {x: -41.2, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1890,7 +1894,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerDistanceSpawnChunk: 60
-  _startingChunk: {fileID: 9035846492804480370, guid: 2c75da9cc06fc46f891db8595ea3b377, type: 3}
+  _startingChunk: {fileID: 5780256725482360834, guid: 7d5f6123026f0433cb7c7ab2116479af, type: 3}
+  _pitChunkPrefabList:
+  - {fileID: 151219202837881634, guid: dbac0f9f27b4a498791e57798eeb38cf, type: 3}
+  - {fileID: 151219202837881634, guid: fa8ad17efdfc64533b5ad3f3279e6b9e, type: 3}
+  - {fileID: 151219202837881634, guid: 3f914d6a39ccc4d4ebd60c3cc4c735b2, type: 3}
+  - {fileID: 151219202837881634, guid: 3d69800594b794fba939addc1c8ee7df, type: 3}
+  - {fileID: 151219202837881634, guid: 047ab94569aff4e5c81c72d3ea5844a6, type: 3}
+  - {fileID: 151219202837881634, guid: 1e83dbdee04a14c02b62bbc9dd5be137, type: 3}
+  _bridgeChunkPrefab:
+  - {fileID: 151219202837881634, guid: 30e21017c2aee4e299480829050c6e24, type: 3}
+  _platformChunkPrefabList:
+  - {fileID: 151219202837881634, guid: 75b9d40dbe9c84389abe010ee4d00d2b, type: 3}
+  - {fileID: 151219202837881634, guid: 7f6f3176a6c7f4437b13e1c384013fbf, type: 3}
+  - {fileID: 151219202837881634, guid: 53bf13e79e85747918a2fee1724986f3, type: 3}
+  - {fileID: 151219202837881634, guid: 7979700f4466e421abaa792d9493a47f, type: 3}
+  - {fileID: 151219202837881634, guid: 46cadb0c16b054614b86f08294cc3aec, type: 3}
+  - {fileID: 151219202837881634, guid: da8c4c8bdc67b474c8339a978be65613, type: 3}
   _chunkPrefabList:
   - {fileID: 151219202837881634, guid: 30e21017c2aee4e299480829050c6e24, type: 3}
   - {fileID: 151219202837881634, guid: 75b9d40dbe9c84389abe010ee4d00d2b, type: 3}
@@ -1902,6 +1922,7 @@ MonoBehaviour:
   - {fileID: 151219202837881634, guid: 047ab94569aff4e5c81c72d3ea5844a6, type: 3}
   - {fileID: 151219202837881634, guid: 1e83dbdee04a14c02b62bbc9dd5be137, type: 3}
   _lastChunk: {fileID: 0}
+  _nextChunk: {fileID: 0}
   _player: {fileID: 0}
   _canSpawn: 1
 --- !u!1660057539 &9223372036854775807
