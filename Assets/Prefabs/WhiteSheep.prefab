@@ -80,6 +80,9 @@ MonoBehaviour:
   _moveSpeed: 10
   _animator: {fileID: 1252676227212039795}
   _sheepVelocity: {x: 0, y: 0}
+  _triggerRadiusMin: 6
+  _triggerRadiusMax: 12
+  _triggerCollider: {fileID: 7499697762198294061}
 --- !u!61 &5178502248867820747
 BoxCollider2D:
   m_ObjectHideFlags: 0

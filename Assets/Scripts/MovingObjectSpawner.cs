@@ -23,7 +23,7 @@ namespace Youregone.LevelGeneration
 
         public void SpawnObstacle(Vector2 position)
         {
-            if (UnityEngine.Random.Range(0f, 1f) <= _obstacleSpawnChance)
+            if (UnityEngine.Random.Range(0f, 1f) >= _obstacleSpawnChance)
                 return;
 
             int randomObstacleIndex = UnityEngine.Random.Range(0, _obstaclePrefabList.Count);
@@ -36,7 +36,7 @@ namespace Youregone.LevelGeneration
 
         public void SpawnCollectable(Vector2 position)
         {
-            if (UnityEngine.Random.Range(0f, 1f) <= _collectableSpawnChance)
+            if (UnityEngine.Random.Range(0f, 1f) >= _collectableSpawnChance)
                 return;
 
             Collectable spawnedCollectable = Instantiate(_collectablePrefab, position, Quaternion.identity);

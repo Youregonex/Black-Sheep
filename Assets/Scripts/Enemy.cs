@@ -16,10 +16,16 @@ namespace Youregone.EnemyAI
 
         [Header("Test")]
         [SerializeField] private Vector2 _sheepVelocity;
+        [SerializeField] private float _triggerRadiusMin;
+        [SerializeField] private float _triggerRadiusMax;
+        [SerializeField] private CircleCollider2D _triggerCollider;
 
         private void Start()
         {
             MovingObjectHandler.instance.AddObject(this);
+
+            float randomRadius = UnityEngine.Random.Range(_triggerRadiusMin, _triggerRadiusMax);
+            _triggerCollider.radius = randomRadius;
 
             _sheepVelocity = Vector2.zero;
             StartMovement(PlayerController.instance.CurrentSpeed);
