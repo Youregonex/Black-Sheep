@@ -28,7 +28,6 @@ namespace Youregone.PlayerControls
         [SerializeField] private float _baseMoveSpeed;
         [SerializeField] private float _ramMoveSpeed;
         [SerializeField] private int _maxHealth;
-        [SerializeField] private float _ramCooldownMax;
         [SerializeField] private float _jumpCooldown = .25f;
 
         [Header("Sprite Flash Config")]
@@ -43,8 +42,6 @@ namespace Youregone.PlayerControls
         [Header("Test")]
         [SerializeField] private float _currentSpeed;
         [SerializeField] private Material _baseMaterial;
-        [SerializeField] private float _ramTimeCurrent;
-        [SerializeField] private float _ramCooldownCurrent;
         [SerializeField] private bool _isGrounded = true;
         [SerializeField] private bool _isRaming = false;
         [SerializeField] private int _currentHealth;
@@ -71,26 +68,18 @@ namespace Youregone.PlayerControls
         }
 
         private void Update()
-        {
-            if (!_isRaming && _ramCooldownCurrent > 0)
-                _ramCooldownCurrent -= Time.deltaTime;
-                
+        {                
             if (Input.GetKeyDown(KeyCode.Space) && !_isRaming && _currentHealth > 0)
                 Jump();
 
-            if (Input.GetKeyDown(KeyCode.F) && _currentHealth > 0 && _isGrounded && _ramCooldownCurrent <= 0)
+            if ((Input.GetKeyDown(KeyCode.F) || Input.GetKey(KeyCode.F)) && _currentHealth > 0 && _isGrounded && !_isRaming)
                 StartRam();
+
+            if (Input.GetKeyUp(KeyCode.F) && _isRaming)
+                StopRam();
 
             if (_jumpCooldownCurrent > 0)
                 _jumpCooldownCurrent -= Time.deltaTime;
-
-            if (_isRaming)
-            {
-                if (_ramTimeCurrent > 0)
-                    _ramTimeCurrent -= Time.deltaTime;
-                else
-                    StopRam();
-            }
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
@@ -144,11 +133,9 @@ namespace Youregone.PlayerControls
         private void StartRam()
         {
             _isRaming = true;
-            _ramTimeCurrent = _ramTimeMax;
             _currentSpeed = _ramMoveSpeed;
             OnRamStart?.Invoke();
             _animator.SetTrigger(ANIMATION_STARTRAM_TRIGGER);
-            _ramCooldownCurrent = _ramCooldownMax; 
         }
 
         private void StopRam()

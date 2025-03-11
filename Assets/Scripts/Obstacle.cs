@@ -8,5 +8,10 @@ namespace Youregone.LevelGeneration
         {
             Destroy(gameObject);
         }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+        }
     }
 }

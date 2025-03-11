@@ -8,8 +8,7 @@ namespace Youregone.LevelGeneration
     {
         [Header("Bird Config")]
         [SerializeField] private Animator _animator;
-        [SerializeField] private float _birdFlyVelocityX;
-        [SerializeField] private float _birdFlyVelocityY;
+        [SerializeField] private Vector2 _birdFlyVelocity;
 
         private void Start()
         {
@@ -19,15 +18,23 @@ namespace Youregone.LevelGeneration
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if (collision.GetComponent<PlayerController>())
-                Fly();
+                FlyAway();
         }
 
-        private void Fly()
+        private void FlyAway()
         {
+            MovingObjectHandler.instance.RemoveObject(this);
+
             transform.parent = null;
             _animator.SetTrigger("FLY");
-            _rigidBody2D.velocity += new Vector2(-PlayerController.instance.CurrentSpeed + _birdFlyVelocityX, _birdFlyVelocityY);
-            MovingObjectHandler.instance.RemoveObject(this);
+
+            Vector2 birdVelocity = new(UnityEngine.Random.Range(-_birdFlyVelocity.x, _birdFlyVelocity.x), _birdFlyVelocity.y);
+
+            if (birdVelocity.x < 0)
+                birdVelocity.x -= PlayerController.instance.CurrentSpeed;
+
+            _rigidBody2D.velocity = birdVelocity;
+
             StartCoroutine(DelayedDestroy());
         }
 

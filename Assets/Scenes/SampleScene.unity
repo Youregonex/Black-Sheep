@@ -1154,7 +1154,7 @@ MonoBehaviour:
   - {fileID: 4797351735213537896, guid: fc1933cab881b446ca9146e708ddb2cc, type: 3}
   - {fileID: 4797351735213537896, guid: 00e9a6360336241eba8826c43000638b, type: 3}
   - {fileID: 4797351735213537896, guid: 2fb5e08f68d814153b42310c6adf51ec, type: 3}
-  _obstacleSpawnChance: 0.89
+  _obstacleSpawnChance: 0.626
   _collectablePrefab: {fileID: 5970340744938519519, guid: 405e3093b2ba7463f9130cb387deb1c4, type: 3}
   _collectableSpawnChance: 0.723
 --- !u!1 &1458539858
@@ -1211,7 +1211,6 @@ MonoBehaviour:
   _baseMoveSpeed: 10
   _ramMoveSpeed: 15
   _maxHealth: 3
-  _ramCooldownMax: 2
   _jumpCooldown: 0.25
   _flashMaterial: {fileID: 2100000, guid: ece80c6c2eac94c20bf7a7c178292a35, type: 2}
   _flashDuration: 0.125
@@ -1220,8 +1219,6 @@ MonoBehaviour:
   _spriteRenderer: {fileID: 732167512}
   _currentSpeed: 0
   _baseMaterial: {fileID: 0}
-  _ramTimeCurrent: 0
-  _ramCooldownCurrent: 0
   _isGrounded: 1
   _isRaming: 0
   _currentHealth: 0
