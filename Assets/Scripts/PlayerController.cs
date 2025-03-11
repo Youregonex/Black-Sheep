@@ -172,6 +172,7 @@ namespace Youregone.PlayerControls
 
             _isGrounded = false;
             _jumpCooldownCurrent = _jumpCooldown;
+            rb.velocity = new Vector2(_currentSpeed, 0f);
             rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
             _animator.SetTrigger(ANIMATION_JUMP_TRIGGER);
         }
