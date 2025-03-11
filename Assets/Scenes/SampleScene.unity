@@ -1875,20 +1875,7 @@ MonoBehaviour:
   - {fileID: 151219202837881634, guid: 7979700f4466e421abaa792d9493a47f, type: 3}
   - {fileID: 151219202837881634, guid: 46cadb0c16b054614b86f08294cc3aec, type: 3}
   - {fileID: 151219202837881634, guid: da8c4c8bdc67b474c8339a978be65613, type: 3}
-  _chunkPrefabList:
-  - {fileID: 151219202837881634, guid: 53bf13e79e85747918a2fee1724986f3, type: 3}
-  - {fileID: 151219202837881634, guid: 7979700f4466e421abaa792d9493a47f, type: 3}
-  - {fileID: 151219202837881634, guid: 46cadb0c16b054614b86f08294cc3aec, type: 3}
-  - {fileID: 151219202837881634, guid: da8c4c8bdc67b474c8339a978be65613, type: 3}
-  - {fileID: 151219202837881634, guid: 047ab94569aff4e5c81c72d3ea5844a6, type: 3}
-  - {fileID: 151219202837881634, guid: 1e83dbdee04a14c02b62bbc9dd5be137, type: 3}
-  - {fileID: 151219202837881634, guid: 54f428ac445364ecd8af76540c8009b6, type: 3}
-  - {fileID: 151219202837881634, guid: 5d9a433e3fbdc48d8990dd3eb345010d, type: 3}
-  - {fileID: 151219202837881634, guid: 1bb45ca34dc704eed8078fe569a5d30d, type: 3}
-  - {fileID: 151219202837881634, guid: ebc8a9f995dcd4689aace45642b641f9, type: 3}
-  - {fileID: 151219202837881634, guid: a60d416335fb24dae81ef81fbeae1fb1, type: 3}
-  - {fileID: 151219202837881634, guid: 25063e06caeab4ba4987a0db4fb633eb, type: 3}
-  - {fileID: 151219202837881634, guid: 82fab521e118545539daf335884b5023, type: 3}
+  _pitChunkSpawnChance: 0.3
   _bridgeChunkSpawnCooldown: 10
   _lastChunk: {fileID: 0}
   _nextChunk: {fileID: 0}
