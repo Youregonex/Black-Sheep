@@ -11,6 +11,11 @@ namespace Youregone.UI
         [SerializeField] private TextMeshProUGUI _scoreText;
         [SerializeField] private float score = 0;
         [SerializeField] private bool _isPlayerDead = false;
+        [SerializeField] private GameObject _scoreTextGO;
+        [SerializeField] private GameObject _healthbarGO;
+
+        public GameObject ScoreTextGO => _scoreTextGO;
+        public GameObject HealthbarGO => _healthbarGO;
 
         private void Awake()
         {

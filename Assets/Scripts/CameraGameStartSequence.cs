@@ -1,0 +1,55 @@
+using UnityEngine;
+using DG.Tweening;
+using System.Collections;
+using UnityEngine.UI;
+
+namespace Youregone.Camera
+{
+    public class CameraGameStartSequence : MonoBehaviour
+    {
+        [Header("Settings")]
+        [SerializeField] private float _cameraSequenceDelay;
+        [SerializeField] private float _cameraMoveDuration;
+        [SerializeField] private float _cameraZOffset;
+        [SerializeField] private Transform _cameraStartPoint;
+        [SerializeField] private Transform _cameraEndPoint;
+        [SerializeField] private Transform _cameraGamePoint;
+        [SerializeField] private Button _playButton;
+        [SerializeField] private float _buttonFadeTime;
+
+        private void Start()
+        {
+            transform.position = new Vector3(_cameraStartPoint.position.x, _cameraStartPoint.position.y, _cameraZOffset);
+            StartCoroutine(CameraSequeceDelay(_cameraSequenceDelay));
+        }
+
+        public void StartGame()
+        {
+            transform.position = new Vector3(_cameraGamePoint.position.x, _cameraGamePoint.position.y, _cameraZOffset);
+        }
+
+        private IEnumerator CameraSequeceDelay(float delay)
+        {
+            yield return new WaitForSeconds(delay);
+
+            GameStartSequence();
+        }
+
+        private void GameStartSequence()
+        {
+            Vector3 distanation = new(_cameraEndPoint.position.x, _cameraEndPoint.position.y, _cameraZOffset);
+
+            _playButton.interactable = false;
+
+            Sequence sequence = DOTween.Sequence();
+            sequence.Append(transform.DOMove(distanation, _cameraMoveDuration));
+            sequence.Append(_playButton.image.DOFade(1f, _buttonFadeTime));
+            sequence.OnComplete(() =>
+            {
+                _playButton.interactable = true;
+
+            });
+            sequence.Play();
+        }
+    }
+}
