@@ -11,11 +11,6 @@ namespace Youregone.LevelGeneration
         [SerializeField] private Vector2 _birdFlyVelocity;
         [SerializeField] private SpriteRenderer _spriteRenderer;
 
-        private void Start()
-        {
-            MovingObjectHandler.instance.AddObject(this);
-        }
-
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if (collision.GetComponent<PlayerController>())

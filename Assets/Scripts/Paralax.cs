@@ -16,11 +16,11 @@ namespace Youregone.LevelGeneration
         [SerializeField] private PlayerController _player;
         [SerializeField] private bool _paralaxCreated = false;
 
-        private void Start()
+        protected override void Start()
         {
-            _player = PlayerController.instance;
+            base.Start();
 
-            MovingObjectHandler.instance.AddObject(this);
+            _player = PlayerController.instance;
             ChangeVelocity(new Vector2(_player.CurrentSpeed, 0f));
         }
 

@@ -20,9 +20,9 @@ namespace Youregone.EnemyAI
         [SerializeField] private float _triggerRadiusMax;
         [SerializeField] private CircleCollider2D _triggerCollider;
 
-        private void Start()
+        protected override void Start()
         {
-            MovingObjectHandler.instance.AddObject(this);
+            base.Start();
 
             float randomRadius = UnityEngine.Random.Range(_triggerRadiusMin, _triggerRadiusMax);
             _triggerCollider.radius = randomRadius;

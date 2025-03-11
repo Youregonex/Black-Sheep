@@ -13,6 +13,11 @@ namespace Youregone.LevelGeneration
             _rigidBody2D = transform.GetComponent<Rigidbody2D>();
         }
 
+        protected virtual void Start()
+        {
+            MovingObjectHandler.instance.AddObject(this);
+        }
+
         private void Update()
         {
             _currentVelocityX = _rigidBody2D.velocity.x;

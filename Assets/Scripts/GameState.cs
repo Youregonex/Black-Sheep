@@ -24,8 +24,8 @@ namespace Youregone.GameState
             _playButton.onClick.AddListener(() =>
             {
                 _camera.StartGame();
-                ScoreCounter.instance.ScoreTextGO.SetActive(true);
-                ScoreCounter.instance.HealthbarGO.SetActive(true);
+                UIManager.instance.ScoreCounter.gameObject.SetActive(true);
+                UIManager.instance.HealthbarUI.gameObject.SetActive(true);
             });
         }
     }

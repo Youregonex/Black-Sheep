@@ -31,7 +31,7 @@ namespace Youregone.LevelGeneration
             int randomObstacleIndex = UnityEngine.Random.Range(0, _obstaclePrefabList.Count);
 
             Obstacle spawnedObstacle = Instantiate(_obstaclePrefabList[randomObstacleIndex], position, Quaternion.identity);
-            MovingObjectHandler.instance.AddObject(spawnedObstacle);
+            //MovingObjectHandler.instance.AddObject(spawnedObstacle);
 
             spawnedObstacle.StartMovement(PlayerController.instance.CurrentSpeed);
         }
@@ -49,7 +49,7 @@ namespace Youregone.LevelGeneration
                 collectableToSpawn = _collectablePrefab;
 
             Collectable spawnedCollectable = Instantiate(collectableToSpawn, position, Quaternion.identity);
-            MovingObjectHandler.instance.AddObject(spawnedCollectable);
+            //MovingObjectHandler.instance.AddObject(spawnedCollectable);
 
             spawnedCollectable.StartMovement(PlayerController.instance.CurrentSpeed);
         }

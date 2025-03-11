@@ -21,8 +21,10 @@ namespace Youregone.LevelGeneration
         [SerializeField] private float _yOrigin;
         [SerializeField] private float _randomSinWaveOffset;
 
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
+
             _yOrigin = transform.position.y;
             _randomSinWaveOffset = UnityEngine.Random.Range(-1f, 1f);
 
@@ -44,7 +46,7 @@ namespace Youregone.LevelGeneration
         {
             if (collision.transform.GetComponent<PlayerController>())
             {
-                ScoreCounter.instance.AddPoints(_pointsBonus);
+                UIManager.instance.ScoreCounter.AddPoints(_pointsBonus);
                 Destroy(gameObject);
             }
         }
