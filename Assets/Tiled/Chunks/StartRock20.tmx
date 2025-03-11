@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.0" orientation="orthogonal" renderorder="right-down" width="20" height="23" tilewidth="24" tileheight="24" infinite="0" nextlayerid="6" nextobjectid="19">
+<map version="1.9" tiledversion="1.9.0" orientation="orthogonal" renderorder="right-down" width="20" height="23" tilewidth="24" tileheight="24" infinite="0" nextlayerid="6" nextobjectid="23">
  <tileset firstgid="1" source="../Tileset/TileSet.tsx"/>
  <layer id="2" name="Background" width="20" height="23">
   <data encoding="csv">
@@ -84,22 +84,16 @@
  </layer>
  <objectgroup color="#5500ff" id="3" name="Rock"/>
  <objectgroup color="#ffaa00" id="4" name="PickUp">
-  <object id="13" name="PickUp" x="256" y="421">
+  <object id="19" name="PickUp" x="456" y="396">
    <point/>
   </object>
-  <object id="14" name="PickUp" x="296" y="421">
+  <object id="20" name="PickUp" x="384" y="396">
    <point/>
   </object>
-  <object id="15" name="PickUp" x="336" y="421">
+  <object id="21" name="PickUp" x="312" y="396">
    <point/>
   </object>
-  <object id="16" name="PickUp" x="376" y="421">
-   <point/>
-  </object>
-  <object id="17" name="PickUp" x="416" y="421">
-   <point/>
-  </object>
-  <object id="18" name="PickUp" x="456" y="421">
+  <object id="22" name="PickUp" x="240" y="396">
    <point/>
   </object>
  </objectgroup>
