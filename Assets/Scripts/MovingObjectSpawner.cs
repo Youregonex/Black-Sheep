@@ -15,6 +15,8 @@ namespace Youregone.LevelGeneration
         [Header("Collectable Config")]
         [SerializeField] private Collectable _collectablePrefab;
         [SerializeField, Range(0, 1f)] private float _collectableSpawnChance;
+        [SerializeField] private Collectable _rareCollectablePrefab;
+        [SerializeField, Range(0f, 1f)] private float _rareCollectableSpawnChance;
 
         private void Awake()
         {
@@ -39,7 +41,14 @@ namespace Youregone.LevelGeneration
             if (UnityEngine.Random.Range(0f, 1f) >= _collectableSpawnChance)
                 return;
 
-            Collectable spawnedCollectable = Instantiate(_collectablePrefab, position, Quaternion.identity);
+            Collectable collectableToSpawn;
+
+            if (UnityEngine.Random.Range(0f, 1f) <= _rareCollectableSpawnChance)
+                collectableToSpawn = _rareCollectablePrefab;
+            else
+                collectableToSpawn = _collectablePrefab;
+
+            Collectable spawnedCollectable = Instantiate(collectableToSpawn, position, Quaternion.identity);
             MovingObjectHandler.instance.AddObject(spawnedCollectable);
 
             spawnedCollectable.StartMovement(PlayerController.instance.CurrentSpeed);

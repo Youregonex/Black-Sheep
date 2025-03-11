@@ -112,7 +112,7 @@ MonoBehaviour:
   _currentVelocityX: 0
   _rigidBody2D: {fileID: 0}
   _animator: {fileID: 8055275878402159564}
-  _birdFlyVelocity: {x: 3, y: 7}
+  _birdFlyVelocity: {x: 1, y: 4}
 --- !u!1 &7040789071348220812
 GameObject:
   m_ObjectHideFlags: 0
