@@ -9,6 +9,7 @@ namespace Youregone.LevelGeneration
         [Header("Bird Config")]
         [SerializeField] private Animator _animator;
         [SerializeField] private Vector2 _birdFlyVelocity;
+        [SerializeField] private SpriteRenderer _spriteRenderer;
 
         private void Start()
         {
@@ -32,6 +33,8 @@ namespace Youregone.LevelGeneration
 
             if (birdVelocity.x < 0)
                 birdVelocity.x -= PlayerController.instance.CurrentSpeed;
+            else
+                _spriteRenderer.flipX = false;
 
             _rigidBody2D.velocity = birdVelocity;
 

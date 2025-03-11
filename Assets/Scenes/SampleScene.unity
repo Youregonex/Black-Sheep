@@ -1154,11 +1154,11 @@ MonoBehaviour:
   - {fileID: 4797351735213537896, guid: fc1933cab881b446ca9146e708ddb2cc, type: 3}
   - {fileID: 4797351735213537896, guid: 00e9a6360336241eba8826c43000638b, type: 3}
   - {fileID: 4797351735213537896, guid: 2fb5e08f68d814153b42310c6adf51ec, type: 3}
-  _obstacleSpawnChance: 0.626
+  _obstacleSpawnChance: 0.6
   _collectablePrefab: {fileID: 5970340744938519519, guid: 405e3093b2ba7463f9130cb387deb1c4, type: 3}
-  _collectableSpawnChance: 0.723
+  _collectableSpawnChance: 0.7
   _rareCollectablePrefab: {fileID: 5970340744938519519, guid: b9b4c7fe88c1a4a968f3ca58b416e6e5, type: 3}
-  _rareCollectableSpawnChance: 0.1
+  _rareCollectableSpawnChance: 0.05
 --- !u!1 &1458539858
 GameObject:
   m_ObjectHideFlags: 0
