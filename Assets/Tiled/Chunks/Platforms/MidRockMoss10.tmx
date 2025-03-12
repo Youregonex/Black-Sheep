@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.0" orientation="orthogonal" renderorder="right-down" width="10" height="23" tilewidth="24" tileheight="24" infinite="0" nextlayerid="6" nextobjectid="15">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="10" height="23" tilewidth="24" tileheight="24" infinite="0" nextlayerid="6" nextobjectid="19">
  <tileset firstgid="1" source="../../Tileset/TileSet.tsx"/>
  <layer id="2" name="Background" width="10" height="23">
   <data encoding="csv">
@@ -88,10 +88,10 @@
   </object>
  </objectgroup>
  <objectgroup color="#ffaa00" id="4" name="PickUp">
-  <object id="13" name="PickUp" x="156" y="396">
+  <object id="17" name="PickUp" x="180" y="396">
    <point/>
   </object>
-  <object id="14" name="PickUp" x="120" y="372">
+  <object id="18" name="PickUp" x="120" y="342">
    <point/>
   </object>
  </objectgroup>
