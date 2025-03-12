@@ -128,8 +128,8 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 50
-        height: 12
+        width: 48
+        height: 9
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -147,10 +147,10 @@ TextureImporter:
       name: Stamina_Bar_Bar
       rect:
         serializedVersion: 2
-        x: 50
+        x: 48
         y: 0
-        width: 50
-        height: 12
+        width: 48
+        height: 9
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -168,10 +168,10 @@ TextureImporter:
       name: StaminaBar_0
       rect:
         serializedVersion: 2
-        x: 100
+        x: 96
         y: 0
-        width: 50
-        height: 12
+        width: 48
+        height: 9
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -189,10 +189,10 @@ TextureImporter:
       name: StaminaBar_1
       rect:
         serializedVersion: 2
-        x: 150
+        x: 144
         y: 0
-        width: 50
-        height: 12
+        width: 48
+        height: 9
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -210,10 +210,10 @@ TextureImporter:
       name: StaminaBar_2
       rect:
         serializedVersion: 2
-        x: 200
+        x: 192
         y: 0
-        width: 50
-        height: 12
+        width: 48
+        height: 9
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -231,10 +231,10 @@ TextureImporter:
       name: StaminaBar_3
       rect:
         serializedVersion: 2
-        x: 250
+        x: 240
         y: 0
-        width: 50
-        height: 12
+        width: 48
+        height: 9
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
