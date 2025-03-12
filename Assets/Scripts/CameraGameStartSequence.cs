@@ -8,6 +8,7 @@ namespace Youregone.Camera
     public class CameraGameStartSequence : MonoBehaviour
     {
         [Header("Settings")]
+        [SerializeField] private bool _testMode;
         [SerializeField] private float _cameraSequenceDelay;
         [SerializeField] private float _cameraMoveDuration;
         [SerializeField] private float _cameraZOffset;
@@ -17,7 +18,8 @@ namespace Youregone.Camera
         [SerializeField] private Button _playButton;
         [SerializeField] private float _buttonFadeTime;
 
-        private void Start()
+
+        public void StartCameraSequence()
         {
             transform.position = new Vector3(_cameraStartPoint.position.x, _cameraStartPoint.position.y, _cameraZOffset);
             StartCoroutine(CameraSequeceDelay(_cameraSequenceDelay));

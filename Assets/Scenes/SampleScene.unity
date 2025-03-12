@@ -1025,6 +1025,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc3e8aa76c4d94dcd8a007a55281cff8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _testMode: 0
   _cameraSequenceDelay: 0.6
   _cameraMoveDuration: 4
   _cameraZOffset: -10
@@ -2909,7 +2910,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 999999999999
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ffe9adea737f444a8b4ec948b904c2b2, type: 2}
   m_sharedMaterial: {fileID: 1435166669087638663, guid: ffe9adea737f444a8b4ec948b904c2b2, type: 2}
@@ -3506,6 +3507,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 103236d12686e4a5881445b5955407ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _testMode: 1
   _playButton: {fileID: 1441922844}
   _camera: {fileID: 519420033}
   _currentGameState: 0
@@ -3736,7 +3738,6 @@ MonoBehaviour:
   _bridgeChunkSpawnCooldown: 10
   _lastChunk: {fileID: 0}
   _nextChunk: {fileID: 0}
-  _player: {fileID: 0}
   _canSpawn: 1
   _bridgeChunkSpawnCooldownCurrent: 0
 --- !u!1 &2067201467

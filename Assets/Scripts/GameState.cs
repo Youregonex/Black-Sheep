@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
-using Youregone.Camera;
 using Youregone.UI;
+using Youregone.Camera;
 using Youregone.PlayerControls;
 
 namespace Youregone.State
@@ -11,6 +11,7 @@ namespace Youregone.State
         public static GameState instance;
 
         [Header("Config")]
+        [SerializeField] private bool _testMode;
         [SerializeField] private Button _playButton;
         [SerializeField] private CameraGameStartSequence _camera;
 
@@ -38,6 +39,15 @@ namespace Youregone.State
 
                 _currentGameState = EGameState.Gameplay;
             });
+
+            if (_testMode)
+            {
+                _currentGameState = EGameState.Gameplay;
+                _camera.StartGame();
+                return;
+            }
+
+            _camera.StartCameraSequence();
         }
 
         private void PlayerController_OnDeath()
