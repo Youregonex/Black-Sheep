@@ -33,22 +33,28 @@ namespace Youregone.State
 
             _playButton.onClick.AddListener(() =>
             {
-                _camera.StartGame();
-                UIManager.instance.ScoreCounter.gameObject.SetActive(true);
-                UIManager.instance.HealthbarUI.gameObject.SetActive(true);
-
-                _currentGameState = EGameState.Gameplay;
+                StartGame();
             });
 
             if (_testMode)
             {
-                _currentGameState = EGameState.Gameplay;
-                _camera.StartGame();
+                StartGame();
+
                 return;
             }
 
             _camera.StartCameraSequence();
         }
+
+        private void StartGame()
+        {
+            _camera.StartGame();
+            UIManager.instance.ScoreCounter.gameObject.SetActive(true);
+            UIManager.instance.HealthbarUI.gameObject.SetActive(true);
+
+            _currentGameState = EGameState.Gameplay;
+        }
+
 
         private void PlayerController_OnDeath()
         {
