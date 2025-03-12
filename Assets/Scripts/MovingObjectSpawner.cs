@@ -1,12 +1,16 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Youregone.PlayerControls;
+using Youregone.UI;
+using System;
 
 namespace Youregone.LevelGeneration
 {
     public class MovingObjectSpawner : MonoBehaviour
     {
         public static MovingObjectSpawner instance;
+
+        public event Action OnMaxDifficultyReached;
 
         [Header("Obstacle Config")]
         [SerializeField] private List<Obstacle> _obstaclePrefabList;
@@ -18,6 +22,12 @@ namespace Youregone.LevelGeneration
         [SerializeField] private Collectable _rareCollectablePrefab;
         [SerializeField, Range(0f, 1f)] private float _rareCollectableSpawnChance;
 
+        [Header("Test")]
+        [SerializeField] private bool _progressiveDifficulty;
+        [SerializeField] private float _maxDifficultyScore;
+        [SerializeField] private bool _maxDifficultyReached;
+
+        private ScoreCounter _scoreCounter;
         private PlayerController _player;
 
         private void Awake()
@@ -28,11 +38,27 @@ namespace Youregone.LevelGeneration
         private void Start()
         {
             _player = PlayerController.instance;
+            _scoreCounter = UIManager.instance.ScoreCounter;
+        }
+
+        private void Update()
+        {
+            if (_progressiveDifficulty && !_maxDifficultyReached)
+            {
+                _obstacleSpawnChance = _scoreCounter.CurrentScore / _maxDifficultyScore;
+
+                if (_scoreCounter.CurrentScore / _maxDifficultyScore > 1f)
+                {
+                    _obstacleSpawnChance = 1f;
+                    _maxDifficultyReached = true;
+                    OnMaxDifficultyReached?.Invoke();
+                }
+            }
         }
 
         public void SpawnObstacle(Vector2 position)
         {
-            if (UnityEngine.Random.Range(0f, 1f) >= _obstacleSpawnChance)
+            if (UnityEngine.Random.Range(0f, 1f) > _obstacleSpawnChance)
                 return;
 
             int randomObstacleIndex = UnityEngine.Random.Range(0, _obstaclePrefabList.Count);
@@ -43,7 +69,7 @@ namespace Youregone.LevelGeneration
 
         public void SpawnCollectable(Vector2 position)
         {
-            if (UnityEngine.Random.Range(0f, 1f) >= _collectableSpawnChance)
+            if (UnityEngine.Random.Range(0f, 1f) > _collectableSpawnChance)
                 return;
 
             Collectable collectableToSpawn;

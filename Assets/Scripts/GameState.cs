@@ -72,6 +72,9 @@ namespace Youregone.State
 
         private IEnumerator StartGame()
         {
+            if (_currentGameState == EGameState.Gameplay)
+                yield break;
+
             if(_testMode)
             {
                 UIManager.instance.ScoreCounter.gameObject.SetActive(true);

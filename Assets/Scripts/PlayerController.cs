@@ -60,7 +60,6 @@ namespace Youregone.PlayerControls
         private Coroutine _staminaCoroutine;
         private bool _runStarted = false;
         private Rigidbody2D rb;
-        private bool _canPlayStaminaBarAnimation;
 
         public bool IsGrounded => _isGrounded;
         public bool IsRaming => _isRaming;
@@ -215,8 +214,19 @@ namespace Youregone.PlayerControls
 
         private void Land()
         {
+            StartCoroutine(LandCoroutine());
+        }
+
+        private IEnumerator LandCoroutine()
+        {
             _isGrounded = true;
             _animator.SetTrigger(ANIMATION_LAND_TRIGGER);
+
+            //For some reason sometimes "LAND" trigger gets stuck and jump animation breaks
+            float triggerResetDelay = .25f;
+            yield return new WaitForSeconds(triggerResetDelay);
+
+            _animator.ResetTrigger(ANIMATION_LAND_TRIGGER);
         }
 
         private void Jump()

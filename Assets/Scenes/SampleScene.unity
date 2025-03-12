@@ -271,7 +271,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.050155103, y: -0.01524815}
+  m_Offset: {x: -0.050155103, y: -0.02161026}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -282,7 +282,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.08681315}
+  m_Size: {x: 1, y: 0.09953737}
   m_EdgeRadius: 0
 --- !u!114 &56160748
 MonoBehaviour:
@@ -511,7 +511,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scoreText: {fileID: 1527969189}
-  score: 0
+  _score: 0
   _isPlayerDead: 0
 --- !u!1 &190469391
 GameObject:
@@ -2713,11 +2713,14 @@ MonoBehaviour:
   - {fileID: 4797351735213537896, guid: fc1933cab881b446ca9146e708ddb2cc, type: 3}
   - {fileID: 4797351735213537896, guid: 00e9a6360336241eba8826c43000638b, type: 3}
   - {fileID: 4797351735213537896, guid: 2fb5e08f68d814153b42310c6adf51ec, type: 3}
-  _obstacleSpawnChance: 0.6
+  _obstacleSpawnChance: 0.271
   _collectablePrefab: {fileID: 5970340744938519519, guid: 405e3093b2ba7463f9130cb387deb1c4, type: 3}
   _collectableSpawnChance: 0.7
   _rareCollectablePrefab: {fileID: 5970340744938519519, guid: b9b4c7fe88c1a4a968f3ca58b416e6e5, type: 3}
   _rareCollectableSpawnChance: 0.05
+  _progressiveDifficulty: 1
+  _maxDifficultyScore: 2000
+  _maxDifficultyReached: 0
 --- !u!1 &1441922842
 GameObject:
   m_ObjectHideFlags: 0
@@ -2970,9 +2973,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.61, y: 0.27}
+  m_Offset: {x: 0.68736076, y: 0.27000004}
   serializedVersion: 2
-  m_Radius: 0.32
+  m_Radius: 0.3973608
 --- !u!61 &1458539864
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4122,7 +4125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 103236d12686e4a5881445b5955407ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _testMode: 0
+  _testMode: 1
   _playButton: {fileID: 1441922844}
   _exitButton: {fileID: 2040080354}
   _camera: {fileID: 519420033}
@@ -4355,11 +4358,13 @@ MonoBehaviour:
   - {fileID: 151219202837881634, guid: 46cadb0c16b054614b86f08294cc3aec, type: 3}
   - {fileID: 151219202837881634, guid: da8c4c8bdc67b474c8339a978be65613, type: 3}
   _pitChunkSpawnChance: 0.2
-  _bridgeChunkSpawnCooldown: 10
+  _bridgeChunkSpawnCooldown: 20
   _lastChunk: {fileID: 0}
   _nextChunk: {fileID: 0}
   _canSpawn: 1
   _bridgeChunkSpawnCooldownCurrent: 0
+  _pitSpawnChanceMaxDifficulty: 0.4
+  _bridgeCooldownMaxDifficulty: 10
 --- !u!1 &2040080352
 GameObject:
   m_ObjectHideFlags: 0

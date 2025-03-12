@@ -10,8 +10,10 @@ namespace Youregone.UI
         [SerializeField] private TextMeshProUGUI _scoreText;
 
         [Header("Test")]
-        [SerializeField] private float score = 0;
+        [SerializeField] private float _score = 0;
         [SerializeField] private bool _isPlayerDead = false;
+
+        public float CurrentScore => _score;
 
         private PlayerController _player;
 
@@ -26,8 +28,8 @@ namespace Youregone.UI
             if (_isPlayerDead || _player.CurrentSpeed <= 0)
                 return;
 
-            score += Time.deltaTime;
-            _scoreText.text = ((int)score).ToString();
+            _score += Time.deltaTime;
+            _scoreText.text = ((int)_score).ToString();
         }
 
         private void OnDestroy()
@@ -35,7 +37,7 @@ namespace Youregone.UI
             _player.OnDeath -= Death;
         }
 
-        public void AddPoints(int points) => score += points;
+        public void AddPoints(int points) => _score += points;
 
         private void Death()
         {
