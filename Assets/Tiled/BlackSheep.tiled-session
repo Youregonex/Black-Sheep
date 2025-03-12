@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "Tileset/TileSet.tsx",
+    "activeFile": "",
     "expandedProjectPaths": [
     ],
     "file.lastUsedOpenFilter": "Все файлы (*)",
@@ -617,7 +617,7 @@
         "Tileset/TileSet.tsx": {
             "dynamicWrapping": false,
             "scaleInDock": 1,
-            "scaleInEditor": 2
+            "scaleInEditor": 1.5
         }
     },
     "last.externalTilesetPath": "D:/Obsidian/Paul's vault/Projects/BlackSheep/GitHub/Black-Sheep/Assets/Tiled/Tileset",
@@ -628,10 +628,10 @@
     "map.tileWidth": 24,
     "map.width": 23,
     "openFiles": [
-        "Tileset/TileSet.tsx"
     ],
     "project": "BlackSheep.tiled-project",
     "recentFiles": [
+        "Tileset/TileSet.tsx",
         "Chunks/Platforms/EmptyMoss10.tmx",
         "Chunks/Platforms/EmptyRock10.tmx",
         "Chunks/Platforms/LeftRockMoss10.tmx",
@@ -642,8 +642,7 @@
         "Chunks/Platforms/MidRockRock10.tmx",
         "Chunks/Platforms/RightRockMoss10.tmx",
         "Chunks/Platforms/RightRockRock10.tmx",
-        "Chunks/Platforms/StartMoss20.tmx",
-        "Chunks/Platforms/StartRock20.tmx"
+        "Chunks/Platforms/StartMoss20.tmx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {
