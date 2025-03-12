@@ -84,8 +84,13 @@ namespace Youregone.PlayerControls
 
             UpdateStaminaBar();
 
-            if (Input.GetKeyDown(KeyCode.Space) && !_isRaming && _currentHealth > 0 && _runStarted)
+            if (Input.GetKeyDown(KeyCode.Space) && _currentHealth > 0 && _runStarted)
+            {
+                if (_isRaming)
+                    StopRam();
+
                 Jump();
+            }
 
             if (_staminaCurrent <= 0 && _isRaming)
                 StopRam();
