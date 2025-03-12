@@ -156,6 +156,7 @@ namespace Youregone.PlayerControls
 
         private void StartRam()
         {
+            _staminaCurrent -= _staminaCurrent * .05f;
             _isRaming = true;
             _canRechargeStamina = false;
             _currentSpeed = _ramMoveSpeed;
