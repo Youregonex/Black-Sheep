@@ -5,7 +5,7 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 using Youregone.EnemyAI;
 using Youregone.State;
-using UnityEngine.UI; 
+using UnityEngine.UI;
 
 namespace Youregone.PlayerControls
 {
@@ -23,6 +23,7 @@ namespace Youregone.PlayerControls
         private const string ANIMATION_STARTRAM_TRIGGER = "START_RAM";
         private const string ANIMATION_STOPRAM_TRIGGER = "STOP_RAM";
         private const string ANIMATION_DEATH_TRIGGER = "DEATH";
+        private const string ANIMATION_STAMINA_BAR_FULL_CHARGE_TRIGGER = "BARFULL";
 
         [Header("Sheep Config")]
         [SerializeField] private float _jumpForce;
@@ -41,10 +42,12 @@ namespace Youregone.PlayerControls
 
         [Header("Components")]
         [SerializeField] private Animator _animator;
+        [SerializeField] private Animator _staminaBarAnimator;
         [SerializeField] private GroundCheck _groundCheck;
         [SerializeField] private SpriteRenderer _spriteRenderer;
 
         [Header("Test")]
+        [SerializeField] private float _sceneReloadDelay;
         [SerializeField] private float _currentSpeed;
         [SerializeField] private float _staminaCurrent;
         [SerializeField] private Material _baseMaterial;
@@ -57,6 +60,7 @@ namespace Youregone.PlayerControls
         private Coroutine _staminaCoroutine;
         private bool _runStarted = false;
         private Rigidbody2D rb;
+        private bool _canPlayStaminaBarAnimation;
 
         public bool IsGrounded => _isGrounded;
         public bool IsRaming => _isRaming;
@@ -104,7 +108,15 @@ namespace Youregone.PlayerControls
             if (_isRaming)
                 _staminaCurrent -= _staminaDrain * Time.deltaTime;
             else if(_canRechargeStamina && _staminaCurrent < _staminaMax)
+            {
                 _staminaCurrent += _staminaRechargeRate * Time.deltaTime;
+
+                if(_staminaCurrent >= _staminaMax)
+                {
+                    _staminaCurrent = _staminaMax;
+                    _staminaBarAnimator.SetTrigger(ANIMATION_STAMINA_BAR_FULL_CHARGE_TRIGGER);
+                }
+            }
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
@@ -150,9 +162,16 @@ namespace Youregone.PlayerControls
                 Debug.Log("Death");
                 OnDeath?.Invoke();
                 _animator.SetTrigger(ANIMATION_DEATH_TRIGGER);
-                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-                return;
+
+                StartCoroutine(SceneReloadDeelay());
             }
+        }
+
+        private IEnumerator SceneReloadDeelay()
+        {
+            yield return new WaitForSeconds(_sceneReloadDelay);
+
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
 
         private void UpdateStaminaBar()

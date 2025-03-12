@@ -19,6 +19,9 @@ namespace Youregone.Camera
         [SerializeField] private Button _exitButton;
         [SerializeField] private float _buttonFadeTime;
 
+        public Transform CameraStartPoint => _cameraStartPoint;
+        public Transform CameraEndPoint => _cameraEndPoint;
+        public Transform CameraGamePoint => _cameraGamePoint;
 
         public void StartCameraSequence()
         {
