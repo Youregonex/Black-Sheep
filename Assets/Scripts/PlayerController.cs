@@ -5,6 +5,7 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 using Youregone.EnemyAI;
 using Youregone.State;
+using UnityEngine.UI; 
 
 namespace Youregone.PlayerControls
 {
@@ -25,11 +26,14 @@ namespace Youregone.PlayerControls
 
         [Header("Sheep Config")]
         [SerializeField] private float _jumpForce;
-        [SerializeField] private float _ramTimeMax;
         [SerializeField] private float _baseMoveSpeed;
         [SerializeField] private float _ramMoveSpeed;
+        [SerializeField] private float _staminaMax;
+        [SerializeField] private float _staminaDrain;
+        [SerializeField] private float _staminaRechargeRate;
+        [SerializeField] private float _staminaRechargeDelay;
         [SerializeField] private int _maxHealth;
-        [SerializeField] private float _jumpCooldown = .25f;
+        [SerializeField] private Image _staminaBar;
 
         [Header("Sprite Flash Config")]
         [SerializeField] private Material _flashMaterial;
@@ -42,13 +46,15 @@ namespace Youregone.PlayerControls
 
         [Header("Test")]
         [SerializeField] private float _currentSpeed;
+        [SerializeField] private float _staminaCurrent;
         [SerializeField] private Material _baseMaterial;
         [SerializeField] private bool _isGrounded = true;
         [SerializeField] private bool _isRaming = false;
         [SerializeField] private int _currentHealth;
-        [SerializeField] private float _jumpCooldownCurrent = .25f;
+        [SerializeField] private bool _canRechargeStamina;
 
         private Coroutine _flashCoroutine;
+        private Coroutine _staminaCoroutine;
 
         public bool IsGrounded => _isGrounded;
         public bool IsRaming => _isRaming;
@@ -65,6 +71,8 @@ namespace Youregone.PlayerControls
             rb = GetComponent<Rigidbody2D>();
             _groundCheck.Landed += Land;
             _currentHealth = _maxHealth;
+
+            _staminaCurrent = _staminaMax;
             _currentSpeed = 0f;
         }
 
@@ -73,17 +81,24 @@ namespace Youregone.PlayerControls
             if (GameState.instance.CurrentGameState != EGameState.Gameplay)
                 return;
 
+            UpdateStaminaBar();
+
             if (Input.GetKeyDown(KeyCode.Space) && !_isRaming && _currentHealth > 0)
                 Jump();
 
-            if ((Input.GetKeyDown(KeyCode.F) || Input.GetKey(KeyCode.F)) && _currentHealth > 0 && _isGrounded && !_isRaming)
-                StartRam();
+            if (_staminaCurrent <= 0 && _isRaming)
+                StopRam();
 
             if (Input.GetKeyUp(KeyCode.F) && _isRaming)
                 StopRam();
 
-            if (_jumpCooldownCurrent > 0)
-                _jumpCooldownCurrent -= Time.deltaTime;
+            if ((Input.GetKeyDown(KeyCode.F) || Input.GetKey(KeyCode.F)) && _currentHealth > 0 && _isGrounded && !_isRaming && _staminaCurrent > 0)
+                StartRam();
+
+            if (_isRaming)
+                _staminaCurrent -= _staminaDrain * Time.deltaTime;
+            else if(_canRechargeStamina)
+                _staminaCurrent += _staminaRechargeRate * Time.deltaTime;
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
@@ -134,9 +149,15 @@ namespace Youregone.PlayerControls
             }
         }
 
+        private void UpdateStaminaBar()
+        {
+            _staminaBar.fillAmount = _staminaCurrent / _staminaMax;
+        }
+
         private void StartRam()
         {
             _isRaming = true;
+            _canRechargeStamina = false;
             _currentSpeed = _ramMoveSpeed;
             OnRamStart?.Invoke();
             _animator.SetTrigger(ANIMATION_STARTRAM_TRIGGER);
@@ -148,6 +169,19 @@ namespace Youregone.PlayerControls
             _currentSpeed = _baseMoveSpeed;
             OnRamStop?.Invoke();
             _animator.SetTrigger(ANIMATION_STOPRAM_TRIGGER);
+
+            if (_staminaCoroutine != null)
+                StopCoroutine(_staminaCoroutine);
+
+            _staminaCoroutine = StartCoroutine(StaminaRechargeDelayCoroutine());
+        }
+
+        private IEnumerator StaminaRechargeDelayCoroutine()
+        {
+            yield return new WaitForSeconds(_staminaRechargeDelay);
+
+            _canRechargeStamina = true;
+            _staminaCoroutine = null;
         }
 
         private void Land()
@@ -158,11 +192,10 @@ namespace Youregone.PlayerControls
 
         private void Jump()
         {
-            if (!_isGrounded || _jumpCooldownCurrent > 0)
+            if (!_isGrounded)
                 return;
 
             _isGrounded = false;
-            _jumpCooldownCurrent = _jumpCooldown;
             rb.velocity = new Vector2(_currentSpeed, 0f);
             rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
             _animator.SetTrigger(ANIMATION_JUMP_TRIGGER);
