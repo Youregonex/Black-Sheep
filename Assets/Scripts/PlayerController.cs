@@ -48,6 +48,8 @@ namespace Youregone.PlayerControls
 
         [Header("Test")]
         [SerializeField] private float _sceneReloadDelay;
+
+        [Header("Debug")]
         [SerializeField] private float _currentSpeed;
         [SerializeField] private float _staminaCurrent;
         [SerializeField] private Material _baseMaterial;

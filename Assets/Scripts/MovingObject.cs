@@ -4,7 +4,7 @@ namespace Youregone.LevelGeneration
 {
     public class MovingObject : MonoBehaviour
     {
-        [Header("Test")]
+        [Header("Debug")]
         [SerializeField] private float _currentVelocityX;
         [SerializeField] protected Rigidbody2D _rigidBody2D;
 

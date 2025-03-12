@@ -10,14 +10,14 @@ namespace Youregone.EnemyAI
 
         [Header("Enemy Config")]
         [SerializeField] private float _moveSpeed;
+        [SerializeField] private float _triggerRadiusMin;
+        [SerializeField] private float _triggerRadiusMax;
 
         [Header("Components")]
         [SerializeField] private Animator _animator;
 
-        [Header("Test")]
+        [Header("Debug")]
         [SerializeField] private Vector2 _sheepVelocity;
-        [SerializeField] private float _triggerRadiusMin;
-        [SerializeField] private float _triggerRadiusMax;
         [SerializeField] private CircleCollider2D _triggerCollider;
 
         private PlayerController _player;

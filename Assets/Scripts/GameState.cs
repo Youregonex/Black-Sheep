@@ -17,15 +17,16 @@ namespace Youregone.State
         [SerializeField] private Button _playButton;
         [SerializeField] private Button _exitButton;
         [SerializeField] private CameraGameStartSequence _camera;
-        [SerializeField] private SpriteRenderer _transition;
+        [SerializeField] private SpriteRenderer _transitionPrefab;
 
-        [Header("DOTWeen Cofig")]
+        [Header("DOTWeen Config")]
         [SerializeField] private float _transitionDuration;
         [SerializeField] private float _transitionScaleMax;
         [SerializeField] private float _transitionScaleMin;
 
-        [Header("Test")]
+        [Header("Debug")]
         [SerializeField] private EGameState _currentGameState;
+        [SerializeField] private SpriteRenderer _transition;
 
         private Coroutine _startGameCoroutine;
 
@@ -42,6 +43,7 @@ namespace Youregone.State
         {
             PlayerController.instance.OnDeath += PlayerController_OnDeath;
 
+            _transition = Instantiate(_transitionPrefab);
             ResetTransition();
 
             _playButton.onClick.RemoveAllListeners();

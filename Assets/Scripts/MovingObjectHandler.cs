@@ -8,7 +8,7 @@ namespace Youregone.LevelGeneration
     {
         public static MovingObjectHandler instance;
 
-        [Header("Test")]
+        [Header("Debug")]
         [SerializeField] private List<MovingObject> _spawnedObjects;
 
         private PlayerController _player;

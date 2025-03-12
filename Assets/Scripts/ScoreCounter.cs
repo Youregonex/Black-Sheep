@@ -9,8 +9,8 @@ namespace Youregone.UI
         [Header("Config")]
         [SerializeField] private TextMeshProUGUI _scoreText;
 
-        [Header("Test")]
-        [SerializeField] private float _score = 0;
+        [Header("Debug")]
+        [SerializeField] private float _score;
         [SerializeField] private bool _isPlayerDead = false;
 
         public float CurrentScore => _score;
@@ -21,6 +21,7 @@ namespace Youregone.UI
         {
             _player = PlayerController.instance;
             _player.OnDeath += Death;
+            _score = 0;
         }
 
         private void Update()

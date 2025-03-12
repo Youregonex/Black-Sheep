@@ -12,9 +12,10 @@ namespace Youregone.LevelGeneration
         [SerializeField] private Paralax _paralaxLayerPrefab;
         [SerializeField] private Transform _paralaxEndPoint;
 
-        [Header("Test")]
-        [SerializeField] private PlayerController _player;
+        [Header("Debug")]
         [SerializeField] private bool _paralaxCreated = false;
+
+        private PlayerController _player;
 
         protected override void Start()
         {

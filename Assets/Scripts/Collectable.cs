@@ -17,7 +17,7 @@ namespace Youregone.LevelGeneration
         [SerializeField] private float _amplitude;
         [SerializeField] private float _frequency;
 
-        [Header("Test")]
+        [Header("Debug")]
         [SerializeField] private float _yOrigin;
         [SerializeField] private float _randomSinWaveOffset;
 
