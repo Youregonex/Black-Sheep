@@ -49,6 +49,9 @@ namespace Youregone.LevelGeneration
                 UIManager.instance.ScoreCounter.AddPoints(_pointsBonus);
                 Destroy(gameObject);
             }
+
+            if (collision.transform.GetComponent<MovingObjectDestroyer>())
+                Destroy(gameObject);
         }
 
         private IEnumerator DelayedAnimation(float delay)

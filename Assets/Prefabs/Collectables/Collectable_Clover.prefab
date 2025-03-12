@@ -118,7 +118,7 @@ GameObject:
   - component: {fileID: 5970340744938519519}
   - component: {fileID: 1046111021665882047}
   - component: {fileID: 6451816776419224164}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Collectable_Clover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
