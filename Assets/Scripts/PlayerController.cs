@@ -4,6 +4,7 @@ using Youregone.LevelGeneration;
 using System.Collections;
 using UnityEngine.SceneManagement;
 using Youregone.EnemyAI;
+using Youregone.State;
 
 namespace Youregone.PlayerControls
 {
@@ -68,7 +69,10 @@ namespace Youregone.PlayerControls
         }
 
         private void Update()
-        {                
+        {
+            if (GameState.instance.CurrentGameState != EGameState.Gameplay)
+                return;
+
             if (Input.GetKeyDown(KeyCode.Space) && !_isRaming && _currentHealth > 0)
                 Jump();
 

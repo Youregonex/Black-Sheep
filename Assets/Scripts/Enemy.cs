@@ -20,6 +20,8 @@ namespace Youregone.EnemyAI
         [SerializeField] private float _triggerRadiusMax;
         [SerializeField] private CircleCollider2D _triggerCollider;
 
+        private PlayerController _player;
+
         protected override void Start()
         {
             base.Start();
@@ -28,7 +30,9 @@ namespace Youregone.EnemyAI
             _triggerCollider.radius = randomRadius;
 
             _sheepVelocity = Vector2.zero;
-            StartMovement(PlayerController.instance.CurrentSpeed);
+
+            _player = PlayerController.instance;
+            StartMovement(_player.CurrentSpeed);
         }
 
         protected override void OnCollisionEnter2D(Collision2D collision)
@@ -44,7 +48,7 @@ namespace Youregone.EnemyAI
             if(collision.transform.GetComponent<PlayerController>())
             {
                 _sheepVelocity = new Vector2(_moveSpeed, 0f);                
-                _rigidBody2D.velocity = new Vector2(-(PlayerController.instance.CurrentSpeed + _sheepVelocity.x), 0f);
+                _rigidBody2D.velocity = new Vector2(-(_player.CurrentSpeed + _sheepVelocity.x), 0f);
                 _animator.SetTrigger(ATTACK_TRIGGER);
             }
         }

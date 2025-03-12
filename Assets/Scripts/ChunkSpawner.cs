@@ -23,17 +23,21 @@ namespace Youregone.LevelGeneration
         [Header("Test")]
         [SerializeField] private Chunk _lastChunk;
         [SerializeField] private Chunk _nextChunk;
-        [SerializeField] private PlayerController _player;
         [SerializeField] private bool _canSpawn;
         [SerializeField] private float _bridgeChunkSpawnCooldownCurrent;
+
+        private PlayerController _player;
+        private MovingObjectSpawner _movingObjectSpawner;
 
         private void Start()
         {
             _player = PlayerController.instance;
+            _player.OnDeath += StopSpawning;
+
+            _movingObjectSpawner = MovingObjectSpawner.instance;
+
             _bridgeChunkSpawnCooldownCurrent = _bridgeChunkSpawnCooldown;
             _lastChunk = SpawnNextChunk();
-
-            PlayerController.instance.OnDeath += StopSpawning;
         }
 
         private void Update()
@@ -58,7 +62,7 @@ namespace Youregone.LevelGeneration
 
         private void OnDestroy()
         {
-            PlayerController.instance.OnDeath -= StopSpawning;
+            _player.OnDeath -= StopSpawning;
         }
 
         private void StopSpawning()
@@ -83,7 +87,6 @@ namespace Youregone.LevelGeneration
             }
 
             Chunk spawnedChunk = Instantiate(chunkToSpawn, nextChunkSpawnPosition, Quaternion.identity);
-            MovingObjectHandler.instance.AddObject(spawnedChunk);
 
             spawnedChunk.StartMovement(_player.CurrentSpeed);
 
@@ -119,7 +122,7 @@ namespace Youregone.LevelGeneration
                 return;
 
             foreach(Transform child in obstacleParent)
-                MovingObjectSpawner.instance.SpawnObstacle(child.position);
+                _movingObjectSpawner.SpawnObstacle(child.position);
         }
 
         private void PlaceCollectables(Chunk chunk)
@@ -131,7 +134,7 @@ namespace Youregone.LevelGeneration
 
             foreach (Transform child in collectableParent)
             {
-                MovingObjectSpawner.instance.SpawnCollectable(child.position);
+                _movingObjectSpawner.SpawnCollectable(child.position);
             }
         }
 

@@ -18,9 +18,16 @@ namespace Youregone.LevelGeneration
         [SerializeField] private Collectable _rareCollectablePrefab;
         [SerializeField, Range(0f, 1f)] private float _rareCollectableSpawnChance;
 
+        private PlayerController _player;
+
         private void Awake()
         {
             instance = this;
+        }
+
+        private void Start()
+        {
+            _player = PlayerController.instance;
         }
 
         public void SpawnObstacle(Vector2 position)
@@ -31,9 +38,7 @@ namespace Youregone.LevelGeneration
             int randomObstacleIndex = UnityEngine.Random.Range(0, _obstaclePrefabList.Count);
 
             Obstacle spawnedObstacle = Instantiate(_obstaclePrefabList[randomObstacleIndex], position, Quaternion.identity);
-            //MovingObjectHandler.instance.AddObject(spawnedObstacle);
-
-            spawnedObstacle.StartMovement(PlayerController.instance.CurrentSpeed);
+            spawnedObstacle.StartMovement(_player.CurrentSpeed);
         }
 
         public void SpawnCollectable(Vector2 position)
@@ -49,9 +54,7 @@ namespace Youregone.LevelGeneration
                 collectableToSpawn = _collectablePrefab;
 
             Collectable spawnedCollectable = Instantiate(collectableToSpawn, position, Quaternion.identity);
-            //MovingObjectHandler.instance.AddObject(spawnedCollectable);
-
-            spawnedCollectable.StartMovement(PlayerController.instance.CurrentSpeed);
+            spawnedCollectable.StartMovement(_player.CurrentSpeed);
         }
     }
 }

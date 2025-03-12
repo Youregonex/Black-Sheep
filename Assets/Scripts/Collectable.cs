@@ -28,8 +28,8 @@ namespace Youregone.LevelGeneration
             _yOrigin = transform.position.y;
             _randomSinWaveOffset = UnityEngine.Random.Range(-1f, 1f);
 
-            float randomAnimDelay = UnityEngine.Random.Range(0f, 1f);
-            StartCoroutine(DelayedAnimation(randomAnimDelay));
+            float randomAnimationDelay = UnityEngine.Random.Range(0f, 1f);
+            StartCoroutine(DelayedAnimation(randomAnimationDelay));
         }
 
         private void FixedUpdate()
