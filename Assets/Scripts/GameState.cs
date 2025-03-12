@@ -44,6 +44,7 @@ namespace Youregone.State
             PlayerController.instance.OnDeath += PlayerController_OnDeath;
 
             _transition = Instantiate(_transitionPrefab);
+
             ResetTransition();
 
             _playButton.onClick.RemoveAllListeners();
