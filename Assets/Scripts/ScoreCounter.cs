@@ -6,18 +6,24 @@ namespace Youregone.UI
 {
     public class ScoreCounter : MonoBehaviour
     {
+        [Header("Config")]
         [SerializeField] private TextMeshProUGUI _scoreText;
+
+        [Header("Test")]
         [SerializeField] private float score = 0;
         [SerializeField] private bool _isPlayerDead = false;
 
+        private PlayerController _player;
+
         private void Start()
         {
-            PlayerController.instance.OnDeath += Death;
+            _player = PlayerController.instance;
+            _player.OnDeath += Death;
         }
 
         private void Update()
         {
-            if (_isPlayerDead)
+            if (_isPlayerDead || _player.CurrentSpeed <= 0)
                 return;
 
             score += Time.deltaTime;
@@ -26,7 +32,7 @@ namespace Youregone.UI
 
         private void OnDestroy()
         {
-            PlayerController.instance.OnDeath -= Death;
+            _player.OnDeath -= Death;
         }
 
         public void AddPoints(int points) => score += points;

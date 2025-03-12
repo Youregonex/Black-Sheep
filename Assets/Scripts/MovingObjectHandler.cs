@@ -11,6 +11,8 @@ namespace Youregone.LevelGeneration
         [Header("Test")]
         [SerializeField] private List<MovingObject> _spawnedObjects;
 
+        private PlayerController _player;
+
         private void Awake()
         {
             instance = this;
@@ -18,16 +20,18 @@ namespace Youregone.LevelGeneration
 
         private void Start()
         {
-            PlayerController.instance.OnRamStart += ChangeVelocity;
-            PlayerController.instance.OnRamStop += ChangeVelocity;
-            PlayerController.instance.OnDeath += StopObjects;
+            _player = PlayerController.instance;
+
+            _player.OnRamStart += ChangeVelocity;
+            _player.OnRamStop += ChangeVelocity;
+            _player.OnDeath += StopObjects;
         }
 
         private void OnDestroy()
         {
-            PlayerController.instance.OnRamStart -= ChangeVelocity;
-            PlayerController.instance.OnRamStop -= ChangeVelocity;
-            PlayerController.instance.OnDeath -= StopObjects;
+            _player.OnRamStart -= ChangeVelocity;
+            _player.OnRamStop -= ChangeVelocity;
+            _player.OnDeath -= StopObjects;
         }
 
         private void StopObjects()
@@ -40,7 +44,7 @@ namespace Youregone.LevelGeneration
         {
             foreach (MovingObject movingObject in _spawnedObjects)
             {
-                Vector2 newObjectVelocity = new(PlayerController.instance.CurrentSpeed, 0f);
+                Vector2 newObjectVelocity = new(_player.CurrentSpeed, 0f);
                 movingObject.ChangeVelocity(newObjectVelocity);
             }
         }
