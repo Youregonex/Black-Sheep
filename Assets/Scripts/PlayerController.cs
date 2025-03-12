@@ -98,7 +98,7 @@ namespace Youregone.PlayerControls
 
             if (_isRaming)
                 _staminaCurrent -= _staminaDrain * Time.deltaTime;
-            else if(_canRechargeStamina)
+            else if(_canRechargeStamina && _staminaCurrent < _staminaMax)
                 _staminaCurrent += _staminaRechargeRate * Time.deltaTime;
         }
 
