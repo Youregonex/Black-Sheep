@@ -13,6 +13,7 @@ namespace Youregone.State
         [Header("Config")]
         [SerializeField] private bool _testMode;
         [SerializeField] private Button _playButton;
+        [SerializeField] private Button _exitButton;
         [SerializeField] private CameraGameStartSequence _camera;
 
         [Header("Test")]
@@ -34,6 +35,11 @@ namespace Youregone.State
             _playButton.onClick.AddListener(() =>
             {
                 StartGame();
+            });
+
+            _exitButton.onClick.AddListener(() =>
+            {
+                Application.Quit();
             });
 
             if (_testMode)

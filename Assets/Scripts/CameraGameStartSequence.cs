@@ -16,6 +16,7 @@ namespace Youregone.Camera
         [SerializeField] private Transform _cameraEndPoint;
         [SerializeField] private Transform _cameraGamePoint;
         [SerializeField] private Button _playButton;
+        [SerializeField] private Button _exitButton;
         [SerializeField] private float _buttonFadeTime;
 
 
@@ -39,16 +40,19 @@ namespace Youregone.Camera
 
         private void GameStartSequence()
         {
-            Vector3 distanation = new(_cameraEndPoint.position.x, _cameraEndPoint.position.y, _cameraZOffset);
+            Vector3 cameraDestination = new(_cameraEndPoint.position.x, _cameraEndPoint.position.y, _cameraZOffset);
 
             _playButton.interactable = false;
+            _exitButton.interactable = false;
 
             Sequence sequence = DOTween.Sequence();
-            sequence.Append(transform.DOMove(distanation, _cameraMoveDuration));
+            sequence.Append(transform.DOMove(cameraDestination, _cameraMoveDuration));
             sequence.Append(_playButton.image.DOFade(1f, _buttonFadeTime));
+            sequence.Append(_exitButton.image.DOFade(1f, _buttonFadeTime));
             sequence.OnComplete(() =>
             {
                 _playButton.interactable = true;
+                _exitButton.interactable = true;
 
             });
             sequence.Play();
