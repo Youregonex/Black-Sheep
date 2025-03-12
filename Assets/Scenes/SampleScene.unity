@@ -4007,7 +4007,7 @@ MonoBehaviour:
   - {fileID: 151219202837881634, guid: 7979700f4466e421abaa792d9493a47f, type: 3}
   - {fileID: 151219202837881634, guid: 46cadb0c16b054614b86f08294cc3aec, type: 3}
   - {fileID: 151219202837881634, guid: da8c4c8bdc67b474c8339a978be65613, type: 3}
-  _pitChunkSpawnChance: 0.3
+  _pitChunkSpawnChance: 0.2
   _bridgeChunkSpawnCooldown: 10
   _lastChunk: {fileID: 0}
   _nextChunk: {fileID: 0}
