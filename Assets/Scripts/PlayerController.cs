@@ -55,13 +55,14 @@ namespace Youregone.PlayerControls
 
         private Coroutine _flashCoroutine;
         private Coroutine _staminaCoroutine;
+        private bool _runStarted = false;
+        private Rigidbody2D rb;
 
         public bool IsGrounded => _isGrounded;
         public bool IsRaming => _isRaming;
         public float CurrentSpeed => _currentSpeed;
         public int CurrentHealth => _currentHealth;
 
-        private Rigidbody2D rb;
 
         private void Awake()
         {
@@ -83,7 +84,7 @@ namespace Youregone.PlayerControls
 
             UpdateStaminaBar();
 
-            if (Input.GetKeyDown(KeyCode.Space) && !_isRaming && _currentHealth > 0)
+            if (Input.GetKeyDown(KeyCode.Space) && !_isRaming && _currentHealth > 0 && _runStarted)
                 Jump();
 
             if (_staminaCurrent <= 0 && _isRaming)
@@ -156,6 +157,9 @@ namespace Youregone.PlayerControls
 
         private void StartRam()
         {
+            if (!_runStarted)
+                _runStarted = true;
+
             _staminaCurrent -= _staminaCurrent * .05f;
             _isRaming = true;
             _canRechargeStamina = false;

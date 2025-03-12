@@ -9,7 +9,7 @@ namespace Youregone.LevelGeneration
         [Header("Bird Config")]
         [SerializeField] private Animator _animator;
         [SerializeField] private Vector2 _birdFlyVelocity;
-        [SerializeField] private SpriteRenderer _spriteRenderer;
+        [SerializeField] private SpriteRenderer _spriteRenderer; 
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
@@ -27,9 +27,12 @@ namespace Youregone.LevelGeneration
             Vector2 birdVelocity = new(UnityEngine.Random.Range(-_birdFlyVelocity.x, _birdFlyVelocity.x), _birdFlyVelocity.y);
 
             if (birdVelocity.x < 0)
-                birdVelocity.x -= PlayerController.instance.CurrentSpeed;
+            {
+                float velocityModifier = 1.5f;
+                birdVelocity.x -= PlayerController.instance.CurrentSpeed * velocityModifier;
+            }
             else
-                _spriteRenderer.flipX = false;
+                _spriteRenderer.flipX = true;
 
             _rigidBody2D.velocity = birdVelocity;
 
