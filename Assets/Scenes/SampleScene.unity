@@ -3152,6 +3152,7 @@ MonoBehaviour:
   _progressiveDifficulty: 1
   _maxDifficultyScore: 2000
   _maxDifficultyReached: 0
+  _midDifficultyReached: 0
 --- !u!1 &1441922842
 GameObject:
   m_ObjectHideFlags: 0
@@ -4664,7 +4665,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 103236d12686e4a5881445b5955407ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _testMode: 0
+  _testMode: 1
   _camera: {fileID: 519420033}
   _transitionPrefab: {fileID: 1781655435715550049, guid: 8a508b21d21ea4057a7fd3befd26743e, type: 3}
   _sceneReloadDelay: 1
@@ -4908,6 +4909,8 @@ MonoBehaviour:
   _nextChunk: {fileID: 0}
   _canSpawn: 1
   _bridgeChunkSpawnCooldownCurrent: 0
+  _pitSpawnChanceMidDifficulty: 0.3
+  _bridgeCooldownMidDifficulty: 15
   _pitSpawnChanceMaxDifficulty: 0.4
   _bridgeCooldownMaxDifficulty: 10
 --- !u!1 &2040080352

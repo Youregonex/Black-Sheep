@@ -27,6 +27,8 @@ namespace Youregone.LevelGeneration
         [SerializeField] private float _bridgeChunkSpawnCooldownCurrent;
 
         [Header("Test")]
+        [SerializeField] private float _pitSpawnChanceMidDifficulty;
+        [SerializeField] private float _bridgeCooldownMidDifficulty;
         [SerializeField] private float _pitSpawnChanceMaxDifficulty;
         [SerializeField] private float _bridgeCooldownMaxDifficulty;
 
@@ -40,6 +42,7 @@ namespace Youregone.LevelGeneration
 
             _movingObjectSpawner = MovingObjectSpawner.instance;
             _movingObjectSpawner.OnMaxDifficultyReached += MovingObjectSpawner_OnMaxDifficultyReached;
+            _movingObjectSpawner.OnMidDifficultyReached += MovingObjectSpawner_OnMidDifficultyReached;
 
             _bridgeChunkSpawnCooldownCurrent = _bridgeChunkSpawnCooldown;
             _lastChunk = SpawnNextChunk();
@@ -69,6 +72,13 @@ namespace Youregone.LevelGeneration
         {
             _player.OnDeath -= StopSpawning;
             _movingObjectSpawner.OnMaxDifficultyReached -= MovingObjectSpawner_OnMaxDifficultyReached;
+            _movingObjectSpawner.OnMidDifficultyReached -= MovingObjectSpawner_OnMidDifficultyReached;
+        }
+
+        private void MovingObjectSpawner_OnMidDifficultyReached()
+        {
+            _pitChunkSpawnChance = _pitSpawnChanceMidDifficulty;
+            _bridgeChunkSpawnCooldown = _bridgeCooldownMidDifficulty;
         }
 
         private void MovingObjectSpawner_OnMaxDifficultyReached()

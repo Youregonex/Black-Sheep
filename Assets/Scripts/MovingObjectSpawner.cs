@@ -11,6 +11,7 @@ namespace Youregone.LevelGeneration
         public static MovingObjectSpawner instance;
 
         public event Action OnMaxDifficultyReached;
+        public event Action OnMidDifficultyReached;
 
         [Header("Obstacle Config")]
         [SerializeField] private List<Obstacle> _obstaclePrefabList;
@@ -24,9 +25,13 @@ namespace Youregone.LevelGeneration
 
         [Header("Test")]
         [SerializeField] private bool _progressiveDifficulty;
-        [SerializeField] private float _maxDifficultyScore;
-        [SerializeField] private bool _maxDifficultyReached;
+        [SerializeField] private int _maxDifficultyScore;
 
+        [Header("Debug")]
+        [SerializeField] private bool _maxDifficultyReached;
+        [SerializeField] private bool _midDifficultyReached;
+
+        private float _midDifficultyScore => _maxDifficultyScore / 2;
         private ScoreCounter _scoreCounter;
         private PlayerController _player;
 
@@ -46,6 +51,12 @@ namespace Youregone.LevelGeneration
             if (_progressiveDifficulty && !_maxDifficultyReached)
             {
                 _obstacleSpawnChance = _scoreCounter.CurrentScore / _maxDifficultyScore;
+
+                if (_scoreCounter.CurrentScore / _midDifficultyScore > 1f && !_midDifficultyReached)
+                {
+                    _midDifficultyReached = true;
+                    OnMidDifficultyReached?.Invoke();
+                }
 
                 if (_scoreCounter.CurrentScore / _maxDifficultyScore > 1f)
                 {
