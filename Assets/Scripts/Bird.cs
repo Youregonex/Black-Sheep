@@ -1,6 +1,6 @@
 using UnityEngine;
 using Youregone.PlayerControls;
-using System.Collections;
+using Youregone.GameSystems;
 
 namespace Youregone.LevelGeneration
 {
@@ -9,7 +9,28 @@ namespace Youregone.LevelGeneration
         [Header("Bird Config")]
         [SerializeField] private Animator _animator;
         [SerializeField] private Vector2 _birdFlyVelocity;
-        [SerializeField] private SpriteRenderer _spriteRenderer; 
+        [SerializeField] private SpriteRenderer _spriteRenderer;
+        [SerializeField] private float _destructionDelay;
+
+        private bool _isFlying;
+        private Vector2 _birdVelocity;
+        private GameState _gameState;
+
+        protected override void Start()
+        {
+            base.Start();
+
+            _gameState = GameState.instance;
+        }
+
+        private void Update()
+        {
+            if (_isFlying && !(_gameState.CurrentGameState == EGameState.Pause))
+                _destructionDelay -= Time.deltaTime;
+
+            if (_destructionDelay <= 0)
+                Destroy(gameObject);
+        }
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
@@ -17,33 +38,48 @@ namespace Youregone.LevelGeneration
                 FlyAway();
         }
 
+        public override void Pause()
+        {
+            base.Pause();
+
+            if (_animator != null)
+                _animator.speed = 0f;
+
+            if (_rigidBody != null)
+                _rigidBody.velocity = Vector2.zero;
+        }
+
+        public override void UnPause()
+        {
+            base.UnPause();
+
+            if (_animator != null)
+                _animator.speed = 1f;
+
+            if(_rigidBody != null)
+                _rigidBody.velocity = _birdFlyVelocity;
+        }
+
         private void FlyAway()
         {
+            _isFlying = true;
+
             MovingObjectHandler.instance.RemoveObject(this);
 
             transform.parent = null;
             _animator.SetTrigger("FLY");
 
-            Vector2 birdVelocity = new(UnityEngine.Random.Range(-_birdFlyVelocity.x, _birdFlyVelocity.x), _birdFlyVelocity.y);
+            _birdVelocity = new(UnityEngine.Random.Range(-_birdFlyVelocity.x, _birdFlyVelocity.x), _birdFlyVelocity.y);
 
-            if (birdVelocity.x < 0)
+            if (_birdVelocity.x < 0)
             {
                 float velocityModifier = 1.5f;
-                birdVelocity.x -= PlayerController.instance.CurrentSpeed * velocityModifier;
+                _birdVelocity.x -= PlayerController.instance.CurrentSpeed * velocityModifier;
             }
             else
                 _spriteRenderer.flipX = true;
 
-            _rigidBody2D.velocity = birdVelocity;
-
-            StartCoroutine(DelayedDestroy());
-        }
-
-        private IEnumerator DelayedDestroy()
-        {
-            yield return new WaitForSeconds(5f);
-
-            Destroy(gameObject);
+            _rigidBody.velocity = _birdVelocity;
         }
     }
 }

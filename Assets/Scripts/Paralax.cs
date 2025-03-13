@@ -42,7 +42,7 @@ namespace Youregone.LevelGeneration
 
         public override void ChangeVelocity(Vector2 newVelocity)
         {
-            _rigidBody2D.velocity = -newVelocity * _paralaxFactor;
+            _rigidBody.velocity = -newVelocity * _paralaxFactor;
         }
 
         private void CreateParalax()

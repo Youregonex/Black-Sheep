@@ -110,10 +110,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _currentVelocityX: 0
-  _rigidBody2D: {fileID: 0}
+  _rigidBody: {fileID: 0}
   _animator: {fileID: 8055275878402159564}
   _birdFlyVelocity: {x: 2, y: 6}
   _spriteRenderer: {fileID: 6693481056891275325}
+  _destructionDelay: 4
 --- !u!1 &7040789071348220812
 GameObject:
   m_ObjectHideFlags: 0

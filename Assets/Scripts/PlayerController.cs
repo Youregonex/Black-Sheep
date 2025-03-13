@@ -3,12 +3,12 @@ using System;
 using Youregone.LevelGeneration;
 using System.Collections;
 using Youregone.EnemyAI;
-using Youregone.State;
 using UnityEngine.UI;
+using Youregone.GameSystems;
 
 namespace Youregone.PlayerControls
 {
-    public class PlayerController : MonoBehaviour
+    public class PlayerController : PausableMonoBehaviour
     {
         public static PlayerController instance;
 
@@ -16,6 +16,7 @@ namespace Youregone.PlayerControls
         public event Action OnRamStop;
         public event Action OnDeath;
         public event Action OnDamageTaken;
+        public event Action OnPauseTriggered;
 
         private const string ANIMATION_JUMP_TRIGGER = "JUMP";
         private const string ANIMATION_LAND_TRIGGER = "LAND";
@@ -55,10 +56,13 @@ namespace Youregone.PlayerControls
         [SerializeField] private int _currentHealth;
         [SerializeField] private bool _canRechargeStamina;
 
+        private float _baseGravityScale;
+        private Vector2 _prePauseVelocity;
         private Coroutine _flashCoroutine;
         private Coroutine _staminaCoroutine;
         private bool _runStarted = false;
-        private Rigidbody2D rb;
+        private Rigidbody2D _rigidBody;
+        private GameState _gameState;
 
         public bool IsGrounded => _isGrounded;
         public bool IsRaming => _isRaming;
@@ -71,17 +75,32 @@ namespace Youregone.PlayerControls
             instance = this;
 
             _baseMaterial = _spriteRenderer.material;
-            rb = GetComponent<Rigidbody2D>();
+            _rigidBody = GetComponent<Rigidbody2D>();
             _groundCheck.Landed += Land;
             _currentHealth = _maxHealth;
 
+            _baseGravityScale = _rigidBody.gravityScale;
             _staminaCurrent = _staminaMax;
             _currentSpeed = 0f;
         }
 
+        protected override void Start()
+        {
+            base.Start();
+
+            _gameState = GameState.instance;
+        }
+
         private void Update()
         {
-            if (GameState.instance.CurrentGameState != EGameState.Gameplay)
+            if (Input.GetKeyDown(KeyCode.Escape) && (_gameState.CurrentGameState == EGameState.Gameplay ||
+                                                     _gameState.CurrentGameState == EGameState.Pause))
+            {
+                OnPauseTriggered?.Invoke();
+                return;
+            }
+
+            if (_gameState.CurrentGameState != EGameState.Gameplay || _gameState.CurrentGameState == EGameState.Pause)
                 return;
 
             UpdateStaminaBar();
@@ -127,6 +146,27 @@ namespace Youregone.PlayerControls
 
             if (collision.transform.GetComponent<FallZone>())
                 Fall();
+        }
+
+        public override void Pause()
+        {
+            _animator.speed = 0f;
+
+            _prePauseVelocity = _rigidBody.velocity;
+            _rigidBody.velocity = Vector2.zero;
+            _rigidBody.gravityScale = 0f;
+
+            _staminaBar.GetComponent<Animator>().speed = 0f;
+        }
+
+        public override void UnPause()
+        {
+            _animator.speed = 1f;
+
+            _rigidBody.velocity = _prePauseVelocity;
+            _rigidBody.gravityScale = _baseGravityScale;
+
+            _staminaBar.GetComponent<Animator>().speed = 1f;
         }
 
         private void Flash()
@@ -238,8 +278,8 @@ namespace Youregone.PlayerControls
                 return;
 
             _isGrounded = false;
-            rb.velocity = new Vector2(_currentSpeed, 0f);
-            rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
+            _rigidBody.velocity = new Vector2(_currentSpeed, 0f);
+            _rigidBody.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
             _animator.SetTrigger(ANIMATION_JUMP_TRIGGER);
         }
     }

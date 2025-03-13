@@ -1,10 +1,11 @@
 using UnityEngine;
 using TMPro;
 using Youregone.PlayerControls;
+using Youregone.GameSystems;
 
 namespace Youregone.UI
 {
-    public class ScoreCounter : MonoBehaviour
+    public class ScoreCounter : PausableMonoBehaviour
     {
         [Header("Config")]
         [SerializeField] private TextMeshProUGUI _scoreText;
@@ -15,10 +16,14 @@ namespace Youregone.UI
 
         public float CurrentScore => _score;
 
+        private GameState _gameState;
         private PlayerController _player;
 
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
+
+            _gameState = GameState.instance;
             _player = PlayerController.instance;
             _player.OnDeath += Death;
             _score = 0;
@@ -26,7 +31,10 @@ namespace Youregone.UI
 
         private void Update()
         {
-            if (_isPlayerDead || _player.CurrentSpeed <= 0)
+            if (_player == null)
+                return;
+
+            if (_isPlayerDead || _player.CurrentSpeed <= 0 || _gameState.CurrentGameState == EGameState.Pause)
                 return;
 
             _score += Time.deltaTime;
@@ -44,5 +52,8 @@ namespace Youregone.UI
         {
             _isPlayerDead = true;
         }
+
+        public override void Pause() {}
+        public override void UnPause() {}
     }
 }

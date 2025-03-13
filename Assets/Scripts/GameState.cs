@@ -9,9 +9,17 @@ using System.Collections;
 using TMPro;
 using UnityEngine.SceneManagement;
 
-namespace Youregone.State
+namespace Youregone.GameSystems
 {
-    public class GameState : MonoBehaviour
+    public enum EGameState
+    {
+        Intro,
+        Gameplay,
+        Pause,
+        Outro
+    }
+
+    public class GameState : PausableMonoBehaviour
     {
         public static GameState instance;
 
@@ -49,8 +57,10 @@ namespace Youregone.State
             _camera.OnCameraInPosition += CameraGameStartSequence_OnCameraInPosition;
         }
 
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
+
             PlayerController.instance.OnDeath += PlayerController_OnDeath;
 
             _transition = Instantiate(_transitionPrefab);
@@ -64,7 +74,7 @@ namespace Youregone.State
                 if (_startGameCoroutine != null)
                     return;
 
-                _startGameCoroutine = StartCoroutine(StartGame());
+                _startGameCoroutine = StartCoroutine(StartGameSequenceCoroutine());
                 return;
             }
 
@@ -75,6 +85,19 @@ namespace Youregone.State
         {
             _camera.OnCameraInPosition -= CameraGameStartSequence_OnCameraInPosition;
             PlayerController.instance.OnDeath -= PlayerController_OnDeath;
+        }
+
+        public override void Pause()
+        {
+            if (_currentGameState != EGameState.Gameplay)
+                return;
+
+            _currentGameState = EGameState.Pause;
+        }
+
+        public override void UnPause()
+        {
+            _currentGameState = EGameState.Gameplay;
         }
 
         private void SetupButtons()
@@ -88,7 +111,7 @@ namespace Youregone.State
                 if (_startGameCoroutine != null)
                     return;
 
-                _startGameCoroutine = StartCoroutine(StartGame());
+                _startGameCoroutine = StartCoroutine(StartGameSequenceCoroutine());
             });
 
             _exitButton.onClick.RemoveAllListeners();
@@ -122,14 +145,14 @@ namespace Youregone.State
             sequence.Play();
         }
 
-        private IEnumerator SceneReloadDelay()
+        private IEnumerator SceneReloadDelayCoroutine()
         {
             yield return new WaitForSeconds(_sceneReloadDelay);
 
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
 
-        private IEnumerator StartGame()
+        private IEnumerator StartGameSequenceCoroutine()
         {
             if (_currentGameState == EGameState.Gameplay)
                 yield break;
@@ -195,14 +218,7 @@ namespace Youregone.State
                 HighScoreSaver.instance.SaveHighScore(currentScore);
             
             _currentGameState = EGameState.Outro;
-            StartCoroutine(SceneReloadDelay());
+            StartCoroutine(SceneReloadDelayCoroutine());
         }
-    }
-
-    public enum EGameState
-    {
-        Intro,
-        Gameplay,
-        Outro
     }
 }

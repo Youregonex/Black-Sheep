@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Youregone.PlayerControls;
+using Youregone.GameSystems;
 
 namespace Youregone.LevelGeneration
 {
-    public class MovingObjectHandler : MonoBehaviour
+    public class MovingObjectHandler : PausableMonoBehaviour
     {
         public static MovingObjectHandler instance;
 
@@ -18,8 +19,10 @@ namespace Youregone.LevelGeneration
             instance = this;
         }
 
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
+
             _player = PlayerController.instance;
 
             _player.OnRamStart += ChangeVelocity;
@@ -32,6 +35,16 @@ namespace Youregone.LevelGeneration
             _player.OnRamStart -= ChangeVelocity;
             _player.OnRamStop -= ChangeVelocity;
             _player.OnDeath -= StopObjects;
+        }
+
+        public override void Pause()
+        {
+            StopObjects();
+        }
+
+        public override void UnPause()
+        {
+            ChangeVelocity();
         }
 
         private void StopObjects()

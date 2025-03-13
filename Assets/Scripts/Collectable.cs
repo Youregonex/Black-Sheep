@@ -2,6 +2,7 @@ using UnityEngine;
 using Youregone.PlayerControls;
 using Youregone.UI;
 using System.Collections;
+using Youregone.GameSystems;
 
 namespace Youregone.LevelGeneration
 {
@@ -20,23 +21,33 @@ namespace Youregone.LevelGeneration
         [Header("Debug")]
         [SerializeField] private float _yOrigin;
         [SerializeField] private float _randomSinWaveOffset;
+        [SerializeField] private float _timeUnpaused;
+
+        private GameState _gameState;
 
         protected override void Start()
         {
             base.Start();
 
+            _gameState = GameState.instance;
+
             _yOrigin = transform.position.y;
             _randomSinWaveOffset = UnityEngine.Random.Range(-1f, 1f);
 
             float randomAnimationDelay = UnityEngine.Random.Range(0f, 1f);
-            StartCoroutine(DelayedAnimation(randomAnimationDelay));
+            StartCoroutine(DelayedAnimationCoroutine(randomAnimationDelay));
         }
 
         private void FixedUpdate()
         {
+            if (_gameState.CurrentGameState == EGameState.Pause)
+                return;
+
+            _timeUnpaused += Time.deltaTime;
+
             Vector2 position = transform.position;
 
-            float sin = Mathf.Sin((Time.time + _randomSinWaveOffset) * _frequency) * _amplitude;
+            float sin = Mathf.Sin((_timeUnpaused + _randomSinWaveOffset) * _frequency) * _amplitude;
             position.y = _yOrigin + sin;
 
             transform.position = position;
@@ -54,7 +65,23 @@ namespace Youregone.LevelGeneration
                 Destroy(gameObject);
         }
 
-        private IEnumerator DelayedAnimation(float delay)
+        public override void Pause()
+        {
+            base.Pause();
+
+            if(_animator != null)
+                _animator.speed = 0f;
+        }
+
+        public override void UnPause()
+        {
+            base.UnPause();
+
+            if (_animator != null)
+                _animator.speed = 1f;
+        }
+
+        private IEnumerator DelayedAnimationCoroutine(float delay)
         {
             yield return new WaitForSeconds(delay);
 

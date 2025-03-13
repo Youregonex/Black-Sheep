@@ -1,26 +1,29 @@
 using UnityEngine;
+using Youregone.GameSystems;
 
 namespace Youregone.LevelGeneration
 {
-    public class MovingObject : MonoBehaviour
+    public class MovingObject : PausableMonoBehaviour
     {
         [Header("Debug")]
         [SerializeField] private float _currentVelocityX;
-        [SerializeField] protected Rigidbody2D _rigidBody2D;
+        [SerializeField] protected Rigidbody2D _rigidBody;
 
         private void Awake()
         {
-            _rigidBody2D = transform.GetComponent<Rigidbody2D>();
+            _rigidBody = transform.GetComponent<Rigidbody2D>();
         }
 
-        protected virtual void Start()
+        protected override void Start()
         {
+            base.Start();
+
             MovingObjectHandler.instance.AddObject(this);
         }
 
         private void Update()
         {
-            _currentVelocityX = _rigidBody2D.velocity.x;
+            _currentVelocityX = _rigidBody.velocity.x;
         }
 
         protected virtual void OnCollisionEnter2D(Collision2D collision)
@@ -37,17 +40,20 @@ namespace Youregone.LevelGeneration
         public void StartMovement(float moveSpeed)
         {
             Vector2 chunkVelocity = new(-moveSpeed, 0);
-            _rigidBody2D.velocity = chunkVelocity;
+            _rigidBody.velocity = chunkVelocity;
         }
 
         public virtual void ChangeVelocity(Vector2 newVelocity)
         {
-            _rigidBody2D.velocity = -newVelocity;
+            _rigidBody.velocity = -newVelocity;
         }
 
         public void StopMovement()
         {
-            _rigidBody2D.velocity = Vector2.zero;
+            _rigidBody.velocity = Vector2.zero;
         }
+
+        public override void Pause() {}
+        public override void UnPause() {}
     }
 }

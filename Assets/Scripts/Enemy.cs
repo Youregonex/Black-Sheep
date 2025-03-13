@@ -20,6 +20,7 @@ namespace Youregone.EnemyAI
         [SerializeField] private Vector2 _sheepVelocity;
         [SerializeField] private CircleCollider2D _triggerCollider;
 
+        private float _baseGravityScale;
         private PlayerController _player;
 
         protected override void Start()
@@ -30,6 +31,7 @@ namespace Youregone.EnemyAI
             _triggerCollider.radius = randomRadius;
 
             _sheepVelocity = Vector2.zero;
+            _baseGravityScale = _rigidBody.gravityScale;
 
             _player = PlayerController.instance;
             StartMovement(_player.CurrentSpeed);
@@ -48,14 +50,36 @@ namespace Youregone.EnemyAI
             if(collision.transform.GetComponent<PlayerController>())
             {
                 _sheepVelocity = new Vector2(_moveSpeed, 0f);                
-                _rigidBody2D.velocity = new Vector2(-(_player.CurrentSpeed + _sheepVelocity.x), 0f);
+                _rigidBody.velocity = new Vector2(-(_player.CurrentSpeed + _sheepVelocity.x), 0f);
                 _animator.SetTrigger(ATTACK_TRIGGER);
             }
         }
 
+        public override void Pause()
+        {
+            base.Pause();
+
+            if (_rigidBody != null)
+                _rigidBody.gravityScale = 0f;
+
+            if (_animator != null)
+                _animator.speed = 0f;
+        }
+
+        public override void UnPause()
+        {
+            base.UnPause();
+
+            if(_rigidBody != null)
+                _rigidBody.gravityScale = _baseGravityScale;
+
+            if (_animator != null)
+                _animator.speed = 1f;
+        }
+
         public override void ChangeVelocity(Vector2 newVelocity)
         {
-            _rigidBody2D.velocity = -(newVelocity + _sheepVelocity);
+            _rigidBody.velocity = -(newVelocity + _sheepVelocity);
         }
     }
 }
