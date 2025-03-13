@@ -4967,7 +4967,7 @@ MonoBehaviour:
   _exitButton: {fileID: 2040080354}
   _highScoreCanvasGroup: {fileID: 408290580}
   _highScoreText: {fileID: 267889123}
-  _transitionDuration: 1
+  _transitionDuration: 0.75
   _buttonFadeTime: 0.5
   _sosal: 1
   _sosalText: {fileID: 761514277}
