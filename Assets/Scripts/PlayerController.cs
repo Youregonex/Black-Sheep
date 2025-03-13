@@ -2,7 +2,6 @@ using UnityEngine;
 using System;
 using Youregone.LevelGeneration;
 using System.Collections;
-using UnityEngine.SceneManagement;
 using Youregone.EnemyAI;
 using Youregone.State;
 using UnityEngine.UI;
@@ -45,9 +44,7 @@ namespace Youregone.PlayerControls
         [SerializeField] private Animator _staminaBarAnimator;
         [SerializeField] private GroundCheck _groundCheck;
         [SerializeField] private SpriteRenderer _spriteRenderer;
-
-        [Header("Test")]
-        [SerializeField] private float _sceneReloadDelay;
+        [SerializeField] private Gradient _staminaGradient;
 
         [Header("Debug")]
         [SerializeField] private float _currentSpeed;
@@ -127,6 +124,12 @@ namespace Youregone.PlayerControls
                 TakeDamage();
                 return;
             }
+
+            if(collision.transform.GetComponent<FallZone>())
+            {
+                _currentHealth = 1;
+                TakeDamage();
+            }
         }
 
         private void Flash()
@@ -161,23 +164,16 @@ namespace Youregone.PlayerControls
             if (_currentHealth == 0)
             {
                 Debug.Log("Death");
-                OnDeath?.Invoke();
                 _animator.SetTrigger(ANIMATION_DEATH_TRIGGER);
-
-                StartCoroutine(SceneReloadDeelay());
+                OnDeath?.Invoke();
             }
-        }
-
-        private IEnumerator SceneReloadDeelay()
-        {
-            yield return new WaitForSeconds(_sceneReloadDelay);
-
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
 
         private void UpdateStaminaBar()
         {
-            _staminaBar.fillAmount = _staminaCurrent / _staminaMax;
+            float fillAmount = _staminaCurrent / _staminaMax;
+            _staminaBar.fillAmount = fillAmount;
+            _staminaBar.color = _staminaGradient.Evaluate(fillAmount);
         }
 
         private void StartRam()
