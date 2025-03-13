@@ -25,9 +25,9 @@ namespace Youregone.PlayerControls
         private const string ANIMATION_STAMINA_BAR_FULL_CHARGE_TRIGGER = "BARFULL";
 
         [Header("Sheep Config")]
-        [SerializeField] private float _jumpForce;
         [SerializeField] private float _baseMoveSpeed;
         [SerializeField] private float _ramMoveSpeed;
+        [SerializeField] private float _jumpForce;
         [SerializeField] private float _staminaMax;
         [SerializeField] private float _staminaDrain;
         [SerializeField] private float _staminaRechargeRate;
@@ -125,11 +125,8 @@ namespace Youregone.PlayerControls
                 return;
             }
 
-            if(collision.transform.GetComponent<FallZone>())
-            {
-                _currentHealth = 1;
-                TakeDamage();
-            }
+            if (collision.transform.GetComponent<FallZone>())
+                Fall();
         }
 
         private void Flash()
@@ -162,11 +159,19 @@ namespace Youregone.PlayerControls
             Flash();
 
             if (_currentHealth == 0)
-            {
-                Debug.Log("Death");
-                _animator.SetTrigger(ANIMATION_DEATH_TRIGGER);
-                OnDeath?.Invoke();
-            }
+                CharacterDie();
+        }
+
+        private void Fall()
+        {
+            CharacterDie();
+        }
+
+        private void CharacterDie()
+        {
+            Debug.Log("Death");
+            _animator.SetTrigger(ANIMATION_DEATH_TRIGGER);
+            OnDeath?.Invoke();
         }
 
         private void UpdateStaminaBar()

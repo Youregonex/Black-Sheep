@@ -28,11 +28,12 @@ namespace Youregone.State
 
         [Header("DOTWeen Config")]
         [SerializeField] private float _transitionDuration;
-        [SerializeField] private float _transitionScaleMax;
-        [SerializeField] private float _transitionScaleMin;
         [SerializeField] private float _buttonFadeTime;
 
         [Header("Debug")]
+        [SerializeField] private bool _sosal;
+        [SerializeField] private TextMeshProUGUI _sosalText;
+        [SerializeField] private float _sosalDuration;
         [SerializeField] private EGameState _currentGameState;
         [SerializeField] private SpriteRenderer _transition;
 
@@ -139,36 +140,52 @@ namespace Youregone.State
                 UIManager.instance.HealthbarUI.gameObject.SetActive(true);
                 _currentGameState = EGameState.Gameplay;
 
-                _camera.MoveCamraTogamePoint();
+                _camera.MoveCamraToGamePoint();
                 yield break;
             }
 
-            _transition.gameObject.SetActive(true);
-            _transition.transform.DOScale(_transitionScaleMax, _transitionDuration);
+            Vector3 transitionGoalPosition;
+
+            if (_transition != null)
+            {
+                _transition.gameObject.SetActive(true);
+                transitionGoalPosition = new(_camera.transform.position.x, _camera.transform.position.y, 0f);
+                _transition.transform.DOMove(transitionGoalPosition, _transitionDuration);
+            }
+
             yield return new WaitForSeconds(_transitionDuration);
+
+            if(_sosal)
+            {
+                _sosalText.gameObject.SetActive(true);
+                yield return new WaitForSeconds(_sosalDuration);
+
+                _sosalText.gameObject.SetActive(false);
+                yield return new WaitForSeconds(1f);
+            }
 
             _transition.transform.position = new Vector3(_camera.CameraGamePoint.position.x, _camera.CameraGamePoint.position.y, 0f);
-            _camera.MoveCamraTogamePoint();
+            _camera.MoveCamraToGamePoint();
 
-            _transition.transform.DOScale(_transitionScaleMin, _transitionDuration);
+            Vector3 transitionYOffset = new(0f, 18f, 0f);
+            transitionGoalPosition = _transition.transform.position - transitionYOffset;
+            _transition.transform.DOMove(transitionGoalPosition, _transitionDuration);
+
             yield return new WaitForSeconds(_transitionDuration);
-
-            _transition.gameObject.SetActive(false);
-
-            UIManager.instance.ScoreCounter.gameObject.SetActive(true);
-            UIManager.instance.HealthbarUI.gameObject.SetActive(true);
-            _currentGameState = EGameState.Gameplay;
 
             Destroy(_transition.gameObject);
 
+            UIManager.instance.ScoreCounter.gameObject.SetActive(true);
+            UIManager.instance.HealthbarUI.gameObject.SetActive(true);
+
+            _currentGameState = EGameState.Gameplay;
             _startGameCoroutine = null;
         }
 
         private void ResetTransition()
         {
-            _transition.transform.position = new Vector3(_camera.CameraEndPoint.position.x, _camera.CameraEndPoint.position.y, 0f);
+            _transition.transform.position = new Vector3(_camera.CameraStartPoint.position.x, _camera.CameraStartPoint.position.y, 0f);
             _transition.gameObject.SetActive(false);
-            _transition.transform.localScale = new Vector3(_transitionScaleMin, _transitionScaleMin, _transitionScaleMin);
         }
 
         private void PlayerController_OnDeath()

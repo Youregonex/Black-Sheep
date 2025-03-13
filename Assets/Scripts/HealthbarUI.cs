@@ -12,19 +12,30 @@ namespace Youregone.UI
 
         private void Start()
         {
-            PlayerController.instance.OnDamageTaken += DeleteHeart;
+            PlayerController.instance.OnDamageTaken += RemoveHeart;
+            PlayerController.instance.OnDeath += RemoveAllHearts;
         }
 
         private void OnDestroy()
         {
-            PlayerController.instance.OnDamageTaken -= DeleteHeart;
+            PlayerController.instance.OnDamageTaken -= RemoveHeart;
+            PlayerController.instance.OnDeath -= RemoveAllHearts;
         }
 
-        private void DeleteHeart()
+        private void RemoveHeart()
         {
             int heartIndex = PlayerController.instance.CurrentHealth;
 
             Destroy(_heartsUIList[heartIndex]);
+            _heartsUIList.RemoveAt(heartIndex);
+        }
+
+        private void RemoveAllHearts()
+        {
+            foreach(Image heart in _heartsUIList)
+                Destroy(heart.gameObject);
+            
+            _heartsUIList.Clear();
         }
     }
 }

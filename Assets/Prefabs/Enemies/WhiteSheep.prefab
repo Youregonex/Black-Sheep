@@ -78,10 +78,10 @@ MonoBehaviour:
   _currentVelocityX: 0
   _rigidBody2D: {fileID: 0}
   _moveSpeed: 10
-  _animator: {fileID: 1252676227212039795}
-  _sheepVelocity: {x: 0, y: 0}
   _triggerRadiusMin: 6
   _triggerRadiusMax: 12
+  _animator: {fileID: 1252676227212039795}
+  _sheepVelocity: {x: 0, y: 0}
   _triggerCollider: {fileID: 7499697762198294061}
 --- !u!61 &5178502248867820747
 BoxCollider2D:
@@ -115,7 +115,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.019358635, y: -0.23217964}
+  m_Offset: {x: -0.1045475, y: -0.3244667}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -126,7 +126,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.4104443, y: 0.95599747}
+  m_Size: {x: 1.2400665, y: 0.95599747}
   m_EdgeRadius: 0
 --- !u!58 &7499697762198294061
 CircleCollider2D:

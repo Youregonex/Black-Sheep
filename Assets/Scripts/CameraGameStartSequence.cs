@@ -22,7 +22,7 @@ namespace Youregone.Camera
         public Transform CameraGamePoint => _cameraGamePoint;
 
 
-        public void MoveCamraTogamePoint()
+        public void MoveCamraToGamePoint()
         {
             transform.position = new Vector3(_cameraGamePoint.position.x, _cameraGamePoint.position.y, _cameraZOffset);
         }
