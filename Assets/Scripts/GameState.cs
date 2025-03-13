@@ -3,8 +3,11 @@ using UnityEngine.UI;
 using Youregone.UI;
 using Youregone.Camera;
 using Youregone.PlayerControls;
+using Youregone.HighScore;
 using DG.Tweening;
 using System.Collections;
+using TMPro;
+using UnityEngine.SceneManagement;
 
 namespace Youregone.State
 {
@@ -14,15 +17,20 @@ namespace Youregone.State
 
         [Header("Config")]
         [SerializeField] private bool _testMode;
-        [SerializeField] private Button _playButton;
-        [SerializeField] private Button _exitButton;
         [SerializeField] private CameraGameStartSequence _camera;
         [SerializeField] private SpriteRenderer _transitionPrefab;
+        [SerializeField] private float _sceneReloadDelay;
+        [Header("UI Elements")]
+        [SerializeField] private Button _playButton;
+        [SerializeField] private Button _exitButton;
+        [SerializeField] private CanvasGroup _highScoreCanvasGroup;
+        [SerializeField] private TextMeshProUGUI _highScoreText;
 
         [Header("DOTWeen Config")]
         [SerializeField] private float _transitionDuration;
         [SerializeField] private float _transitionScaleMax;
         [SerializeField] private float _transitionScaleMin;
+        [SerializeField] private float _buttonFadeTime;
 
         [Header("Debug")]
         [SerializeField] private EGameState _currentGameState;
@@ -37,6 +45,7 @@ namespace Youregone.State
             instance = this;
 
             _currentGameState = EGameState.Intro;
+            _camera.OnCameraInPosition += CameraGameStartSequence_OnCameraInPosition;
         }
 
         private void Start()
@@ -46,20 +55,8 @@ namespace Youregone.State
             _transition = Instantiate(_transitionPrefab);
 
             ResetTransition();
-
-            _playButton.onClick.RemoveAllListeners();
-            _playButton.onClick.AddListener(() =>
-            {
-                if (_startGameCoroutine != null)
-                    return;
-
-                _startGameCoroutine = StartCoroutine(StartGame());
-            });
-
-            _exitButton.onClick.AddListener(() =>
-            {
-                Application.Quit();
-            });
+            SetupButtons();
+            _highScoreCanvasGroup.alpha = 0;
 
             if (_testMode)
             {
@@ -70,7 +67,65 @@ namespace Youregone.State
                 return;
             }
 
-            _camera.StartCameraSequence();
+            _camera.PlayCameraIntroSequence();
+        }
+
+        private void OnDestroy()
+        {
+            _camera.OnCameraInPosition -= CameraGameStartSequence_OnCameraInPosition;
+            PlayerController.instance.OnDeath -= PlayerController_OnDeath;
+        }
+
+        private void SetupButtons()
+        {
+            _playButton.interactable = false;
+            _exitButton.interactable = false;
+
+            _playButton.onClick.RemoveAllListeners();
+            _playButton.onClick.AddListener(() =>
+            {
+                if (_startGameCoroutine != null)
+                    return;
+
+                _startGameCoroutine = StartCoroutine(StartGame());
+            });
+
+            _exitButton.onClick.RemoveAllListeners();
+            _exitButton.onClick.AddListener(() =>
+            {
+                Application.Quit();
+            });
+        }
+
+        private void CameraGameStartSequence_OnCameraInPosition()
+        {
+            int highScore = HighScoreSaver.instance.GetHighScore();
+
+            Sequence sequence = DOTween.Sequence();
+            sequence.Append(_playButton.image.DOFade(1f, _buttonFadeTime));
+            sequence.Append(_exitButton.image.DOFade(1f, _buttonFadeTime));
+
+            if(highScore != 0)
+            {
+                _highScoreText.text = highScore.ToString();
+                sequence.Append(_highScoreCanvasGroup.DOFade(1f, _buttonFadeTime));
+            }
+
+            sequence.OnComplete(() =>
+            {
+                _playButton.interactable = true;
+                _exitButton.interactable = true;
+
+            });
+
+            sequence.Play();
+        }
+
+        private IEnumerator SceneReloadDelay()
+        {
+            yield return new WaitForSeconds(_sceneReloadDelay);
+
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
 
         private IEnumerator StartGame()
@@ -84,7 +139,7 @@ namespace Youregone.State
                 UIManager.instance.HealthbarUI.gameObject.SetActive(true);
                 _currentGameState = EGameState.Gameplay;
 
-                _camera.StartGame();
+                _camera.MoveCamraTogamePoint();
                 yield break;
             }
 
@@ -93,7 +148,7 @@ namespace Youregone.State
             yield return new WaitForSeconds(_transitionDuration);
 
             _transition.transform.position = new Vector3(_camera.CameraGamePoint.position.x, _camera.CameraGamePoint.position.y, 0f);
-            _camera.StartGame();
+            _camera.MoveCamraTogamePoint();
 
             _transition.transform.DOScale(_transitionScaleMin, _transitionDuration);
             yield return new WaitForSeconds(_transitionDuration);
@@ -118,7 +173,12 @@ namespace Youregone.State
 
         private void PlayerController_OnDeath()
         {
+            int currentScore = (int)UIManager.instance.ScoreCounter.CurrentScore;
+            if (currentScore > HighScoreSaver.instance.GetHighScore())
+                HighScoreSaver.instance.SaveHighScore(currentScore);
+            
             _currentGameState = EGameState.Outro;
+            StartCoroutine(SceneReloadDelay());
         }
     }
 
