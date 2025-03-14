@@ -126,12 +126,14 @@ namespace Youregone.GameSystems
             });
         }
 
-        private IEnumerator PlayTransitionStart()
+        private IEnumerator PlayTransitionStartCoroutine()
         {
             _transition = Instantiate(_transitionPrefab);
             _transition.transform.position = new Vector3(_camera.transform.position.x,
                                                          _camera.transform.position.y + TRANSITION_CAMERA_Y_OFFSET,
                                                          0f);
+
+            yield return null;
 
             Vector3 transitionGoalPosition = new(_camera.transform.position.x, _camera.transform.position.y, 0f);
             _transition.transform.DOMove(transitionGoalPosition, _introTransitionDuration);
@@ -139,8 +141,11 @@ namespace Youregone.GameSystems
             yield return new WaitForSeconds(_introTransitionDuration);
         }
 
-        private IEnumerator PlayTransitionEnd()
+        private IEnumerator PlayTransitionEndCoroutine()
         {
+            if (_transition == null)
+                yield break;
+
             Vector3 transitionYOffset = new(0f, 18f, 0f);
             Vector3 transitionGoalPosition = _transition.transform.position - transitionYOffset;
             _transition.transform.DOMove(transitionGoalPosition, _introTransitionDuration);
@@ -148,12 +153,14 @@ namespace Youregone.GameSystems
             yield return new WaitForSeconds(_introTransitionDuration);
 
             Destroy(_transition.gameObject);
+
+            _transition = null;
         }
 
         private IEnumerator PlayTransition()
         {
-            yield return StartCoroutine(PlayTransitionStart());
-            yield return StartCoroutine(PlayTransitionEnd());
+            yield return StartCoroutine(PlayTransitionStartCoroutine());
+            yield return StartCoroutine(PlayTransitionEndCoroutine());
         }
 
         private void CameraGameStartSequence_OnCameraInPosition()
@@ -198,11 +205,11 @@ namespace Youregone.GameSystems
                 UIManager.instance.HealthbarUI.gameObject.SetActive(true);
                 _currentGameState = EGameState.Gameplay;
 
-                _camera.MoveCamraToGamePoint();
+                _camera.MoveCameraToGamePoint();
                 yield break;
             }
 
-            yield return StartCoroutine(PlayTransitionStart());
+            yield return StartCoroutine(PlayTransitionStartCoroutine());
 
             if (_sosal)
             {
@@ -213,10 +220,12 @@ namespace Youregone.GameSystems
                 yield return new WaitForSeconds(1f);
             }
 
-            _transition.transform.position = new Vector3(_camera.CameraGamePoint.position.x, _camera.CameraGamePoint.position.y, 0f);
-            _camera.MoveCamraToGamePoint();
+            if(_transition != null)
+                _transition.transform.position = new Vector3(_camera.CameraGamePoint.position.x, _camera.CameraGamePoint.position.y, 0f);
 
-            yield return StartCoroutine(PlayTransitionEnd());
+            _camera.MoveCameraToGamePoint();
+
+            yield return StartCoroutine(PlayTransitionEndCoroutine());
 
             UIManager.instance.ScoreCounter.gameObject.SetActive(true);
             UIManager.instance.HealthbarUI.gameObject.SetActive(true);
@@ -230,20 +239,20 @@ namespace Youregone.GameSystems
             UIManager.instance.ScoreCounter.gameObject.SetActive(false);
             UIManager.instance.HealthbarUI.gameObject.SetActive(false);
 
-            yield return StartCoroutine(PlayTransitionStart());
+            yield return StartCoroutine(PlayTransitionStartCoroutine());
 
             foreach (OutroScene outroScene in _outroScenes)
             {
                 OutroScene currentOutroScene = Instantiate(outroScene);
                 currentOutroScene.transform.position = new Vector3(_camera.transform.position.x, _camera.transform.position.y, 0f);
 
-                yield return StartCoroutine(PlayTransitionEnd());
+                yield return StartCoroutine(PlayTransitionEndCoroutine());
 
                 yield return StartCoroutine(currentOutroScene.ShowTextCoroutine());
 
                 yield return new WaitUntil(() => Input.anyKeyDown);
 
-                yield return StartCoroutine(PlayTransitionStart());
+                yield return StartCoroutine(PlayTransitionStartCoroutine());
 
                 Destroy(currentOutroScene.gameObject);
             }
