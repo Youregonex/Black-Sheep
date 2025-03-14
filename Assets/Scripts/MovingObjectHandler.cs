@@ -47,21 +47,6 @@ namespace Youregone.LevelGeneration
             ChangeVelocity();
         }
 
-        private void StopObjects()
-        {
-            foreach (MovingObject movingObject in _spawnedObjects)
-                movingObject.StopMovement();
-        }
-
-        private void ChangeVelocity()
-        {
-            foreach (MovingObject movingObject in _spawnedObjects)
-            {
-                Vector2 newObjectVelocity = new(_player.CurrentSpeed, 0f);
-                movingObject.ChangeVelocity(newObjectVelocity);
-            }
-        }
-
         public void AddObject(MovingObject movingObject)
         {
             if (_spawnedObjects.Contains(movingObject))
@@ -76,6 +61,21 @@ namespace Youregone.LevelGeneration
                 return;
 
             _spawnedObjects.Remove(movingObject);
+        }
+
+        private void StopObjects()
+        {
+            foreach (MovingObject movingObject in _spawnedObjects)
+                movingObject.StopMovement();
+        }
+
+        private void ChangeVelocity()
+        {
+            foreach (MovingObject movingObject in _spawnedObjects)
+            {
+                Vector2 newObjectVelocity = new(_player.CurrentSpeed, 0f);
+                movingObject.ChangeVelocity(newObjectVelocity);
+            }
         }
     }
 }

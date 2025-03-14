@@ -33,13 +33,15 @@ namespace Youregone.EnemyAI
 
         private float _baseGravityScale;
         private PlayerController _player;
+        private Tween _currentTween;
+        private Animator _alertSignAnimator;
 
         protected override void Start()
         {
             base.Start();
 
             _alertSign.SetActive(false);
-
+            _alertSignAnimator = _alertSign.transform.GetChild(0).GetComponent<Animator>();
             _triggerZoneSize = UnityEngine.Random.Range(_triggerRadiusMin, _triggerRadiusMax);
             _alertZoneSize = _triggerZoneSize + _alertRangeAddition;
 
@@ -70,30 +72,10 @@ namespace Youregone.EnemyAI
                     return;
                 }
 
-                ShowAlertSignCoroutine();
+                ShowAlertSign();
                 _triggerCollider.radius = _triggerZoneSize;
                 _triggered = true;
             }
-        }
-
-        private void RamTowardsPlayer()
-        {
-            _sheepVelocity = new Vector2(_moveSpeed, 0f);
-            _rigidBody.velocity = new Vector2(-(_player.CurrentSpeed + _sheepVelocity.x), 0f);
-            _animator.SetTrigger(ATTACK_TRIGGER);
-        }
-
-        private void ShowAlertSignCoroutine()
-        {
-            _alertSign.SetActive(true);
-
-            _alertSign.transform.DOMoveY(_alertSign.transform.position.y + _alertSignUpwardsMovementAmount, _alertSignAnimationDuration).OnComplete(() =>
-            {
-                _alertSign.transform.GetChild(0).GetComponent<SpriteRenderer>().DOFade(0f, _alertSignFadeTime).OnComplete(() =>
-                {
-                    _alertSign.SetActive(false);
-                });
-            });
         }
 
         public override void Pause()
@@ -105,22 +87,55 @@ namespace Youregone.EnemyAI
 
             if (_animator != null)
                 _animator.speed = 0f;
+
+            if (_currentTween != null)
+                _currentTween.Pause();
+
+            if(_alertSignAnimator != null)
+                _alertSignAnimator.speed = 0f;
         }
 
         public override void UnPause()
         {
             base.UnPause();
 
-            if(_rigidBody != null)
+            if (_rigidBody != null)
                 _rigidBody.gravityScale = _baseGravityScale;
 
             if (_animator != null)
                 _animator.speed = 1f;
+
+            if (_currentTween != null)
+                _currentTween.Play();
+
+            if (_alertSignAnimator != null)
+                _alertSignAnimator.speed = 1f;
         }
 
         public override void ChangeVelocity(Vector2 newVelocity)
         {
             _rigidBody.velocity = -(newVelocity + _sheepVelocity);
+        }
+
+        private void RamTowardsPlayer()
+        {
+            _sheepVelocity = new Vector2(_moveSpeed, 0f);
+            _rigidBody.velocity = new Vector2(-(_player.CurrentSpeed + _sheepVelocity.x), 0f);
+            _animator.SetTrigger(ATTACK_TRIGGER);
+        }
+
+        private void ShowAlertSign()
+        {
+            _alertSign.SetActive(true);
+
+            _currentTween = _alertSign.transform.DOMoveY(_alertSign.transform.position.y + _alertSignUpwardsMovementAmount, _alertSignAnimationDuration).OnComplete(() =>
+            {
+                _currentTween = _alertSign.transform.GetChild(0).GetComponent<SpriteRenderer>().DOFade(0f, _alertSignFadeTime).OnComplete(() =>
+                {
+                    _alertSign.SetActive(false);
+                    _currentTween = null;
+                });
+            });
         }
     }
 }

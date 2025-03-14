@@ -9,13 +9,12 @@ namespace Youregone.GameSystems
             AddPausableObject();
         }
 
+        public abstract void Pause();
+        public abstract void UnPause();
+
         protected void AddPausableObject()
         {
             PauseManager.instance.AddPausableObject(this);
         }
-
-        public abstract void Pause();
-
-        public abstract void UnPause();
     }
 }

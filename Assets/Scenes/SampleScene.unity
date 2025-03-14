@@ -725,7 +725,7 @@ GameObject:
   m_Component:
   - component: {fileID: 200622372}
   m_Layer: 0
-  m_Name: EntryBackground
+  m_Name: Intro
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -740,7 +740,7 @@ Transform:
   m_GameObject: {fileID: 200622371}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.12, y: 29.39, z: 0}
+  m_LocalPosition: {x: 0, y: 29.39, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2560,7 +2560,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1065516638}
   m_Layer: 0
-  m_Name: GameCameraPosition
+  m_Name: CameraGamePosition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3262,7 +3262,7 @@ MonoBehaviour:
   _collectableSpawnChance: 0.7
   _rareCollectablePrefab: {fileID: 5970340744938519519, guid: b9b4c7fe88c1a4a968f3ca58b416e6e5, type: 3}
   _rareCollectableSpawnChance: 0.05
-  _progressiveDifficulty: 0
+  _progressiveDifficulty: 1
   _maxDifficultyScore: 2000
   _maxDifficultyReached: 0
   _midDifficultyReached: 0
@@ -4959,16 +4959,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 103236d12686e4a5881445b5955407ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _testMode: 1
+  _testMode: 0
   _camera: {fileID: 519420033}
   _transitionPrefab: {fileID: 1781655435715550049, guid: 8a508b21d21ea4057a7fd3befd26743e, type: 3}
+  _introGameObject: {fileID: 200622371}
+  _outroScenes:
+  - {fileID: 1078606594878748557, guid: 75f8e0bb156a74d51bc627363e20099c, type: 3}
+  - {fileID: 1078606594878748557, guid: fd29f030cd659483389f0153b258f102, type: 3}
+  _outroDelay: 1
   _sceneReloadDelay: 1
   _playButton: {fileID: 1441922844}
   _exitButton: {fileID: 2040080354}
   _highScoreCanvasGroup: {fileID: 408290580}
   _highScoreText: {fileID: 267889123}
-  _transitionDuration: 0.75
-  _buttonFadeTime: 0.5
+  _introTransitionDuration: 1
+  _introButtonFadeTime: 0.5
+  _outroTransitionDuration: 2
   _sosal: 1
   _sosalText: {fileID: 761514277}
   _sosalDuration: 0.2
@@ -5197,8 +5203,8 @@ MonoBehaviour:
   - {fileID: 151219202837881634, guid: 7979700f4466e421abaa792d9493a47f, type: 3}
   - {fileID: 151219202837881634, guid: 46cadb0c16b054614b86f08294cc3aec, type: 3}
   - {fileID: 151219202837881634, guid: da8c4c8bdc67b474c8339a978be65613, type: 3}
-  _pitChunkSpawnChance: 0
-  _bridgeChunkSpawnCooldown: 3
+  _pitChunkSpawnChance: 0.2
+  _bridgeChunkSpawnCooldown: 20
   _lastChunk: {fileID: 0}
   _nextChunk: {fileID: 0}
   _canSpawn: 1

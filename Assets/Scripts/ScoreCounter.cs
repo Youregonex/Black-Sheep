@@ -47,13 +47,12 @@ namespace Youregone.UI
         }
 
         public void AddPoints(int points) => _score += points;
+        public override void Pause() { }
+        public override void UnPause() { }
 
         private void Death()
         {
             _isPlayerDead = true;
         }
-
-        public override void Pause() {}
-        public override void UnPause() {}
     }
 }
