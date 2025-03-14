@@ -3257,12 +3257,12 @@ MonoBehaviour:
   - {fileID: 4797351735213537896, guid: fc1933cab881b446ca9146e708ddb2cc, type: 3}
   - {fileID: 4797351735213537896, guid: 00e9a6360336241eba8826c43000638b, type: 3}
   - {fileID: 4797351735213537896, guid: 2fb5e08f68d814153b42310c6adf51ec, type: 3}
-  _obstacleSpawnChance: 0.664
+  _obstacleSpawnChance: 0
   _collectablePrefab: {fileID: 5970340744938519519, guid: 405e3093b2ba7463f9130cb387deb1c4, type: 3}
   _collectableSpawnChance: 0.7
   _rareCollectablePrefab: {fileID: 5970340744938519519, guid: b9b4c7fe88c1a4a968f3ca58b416e6e5, type: 3}
   _rareCollectableSpawnChance: 0.05
-  _progressiveDifficulty: 1
+  _progressiveDifficulty: 0
   _maxDifficultyScore: 2000
   _maxDifficultyReached: 0
   _midDifficultyReached: 0
@@ -4971,7 +4971,7 @@ MonoBehaviour:
   _buttonFadeTime: 0.5
   _sosal: 1
   _sosalText: {fileID: 761514277}
-  _sosalDuration: 0.25
+  _sosalDuration: 0.2
   _currentGameState: 0
   _transition: {fileID: 0}
 --- !u!1 &1969522049
@@ -5197,8 +5197,8 @@ MonoBehaviour:
   - {fileID: 151219202837881634, guid: 7979700f4466e421abaa792d9493a47f, type: 3}
   - {fileID: 151219202837881634, guid: 46cadb0c16b054614b86f08294cc3aec, type: 3}
   - {fileID: 151219202837881634, guid: da8c4c8bdc67b474c8339a978be65613, type: 3}
-  _pitChunkSpawnChance: 0.2
-  _bridgeChunkSpawnCooldown: 20
+  _pitChunkSpawnChance: 0
+  _bridgeChunkSpawnCooldown: 3
   _lastChunk: {fileID: 0}
   _nextChunk: {fileID: 0}
   _canSpawn: 1

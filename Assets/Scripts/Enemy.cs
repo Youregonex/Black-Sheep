@@ -1,6 +1,7 @@
 using UnityEngine;
 using Youregone.PlayerControls;
 using Youregone.LevelGeneration;
+using System.Collections;
 
 namespace Youregone.EnemyAI
 {
@@ -12,9 +13,11 @@ namespace Youregone.EnemyAI
         [SerializeField] private float _moveSpeed;
         [SerializeField] private float _triggerRadiusMin;
         [SerializeField] private float _triggerRadiusMax;
+        [SerializeField] private float _alertSignTime;
 
         [Header("Components")]
         [SerializeField] private Animator _animator;
+        [SerializeField] private GameObject _alertSign;
 
         [Header("Debug")]
         [SerializeField] private Vector2 _sheepVelocity;
@@ -26,6 +29,8 @@ namespace Youregone.EnemyAI
         protected override void Start()
         {
             base.Start();
+
+            _alertSign.SetActive(false);
 
             float randomRadius = UnityEngine.Random.Range(_triggerRadiusMin, _triggerRadiusMax);
             _triggerCollider.radius = randomRadius;
@@ -48,11 +53,25 @@ namespace Youregone.EnemyAI
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if(collision.transform.GetComponent<PlayerController>())
-            {
-                _sheepVelocity = new Vector2(_moveSpeed, 0f);                
-                _rigidBody.velocity = new Vector2(-(_player.CurrentSpeed + _sheepVelocity.x), 0f);
-                _animator.SetTrigger(ATTACK_TRIGGER);
-            }
+                RamTowardsPlayer();
+        }
+
+        private void RamTowardsPlayer()
+        {
+            _sheepVelocity = new Vector2(_moveSpeed, 0f);
+            _rigidBody.velocity = new Vector2(-(_player.CurrentSpeed + _sheepVelocity.x), 0f);
+            _animator.SetTrigger(ATTACK_TRIGGER);
+
+            StartCoroutine(ShowAlertSignCoroutine());
+        }
+
+        private IEnumerator ShowAlertSignCoroutine()
+        {
+            _alertSign.SetActive(true);
+
+            yield return new WaitForSeconds(_alertSignTime);
+
+            _alertSign.SetActive(false);
         }
 
         public override void Pause()
