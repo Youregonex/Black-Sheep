@@ -1,7 +1,7 @@
 using UnityEngine;
 using Youregone.PlayerControls;
 using Youregone.LevelGeneration;
-using System.Collections;
+using DG.Tweening;
 
 namespace Youregone.EnemyAI
 {
@@ -13,13 +13,21 @@ namespace Youregone.EnemyAI
         [SerializeField] private float _moveSpeed;
         [SerializeField] private float _triggerRadiusMin;
         [SerializeField] private float _triggerRadiusMax;
-        [SerializeField] private float _alertSignTime;
+        [SerializeField] private float _alertRangeAddition;
+
+        [Header("DOTween Config")]
+        [SerializeField] private float _alertSignAnimationDuration;
+        [SerializeField] private float _alertSignUpwardsMovementAmount;
+        [SerializeField] private float _alertSignFadeTime;
 
         [Header("Components")]
         [SerializeField] private Animator _animator;
         [SerializeField] private GameObject _alertSign;
 
         [Header("Debug")]
+        [SerializeField] private bool _triggered = false;
+        [SerializeField] private float _alertZoneSize;
+        [SerializeField] private float _triggerZoneSize;
         [SerializeField] private Vector2 _sheepVelocity;
         [SerializeField] private CircleCollider2D _triggerCollider;
 
@@ -32,8 +40,10 @@ namespace Youregone.EnemyAI
 
             _alertSign.SetActive(false);
 
-            float randomRadius = UnityEngine.Random.Range(_triggerRadiusMin, _triggerRadiusMax);
-            _triggerCollider.radius = randomRadius;
+            _triggerZoneSize = UnityEngine.Random.Range(_triggerRadiusMin, _triggerRadiusMax);
+            _alertZoneSize = _triggerZoneSize + _alertRangeAddition;
+
+            _triggerCollider.radius = _alertZoneSize;
 
             _sheepVelocity = Vector2.zero;
             _baseGravityScale = _rigidBody.gravityScale;
@@ -53,7 +63,17 @@ namespace Youregone.EnemyAI
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if(collision.transform.GetComponent<PlayerController>())
-                RamTowardsPlayer();
+            {
+                if(_triggered)
+                {
+                    RamTowardsPlayer();
+                    return;
+                }
+
+                ShowAlertSignCoroutine();
+                _triggerCollider.radius = _triggerZoneSize;
+                _triggered = true;
+            }
         }
 
         private void RamTowardsPlayer()
@@ -61,17 +81,19 @@ namespace Youregone.EnemyAI
             _sheepVelocity = new Vector2(_moveSpeed, 0f);
             _rigidBody.velocity = new Vector2(-(_player.CurrentSpeed + _sheepVelocity.x), 0f);
             _animator.SetTrigger(ATTACK_TRIGGER);
-
-            StartCoroutine(ShowAlertSignCoroutine());
         }
 
-        private IEnumerator ShowAlertSignCoroutine()
+        private void ShowAlertSignCoroutine()
         {
             _alertSign.SetActive(true);
 
-            yield return new WaitForSeconds(_alertSignTime);
-
-            _alertSign.SetActive(false);
+            _alertSign.transform.DOMoveY(_alertSign.transform.position.y + _alertSignUpwardsMovementAmount, _alertSignAnimationDuration).OnComplete(() =>
+            {
+                _alertSign.transform.GetChild(0).GetComponent<SpriteRenderer>().DOFade(0f, _alertSignFadeTime).OnComplete(() =>
+                {
+                    _alertSign.SetActive(false);
+                });
+            });
         }
 
         public override void Pause()

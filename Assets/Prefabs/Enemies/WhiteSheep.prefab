@@ -81,9 +81,15 @@ MonoBehaviour:
   _moveSpeed: 10
   _triggerRadiusMin: 6
   _triggerRadiusMax: 12
-  _alertSignTime: 0.75
+  _alertRangeAddition: 6
+  _alertSignAnimationDuration: 0.6
+  _alertSignUpwardsMovementAmount: 0.4
+  _alertSignFadeTime: 0.2
   _animator: {fileID: 1252676227212039795}
   _alertSign: {fileID: 2903740719011309789}
+  _triggered: 0
+  _alertZoneSize: 0
+  _triggerZoneSize: 0
   _sheepVelocity: {x: 0, y: 0}
   _triggerCollider: {fileID: 7499697762198294061}
 --- !u!61 &5178502248867820747
@@ -282,15 +288,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1441860531366593672, guid: 249557d0445cc4b02b253db4ad820ed1, type: 3}
       propertyPath: m_Color.b
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1441860531366593672, guid: 249557d0445cc4b02b253db4ad820ed1, type: 3}
       propertyPath: m_Color.g
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1441860531366593672, guid: 249557d0445cc4b02b253db4ad820ed1, type: 3}
       propertyPath: m_Color.r
-      value: 0.8113208
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3146481773539213089, guid: 249557d0445cc4b02b253db4ad820ed1, type: 3}
       propertyPath: m_Name
@@ -302,15 +308,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7882944337891210275, guid: 249557d0445cc4b02b253db4ad820ed1, type: 3}
       propertyPath: m_LocalScale.x
-      value: 2.06
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 7882944337891210275, guid: 249557d0445cc4b02b253db4ad820ed1, type: 3}
       propertyPath: m_LocalScale.y
-      value: 2.06
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 7882944337891210275, guid: 249557d0445cc4b02b253db4ad820ed1, type: 3}
       propertyPath: m_LocalScale.z
-      value: 2.06
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 7882944337891210275, guid: 249557d0445cc4b02b253db4ad820ed1, type: 3}
       propertyPath: m_LocalPosition.x
