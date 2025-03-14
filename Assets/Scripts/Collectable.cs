@@ -13,6 +13,7 @@ namespace Youregone.LevelGeneration
         [Header("Collectable Config")]
         [SerializeField] private int _pointsBonus;
         [SerializeField] private Animator _animator;
+        [SerializeField] private AudioClip _pickUpAudioClip;
 
         [Header("Sin Wave Config")]
         [SerializeField] private float _amplitude;
@@ -58,6 +59,7 @@ namespace Youregone.LevelGeneration
             if (collision.transform.GetComponent<PlayerController>())
             {
                 UIManager.instance.ScoreCounter.AddPoints(_pointsBonus);
+                SoundManager.instance.PlaySoundAtPosition(_pickUpAudioClip, .05f, transform.position);
                 Destroy(gameObject);
             }
 

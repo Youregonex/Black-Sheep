@@ -154,13 +154,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _currentVelocityX: 0
-  _rigidBody2D: {fileID: 0}
+  _rigidBody: {fileID: 0}
   _pointsBonus: 50
   _animator: {fileID: 8657216370997770005}
+  _pickUpAudioClip: {fileID: 8300000, guid: 67ffc5aed1bcc41c19e6fa9cd8147dc0, type: 3}
   _amplitude: 1
   _frequency: 5
   _yOrigin: 0
   _randomSinWaveOffset: 0
+  _timeUnpaused: 0
 --- !u!58 &1046111021665882047
 CircleCollider2D:
   m_ObjectHideFlags: 0

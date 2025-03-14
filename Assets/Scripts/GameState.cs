@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Youregone.UI;
-using Youregone.Camera;
+using Youregone.GameCamera;
 using Youregone.PlayerControls;
 using Youregone.HighScore;
 using DG.Tweening;
@@ -206,6 +206,7 @@ namespace Youregone.GameSystems
                 _currentGameState = EGameState.Gameplay;
 
                 _camera.MoveCameraToGamePoint();
+                Destroy(_introGameObject);
                 yield break;
             }
 
@@ -232,6 +233,7 @@ namespace Youregone.GameSystems
 
             _currentGameState = EGameState.Gameplay;
             _startGameCoroutine = null;
+            Destroy(_introGameObject); 
         }
 
         private IEnumerator PlayOutroCoroutine()

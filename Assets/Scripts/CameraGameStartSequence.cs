@@ -3,7 +3,7 @@ using DG.Tweening;
 using System.Collections;
 using System;
 
-namespace Youregone.Camera
+namespace Youregone.GameCamera
 {
     public class CameraGameStartSequence : MonoBehaviour
     {
