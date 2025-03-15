@@ -1,6 +1,5 @@
 using UnityEngine;
 using System;
-using Youregone.LevelGeneration;
 
 namespace Youregone.PlayerControls
 {
@@ -10,10 +9,7 @@ namespace Youregone.PlayerControls
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if ((collision.transform.GetComponent<Chunk>() || collision.transform.root.GetComponent<Chunk>()) && !PlayerController.instance.IsGrounded)
-            {
-                Landed?.Invoke();
-            }
+            Landed?.Invoke();
         }
     }
 }

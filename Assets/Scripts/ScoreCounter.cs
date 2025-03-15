@@ -5,7 +5,7 @@ using Youregone.GameSystems;
 
 namespace Youregone.UI
 {
-    public class ScoreCounter : PausableMonoBehaviour
+    public class ScoreCounter : PausableMonoBehaviour, IUpdateObserver
     {
         [Header("Config")]
         [SerializeField] private TextMeshProUGUI _scoreText;
@@ -19,6 +19,11 @@ namespace Youregone.UI
         private GameState _gameState;
         private PlayerController _player;
 
+        private void OnEnable()
+        {
+            UpdateManager.RegisterUpdateObserver(this);
+        }
+
         protected override void Start()
         {
             base.Start();
@@ -29,7 +34,7 @@ namespace Youregone.UI
             _score = 0;
         }
 
-        private void Update()
+        public void ObservedUpdate()
         {
             if (_player == null)
                 return;
@@ -39,6 +44,11 @@ namespace Youregone.UI
 
             _score += Time.deltaTime;
             _scoreText.text = ((int)_score).ToString();
+        }
+
+        private void OnDisable()
+        {
+            UpdateManager.UnregisterUpdateObserver(this);
         }
 
         private void OnDestroy()

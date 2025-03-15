@@ -1,9 +1,10 @@
 using UnityEngine;
 using Youregone.PlayerControls;
+using Youregone.GameSystems;
 
 namespace Youregone.LevelGeneration
 {
-    public class Paralax : MovingObject
+    public class Paralax : MovingObject, IUpdateObserver
     {
         [Header("Paralax Config")]
         [SerializeField] private float _paralaxSpawnDistance;
@@ -17,6 +18,12 @@ namespace Youregone.LevelGeneration
 
         private PlayerController _player;
 
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            UpdateManager.RegisterUpdateObserver(this);
+        }
+
         protected override void Start()
         {
             base.Start();
@@ -25,12 +32,12 @@ namespace Youregone.LevelGeneration
             ChangeVelocity(new Vector2(_player.CurrentSpeed, 0f));
         }
 
-        private void Update()
+        public void ObservedUpdate()
         {
             if (_player == null)
                 return;
 
-            if(_paralaxEndPoint.transform.position.x - _player.transform.position.x <= _paralaxSpawnDistance && !_paralaxCreated)
+            if (_paralaxEndPoint.transform.position.x - _player.transform.position.x <= _paralaxSpawnDistance && !_paralaxCreated)
                 CreateParalax();
         }
 
@@ -38,6 +45,12 @@ namespace Youregone.LevelGeneration
         {
             if (collision.transform.GetComponent<MovingObjectDestroyer>())
                 Destroy(gameObject);
+        }
+
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+            UpdateManager.UnregisterUpdateObserver(this);
         }
 
         public override void ChangeVelocity(Vector2 newVelocity)
@@ -49,6 +62,7 @@ namespace Youregone.LevelGeneration
         {
             Vector2 paralaxSpawnPosition = new(_paralaxEndPoint.position.x + _paralaxSpawnXOffset, transform.position.y);
             Paralax paralax = Instantiate(_paralaxLayerPrefab, paralaxSpawnPosition, Quaternion.identity);
+            paralax.transform.parent = transform.parent;
             paralax.gameObject.name = gameObject.name;
             _paralaxCreated = true;
         }

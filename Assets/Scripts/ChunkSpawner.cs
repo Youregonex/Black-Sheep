@@ -1,10 +1,11 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Youregone.PlayerControls;
+using Youregone.GameSystems;
 
 namespace Youregone.LevelGeneration
 {
-    public class PlatformSpawner : MonoBehaviour
+    public class PlatformSpawner : MonoBehaviour, IUpdateObserver
     {
         private const string OBSTACLE_PARENT_NAME = "Rock";
         private const string COLLECTABLES_PARENT_NAME = "PickUp";
@@ -19,6 +20,7 @@ namespace Youregone.LevelGeneration
         [SerializeField] private List<Chunk> _platformChunkPrefabList;
         [SerializeField, Range(0f, 1f)] private float _pitChunkSpawnChance;
         [SerializeField] private float _bridgeChunkSpawnCooldown;
+        [SerializeField] private Transform _chunkParentTransform;
 
         [Header("Debug")]
         [SerializeField] private Chunk _lastChunk;
@@ -35,6 +37,11 @@ namespace Youregone.LevelGeneration
         private PlayerController _player;
         private MovingObjectSpawner _movingObjectSpawner;
 
+        public void OnEnable()
+        {
+            UpdateManager.RegisterUpdateObserver(this);
+        }
+
         private void Start()
         {
             _player = PlayerController.instance;
@@ -48,7 +55,7 @@ namespace Youregone.LevelGeneration
             _lastChunk = SpawnNextChunk();
         }
 
-        private void Update()
+        public void ObservedUpdate()
         {
             if (_bridgeChunkSpawnCooldownCurrent > 0)
                 _bridgeChunkSpawnCooldownCurrent -= Time.deltaTime;
@@ -66,6 +73,11 @@ namespace Youregone.LevelGeneration
             {
                 _lastChunk = SpawnNextChunk();
             }
+        }
+
+        public void OnDisable()
+        {
+            UpdateManager.UnregisterUpdateObserver(this);
         }
 
         private void OnDestroy()
@@ -109,7 +121,7 @@ namespace Youregone.LevelGeneration
             }
 
             Chunk spawnedChunk = Instantiate(chunkToSpawn, nextChunkSpawnPosition, Quaternion.identity);
-
+            spawnedChunk.transform.parent = _chunkParentTransform;
             spawnedChunk.StartMovement(_player.CurrentSpeed);
 
             _nextChunk = PickNextChunk(spawnedChunk);

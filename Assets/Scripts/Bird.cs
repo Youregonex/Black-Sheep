@@ -4,7 +4,7 @@ using Youregone.GameSystems;
 
 namespace Youregone.LevelGeneration
 {
-    public class Bird : MovingObject
+    public class Bird : MovingObject, IUpdateObserver
     {
         [Header("Bird Config")]
         [SerializeField] private Animator _animator;
@@ -16,14 +16,19 @@ namespace Youregone.LevelGeneration
         private Vector2 _birdVelocity;
         private GameState _gameState;
 
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            UpdateManager.RegisterUpdateObserver(this);
+        }
+
         protected override void Start()
         {
             base.Start();
-
             _gameState = GameState.instance;
         }
 
-        private void Update()
+        public void ObservedUpdate()
         {
             if (_isFlying && !(_gameState.CurrentGameState == EGameState.Pause))
                 _destructionDelay -= Time.deltaTime;
@@ -36,6 +41,12 @@ namespace Youregone.LevelGeneration
         {
             if (collision.GetComponent<PlayerController>())
                 FlyAway();
+        }
+
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+            UpdateManager.UnregisterUpdateObserver(this);
         }
 
         public override void Pause()

@@ -5,10 +5,11 @@ using Youregone.UI;
 using System;
 using Youregone.Factories;
 using Youregone.ObjectPooling;
+using Youregone.GameSystems;
 
 namespace Youregone.LevelGeneration
 {
-    public class MovingObjectSpawner : MonoBehaviour
+    public class MovingObjectSpawner : MonoBehaviour, IUpdateObserver
     {
         public static MovingObjectSpawner instance;
 
@@ -18,6 +19,7 @@ namespace Youregone.LevelGeneration
         [Header("Obstacle Config")]
         [SerializeField] private List<Obstacle> _obstaclePrefabList;
         [SerializeField, Range(0, 1f)] private float _obstacleSpawnChance;
+        [SerializeField] private Transform _obstacleParentTransform;
 
         [Header("Collectable Config")]
         [SerializeField] private Collectable _regularCollectablePrefab;
@@ -37,14 +39,22 @@ namespace Youregone.LevelGeneration
         private float _midDifficultyScore => _maxDifficultyScore / 2;
         private ScoreCounter _scoreCounter;
         private PlayerController _player;
-        private CollectableFactory _collectableFactory = new();
+        private Factory<Collectable> _collectableFactory = new();
         private CollectablePool _collectablPool;
+        private Factory<Obstacle> _obstacleFactory = new();
+        private ObstaclePool _obstaclePool;
 
         private void Awake()
         {
             instance = this;
 
             _collectablPool = new(_collectableFactory, _regularCollectablePrefab, _rareCollectablePrefab);
+            _obstaclePool = new(_obstacleFactory, _obstaclePrefabList);
+        }
+
+        private void OnEnable()
+        {
+            UpdateManager.RegisterUpdateObserver(this);
         }
 
         private void Start()
@@ -53,7 +63,7 @@ namespace Youregone.LevelGeneration
             _scoreCounter = UIManager.instance.ScoreCounter;
         }
 
-        private void Update()
+        public void ObservedUpdate()
         {
             if (_progressiveDifficulty && !_maxDifficultyReached)
             {
@@ -74,6 +84,11 @@ namespace Youregone.LevelGeneration
             }
         }
 
+        private void OnDisable()
+        {
+            UpdateManager.UnregisterUpdateObserver(this);
+        }
+
         public void SpawnObstacle(Vector2 position)
         {
             if (UnityEngine.Random.Range(0f, 1f) > _obstacleSpawnChance)
@@ -81,8 +96,11 @@ namespace Youregone.LevelGeneration
 
             int randomObstacleIndex = UnityEngine.Random.Range(0, _obstaclePrefabList.Count);
 
-            Obstacle spawnedObstacle = Instantiate(_obstaclePrefabList[randomObstacleIndex], position, Quaternion.identity);
-            spawnedObstacle.StartMovement(_player.CurrentSpeed);
+            Obstacle pooledObstacle = _obstaclePool.DequeueObstacle(_obstaclePrefabList[randomObstacleIndex].ObstacleSO.obstacleType, _obstacleParentTransform);
+            pooledObstacle.transform.position = position;
+            pooledObstacle.OnDestruction += Obstacle_OnDestruction;
+            pooledObstacle.transform.rotation = Quaternion.identity;
+            pooledObstacle.StartMovement(_player.CurrentSpeed);
         }
 
         public void SpawnCollectable(Vector2 position)
@@ -93,10 +111,10 @@ namespace Youregone.LevelGeneration
             Collectable pooledCollectable;
 
             if (UnityEngine.Random.Range(0f, 1f) <= _rareCollectableSpawnChance)
-                pooledCollectable = _collectablPool.CollectableDequeue(true, _collectableParentTransform);
+                pooledCollectable = _collectablPool.DequeueCollectable(true, _collectableParentTransform);
             
             else
-                pooledCollectable = _collectablPool.CollectableDequeue(false, _collectableParentTransform);
+                pooledCollectable = _collectablPool.DequeueCollectable(false, _collectableParentTransform);
 
             pooledCollectable.transform.position = position;
             pooledCollectable.UpdateYOrigin();
@@ -107,7 +125,13 @@ namespace Youregone.LevelGeneration
         private void Collectable_OnDestraction(Collectable collectable)
         {
             collectable.OnDestraction -= Collectable_OnDestraction;
-            _collectablPool.CollectableEnqueue(collectable, collectable.IsRareCollectable);
+            _collectablPool.EnqueueCollectable(collectable, collectable.IsRareCollectable);
+        }
+
+        private void Obstacle_OnDestruction(Obstacle obstacle)
+        {
+            obstacle.OnDestruction -= Obstacle_OnDestruction;
+            _obstaclePool.EnqueueObstacle(obstacle);
         }
     }
 }

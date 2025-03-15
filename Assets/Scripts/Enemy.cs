@@ -35,7 +35,6 @@ namespace Youregone.EnemyAI
         private PlayerController _player;
         private Tween _currentTween;
         private Animator _alertSignAnimator;
-        private Tween _alertTween;
 
         protected override void Start()
         {
@@ -79,10 +78,8 @@ namespace Youregone.EnemyAI
             }
         }
 
-        protected override void OnDestroy()
+        private void OnDestroy()
         {
-            base.OnDestroy();
-
             if (_currentTween != null)
                 _currentTween.Kill();
         }

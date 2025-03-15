@@ -1,17 +1,29 @@
 using UnityEngine;
+using Youregone.SO;
+using System;
 
 namespace Youregone.LevelGeneration
 {
     public class Obstacle : MovingObject
     {
-        protected override void OnCollisionEnter2D(Collision2D collision)
+        public event Action<Obstacle> OnDestruction;
+
+        [Header("Obstacle Config")]
+        [SerializeField] private ObstacleSO _obstacleSO;
+        [SerializeField] private SpriteRenderer _spriteRenderer;
+
+        public ObstacleSO ObstacleSO => _obstacleSO;
+
+        protected override void OnEnable()
         {
-            Destroy(gameObject);
+            base.OnEnable();
+
+            _spriteRenderer.sprite = _obstacleSO.sprites[UnityEngine.Random.Range(0, _obstacleSO.sprites.Count)];
         }
 
-        protected override void OnDestroy()
+        protected override void OnCollisionEnter2D(Collision2D collision)
         {
-            base.OnDestroy();
+            OnDestruction?.Invoke(this);
         }
     }
 }
