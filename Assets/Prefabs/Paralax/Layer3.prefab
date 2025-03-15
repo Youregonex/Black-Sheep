@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 680598585806783582}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9, y: 0, z: 0}
+  m_LocalPosition: {x: 8.9, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -191,13 +191,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _currentVelocityX: 0
-  _rigidBody2D: {fileID: 0}
+  _rigidBody: {fileID: 0}
   _paralaxSpawnDistance: 40
   _paralaxSpawnXOffset: 9
   _paralaxFactor: 0.75
   _paralaxLayerPrefab: {fileID: 5333221244204041262}
   _paralaxEndPoint: {fileID: 8561905797488647939}
-  _player: {fileID: 0}
   _paralaxCreated: 0
 --- !u!61 &8877126915652755787
 BoxCollider2D:

@@ -28,6 +28,7 @@ namespace Youregone.GameSystems
 
         [Header("Config")]
         [SerializeField] private bool _testMode;
+        [SerializeField] private bool _skipOutro;
         [SerializeField] private CameraGameStartSequence _camera;
         [SerializeField] private SpriteRenderer _transitionPrefab;
         [SerializeField] private GameObject _introGameObject;
@@ -276,6 +277,12 @@ namespace Youregone.GameSystems
             _currentGameState = EGameState.Outro;
 
             yield return new WaitForSeconds(_outroDelay);
+
+            if(_skipOutro)
+            {
+                StartCoroutine(SceneReloadDelayCoroutine());
+                yield break;
+            }
 
             StartCoroutine(PlayOutroCoroutine());
         }
