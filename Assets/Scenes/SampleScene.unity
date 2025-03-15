@@ -5730,8 +5730,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 103236d12686e4a5881445b5955407ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _skipIntro: 1
-  _skipOutro: 1
+  _skipIntro: 0
+  _skipOutro: 0
   _camera: {fileID: 519420033}
   _transitionPrefab: {fileID: 1781655435715550049, guid: 8a508b21d21ea4057a7fd3befd26743e, type: 3}
   _introGameObject: {fileID: 200622371}
