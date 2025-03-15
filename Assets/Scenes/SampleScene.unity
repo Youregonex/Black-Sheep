@@ -2767,6 +2767,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 370001719}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1008939085
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1008939086}
+  m_Layer: 0
+  m_Name: Collectables
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1008939086
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1008939085}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1030036318
 GameObject:
   m_ObjectHideFlags: 0
@@ -3856,10 +3887,11 @@ MonoBehaviour:
   - {fileID: 4797351735213537896, guid: 00e9a6360336241eba8826c43000638b, type: 3}
   - {fileID: 4797351735213537896, guid: 2fb5e08f68d814153b42310c6adf51ec, type: 3}
   _obstacleSpawnChance: 0
-  _collectablePrefab: {fileID: 5970340744938519519, guid: 405e3093b2ba7463f9130cb387deb1c4, type: 3}
-  _collectableSpawnChance: 0.7
+  _regularCollectablePrefab: {fileID: 5970340744938519519, guid: 405e3093b2ba7463f9130cb387deb1c4, type: 3}
   _rareCollectablePrefab: {fileID: 5970340744938519519, guid: b9b4c7fe88c1a4a968f3ca58b416e6e5, type: 3}
+  _collectableSpawnChance: 0.7
   _rareCollectableSpawnChance: 0.05
+  _collectableParentTransform: {fileID: 1008939086}
   _progressiveDifficulty: 1
   _maxDifficultyScore: 2000
   _maxDifficultyReached: 0
@@ -5561,8 +5593,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 103236d12686e4a5881445b5955407ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _testMode: 0
-  _skipOutro: 0
+  _skipIntro: 1
+  _skipOutro: 1
   _camera: {fileID: 519420033}
   _transitionPrefab: {fileID: 1781655435715550049, guid: 8a508b21d21ea4057a7fd3befd26743e, type: 3}
   _introGameObject: {fileID: 200622371}
@@ -6450,3 +6482,4 @@ SceneRoots:
   - {fileID: 1969522050}
   - {fileID: 200622372}
   - {fileID: 909946229}
+  - {fileID: 1008939086}

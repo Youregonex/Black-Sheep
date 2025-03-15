@@ -27,7 +27,7 @@ namespace Youregone.GameSystems
         private const float TRANSITION_CAMERA_Y_OFFSET = 48; 
 
         [Header("Config")]
-        [SerializeField] private bool _testMode;
+        [SerializeField] private bool _skipIntro;
         [SerializeField] private bool _skipOutro;
         [SerializeField] private CameraGameStartSequence _camera;
         [SerializeField] private SpriteRenderer _transitionPrefab;
@@ -75,7 +75,7 @@ namespace Youregone.GameSystems
             SetupButtons();
             _highScoreCanvasGroup.alpha = 0;
 
-            if (_testMode)
+            if (_skipIntro)
             {
                 if (_startGameCoroutine != null)
                     return;
@@ -200,7 +200,7 @@ namespace Youregone.GameSystems
             if (_currentGameState == EGameState.Gameplay)
                 yield break;
 
-            if(_testMode)
+            if(_skipIntro)
             {
                 UIManager.instance.ScoreCounter.gameObject.SetActive(true);
                 UIManager.instance.HealthbarUI.gameObject.SetActive(true);

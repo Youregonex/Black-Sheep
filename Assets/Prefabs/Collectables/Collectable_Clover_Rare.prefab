@@ -155,6 +155,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _currentVelocityX: 0
   _rigidBody: {fileID: 0}
+  _rareCollectable: 1
   _pointsBonus: 50
   _animator: {fileID: 8657216370997770005}
   _pickUpAudioClip: {fileID: 8300000, guid: 67ffc5aed1bcc41c19e6fa9cd8147dc0, type: 3}

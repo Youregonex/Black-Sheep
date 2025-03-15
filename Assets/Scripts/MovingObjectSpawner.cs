@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Youregone.PlayerControls;
 using Youregone.UI;
 using System;
+using Youregone.Factories;
+using Youregone.ObjectPooling;
 
 namespace Youregone.LevelGeneration
 {
@@ -18,10 +20,11 @@ namespace Youregone.LevelGeneration
         [SerializeField, Range(0, 1f)] private float _obstacleSpawnChance;
 
         [Header("Collectable Config")]
-        [SerializeField] private Collectable _collectablePrefab;
-        [SerializeField, Range(0, 1f)] private float _collectableSpawnChance;
+        [SerializeField] private Collectable _regularCollectablePrefab;
         [SerializeField] private Collectable _rareCollectablePrefab;
+        [SerializeField, Range(0, 1f)] private float _collectableSpawnChance;
         [SerializeField, Range(0f, 1f)] private float _rareCollectableSpawnChance;
+        [SerializeField] private Transform _collectableParentTransform;
 
         [Header("Test")]
         [SerializeField] private bool _progressiveDifficulty;
@@ -34,10 +37,14 @@ namespace Youregone.LevelGeneration
         private float _midDifficultyScore => _maxDifficultyScore / 2;
         private ScoreCounter _scoreCounter;
         private PlayerController _player;
+        private CollectableFactory _collectableFactory = new();
+        private CollectablePool _collectablPool;
 
         private void Awake()
         {
             instance = this;
+
+            _collectablPool = new(_collectableFactory, _regularCollectablePrefab, _rareCollectablePrefab);
         }
 
         private void Start()
@@ -83,15 +90,24 @@ namespace Youregone.LevelGeneration
             if (UnityEngine.Random.Range(0f, 1f) > _collectableSpawnChance)
                 return;
 
-            Collectable collectableToSpawn;
+            Collectable pooledCollectable;
 
             if (UnityEngine.Random.Range(0f, 1f) <= _rareCollectableSpawnChance)
-                collectableToSpawn = _rareCollectablePrefab;
+                pooledCollectable = _collectablPool.CollectableDequeue(true, _collectableParentTransform);
+            
             else
-                collectableToSpawn = _collectablePrefab;
+                pooledCollectable = _collectablPool.CollectableDequeue(false, _collectableParentTransform);
 
-            Collectable spawnedCollectable = Instantiate(collectableToSpawn, position, Quaternion.identity);
-            spawnedCollectable.StartMovement(_player.CurrentSpeed);
+            pooledCollectable.transform.position = position;
+            pooledCollectable.UpdateYOrigin();
+            pooledCollectable.OnDestraction += Collectable_OnDestraction;
+            pooledCollectable.StartMovement(_player.CurrentSpeed);
+        }
+
+        private void Collectable_OnDestraction(Collectable collectable)
+        {
+            collectable.OnDestraction -= Collectable_OnDestraction;
+            _collectablPool.CollectableEnqueue(collectable, collectable.IsRareCollectable);
         }
     }
 }
