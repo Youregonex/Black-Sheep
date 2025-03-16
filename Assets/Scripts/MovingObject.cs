@@ -5,14 +5,22 @@ namespace Youregone.LevelGeneration
 {
     public class MovingObject : PausableMonoBehaviour
     {
-        protected Rigidbody2D _rigidBody;
+        [Header("Debug")]
+        [SerializeField] private float _currentXVelocity;
 
+        protected Rigidbody2D _rigidBody;
 
         private void Awake() => _rigidBody = transform.GetComponent<Rigidbody2D>();
 
-        protected virtual void OnEnable()
+        protected override void Start()
         {
+            base.Start();
             MovingObjectHandler.instance.AddObject(this);
+        }
+
+        private void Update()
+        {
+            _currentXVelocity = _rigidBody.velocity.x;
         }
 
         protected virtual void OnCollisionEnter2D(Collision2D collision)
@@ -21,7 +29,7 @@ namespace Youregone.LevelGeneration
                 Destroy(gameObject);
         }
 
-        protected virtual void OnDisable()
+        protected virtual void OnDestroy()
         {
             MovingObjectHandler.instance.RemoveObject(this);
         }

@@ -78,8 +78,10 @@ namespace Youregone.EnemyAI
             }
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
+
             if (_currentTween != null)
                 _currentTween.Kill();
         }

@@ -2413,6 +2413,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c6139bd0d2a14483971c71e321c8d80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _currentXVelocity: 0
 --- !u!61 &909946231
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3951,7 +3952,7 @@ MonoBehaviour:
   - {fileID: 4089737090867719624, guid: 654e9279d12bb44b6a51cf5163af451e, type: 3}
   - {fileID: 4089737090867719624, guid: bbfd8de1a672a4a0b92d023c0d51b09b, type: 3}
   - {fileID: 4089737090867719624, guid: d011efa3e403a445f968e90b7b5fbba8, type: 3}
-  _obstacleSpawnChance: 1
+  _obstacleSpawnChance: 0
   _obstacleParentTransform: {fileID: 538472248}
   _regularCollectablePrefab: {fileID: 5970340744938519519, guid: 405e3093b2ba7463f9130cb387deb1c4, type: 3}
   _rareCollectablePrefab: {fileID: 5970340744938519519, guid: b9b4c7fe88c1a4a968f3ca58b416e6e5, type: 3}
@@ -5730,8 +5731,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 103236d12686e4a5881445b5955407ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _skipIntro: 0
-  _skipOutro: 0
+  _skipIntro: 1
+  _skipOutro: 1
   _camera: {fileID: 519420033}
   _transitionPrefab: {fileID: 1781655435715550049, guid: 8a508b21d21ea4057a7fd3befd26743e, type: 3}
   _introGameObject: {fileID: 200622371}

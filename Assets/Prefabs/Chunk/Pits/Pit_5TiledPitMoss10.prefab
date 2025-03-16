@@ -56,6 +56,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: 5TiledPitMoss10
       objectReference: {fileID: 0}
+    - target: {fileID: 2801860093081944749, guid: 98f0099e9c20a6e418552c283c6f33e0, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

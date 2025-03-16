@@ -18,9 +18,8 @@ namespace Youregone.LevelGeneration
 
         private PlayerController _player;
 
-        protected override void OnEnable()
+        private void OnEnable()
         {
-            base.OnEnable();
             UpdateManager.RegisterUpdateObserver(this);
         }
 
@@ -47,9 +46,8 @@ namespace Youregone.LevelGeneration
                 Destroy(gameObject);
         }
 
-        protected override void OnDisable()
+        private void OnDisable()
         {
-            base.OnDisable();
             UpdateManager.UnregisterUpdateObserver(this);
         }
 

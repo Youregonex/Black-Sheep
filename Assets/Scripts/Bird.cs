@@ -16,9 +16,8 @@ namespace Youregone.LevelGeneration
         private Vector2 _birdVelocity;
         private GameState _gameState;
 
-        protected override void OnEnable()
+        private void OnEnable()
         {
-            base.OnEnable();
             UpdateManager.RegisterUpdateObserver(this);
         }
 
@@ -43,9 +42,8 @@ namespace Youregone.LevelGeneration
                 FlyAway();
         }
 
-        protected override void OnDisable()
+        private void OnDisable()
         {
-            base.OnDisable();
             UpdateManager.UnregisterUpdateObserver(this);
         }
 

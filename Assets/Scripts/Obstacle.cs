@@ -14,10 +14,8 @@ namespace Youregone.LevelGeneration
 
         public ObstacleSO ObstacleSO => _obstacleSO;
 
-        protected override void OnEnable()
+        private void OnEnable()
         {
-            base.OnEnable();
-
             _spriteRenderer.sprite = _obstacleSO.sprites[UnityEngine.Random.Range(0, _obstacleSO.sprites.Count)];
         }
 

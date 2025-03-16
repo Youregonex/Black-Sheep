@@ -134,6 +134,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Platform_LeftRockRock10
       objectReference: {fileID: 0}
+    - target: {fileID: 2022043274051044090, guid: bb7511719052045baaa719a797728bbe, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 7.49
+      objectReference: {fileID: 0}
     - target: {fileID: 5941132070058190634, guid: bb7511719052045baaa719a797728bbe, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
