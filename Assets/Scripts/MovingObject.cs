@@ -6,24 +6,21 @@ namespace Youregone.LevelGeneration
     public class MovingObject : PausableMonoBehaviour
     {
         [Header("Debug")]
-        [SerializeField] private float _currentVelocityX;
-        [SerializeField] protected Rigidbody2D _rigidBody;
+        [SerializeField] private float _currentXVelocity;
 
-        private void Awake()
-        {
-            _rigidBody = transform.GetComponent<Rigidbody2D>();
-        }
+        protected Rigidbody2D _rigidBody;
+
+        private void Awake() => _rigidBody = transform.GetComponent<Rigidbody2D>();
 
         protected override void Start()
         {
             base.Start();
-
             MovingObjectHandler.instance.AddObject(this);
         }
 
         private void Update()
         {
-            _currentVelocityX = _rigidBody.velocity.x;
+            _currentXVelocity = _rigidBody.velocity.x;
         }
 
         protected virtual void OnCollisionEnter2D(Collision2D collision)

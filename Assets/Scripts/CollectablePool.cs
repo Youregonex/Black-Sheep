@@ -9,18 +9,18 @@ namespace Youregone.ObjectPooling
     {
         private Queue<Collectable> _regularCollectableQueue = new();
         private Queue<Collectable> _rareCollectableQueue = new();
-        private CollectableFactory _collectableFactory;
+        private Factory<Collectable> _collectableFactory;
         private Collectable _regularCollectablePrefab;
         private Collectable _rareCollectablePrefab;
 
-        public CollectablePool(CollectableFactory collectableFactory, Collectable regularCollectablePrefab, Collectable rareCollectablePrefab)
+        public CollectablePool(Factory<Collectable> collectableFactory, Collectable regularCollectablePrefab, Collectable rareCollectablePrefab)
         {
             _collectableFactory = collectableFactory;
             _regularCollectablePrefab = regularCollectablePrefab;
             _rareCollectablePrefab = rareCollectablePrefab;
         }
 
-        public void CollectableEnqueue(Collectable collectable, bool rareCollectable)
+        public void EnqueueCollectable(Collectable collectable, bool rareCollectable)
         {
             collectable.gameObject.SetActive(false);
 
@@ -30,21 +30,21 @@ namespace Youregone.ObjectPooling
                 _regularCollectableQueue.Enqueue(collectable);
         }
 
-        public Collectable CollectableDequeue(bool rareCollectable, Transform parent = null)
+        public Collectable DequeueCollectable(bool rareCollectable, Transform parent = null)
         {
             Collectable collectable;
 
             if(rareCollectable)
             {
                 if (_rareCollectableQueue.Count == 0)
-                    collectable = _collectableFactory.CreateCollectable(_rareCollectablePrefab);
+                    collectable = _collectableFactory.Create(_rareCollectablePrefab);
                 else
                     collectable = _rareCollectableQueue.Dequeue();
             }
             else
             {
                 if (_regularCollectableQueue.Count == 0)
-                    collectable = _collectableFactory.CreateCollectable(_regularCollectablePrefab);
+                    collectable = _collectableFactory.Create(_regularCollectablePrefab);
                 else
                     collectable = _regularCollectableQueue.Dequeue();
             }

@@ -158,7 +158,7 @@ namespace Youregone.GameSystems
             _transition = null;
         }
 
-        private IEnumerator PlayTransition()
+        private IEnumerator PlayFullTransitionCoroutine()
         {
             yield return StartCoroutine(PlayTransitionStartCoroutine());
             yield return StartCoroutine(PlayTransitionEndCoroutine());

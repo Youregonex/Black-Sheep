@@ -8,7 +8,7 @@ using Youregone.GameSystems;
 
 namespace Youregone.PlayerControls
 {
-    public class PlayerController : PausableMonoBehaviour
+    public class PlayerController : PausableMonoBehaviour, IUpdateObserver
     {
         public static PlayerController instance;
 
@@ -84,6 +84,11 @@ namespace Youregone.PlayerControls
             _currentSpeed = 0f;
         }
 
+        private void OnEnable()
+        {
+            UpdateManager.RegisterUpdateObserver(this);
+        }
+
         protected override void Start()
         {
             base.Start();
@@ -91,10 +96,10 @@ namespace Youregone.PlayerControls
             _gameState = GameState.instance;
         }
 
-        private void Update()
+        public void ObservedUpdate()
         {
             if (Input.GetKeyDown(KeyCode.Escape) && (_gameState.CurrentGameState == EGameState.Gameplay ||
-                                                     _gameState.CurrentGameState == EGameState.Pause))
+                                         _gameState.CurrentGameState == EGameState.Pause))
             {
                 OnPauseTriggered?.Invoke();
                 return;
@@ -105,7 +110,7 @@ namespace Youregone.PlayerControls
 
             UpdateStaminaBar();
 
-            if (Input.GetKeyDown(KeyCode.Space) && _currentHealth > 0 && _runStarted)
+            if (Input.GetKey(KeyCode.Space) && _currentHealth > 0 && _runStarted)
             {
                 if (_isRaming)
                     StopRam();
@@ -124,11 +129,11 @@ namespace Youregone.PlayerControls
 
             if (_isRaming)
                 _staminaCurrent -= _staminaDrain * Time.deltaTime;
-            else if(_canRechargeStamina && _staminaCurrent < _staminaMax)
+            else if (_canRechargeStamina && _staminaCurrent < _staminaMax)
             {
                 _staminaCurrent += _staminaRechargeRate * Time.deltaTime;
 
-                if(_staminaCurrent >= _staminaMax)
+                if (_staminaCurrent >= _staminaMax)
                 {
                     _staminaCurrent = _staminaMax;
                     _staminaBarAnimator.SetTrigger(ANIMATION_STAMINA_BAR_FULL_CHARGE_TRIGGER);
@@ -146,6 +151,11 @@ namespace Youregone.PlayerControls
 
             if (collision.transform.GetComponent<FallZone>())
                 Fall();
+        }
+
+        private void OnDisable()
+        {
+            UpdateManager.UnregisterUpdateObserver(this);
         }
 
         public override void Pause()

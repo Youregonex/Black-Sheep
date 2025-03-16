@@ -35,7 +35,6 @@ namespace Youregone.EnemyAI
         private PlayerController _player;
         private Tween _currentTween;
         private Animator _alertSignAnimator;
-        private Tween _alertTween;
 
         protected override void Start()
         {
