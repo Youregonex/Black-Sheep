@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 6e5ba9d5dcc614f1c8394e00c61e2458
+guid: 0897b9eac66b1472ea6f6a2b012ab46c
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -121,18 +121,62 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: RockPieces32x32_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8e4da057700f048c7a0ad352d8102a9a
+      internalID: 812597209
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RockPieces32x32_1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 712e4f6f4d3ab42d28bac374fef61eff
+      internalID: -1571089454
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 257a340febe074deda92736a232b8494
+    spriteID: a57c4ae2807564327975e4dd87d658e5
     internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      RockPieces32x32_0: 812597209
+      RockPieces32x32_1: -1571089454
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

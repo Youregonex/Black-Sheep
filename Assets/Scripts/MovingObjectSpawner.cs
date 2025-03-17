@@ -19,6 +19,8 @@ namespace Youregone.LevelGeneration
         [SerializeField] private List<Obstacle> _obstaclePrefabList;
         [SerializeField, Range(0, 1f)] private float _obstacleSpawnChance;
         [SerializeField] private Transform _obstacleParentTransform;
+        [SerializeField] private RockBreakPiece _rockBreakPiecePrefab;
+        [SerializeField] private Transform _rockBreakPiecesParent;
 
         [Header("Props config")]
         [SerializeField] private Bird _birdPrefab;
@@ -45,16 +47,19 @@ namespace Youregone.LevelGeneration
         private PlayerController _player;
         private Factory<Obstacle> _obstacleFactory = new();
         private Factory<Collectable> _collectableFactory = new();
+        private Factory<RockBreakPiece> _breakPieceFactory = new();
         private Factory<Bird> _birdFactory = new();
         private BirdPool _birdPool;
         private CollectablePool _collectablPool;
         private ObstaclePool _obstaclePool;
+        private RockBreakPool _rockBreakPiecePool;
 
         private void Awake()
         {
             _collectablPool = new(_collectableFactory, _regularCollectablePrefab, _rareCollectablePrefab);
             _obstaclePool = new(_obstacleFactory, _obstaclePrefabList);
             _birdPool = new(_birdFactory, _birdPrefab);
+            _rockBreakPiecePool = new(_breakPieceFactory, _rockBreakPiecePrefab);
         }
 
         private void OnEnable()
@@ -177,6 +182,21 @@ namespace Youregone.LevelGeneration
         {
             obstacle.OnDestruction -= Obstacle_OnDestruction;
             _obstaclePool.EnqueueObstacle(obstacle);
+
+            int piecesCount = obstacle.GetBreakPiecesAmount();
+
+            for (int i = 0; i < piecesCount; i++)
+            {
+                RockBreakPiece rockBreakPiece = _rockBreakPiecePool.Dequeue(_rockBreakPiecesParent);
+                rockBreakPiece.transform.position = obstacle.transform.position;
+                rockBreakPiece.OnDestruction += RockBreakPiece_OnDestruction;
+            }
+        }
+
+        private void RockBreakPiece_OnDestruction(RockBreakPiece rockBreakPiece)
+        {
+            rockBreakPiece.OnDestruction -= RockBreakPiece_OnDestruction;
+            _rockBreakPiecePool.Enqueue(rockBreakPiece);
         }
     }
 }

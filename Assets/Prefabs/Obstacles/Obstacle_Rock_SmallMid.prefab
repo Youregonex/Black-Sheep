@@ -118,6 +118,14 @@ PrefabInstance:
       propertyPath: _obstacleSO
       value: 
       objectReference: {fileID: 11400000, guid: bc116dc496f0447b09a727e0583cc8e9, type: 2}
+    - target: {fileID: 3606126471777558896, guid: ec64aca807be543ad9f9fa402d88955c, type: 3}
+      propertyPath: _breakPiecesCountMax
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3606126471777558896, guid: ec64aca807be543ad9f9fa402d88955c, type: 3}
+      propertyPath: _breakPiecesCountMin
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8754672366294270684, guid: ec64aca807be543ad9f9fa402d88955c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

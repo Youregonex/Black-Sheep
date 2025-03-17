@@ -13,6 +13,8 @@ namespace Youregone.LevelGeneration
         [SerializeField] private ObstacleSO _obstacleSO;
         [SerializeField] private SpriteRenderer _spriteRenderer;
         [SerializeField] private Transform _birdSpawnPointsParent;
+        [SerializeField] private int _breakPiecesCountMin;
+        [SerializeField] private int _breakPiecesCountMax;
 
         public Transform BirdSpawnPointsParent => _birdSpawnPointsParent;
         public ObstacleSO ObstacleSO => _obstacleSO;
@@ -26,6 +28,11 @@ namespace Youregone.LevelGeneration
         {
             if(collision.transform.GetComponent<PlayerController>() || collision.transform.GetComponent<MovingObjectDestroyer>())
                 OnDestruction?.Invoke(this);
+        }
+
+        public int GetBreakPiecesAmount()
+        {
+            return UnityEngine.Random.Range(_breakPiecesCountMin, _breakPiecesCountMax + 1);
         }
     }
 }
