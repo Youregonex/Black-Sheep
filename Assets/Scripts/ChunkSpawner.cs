@@ -55,7 +55,7 @@ namespace Youregone.LevelGeneration
             _lastChunk = SpawnNextChunk();
         }
 
-        public void ObservedUpdate()
+        private void Update()
         {
             if (_bridgeChunkSpawnCooldownCurrent > 0)
                 _bridgeChunkSpawnCooldownCurrent -= Time.deltaTime;
@@ -73,6 +73,26 @@ namespace Youregone.LevelGeneration
             {
                 _lastChunk = SpawnNextChunk();
             }
+        }
+
+        public void ObservedUpdate()
+        {
+            //if (_bridgeChunkSpawnCooldownCurrent > 0)
+            //    _bridgeChunkSpawnCooldownCurrent -= Time.deltaTime;
+
+            //if (!_canSpawn)
+            //    return;
+
+            //if (_player == null)
+            //    return;
+
+            //if (_lastChunk == null)
+            //    return;
+
+            //if (Vector2.Distance(_player.transform.position, _lastChunk.EndTransform.position) <= _playerDistanceSpawnChunk)
+            //{
+            //    _lastChunk = SpawnNextChunk();
+            //}
         }
 
         public void OnDisable()
