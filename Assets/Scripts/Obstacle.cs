@@ -1,6 +1,7 @@
 using UnityEngine;
 using Youregone.SO;
 using System;
+using Youregone.PlayerControls;
 
 namespace Youregone.LevelGeneration
 {
@@ -21,7 +22,8 @@ namespace Youregone.LevelGeneration
 
         protected override void OnCollisionEnter2D(Collision2D collision)
         {
-            OnDestruction?.Invoke(this);
+            if(collision.transform.GetComponent<PlayerController>() || collision.transform.GetComponent<MovingObjectDestroyer>())
+                OnDestruction?.Invoke(this);
         }
     }
 }

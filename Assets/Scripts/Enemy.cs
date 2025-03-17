@@ -51,7 +51,8 @@ namespace Youregone.EnemyAI
             _baseGravityScale = _rigidBody.gravityScale;
 
             _player = PlayerController.instance;
-            StartMovement(_player.CurrentSpeed);
+            Vector2 enemyVelocity = new(_player.CurrentSpeed, 0f);
+            ChangeVelocity(enemyVelocity);
         }
 
         protected override void OnCollisionEnter2D(Collision2D collision)

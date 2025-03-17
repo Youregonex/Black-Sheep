@@ -28,19 +28,37 @@ namespace Youregone.LevelGeneration
         [SerializeField] private float _randomSinWaveOffset;
         [SerializeField] private float _timeUnpaused;
 
-        private GameState _gameState;
-
         public bool IsRareCollectable => _rareCollectable;
+
+        private GameState _gameState;
+        private Coroutine _coroutine;
+        private float _randomAnimationDelay;
+
+        protected override void Awake()
+        {
+            base.Awake();
+
+            _randomSinWaveOffset = UnityEngine.Random.Range(-1f, 1f);
+            UpdateYOrigin();
+            _randomAnimationDelay = UnityEngine.Random.Range(0f, 1f);
+        }
+
+        private void OnEnable()
+        {
+            if (_coroutine != null)
+            {
+                StopCoroutine(_coroutine);
+                _coroutine = null;
+            }
+
+            _coroutine = StartCoroutine(DelayedAnimationCoroutine(_randomAnimationDelay));
+        }
 
         protected override void Start()
         {
             base.Start();
 
             _gameState = GameState.instance;
-            _randomSinWaveOffset = UnityEngine.Random.Range(-1f, 1f);
-            _yOrigin = transform.position.y;
-            float randomAnimationDelay = UnityEngine.Random.Range(0f, 1f);
-            StartCoroutine(DelayedAnimationCoroutine(randomAnimationDelay));
         }
 
         private void FixedUpdate()
@@ -70,6 +88,15 @@ namespace Youregone.LevelGeneration
 
             if (collision.transform.GetComponent<MovingObjectDestroyer>())
                 OnDestraction?.Invoke(this);
+        }
+
+        private void OnDisable()
+        {
+            if (_coroutine != null)
+            {
+                StopCoroutine(_coroutine);
+                _coroutine = null;
+            }
         }
 
         public override void Pause()

@@ -10,7 +10,7 @@ namespace Youregone.LevelGeneration
 
         protected Rigidbody2D _rigidBody;
 
-        private void Awake() => _rigidBody = transform.GetComponent<Rigidbody2D>();
+        protected virtual void Awake() => _rigidBody = transform.GetComponent<Rigidbody2D>();
 
         protected override void Start()
         {
@@ -32,12 +32,6 @@ namespace Youregone.LevelGeneration
         protected virtual void OnDestroy()
         {
             MovingObjectHandler.instance.RemoveObject(this);
-        }
-
-        public void StartMovement(float moveSpeed)
-        {
-            Vector2 chunkVelocity = new(-moveSpeed, 0);
-            _rigidBody.velocity = chunkVelocity;
         }
 
         public virtual void ChangeVelocity(Vector2 newVelocity)

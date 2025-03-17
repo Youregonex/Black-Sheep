@@ -62,15 +62,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8754672366294270684, guid: ec64aca807be543ad9f9fa402d88955c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.75
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 9179273829694666290, guid: ec64aca807be543ad9f9fa402d88955c, type: 3}
       propertyPath: m_Size.x
-      value: 2.09375
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 9179273829694666290, guid: ec64aca807be543ad9f9fa402d88955c, type: 3}
       propertyPath: m_Size.y
-      value: 1.5625
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 9179273829694666290, guid: ec64aca807be543ad9f9fa402d88955c, type: 3}
       propertyPath: m_Sprite
@@ -84,22 +84,22 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5725958742669547250, guid: ec64aca807be543ad9f9fa402d88955c, type: 3}
+    - targetCorrespondingSourceObject: {fileID: 1547249032038337702, guid: ec64aca807be543ad9f9fa402d88955c, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1141934403989833543}
+      addedObject: {fileID: 6714287073563853382}
   m_SourcePrefab: {fileID: 100100000, guid: ec64aca807be543ad9f9fa402d88955c, type: 3}
---- !u!1 &5025054008467495498 stripped
+--- !u!1 &2284112333295943710 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 5725958742669547250, guid: ec64aca807be543ad9f9fa402d88955c, type: 3}
+  m_CorrespondingSourceObject: {fileID: 1547249032038337702, guid: ec64aca807be543ad9f9fa402d88955c, type: 3}
   m_PrefabInstance: {fileID: 777472217058888888}
   m_PrefabAsset: {fileID: 0}
---- !u!58 &1141934403989833543
+--- !u!58 &6714287073563853382
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5025054008467495498}
+  m_GameObject: {fileID: 2284112333295943710}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -125,6 +125,6 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.059978426, y: -0.2679027}
+  m_Offset: {x: -0.012753308, y: 0.57768154}
   serializedVersion: 2
-  m_Radius: 0.90292734
+  m_Radius: 0.8666601

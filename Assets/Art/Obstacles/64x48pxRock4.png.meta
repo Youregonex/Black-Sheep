@@ -123,43 +123,43 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Rock_6
+      name: 64x48pxRock4_0
       rect:
         serializedVersion: 2
-        x: 7
+        x: 0
         y: 0
-        width: 67
-        height: 50
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        width: 80
+        height: 64
+      alignment: 9
+      pivot: {x: 0.5, y: 0.35}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 325734cfdd6f548ccb14a9cf9c5e444a
-      internalID: 2134509919
+      spriteID: 8bbb11f260fb34c41b893726858da5ad
+      internalID: -1718640429
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Rock_7
+      name: 64x48pxRock4_1
       rect:
         serializedVersion: 2
-        x: 87
+        x: 80
         y: 0
-        width: 67
-        height: 50
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        width: 80
+        height: 64
+      alignment: 9
+      pivot: {x: 0.5, y: 0.35}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7f324811d09164e1ebb60f97a5add7ca
-      internalID: 20637034
+      spriteID: 4ff7ace9816174ee59eb4861f062ce9e
+      internalID: -1495876726
       vertices: []
       indices: 
       edges: []
@@ -175,8 +175,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Rock_6: 2134509919
-      Rock_7: 20637034
+      64x48pxRock4_0: -1718640429
+      64x48pxRock4_1: -1495876726
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

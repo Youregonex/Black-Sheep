@@ -35,6 +35,7 @@ namespace Youregone.PlayerControls
         [SerializeField] private float _staminaRechargeDelay;
         [SerializeField] private int _maxHealth;
         [SerializeField] private Image _staminaBar;
+        [SerializeField] private bool _immortal;
 
         [Header("Sprite Flash Config")]
         [SerializeField] private Material _flashMaterial;
@@ -204,9 +205,13 @@ namespace Youregone.PlayerControls
 
         private void TakeDamage()
         {
+            Flash();
+
+            if (_immortal)
+                return;
+
             _currentHealth--;
             OnDamageTaken?.Invoke();
-            Flash();
 
             if (_currentHealth == 0)
                 CharacterDie();

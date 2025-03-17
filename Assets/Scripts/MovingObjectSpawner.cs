@@ -100,7 +100,8 @@ namespace Youregone.LevelGeneration
             pooledObstacle.transform.position = position;
             pooledObstacle.OnDestruction += Obstacle_OnDestruction;
             pooledObstacle.transform.rotation = Quaternion.identity;
-            pooledObstacle.StartMovement(_player.CurrentSpeed);
+            Vector2 collectableVelocity = new(_player.CurrentSpeed, 0f);
+            pooledObstacle.ChangeVelocity(collectableVelocity);
         }
 
         public void SpawnCollectable(Vector2 position)
@@ -119,7 +120,8 @@ namespace Youregone.LevelGeneration
             pooledCollectable.transform.position = position;
             pooledCollectable.UpdateYOrigin();
             pooledCollectable.OnDestraction += Collectable_OnDestraction;
-            pooledCollectable.StartMovement(_player.CurrentSpeed);
+            Vector2 collectableVelocity = new(_player.CurrentSpeed, 0f);
+            pooledCollectable.ChangeVelocity(collectableVelocity);
         }
 
         private void Collectable_OnDestraction(Collectable collectable)

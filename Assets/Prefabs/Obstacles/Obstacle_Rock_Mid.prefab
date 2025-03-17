@@ -62,7 +62,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8754672366294270684, guid: ec64aca807be543ad9f9fa402d88955c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.73
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 9179273829694666290, guid: ec64aca807be543ad9f9fa402d88955c, type: 3}
       propertyPath: m_Size.x
@@ -125,6 +125,6 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.021360755, y: 0.65884423}
+  m_Offset: {x: 0.025681615, y: 0.6063297}
   serializedVersion: 2
-  m_Radius: 0.5854429
+  m_Radius: 0.6156405

@@ -106,23 +106,24 @@ namespace Youregone.LevelGeneration
 
         private Chunk SpawnNextChunk()
         {
-            Vector2 nextChunkSpawnPosition;
+            Vector2 chunkSpawnPosition;
             Chunk chunkToSpawn;
 
             if (_lastChunk == null)
             {
                 chunkToSpawn = _startingChunk;
-                nextChunkSpawnPosition = Vector2.zero;
+                chunkSpawnPosition = Vector2.zero;
             }
             else
             {
                 chunkToSpawn = _nextChunk;
-                nextChunkSpawnPosition = new Vector2(_lastChunk.EndTransform.position.x, 0f);
+                chunkSpawnPosition = new Vector2(_lastChunk.EndTransform.position.x, 0f);
             }
 
-            Chunk spawnedChunk = Instantiate(chunkToSpawn, nextChunkSpawnPosition, Quaternion.identity);
+            Chunk spawnedChunk = Instantiate(chunkToSpawn, chunkSpawnPosition, Quaternion.identity);
+            Vector2 chunkVelocity = new(_player.CurrentSpeed, 0f);
+            spawnedChunk.ChangeVelocity(chunkVelocity);
             spawnedChunk.transform.parent = _chunkParentTransform;
-            spawnedChunk.StartMovement(_player.CurrentSpeed);
 
             _nextChunk = PickNextChunk(spawnedChunk);
 
