@@ -1,5 +1,98 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3359801661656075049
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8419443808554014273}
+  m_Layer: 6
+  m_Name: BirdSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8419443808554014273
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3359801661656075049}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.83, y: 1.18, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1940706563777979325}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6628879238078773459
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 62771456587220396}
+  m_Layer: 6
+  m_Name: BirdSpawnPoint (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &62771456587220396
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6628879238078773459}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.15, y: 1.52, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1940706563777979325}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7110509601485606895
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8235199064171492093}
+  m_Layer: 6
+  m_Name: BirdSpawnPoint (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8235199064171492093
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7110509601485606895}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.76, y: 1.01, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1940706563777979325}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &777472217058888888
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -82,12 +175,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 1163305888812281605, guid: ec64aca807be543ad9f9fa402d88955c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8419443808554014273}
+    - targetCorrespondingSourceObject: {fileID: 1163305888812281605, guid: ec64aca807be543ad9f9fa402d88955c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 62771456587220396}
+    - targetCorrespondingSourceObject: {fileID: 1163305888812281605, guid: ec64aca807be543ad9f9fa402d88955c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8235199064171492093}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1547249032038337702, guid: ec64aca807be543ad9f9fa402d88955c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6714287073563853382}
   m_SourcePrefab: {fileID: 100100000, guid: ec64aca807be543ad9f9fa402d88955c, type: 3}
+--- !u!4 &1940706563777979325 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1163305888812281605, guid: ec64aca807be543ad9f9fa402d88955c, type: 3}
+  m_PrefabInstance: {fileID: 777472217058888888}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2284112333295943710 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1547249032038337702, guid: ec64aca807be543ad9f9fa402d88955c, type: 3}

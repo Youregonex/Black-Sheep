@@ -1,5 +1,6 @@
 using UnityEngine;
 using Youregone.GameSystems;
+using Youregone.SL;
 
 namespace Youregone.LevelGeneration
 {
@@ -15,7 +16,7 @@ namespace Youregone.LevelGeneration
         protected override void Start()
         {
             base.Start();
-            MovingObjectHandler.instance.AddObject(this);
+            ServiceLocator.Get<MovingObjectHandler>().AddObject(this);
         }
 
         private void Update()
@@ -31,7 +32,7 @@ namespace Youregone.LevelGeneration
 
         protected virtual void OnDestroy()
         {
-            MovingObjectHandler.instance.RemoveObject(this);
+            ServiceLocator.Get<MovingObjectHandler>().RemoveObject(this);
         }
 
         public virtual void ChangeVelocity(Vector2 newVelocity)

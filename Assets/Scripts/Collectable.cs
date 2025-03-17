@@ -4,6 +4,7 @@ using Youregone.UI;
 using System.Collections;
 using Youregone.GameSystems;
 using System;
+using Youregone.SL;
 
 namespace Youregone.LevelGeneration
 {
@@ -58,7 +59,7 @@ namespace Youregone.LevelGeneration
         {
             base.Start();
 
-            _gameState = GameState.instance;
+            _gameState = ServiceLocator.Get<GameState>();
         }
 
         private void FixedUpdate()
@@ -80,8 +81,8 @@ namespace Youregone.LevelGeneration
         {
             if (collision.transform.GetComponent<PlayerController>())
             {
-                UIManager.instance.ScoreCounter.AddPoints(_pointsBonus);
-                SoundManager.instance.PlaySoundAtPosition(_pickUpAudioClip, .05f, transform.position);
+                ServiceLocator.Get<ScoreCounter>().AddPoints(_pointsBonus);
+                ServiceLocator.Get<SoundManager>().PlaySoundAtPosition(_pickUpAudioClip, .05f, transform.position);
 
                 OnDestraction?.Invoke(this);
             }

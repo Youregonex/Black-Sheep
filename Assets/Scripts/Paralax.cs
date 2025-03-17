@@ -1,6 +1,7 @@
 using UnityEngine;
 using Youregone.PlayerControls;
 using Youregone.GameSystems;
+using Youregone.SL;
 
 namespace Youregone.LevelGeneration
 {
@@ -27,7 +28,7 @@ namespace Youregone.LevelGeneration
         {
             base.Start();
 
-            _player = PlayerController.instance;
+            _player = ServiceLocator.Get<PlayerController>();
             ChangeVelocity(new Vector2(_player.CurrentSpeed, 0f));
         }
 

@@ -5,13 +5,12 @@ using System.Collections;
 using Youregone.EnemyAI;
 using UnityEngine.UI;
 using Youregone.GameSystems;
+using Youregone.SL;
 
 namespace Youregone.PlayerControls
 {
-    public class PlayerController : PausableMonoBehaviour, IUpdateObserver
+    public class PlayerController : PausableMonoBehaviour, IUpdateObserver, IService
     {
-        public static PlayerController instance;
-
         public event Action OnRamStart;
         public event Action OnRamStop;
         public event Action OnDeath;
@@ -31,6 +30,7 @@ namespace Youregone.PlayerControls
         [SerializeField] private float _jumpForce;
         [SerializeField] private float _staminaMax;
         [SerializeField] private float _staminaDrain;
+        [SerializeField, Range(0f, 1f)] private float _minStaminaDrainPerUse;
         [SerializeField] private float _staminaRechargeRate;
         [SerializeField] private float _staminaRechargeDelay;
         [SerializeField] private int _maxHealth;
@@ -73,8 +73,6 @@ namespace Youregone.PlayerControls
 
         private void Awake()
         {
-            instance = this;
-
             _baseMaterial = _spriteRenderer.material;
             _rigidBody = GetComponent<Rigidbody2D>();
             _groundCheck.Landed += Land;
@@ -94,7 +92,7 @@ namespace Youregone.PlayerControls
         {
             base.Start();
 
-            _gameState = GameState.instance;
+            _gameState = ServiceLocator.Get<GameState>();
         }
 
         public void ObservedUpdate()
@@ -241,7 +239,7 @@ namespace Youregone.PlayerControls
             if (!_runStarted)
                 _runStarted = true;
 
-            _staminaCurrent -= _staminaCurrent * .05f;
+            _staminaCurrent -= _staminaCurrent * _minStaminaDrainPerUse;
             _isRaming = true;
             _canRechargeStamina = false;
             _currentSpeed = _ramMoveSpeed;

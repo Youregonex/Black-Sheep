@@ -1,11 +1,11 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Youregone.PlayerControls;
-using Youregone.GameSystems;
+using Youregone.SL;
 
 namespace Youregone.LevelGeneration
 {
-    public class PlatformSpawner : MonoBehaviour, IUpdateObserver
+    public class ChunkSpawner : MonoBehaviour
     {
         private const string OBSTACLE_PARENT_NAME = "Rock";
         private const string COLLECTABLES_PARENT_NAME = "PickUp";
@@ -37,17 +37,13 @@ namespace Youregone.LevelGeneration
         private PlayerController _player;
         private MovingObjectSpawner _movingObjectSpawner;
 
-        public void OnEnable()
-        {
-            UpdateManager.RegisterUpdateObserver(this);
-        }
 
         private void Start()
         {
-            _player = PlayerController.instance;
+            _player = ServiceLocator.Get<PlayerController>();
             _player.OnDeath += StopSpawning;
 
-            _movingObjectSpawner = MovingObjectSpawner.instance;
+            _movingObjectSpawner = ServiceLocator.Get<MovingObjectSpawner>();
             _movingObjectSpawner.OnMaxDifficultyReached += MovingObjectSpawner_OnMaxDifficultyReached;
             _movingObjectSpawner.OnMidDifficultyReached += MovingObjectSpawner_OnMidDifficultyReached;
 
@@ -75,30 +71,6 @@ namespace Youregone.LevelGeneration
             }
         }
 
-        public void ObservedUpdate()
-        {
-            //if (_bridgeChunkSpawnCooldownCurrent > 0)
-            //    _bridgeChunkSpawnCooldownCurrent -= Time.deltaTime;
-
-            //if (!_canSpawn)
-            //    return;
-
-            //if (_player == null)
-            //    return;
-
-            //if (_lastChunk == null)
-            //    return;
-
-            //if (Vector2.Distance(_player.transform.position, _lastChunk.EndTransform.position) <= _playerDistanceSpawnChunk)
-            //{
-            //    _lastChunk = SpawnNextChunk();
-            //}
-        }
-
-        public void OnDisable()
-        {
-            UpdateManager.UnregisterUpdateObserver(this);
-        }
 
         private void OnDestroy()
         {

@@ -2,29 +2,30 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using Youregone.PlayerControls;
+using Youregone.SL;
 
 namespace Youregone.UI
 {
-    public class HealthbarUI : MonoBehaviour
+    public class HealthbarUI : MonoBehaviour, IService
     {
         [Header("Config")]
         [SerializeField] private List<Image> _heartsUIList;
 
         private void Start()
         {
-            PlayerController.instance.OnDamageTaken += RemoveHeart;
-            PlayerController.instance.OnDeath += RemoveAllHearts;
+            ServiceLocator.Get<PlayerController>().OnDamageTaken += RemoveHeart;
+            ServiceLocator.Get<PlayerController>().OnDeath += RemoveAllHearts;
         }
 
         private void OnDestroy()
         {
-            PlayerController.instance.OnDamageTaken -= RemoveHeart;
-            PlayerController.instance.OnDeath -= RemoveAllHearts;
+            ServiceLocator.Get<PlayerController>().OnDamageTaken -= RemoveHeart;
+            ServiceLocator.Get<PlayerController>().OnDeath -= RemoveAllHearts;
         }
 
         private void RemoveHeart()
         {
-            int heartIndex = PlayerController.instance.CurrentHealth;
+            int heartIndex = ServiceLocator.Get<PlayerController>().CurrentHealth;
 
             Destroy(_heartsUIList[heartIndex]);
             _heartsUIList.RemoveAt(heartIndex);

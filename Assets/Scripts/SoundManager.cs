@@ -1,19 +1,13 @@
 using UnityEngine;
+using Youregone.SL;
 
 namespace Youregone.GameSystems
 {
-    public class SoundManager : MonoBehaviour
+    public class SoundManager : MonoBehaviour, IService
     {
-        public static SoundManager instance;
-
         [SerializeField] private bool _sound;
         [SerializeField] private AudioSource _audioSourceObjectPrefab;
         [SerializeField] private AudioSource _audioSourceFX;
-
-        private void Awake()
-        {
-            instance = this;
-        }
 
         //public void PlaySoundAtPosition(AudioClip audioClip, float volume, Vector3 position)
         //{

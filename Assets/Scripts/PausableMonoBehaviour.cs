@@ -1,4 +1,5 @@
 using UnityEngine;
+using Youregone.SL;
 
 namespace Youregone.GameSystems
 {
@@ -14,7 +15,7 @@ namespace Youregone.GameSystems
 
         protected void AddPausableObject()
         {
-            PauseManager.instance.AddPausableObject(this);
+            ServiceLocator.Get<PauseManager>().AddPausableObject(this);
         }
     }
 }

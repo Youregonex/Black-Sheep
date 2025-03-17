@@ -2,6 +2,7 @@ using UnityEngine;
 using Youregone.PlayerControls;
 using Youregone.LevelGeneration;
 using DG.Tweening;
+using Youregone.SL;
 
 namespace Youregone.EnemyAI
 {
@@ -50,7 +51,7 @@ namespace Youregone.EnemyAI
             _sheepVelocity = Vector2.zero;
             _baseGravityScale = _rigidBody.gravityScale;
 
-            _player = PlayerController.instance;
+            _player = ServiceLocator.Get<PlayerController>();
             Vector2 enemyVelocity = new(_player.CurrentSpeed, 0f);
             ChangeVelocity(enemyVelocity);
         }

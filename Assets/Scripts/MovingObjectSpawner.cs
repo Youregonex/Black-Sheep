@@ -6,13 +6,12 @@ using System;
 using Youregone.Factories;
 using Youregone.ObjectPooling;
 using Youregone.GameSystems;
+using Youregone.SL;
 
 namespace Youregone.LevelGeneration
 {
-    public class MovingObjectSpawner : MonoBehaviour, IUpdateObserver
+    public class MovingObjectSpawner : MonoBehaviour, IUpdateObserver, IService
     {
-        public static MovingObjectSpawner instance;
-
         public event Action OnMaxDifficultyReached;
         public event Action OnMidDifficultyReached;
 
@@ -20,6 +19,11 @@ namespace Youregone.LevelGeneration
         [SerializeField] private List<Obstacle> _obstaclePrefabList;
         [SerializeField, Range(0, 1f)] private float _obstacleSpawnChance;
         [SerializeField] private Transform _obstacleParentTransform;
+
+        [Header("Props config")]
+        [SerializeField] private Bird _birdPrefab;
+        [SerializeField, Range(0f, 1f)] private float _birdSpawnChance;
+        [SerializeField] private Transform _propsParent;
 
         [Header("Collectable Config")]
         [SerializeField] private Collectable _regularCollectablePrefab;
@@ -39,17 +43,18 @@ namespace Youregone.LevelGeneration
         private float _midDifficultyScore => _maxDifficultyScore / 2;
         private ScoreCounter _scoreCounter;
         private PlayerController _player;
-        private Factory<Collectable> _collectableFactory = new();
-        private CollectablePool _collectablPool;
         private Factory<Obstacle> _obstacleFactory = new();
+        private Factory<Collectable> _collectableFactory = new();
+        private Factory<Bird> _birdFactory = new();
+        private BirdPool _birdPool;
+        private CollectablePool _collectablPool;
         private ObstaclePool _obstaclePool;
 
         private void Awake()
         {
-            instance = this;
-
             _collectablPool = new(_collectableFactory, _regularCollectablePrefab, _rareCollectablePrefab);
             _obstaclePool = new(_obstacleFactory, _obstaclePrefabList);
+            _birdPool = new(_birdFactory, _birdPrefab);
         }
 
         private void OnEnable()
@@ -59,8 +64,8 @@ namespace Youregone.LevelGeneration
 
         private void Start()
         {
-            _player = PlayerController.instance;
-            _scoreCounter = UIManager.instance.ScoreCounter;
+            _player = ServiceLocator.Get<PlayerController>();
+            _scoreCounter = ServiceLocator.Get<ScoreCounter>();
         }
 
         public void ObservedUpdate()
@@ -102,6 +107,8 @@ namespace Youregone.LevelGeneration
             pooledObstacle.transform.rotation = Quaternion.identity;
             Vector2 collectableVelocity = new(_player.CurrentSpeed, 0f);
             pooledObstacle.ChangeVelocity(collectableVelocity);
+
+            SpawnBirdsOnObstacle(pooledObstacle);
         }
 
         public void SpawnCollectable(Vector2 position)
@@ -122,6 +129,42 @@ namespace Youregone.LevelGeneration
             pooledCollectable.OnDestraction += Collectable_OnDestraction;
             Vector2 collectableVelocity = new(_player.CurrentSpeed, 0f);
             pooledCollectable.ChangeVelocity(collectableVelocity);
+        }
+
+        private void SpawnBirdsOnObstacle(Obstacle obstacle)
+        {
+            List<Transform> birdSpawnPositions = GetAllChildObjects(obstacle.BirdSpawnPointsParent);
+
+            foreach(Transform birdSpawnPoint in birdSpawnPositions)
+            {
+                if (UnityEngine.Random.Range(0f, 1f) >= _birdSpawnChance)
+                    continue;
+
+                Bird bird = _birdPool.Dequeue(_propsParent);
+                bird.transform.position = birdSpawnPoint.position;
+                bird.OnDestruction += Bird_OnDestruction;
+                Vector2 birdVelocity = new(_player.CurrentSpeed, 0f);
+                bird.ChangeVelocity(birdVelocity);
+            }
+        }
+
+        private void Bird_OnDestruction(Bird bird)
+        {
+            bird.OnDestruction -= Bird_OnDestruction;
+            _birdPool.Enqueue(bird);
+        }
+
+        private List<Transform> GetAllChildObjects(Transform parent)
+        {
+            List<Transform> children = new();
+
+            for (int i = 0; i < parent.childCount; i++)
+            {
+                Transform child = parent.GetChild(i);
+                children.Add(child.transform);
+            }
+
+            return children;
         }
 
         private void Collectable_OnDestraction(Collectable collectable)

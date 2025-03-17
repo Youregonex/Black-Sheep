@@ -2,10 +2,11 @@ using UnityEngine;
 using TMPro;
 using Youregone.PlayerControls;
 using Youregone.GameSystems;
+using Youregone.SL;
 
 namespace Youregone.UI
 {
-    public class ScoreCounter : PausableMonoBehaviour, IUpdateObserver
+    public class ScoreCounter : PausableMonoBehaviour, IUpdateObserver, IService
     {
         [Header("Config")]
         [SerializeField] private TextMeshProUGUI _scoreText;
@@ -28,8 +29,8 @@ namespace Youregone.UI
         {
             base.Start();
 
-            _gameState = GameState.instance;
-            _player = PlayerController.instance;
+            _gameState = ServiceLocator.Get<GameState>();
+            _player = ServiceLocator.Get<PlayerController>();
             _player.OnDeath += Death;
             _score = 0;
         }

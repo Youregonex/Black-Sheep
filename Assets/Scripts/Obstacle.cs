@@ -12,7 +12,9 @@ namespace Youregone.LevelGeneration
         [Header("Obstacle Config")]
         [SerializeField] private ObstacleSO _obstacleSO;
         [SerializeField] private SpriteRenderer _spriteRenderer;
+        [SerializeField] private Transform _birdSpawnPointsParent;
 
+        public Transform BirdSpawnPointsParent => _birdSpawnPointsParent;
         public ObstacleSO ObstacleSO => _obstacleSO;
 
         private void OnEnable()

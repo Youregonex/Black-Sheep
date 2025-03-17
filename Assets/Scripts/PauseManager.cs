@@ -1,13 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Youregone.PlayerControls;
+using Youregone.SL;
 
 namespace Youregone.GameSystems
 {
-    public class PauseManager : MonoBehaviour
+    public class PauseManager : MonoBehaviour, IService
     {
-        public static PauseManager instance;
-
         [Header("Config")]
         [SerializeField] private GameObject _pauseBackground;
 
@@ -16,19 +15,15 @@ namespace Youregone.GameSystems
 
         private List<PausableMonoBehaviour> _pausableObjectList = new();
 
-        private void Awake()
-        {
-            instance = this;
-        }
 
         private void Start()
         {
-            PlayerController.instance.OnPauseTriggered += PlayerController_OnPauseTriggered;
+            ServiceLocator.Get<PlayerController>().OnPauseTriggered += PlayerController_OnPauseTriggered;
         }
 
         private void OnDestroy()
         {
-            PlayerController.instance.OnPauseTriggered -= PlayerController_OnPauseTriggered;
+            ServiceLocator.Get<PlayerController>().OnPauseTriggered -= PlayerController_OnPauseTriggered;
         }
 
         private void PlayerController_OnPauseTriggered()

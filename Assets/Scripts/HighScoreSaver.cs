@@ -1,17 +1,12 @@
 using UnityEngine;
+using Youregone.SL;
 
-namespace Youregone.HighScore
+namespace Youregone.SaveSystem
 {
-    public  class HighScoreSaver : MonoBehaviour
+    public  class HighScoreSaver : MonoBehaviour, IService
     {
-        public static HighScoreSaver instance;
-
         public const string PLAYERPREFS_HIGH_SCORE_KEY = "HIGHSCORE";
 
-        private void Awake()
-        {
-            instance = this;
-        }
 
         public void SaveHighScore(int highscore)
         {

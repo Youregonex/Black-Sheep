@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obstacleType: 3
   sprites:
-  - {fileID: 2134509919, guid: 90cff6bdc0e224efc94d6906f466438e, type: 3}
-  - {fileID: 20637034, guid: 90cff6bdc0e224efc94d6906f466438e, type: 3}
+  - {fileID: -1718640429, guid: 90cff6bdc0e224efc94d6906f466438e, type: 3}
+  - {fileID: -1495876726, guid: 90cff6bdc0e224efc94d6906f466438e, type: 3}

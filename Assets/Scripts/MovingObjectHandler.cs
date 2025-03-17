@@ -2,13 +2,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using Youregone.PlayerControls;
 using Youregone.GameSystems;
+using Youregone.SL;
 
 namespace Youregone.LevelGeneration
 {
-    public class MovingObjectHandler : PausableMonoBehaviour
+    public class MovingObjectHandler : PausableMonoBehaviour, IService
     {
-        public static MovingObjectHandler instance;
-
         [Header("Debug")]
         [SerializeField] private List<MovingObject> _spawnedObjects;
 
@@ -25,16 +24,12 @@ namespace Youregone.LevelGeneration
 
         private PlayerController _player;
 
-        private void Awake()
-        {
-            instance = this;
-        }
 
         protected override void Start()
         {
             base.Start();
 
-            _player = PlayerController.instance;
+            _player = ServiceLocator.Get<PlayerController>();
 
             _player.OnRamStart += ChangeVelocityToCurrentSpeed;
             _player.OnRamStop += ChangeVelocityToCurrentSpeed;

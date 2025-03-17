@@ -3,27 +3,18 @@ using UnityEngine.UI;
 using Youregone.UI;
 using Youregone.GameCamera;
 using Youregone.PlayerControls;
-using Youregone.HighScore;
+using Youregone.SaveSystem;
 using DG.Tweening;
 using System.Collections;
 using TMPro;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
+using Youregone.SL;
 
 namespace Youregone.GameSystems
 {
-    public enum EGameState
+    public class GameState : PausableMonoBehaviour, IService
     {
-        Intro,
-        Gameplay,
-        Pause,
-        Outro
-    }
-
-    public class GameState : PausableMonoBehaviour
-    {
-        public static GameState instance;
-
         private const float TRANSITION_CAMERA_Y_OFFSET = 48; 
 
         [Header("Config")]
@@ -60,8 +51,6 @@ namespace Youregone.GameSystems
 
         private void Awake()
         {
-            instance = this;
-
             _currentGameState = EGameState.Intro;
             _camera.OnCameraInPosition += CameraGameStartSequence_OnCameraInPosition;
         }
@@ -70,7 +59,7 @@ namespace Youregone.GameSystems
         {
             base.Start();
 
-            PlayerController.instance.OnDeath += PlayerController_OnDeath;
+            ServiceLocator.Get<PlayerController>().OnDeath += PlayerController_OnDeath;
 
             SetupButtons();
             _highScoreCanvasGroup.alpha = 0;
@@ -90,7 +79,7 @@ namespace Youregone.GameSystems
         private void OnDestroy()
         {
             _camera.OnCameraInPosition -= CameraGameStartSequence_OnCameraInPosition;
-            PlayerController.instance.OnDeath -= PlayerController_OnDeath;
+            ServiceLocator.Get<PlayerController>().OnDeath -= PlayerController_OnDeath;
         }
 
         public override void Pause()
@@ -166,7 +155,7 @@ namespace Youregone.GameSystems
 
         private void CameraGameStartSequence_OnCameraInPosition()
         {
-            int highScore = HighScoreSaver.instance.GetHighScore();
+            int highScore = ServiceLocator.Get<HighScoreSaver>().GetHighScore();
 
             Sequence sequence = DOTween.Sequence();
             sequence.Append(_playButton.image.DOFade(1f, _introButtonFadeTime).SetEase(Ease.Linear));
@@ -202,8 +191,8 @@ namespace Youregone.GameSystems
 
             if(_skipIntro)
             {
-                UIManager.instance.ScoreCounter.gameObject.SetActive(true);
-                UIManager.instance.HealthbarUI.gameObject.SetActive(true);
+                ServiceLocator.Get<ScoreCounter>().gameObject.SetActive(true);
+                ServiceLocator.Get<HealthbarUI>().gameObject.SetActive(true);
                 _currentGameState = EGameState.Gameplay;
 
                 _camera.MoveCameraToGamePoint();
@@ -229,8 +218,8 @@ namespace Youregone.GameSystems
 
             yield return StartCoroutine(PlayTransitionEndCoroutine());
 
-            UIManager.instance.ScoreCounter.gameObject.SetActive(true);
-            UIManager.instance.HealthbarUI.gameObject.SetActive(true);
+            ServiceLocator.Get<ScoreCounter>().gameObject.SetActive(false);
+            ServiceLocator.Get<HealthbarUI>().gameObject.SetActive(false);
 
             _currentGameState = EGameState.Gameplay;
             _startGameCoroutine = null;
@@ -239,8 +228,8 @@ namespace Youregone.GameSystems
 
         private IEnumerator PlayOutroCoroutine()
         {
-            UIManager.instance.ScoreCounter.gameObject.SetActive(false);
-            UIManager.instance.HealthbarUI.gameObject.SetActive(false);
+            ServiceLocator.Get<ScoreCounter>().gameObject.SetActive(false);
+            ServiceLocator.Get<HealthbarUI>().gameObject.SetActive(false);
 
             yield return StartCoroutine(PlayTransitionStartCoroutine());
 
@@ -270,9 +259,9 @@ namespace Youregone.GameSystems
 
         private IEnumerator PlayerController_OnDeath_Coroutine()
         {
-            int currentScore = (int)UIManager.instance.ScoreCounter.CurrentScore;
-            if (currentScore > HighScoreSaver.instance.GetHighScore())
-                HighScoreSaver.instance.SaveHighScore(currentScore);
+            int currentScore = (int)ServiceLocator.Get<ScoreCounter>().CurrentScore;
+            if (currentScore > ServiceLocator.Get<HighScoreSaver>().GetHighScore())
+                ServiceLocator.Get<HighScoreSaver>().SaveHighScore(currentScore);
 
             _currentGameState = EGameState.Outro;
 

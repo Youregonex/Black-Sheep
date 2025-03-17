@@ -1,50 +1,38 @@
 using UnityEngine;
 using Youregone.PlayerControls;
 using Youregone.GameSystems;
+using Youregone.SL;
+using System;
+using System.Collections;
 
 namespace Youregone.LevelGeneration
 {
-    public class Bird : MovingObject, IUpdateObserver
+    public class Bird : MovingObject
     {
+        public event Action<Bird> OnDestruction;
+
         [Header("Bird Config")]
         [SerializeField] private Animator _animator;
         [SerializeField] private Vector2 _birdFlyVelocity;
         [SerializeField] private SpriteRenderer _spriteRenderer;
         [SerializeField] private float _destructionDelay;
 
-        private bool _isFlying;
         private Vector2 _birdVelocity;
-        private GameState _gameState;
 
         private void OnEnable()
         {
-            UpdateManager.RegisterUpdateObserver(this);
+            _birdVelocity = Vector2.zero;
         }
 
         protected override void Start()
         {
             base.Start();
-            _gameState = GameState.instance;
-        }
-
-        public void ObservedUpdate()
-        {
-            if (_isFlying && !(_gameState.CurrentGameState == EGameState.Pause))
-                _destructionDelay -= Time.deltaTime;
-
-            if (_destructionDelay <= 0)
-                Destroy(gameObject);
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if (collision.GetComponent<PlayerController>())
                 FlyAway();
-        }
-
-        private void OnDisable()
-        {
-            UpdateManager.UnregisterUpdateObserver(this);
         }
 
         public override void Pause()
@@ -71,11 +59,7 @@ namespace Youregone.LevelGeneration
 
         private void FlyAway()
         {
-            _isFlying = true;
-
-            MovingObjectHandler.instance.RemoveObject(this);
-
-            transform.parent = null;
+            ServiceLocator.Get<MovingObjectHandler>().RemoveObject(this);
             _animator.SetTrigger("FLY");
 
             _birdVelocity = new(UnityEngine.Random.Range(-_birdFlyVelocity.x, _birdFlyVelocity.x), _birdFlyVelocity.y);
@@ -83,12 +67,19 @@ namespace Youregone.LevelGeneration
             if (_birdVelocity.x < 0)
             {
                 float velocityModifier = 1.5f;
-                _birdVelocity.x -= PlayerController.instance.CurrentSpeed * velocityModifier;
+                _birdVelocity.x -= ServiceLocator.Get<PlayerController>().CurrentSpeed * velocityModifier;
             }
             else
                 _spriteRenderer.flipX = true;
 
             _rigidBody.velocity = _birdVelocity;
+            StartCoroutine(DelayedDestructionCoroutine());
+        }
+
+        private IEnumerator DelayedDestructionCoroutine()
+        {
+            yield return new WaitForSeconds(_destructionDelay);
+            OnDestruction?.Invoke(this);
         }
     }
 }
