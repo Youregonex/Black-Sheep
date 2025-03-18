@@ -2351,8 +2351,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1193eefaece1b444fb23bb588edc6ec1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scoreCounter: {fileID: 169665616}
-  _healthbar: {fileID: 1940779741}
 --- !u!1 &892769132
 GameObject:
   m_ObjectHideFlags: 0
@@ -4027,7 +4025,7 @@ MonoBehaviour:
   _collectableSpawnChance: 0.7
   _rareCollectableSpawnChance: 0.05
   _collectableParentTransform: {fileID: 1008939086}
-  _progressiveDifficulty: 0
+  _progressiveDifficulty: 1
   _maxDifficultyScore: 2000
   _maxDifficultyReached: 0
   _midDifficultyReached: 1
@@ -6229,7 +6227,7 @@ MonoBehaviour:
   - {fileID: 151219202837881634, guid: 7979700f4466e421abaa792d9493a47f, type: 3}
   - {fileID: 151219202837881634, guid: 46cadb0c16b054614b86f08294cc3aec, type: 3}
   - {fileID: 151219202837881634, guid: da8c4c8bdc67b474c8339a978be65613, type: 3}
-  _pitChunkSpawnChance: 0
+  _pitChunkSpawnChance: 0.2
   _bridgeChunkSpawnCooldown: 20
   _chunkParentTransform: {fileID: 33410147}
   _lastChunk: {fileID: 0}
