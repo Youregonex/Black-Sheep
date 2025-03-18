@@ -176,10 +176,10 @@ PrefabInstance:
     - target: {fileID: 9179273829694666290, guid: ec64aca807be543ad9f9fa402d88955c, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: -1718640429, guid: 90cff6bdc0e224efc94d6906f466438e, type: 3}
     - target: {fileID: 9179273829694666290, guid: ec64aca807be543ad9f9fa402d88955c, type: 3}
       propertyPath: m_WasSpriteAssigned
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -240,6 +240,6 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.012753308, y: 0.57768154}
+  m_Offset: {x: -0.012753308, y: 0.5518136}
   serializedVersion: 2
-  m_Radius: 0.8666601
+  m_Radius: 0.8407922

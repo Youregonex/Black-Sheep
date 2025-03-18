@@ -81,7 +81,7 @@ namespace Youregone.LevelGeneration
         {
             if (collision.transform.GetComponent<PlayerController>())
             {
-                ServiceLocator.Get<ScoreCounter>().AddPoints(_pointsBonus);
+                ServiceLocator.Get<GameScreenUI>().ScoreCounter.AddPoints(_pointsBonus);
                 ServiceLocator.Get<SoundManager>().PlaySoundAtPosition(_pickUpAudioClip, .05f, transform.position);
 
                 OnDestraction?.Invoke(this);

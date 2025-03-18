@@ -70,7 +70,7 @@ namespace Youregone.LevelGeneration
         private void Start()
         {
             _player = ServiceLocator.Get<PlayerController>();
-            _scoreCounter = ServiceLocator.Get<ScoreCounter>();
+            _scoreCounter = ServiceLocator.Get<GameScreenUI>().ScoreCounter;
         }
 
         public void ObservedUpdate()
