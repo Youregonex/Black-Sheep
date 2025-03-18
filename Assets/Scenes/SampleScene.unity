@@ -4018,14 +4018,14 @@ MonoBehaviour:
   _rockBreakPiecePrefab: {fileID: 1674908274855518557, guid: 797a6649e2bf44a48812bd0a40d7f8ae, type: 3}
   _rockBreakPiecesParent: {fileID: 666565828}
   _birdPrefab: {fileID: 5329041660059366981, guid: 577bfc858b4c94b199ce53f4018482b7, type: 3}
-  _birdSpawnChance: 0.5
+  _birdSpawnChance: 0.2
   _propsParent: {fileID: 910343899}
   _regularCollectablePrefab: {fileID: 5970340744938519519, guid: 405e3093b2ba7463f9130cb387deb1c4, type: 3}
   _rareCollectablePrefab: {fileID: 5970340744938519519, guid: b9b4c7fe88c1a4a968f3ca58b416e6e5, type: 3}
   _collectableSpawnChance: 0.7
   _rareCollectableSpawnChance: 0.05
   _collectableParentTransform: {fileID: 1008939086}
-  _progressiveDifficulty: 0
+  _progressiveDifficulty: 1
   _maxDifficultyScore: 2000
   _maxDifficultyReached: 0
   _midDifficultyReached: 1
@@ -4241,13 +4241,13 @@ MonoBehaviour:
   _ramMoveSpeed: 15
   _jumpForce: 10
   _staminaMax: 100
-  _staminaDrain: 0
+  _staminaDrain: 50
   _minStaminaDrainPerUse: 0.05
   _staminaRechargeRate: 10
   _staminaRechargeDelay: 1
   _maxHealth: 3
   _staminaBar: {fileID: 433909722}
-  _immortal: 1
+  _immortal: 0
   _flashMaterial: {fileID: 2100000, guid: ece80c6c2eac94c20bf7a7c178292a35, type: 2}
   _flashDuration: 0.125
   _animator: {fileID: 732167513}
@@ -6227,7 +6227,7 @@ MonoBehaviour:
   - {fileID: 151219202837881634, guid: 7979700f4466e421abaa792d9493a47f, type: 3}
   - {fileID: 151219202837881634, guid: 46cadb0c16b054614b86f08294cc3aec, type: 3}
   - {fileID: 151219202837881634, guid: da8c4c8bdc67b474c8339a978be65613, type: 3}
-  _pitChunkSpawnChance: 0
+  _pitChunkSpawnChance: 0.2
   _bridgeChunkSpawnCooldown: 20
   _chunkParentTransform: {fileID: 33410147}
   _lastChunk: {fileID: 0}

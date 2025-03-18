@@ -224,6 +224,7 @@ namespace Youregone.PlayerControls
         {
             Debug.Log("Death");
             _animator.SetTrigger(ANIMATION_DEATH_TRIGGER);
+            _currentSpeed = 0f;
             OnDeath?.Invoke();
         }
 

@@ -40,7 +40,7 @@ namespace Youregone.LevelGeneration
             _rigidBody.velocity = -newVelocity;
         }
 
-        public void StopMovement()
+        public virtual void StopMovement()
         {
             _rigidBody.velocity = Vector2.zero;
         }

@@ -35,14 +35,14 @@ namespace Youregone.LevelGeneration
 
         private void OnEnable()
         {
-            ServiceLocator.Get<PlayerController>().OnRamStart += ChangeVelocityTween;
-            ServiceLocator.Get<PlayerController>().OnRamStop += ChangeVelocityTween;
+            ServiceLocator.Get<MovingObjectHandler>().AddObject(this);
 
             PickRandomSprite();
             _spriteRenderer.color = new Color(1f, 1f, 1f, 1f);
 
             ApplyForce();
-            ChangeVelocityTween();
+            Vector2 newVelocity = new(ServiceLocator.Get<PlayerController>().CurrentSpeed, _rigidBody.velocity.y);
+            ChangeVelocity(newVelocity);
 
             _fadeTween = _spriteRenderer.DOFade(0f, _fadeDuration).SetDelay(_fadeDelay).SetEase(Ease.InOutQuad).OnComplete(() =>
             {
@@ -53,20 +53,14 @@ namespace Youregone.LevelGeneration
 
         private void OnDisable()
         {
-            if (_fadeTween != null)
-            {
-                _fadeTween.Kill();
-                _fadeTween = null;
-            }
+            ServiceLocator.Get<MovingObjectHandler>().AddObject(this);
 
-            if (_slowDownTween != null)
-            {
-                _slowDownTween.Kill();
-                _slowDownTween = null;
-            }
+            KillActiveTweens();
+        }
 
-            ServiceLocator.Get<PlayerController>().OnRamStart -= ChangeVelocityTween;
-            ServiceLocator.Get<PlayerController>().OnRamStop -= ChangeVelocityTween;
+        protected override void OnDestroy()
+        {
+            KillActiveTweens();
         }
 
         public override void Pause()
@@ -99,7 +93,22 @@ namespace Youregone.LevelGeneration
             _rigidBody.angularVelocity = _prePauseAngularVelocity;
         }
 
-        private void ChangeVelocityTween()
+        private void KillActiveTweens()
+        {
+            if (_fadeTween != null)
+            {
+                _fadeTween.Kill();
+                _fadeTween = null;
+            }
+
+            if (_slowDownTween != null)
+            {
+                _slowDownTween.Kill();
+                _slowDownTween = null;
+            }
+        }
+
+        public override void ChangeVelocity(Vector2 newVelocity)
         {
             if (_slowDownTween != null)
             {
@@ -110,13 +119,37 @@ namespace Youregone.LevelGeneration
             _slowDownTween = DOTween.To(
                 () => _rigidBody.velocity.x,
                 x => _rigidBody.velocity = new Vector2(x, _rigidBody.velocity.y),
-                -ServiceLocator.Get<PlayerController>().CurrentSpeed,
+                -newVelocity.x,
                 _slowdownDuration
             ).SetEase(Ease.OutQuad).OnComplete(() =>
             {
                 _slowDownTween = null;
             });
         }
+
+        public override void StopMovement()
+        {
+            ChangeVelocity(Vector2.zero);
+        }
+
+        //private void ChangeVelocityTween()
+        //{
+        //    if (_slowDownTween != null)
+        //    {
+        //        _slowDownTween.Kill();
+        //        _slowDownTween = null;
+        //    }
+
+        //    _slowDownTween = DOTween.To(
+        //        () => _rigidBody.velocity.x,
+        //        x => _rigidBody.velocity = new Vector2(x, _rigidBody.velocity.y),
+        //        -ServiceLocator.Get<PlayerController>().CurrentSpeed,
+        //        _slowdownDuration
+        //    ).SetEase(Ease.OutQuad).OnComplete(() =>
+        //    {
+        //        _slowDownTween = null;
+        //    });
+        //}
 
         private void ApplyForce()
         {
