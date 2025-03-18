@@ -3,6 +3,7 @@ using Youregone.SL;
 using UnityEngine.UI;
 using System;
 using Youregone.SaveSystem;
+using UnityEngine.EventSystems;
 
 namespace Youregone.UI
 {
@@ -29,12 +30,18 @@ namespace Youregone.UI
             _mainMenuButton.onClick.AddListener(() =>
             {
                 OnGameReloadRequested?.Invoke();
+
+                //Button deselect
+                EventSystem.current.SetSelectedGameObject(null);
             });
 
             _outroDisableButton.onClick.AddListener(() =>
             {
                 OnGameOutroToggleRequest?.Invoke();
                 _outroDisableButton.image.sprite = ServiceLocator.Get<GameSettings>().ShowOutro ? _outroDisableButtonSpriteOn : _outroDisableButtonSpriteOff;
+
+                //Button deselect
+                EventSystem.current.SetSelectedGameObject(null);
             });
 
             _outroDisableButton.image.sprite = ServiceLocator.Get<GameSettings>().ShowOutro ? _outroDisableButtonSpriteOn : _outroDisableButtonSpriteOff;
