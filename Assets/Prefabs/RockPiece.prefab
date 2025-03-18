@@ -49,7 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _currentXVelocity: 0
   _direction: {x: 1, y: 1}
-  _forceMultiplier: 5
+  _forceMultiplier: 6
   _rockPiecesSpriteList:
   - {fileID: 2071124973, guid: a25553076164a456c8a7304c66d19093, type: 3}
   - {fileID: 1324572473, guid: a25553076164a456c8a7304c66d19093, type: 3}
@@ -60,9 +60,10 @@ MonoBehaviour:
   - {fileID: 1810820830, guid: a25553076164a456c8a7304c66d19093, type: 3}
   - {fileID: 812597209, guid: 0897b9eac66b1472ea6f6a2b012ab46c, type: 3}
   - {fileID: -1571089454, guid: 0897b9eac66b1472ea6f6a2b012ab46c, type: 3}
-  _fadeDuration: 3
-  _slowdownDuration: 4
   _spriteRenderer: {fileID: 8714222722974623676}
+  _fadeDuration: 1
+  _fadeDelay: 2
+  _slowdownDuration: 3
 --- !u!58 &6807959732032677993
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -112,7 +113,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0.5
   m_GravityScale: 2
   m_Material: {fileID: 6200000, guid: a44a2b7aec3da446abb4725d799e9f2f, type: 2}
   m_IncludeLayers:

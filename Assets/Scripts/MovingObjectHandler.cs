@@ -48,7 +48,7 @@ namespace Youregone.LevelGeneration
             StopObjects();
         }
 
-        public override void UnPause()
+        public override void Unpause()
         {
             ChangeVelocityToCurrentSpeed();
         }

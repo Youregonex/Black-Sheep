@@ -168,7 +168,7 @@ namespace Youregone.PlayerControls
             _staminaBar.GetComponent<Animator>().speed = 0f;
         }
 
-        public override void UnPause()
+        public override void Unpause()
         {
             _animator.speed = 1f;
 
@@ -224,6 +224,7 @@ namespace Youregone.PlayerControls
         {
             Debug.Log("Death");
             _animator.SetTrigger(ANIMATION_DEATH_TRIGGER);
+            _currentSpeed = 0f;
             OnDeath?.Invoke();
         }
 

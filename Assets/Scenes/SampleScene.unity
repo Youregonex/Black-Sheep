@@ -4013,12 +4013,12 @@ MonoBehaviour:
   - {fileID: 4089737090867719624, guid: 654e9279d12bb44b6a51cf5163af451e, type: 3}
   - {fileID: 4089737090867719624, guid: bbfd8de1a672a4a0b92d023c0d51b09b, type: 3}
   - {fileID: 4089737090867719624, guid: d011efa3e403a445f968e90b7b5fbba8, type: 3}
-  _obstacleSpawnChance: 1
+  _obstacleSpawnChance: 0.4
   _obstacleParentTransform: {fileID: 538472248}
   _rockBreakPiecePrefab: {fileID: 1674908274855518557, guid: 797a6649e2bf44a48812bd0a40d7f8ae, type: 3}
   _rockBreakPiecesParent: {fileID: 666565828}
   _birdPrefab: {fileID: 5329041660059366981, guid: 577bfc858b4c94b199ce53f4018482b7, type: 3}
-  _birdSpawnChance: 0.35
+  _birdSpawnChance: 0.2
   _propsParent: {fileID: 910343899}
   _regularCollectablePrefab: {fileID: 5970340744938519519, guid: 405e3093b2ba7463f9130cb387deb1c4, type: 3}
   _rareCollectablePrefab: {fileID: 5970340744938519519, guid: b9b4c7fe88c1a4a968f3ca58b416e6e5, type: 3}
@@ -4241,13 +4241,13 @@ MonoBehaviour:
   _ramMoveSpeed: 15
   _jumpForce: 10
   _staminaMax: 100
-  _staminaDrain: 0
-  _minStaminaDrainPerUse: 0
+  _staminaDrain: 50
+  _minStaminaDrainPerUse: 0.05
   _staminaRechargeRate: 10
   _staminaRechargeDelay: 1
   _maxHealth: 3
   _staminaBar: {fileID: 433909722}
-  _immortal: 1
+  _immortal: 0
   _flashMaterial: {fileID: 2100000, guid: ece80c6c2eac94c20bf7a7c178292a35, type: 2}
   _flashDuration: 0.125
   _animator: {fileID: 732167513}

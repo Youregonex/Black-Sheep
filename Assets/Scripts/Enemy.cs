@@ -105,9 +105,9 @@ namespace Youregone.EnemyAI
                 _alertSignAnimator.speed = 0f;
         }
 
-        public override void UnPause()
+        public override void Unpause()
         {
-            base.UnPause();
+            base.Unpause();
 
             if (_rigidBody != null)
                 _rigidBody.gravityScale = _baseGravityScale;

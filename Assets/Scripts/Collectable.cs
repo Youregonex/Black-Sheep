@@ -108,9 +108,9 @@ namespace Youregone.LevelGeneration
                 _animator.speed = 0f;
         }
 
-        public override void UnPause()
+        public override void Unpause()
         {
-            base.UnPause();
+            base.Unpause();
 
             if (_animator != null)
                 _animator.speed = 1f;
