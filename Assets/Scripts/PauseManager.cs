@@ -52,7 +52,7 @@ namespace Youregone.GameSystems
             _pauseBackground.gameObject.SetActive(false);
 
             foreach (PausableMonoBehaviour pausable in _pausableObjectList)
-                pausable.UnPause();
+                pausable.Unpause();
         }
 
         public void AddPausableObject(PausableMonoBehaviour pausable)

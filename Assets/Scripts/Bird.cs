@@ -1,6 +1,5 @@
 using UnityEngine;
 using Youregone.PlayerControls;
-using Youregone.GameSystems;
 using Youregone.SL;
 using System;
 using System.Collections;
@@ -21,12 +20,8 @@ namespace Youregone.LevelGeneration
 
         private void OnEnable()
         {
+            ServiceLocator.Get<MovingObjectHandler>().AddObject(this);
             _birdVelocity = Vector2.zero;
-        }
-
-        protected override void Start()
-        {
-            base.Start();
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
@@ -46,9 +41,9 @@ namespace Youregone.LevelGeneration
                 _rigidBody.velocity = Vector2.zero;
         }
 
-        public override void UnPause()
+        public override void Unpause()
         {
-            base.UnPause();
+            base.Unpause();
 
             if (_animator != null)
                 _animator.speed = 1f;

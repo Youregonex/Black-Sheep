@@ -11,13 +11,22 @@ namespace Youregone.LevelGeneration
     {
         public event Action<RockBreakPiece> OnDestruction;
 
-        [Header("Config")]
+        [Header("Rock Break Piece Config")]
         [SerializeField] private Vector2 _direction;
         [SerializeField] private float _forceMultiplier;
         [SerializeField] private List<Sprite> _rockPiecesSpriteList;
-        [SerializeField] private float _fadeDuration;
-        [SerializeField] private float _slowdownDuration;
         [SerializeField] private SpriteRenderer _spriteRenderer;
+
+        [Header("DOTween Config")]
+        [SerializeField] private float _fadeDuration;
+        [SerializeField] private float _fadeDelay;
+        [SerializeField] private float _slowdownDuration;
+
+        private Vector2 _prePauseVelocity;
+        private float _prePausGravityScale;
+        private float _prePauseAngularVelocity;
+        private Tween _fadeTween;
+        private Tween _slowDownTween;
 
         protected override void Start()
         {
@@ -26,27 +35,111 @@ namespace Youregone.LevelGeneration
 
         private void OnEnable()
         {
+            ServiceLocator.Get<PlayerController>().OnRamStart += ChangeVelocityTween;
+            ServiceLocator.Get<PlayerController>().OnRamStop += ChangeVelocityTween;
+
             PickRandomSprite();
             _spriteRenderer.color = new Color(1f, 1f, 1f, 1f);
 
-            float randomXForceModifier = UnityEngine.Random.Range(.5f, 1f);
-            float randomYForceModifier = UnityEngine.Random.Range(1f, 2f);
+            ApplyForce();
+            ChangeVelocityTween();
 
-            _rigidBody.velocity = Vector2.zero;
-            _rigidBody.AddForce(new Vector2(_direction.x * _forceMultiplier * randomXForceModifier, _direction.y * _forceMultiplier * randomYForceModifier), ForceMode2D.Impulse);
-
-            DOTween.To(
-                      () => _rigidBody.velocity.x,
-                      x => _rigidBody.velocity = new Vector2(x, _rigidBody.velocity.y),
-                      -ServiceLocator.Get<PlayerController>().CurrentSpeed,
-                      _slowdownDuration
-                  ).SetEase(Ease.OutQuad);
-
-            _spriteRenderer.DOFade(0f, _fadeDuration).SetEase(Ease.InOutQuad).OnComplete(() =>
+            _fadeTween = _spriteRenderer.DOFade(0f, _fadeDuration).SetDelay(_fadeDelay).SetEase(Ease.InOutQuad).OnComplete(() =>
             {
                 OnDestruction?.Invoke(this);
+                _fadeTween = null;
             });
         }
+
+        private void OnDisable()
+        {
+            if (_fadeTween != null)
+            {
+                _fadeTween.Kill();
+                _fadeTween = null;
+            }
+
+            if (_slowDownTween != null)
+            {
+                _slowDownTween.Kill();
+                _slowDownTween = null;
+            }
+
+            ServiceLocator.Get<PlayerController>().OnRamStart -= ChangeVelocityTween;
+            ServiceLocator.Get<PlayerController>().OnRamStop -= ChangeVelocityTween;
+        }
+
+        public override void Pause()
+        {
+            _prePauseVelocity = _rigidBody.velocity;
+            _prePausGravityScale = _rigidBody.gravityScale;
+            _prePauseAngularVelocity = _rigidBody.angularVelocity;
+
+            if (_slowDownTween != null)
+                _slowDownTween.Pause();
+
+            if (_fadeTween != null)
+                _fadeTween.Pause();
+
+            _rigidBody.velocity = Vector2.zero;
+            _rigidBody.gravityScale = 0f;
+            _rigidBody.angularVelocity = 0f;
+        }
+
+        public override void Unpause()
+        {
+            if (_slowDownTween != null)
+                _slowDownTween.Play();
+
+            if (_fadeTween != null)
+                _fadeTween.Play();
+
+            _rigidBody.velocity = _prePauseVelocity;
+            _rigidBody.gravityScale = _prePausGravityScale;
+            _rigidBody.angularVelocity = _prePauseAngularVelocity;
+        }
+
+        private void ChangeVelocityTween()
+        {
+            if (_slowDownTween != null)
+            {
+                _slowDownTween.Kill();
+                _slowDownTween = null;
+            }
+
+            _slowDownTween = DOTween.To(
+                () => _rigidBody.velocity.x,
+                x => _rigidBody.velocity = new Vector2(x, _rigidBody.velocity.y),
+                -ServiceLocator.Get<PlayerController>().CurrentSpeed,
+                _slowdownDuration
+            ).SetEase(Ease.OutQuad).OnComplete(() =>
+            {
+                _slowDownTween = null;
+            });
+        }
+
+        private void ApplyForce()
+        {
+            float randomXForceModifier;
+            float randomYForceModifier;
+
+            if (ServiceLocator.Get<PlayerController>().IsRaming)
+            {
+                randomXForceModifier = UnityEngine.Random.Range(1.25f, 2f);
+                randomYForceModifier = UnityEngine.Random.Range(1.25f, 2f);
+            }
+            else
+            {
+                randomXForceModifier = UnityEngine.Random.Range(1f, 1.75f);
+                randomYForceModifier = UnityEngine.Random.Range(1f, 1.75f);
+            }
+
+            _rigidBody.AddForce(new Vector2(_direction.x * _forceMultiplier * randomXForceModifier, _direction.y * _forceMultiplier * randomYForceModifier), ForceMode2D.Impulse);
+
+            if (_rigidBody.velocity.x <= 0 || _rigidBody.velocity.y <= 0)
+                Debug.Log($"{gameObject.name} velocity is {_rigidBody.velocity}");
+        }
+
 
         private void PickRandomSprite()
         {

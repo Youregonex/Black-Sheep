@@ -90,7 +90,7 @@ namespace Youregone.GameSystems
             _currentGameState = EGameState.Pause;
         }
 
-        public override void UnPause()
+        public override void Unpause()
         {
             _currentGameState = EGameState.Gameplay;
         }

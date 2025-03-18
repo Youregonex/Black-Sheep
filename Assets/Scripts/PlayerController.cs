@@ -168,7 +168,7 @@ namespace Youregone.PlayerControls
             _staminaBar.GetComponent<Animator>().speed = 0f;
         }
 
-        public override void UnPause()
+        public override void Unpause()
         {
             _animator.speed = 1f;
 

@@ -11,7 +11,7 @@ namespace Youregone.GameSystems
         }
 
         public abstract void Pause();
-        public abstract void UnPause();
+        public abstract void Unpause();
 
         protected void AddPausableObject()
         {

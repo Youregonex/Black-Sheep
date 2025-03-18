@@ -46,6 +46,6 @@ namespace Youregone.LevelGeneration
         }
 
         public override void Pause() {}
-        public override void UnPause() {}
+        public override void Unpause() {}
     }
 }
