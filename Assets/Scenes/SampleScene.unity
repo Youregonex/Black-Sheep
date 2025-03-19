@@ -3979,7 +3979,7 @@ MonoBehaviour:
   _rockBreakPiecePrefab: {fileID: 1674908274855518557, guid: 797a6649e2bf44a48812bd0a40d7f8ae, type: 3}
   _rockBreakPiecesParent: {fileID: 666565828}
   _birdPrefab: {fileID: 5329041660059366981, guid: 577bfc858b4c94b199ce53f4018482b7, type: 3}
-  _birdSpawnChance: 0.2
+  _birdSpawnChance: 0.25
   _propsParent: {fileID: 910343899}
   _regularCollectablePrefab: {fileID: 5970340744938519519, guid: 405e3093b2ba7463f9130cb387deb1c4, type: 3}
   _rareCollectablePrefab: {fileID: 5970340744938519519, guid: b9b4c7fe88c1a4a968f3ca58b416e6e5, type: 3}
@@ -5511,7 +5511,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 103236d12686e4a5881445b5955407ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _skipIntro: 0
+  _skipIntro: 1
   _camera: {fileID: 519420033}
   _transitionPrefab: {fileID: 1781655435715550049, guid: 8a508b21d21ea4057a7fd3befd26743e, type: 3}
   _introGameObject: {fileID: 200622371}
