@@ -30,8 +30,6 @@ namespace Youregone.UI
             _mainMenuButton.onClick.AddListener(() =>
             {
                 OnGameReloadRequested?.Invoke();
-
-                //Button deselect
                 EventSystem.current.SetSelectedGameObject(null);
             });
 
@@ -39,8 +37,6 @@ namespace Youregone.UI
             {
                 OnGameOutroToggleRequest?.Invoke();
                 _outroDisableButton.image.sprite = ServiceLocator.Get<GameSettings>().ShowOutro ? _outroDisableButtonSpriteOn : _outroDisableButtonSpriteOff;
-
-                //Button deselect
                 EventSystem.current.SetSelectedGameObject(null);
             });
 
