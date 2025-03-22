@@ -57,6 +57,7 @@ namespace Youregone.PlayerControls
         [SerializeField] private int _currentHealth;
         [SerializeField] private bool _canRechargeStamina;
 
+        private PlayerCharacterInput _playerInput;
         private float _baseGravityScale;
         private Vector2 _prePauseVelocity;
         private Coroutine _flashCoroutine;
@@ -73,6 +74,10 @@ namespace Youregone.PlayerControls
 
         private void Awake()
         {
+            _playerInput = GetComponent<PlayerCharacterInput>();
+            _playerInput.OnJumpButtonPressed += Jump;
+
+
             _baseMaterial = _spriteRenderer.material;
             _rigidBody = GetComponent<Rigidbody2D>();
             _groundCheck.Landed += Land;
@@ -98,7 +103,7 @@ namespace Youregone.PlayerControls
         public void ObservedUpdate()
         {
             if (Input.GetKeyDown(KeyCode.Escape) && (_gameState.CurrentGameState == EGameState.Gameplay ||
-                                         _gameState.CurrentGameState == EGameState.Pause))
+                                                     _gameState.CurrentGameState == EGameState.Pause))
             {
                 OnPauseTriggered?.Invoke();
                 return;
