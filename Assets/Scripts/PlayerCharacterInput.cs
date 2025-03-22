@@ -1,47 +1,76 @@
-using UnityEngine;
 using UnityEngine.InputSystem;
 using System;
+using Youregone.GameSystems;
 
 namespace Youregone.PlayerControls
 {
-    public class PlayerCharacterInput : MonoBehaviour
+    public class PlayerCharacterInput
     {
-        public event Action OnJumpButtonPressed;
-        public event Action OnRamButtonPressed;
+        //public event Action OnJumpButtonPressed;
+        //public event Action OnRamButtonPressed;
         public event Action OnRamButtonReleased;
+        public event Action OnPauseButtonPressed;
 
         private CharacterMainInputActions _inputActions;
 
+        private bool _jumpPressed;
+        private bool _ramPressed;
 
-        private void OnEnable()
+        public bool JumpPressed => _jumpPressed;
+        public bool RamPressed => _ramPressed;
+
+        public PlayerCharacterInput()
         {
             _inputActions = new();
-            _inputActions.Enable();
+            EnableInput();
+        }
 
+        public void EnableInput()
+        {
+            _inputActions.Enable();
             _inputActions.CharacterInputActions.Jump.performed += Jump_performed;
+            _inputActions.CharacterInputActions.Jump.canceled += Jump_canceled;
             _inputActions.CharacterInputActions.Ram.performed += Ram_performed;
             _inputActions.CharacterInputActions.Ram.canceled += Ram_Canceled;
+            _inputActions.CharacterInputActions.Pause.performed += Pause_performed;
         }
 
-        private void OnDisable()
+        public void DisableInput()
         {
+            _inputActions.Disable();
             _inputActions.CharacterInputActions.Jump.performed -= Jump_performed;
+            _inputActions.CharacterInputActions.Jump.canceled -= Jump_canceled;
             _inputActions.CharacterInputActions.Ram.performed -= Ram_performed;
             _inputActions.CharacterInputActions.Ram.canceled -= Ram_Canceled;
+            _inputActions.CharacterInputActions.Pause.performed -= Pause_performed;
         }
 
-        private void Ram_performed(InputAction.CallbackContext context)
+        private void Pause_performed(InputAction.CallbackContext context)
         {
-            OnRamButtonPressed?.Invoke();
+            OnPauseButtonPressed?.Invoke();
         }
 
         private void Jump_performed(InputAction.CallbackContext context)
         {
-            OnJumpButtonPressed?.Invoke();
+            _jumpPressed = true;
+            //OnJumpButtonPressed?.Invoke();
+        }
+
+        private void Jump_canceled(InputAction.CallbackContext context)
+        {
+            _jumpPressed = false;
+            //OnJumpButtonPressed?.Invoke();
+        }
+
+        private void Ram_performed(InputAction.CallbackContext context)
+        {
+            _ramPressed = true;
+            //OnRamButtonPressed?.Invoke();
         }
 
         private void Ram_Canceled(InputAction.CallbackContext context)
         {
+            _ramPressed = false;
             OnRamButtonReleased?.Invoke();
         }
     }

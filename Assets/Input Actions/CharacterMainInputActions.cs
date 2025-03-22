@@ -44,6 +44,15 @@ public partial class @CharacterMainInputActions: IInputActionCollection2, IDispo
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""1bff7aa9-df8e-45b6-836d-49f9f56c128e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -79,6 +88,17 @@ public partial class @CharacterMainInputActions: IInputActionCollection2, IDispo
                     ""action"": ""Ram"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cf0dc81e-526f-4ff5-9cc4-5fe13ccf548c"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -89,6 +109,7 @@ public partial class @CharacterMainInputActions: IInputActionCollection2, IDispo
         m_CharacterInputActions = asset.FindActionMap("CharacterInputActions", throwIfNotFound: true);
         m_CharacterInputActions_Jump = m_CharacterInputActions.FindAction("Jump", throwIfNotFound: true);
         m_CharacterInputActions_Ram = m_CharacterInputActions.FindAction("Ram", throwIfNotFound: true);
+        m_CharacterInputActions_Pause = m_CharacterInputActions.FindAction("Pause", throwIfNotFound: true);
     }
 
     ~@CharacterMainInputActions()
@@ -157,12 +178,14 @@ public partial class @CharacterMainInputActions: IInputActionCollection2, IDispo
     private List<ICharacterInputActionsActions> m_CharacterInputActionsActionsCallbackInterfaces = new List<ICharacterInputActionsActions>();
     private readonly InputAction m_CharacterInputActions_Jump;
     private readonly InputAction m_CharacterInputActions_Ram;
+    private readonly InputAction m_CharacterInputActions_Pause;
     public struct CharacterInputActionsActions
     {
         private @CharacterMainInputActions m_Wrapper;
         public CharacterInputActionsActions(@CharacterMainInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Jump => m_Wrapper.m_CharacterInputActions_Jump;
         public InputAction @Ram => m_Wrapper.m_CharacterInputActions_Ram;
+        public InputAction @Pause => m_Wrapper.m_CharacterInputActions_Pause;
         public InputActionMap Get() { return m_Wrapper.m_CharacterInputActions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -178,6 +201,9 @@ public partial class @CharacterMainInputActions: IInputActionCollection2, IDispo
             @Ram.started += instance.OnRam;
             @Ram.performed += instance.OnRam;
             @Ram.canceled += instance.OnRam;
+            @Pause.started += instance.OnPause;
+            @Pause.performed += instance.OnPause;
+            @Pause.canceled += instance.OnPause;
         }
 
         private void UnregisterCallbacks(ICharacterInputActionsActions instance)
@@ -188,6 +214,9 @@ public partial class @CharacterMainInputActions: IInputActionCollection2, IDispo
             @Ram.started -= instance.OnRam;
             @Ram.performed -= instance.OnRam;
             @Ram.canceled -= instance.OnRam;
+            @Pause.started -= instance.OnPause;
+            @Pause.performed -= instance.OnPause;
+            @Pause.canceled -= instance.OnPause;
         }
 
         public void RemoveCallbacks(ICharacterInputActionsActions instance)
@@ -209,5 +238,6 @@ public partial class @CharacterMainInputActions: IInputActionCollection2, IDispo
     {
         void OnJump(InputAction.CallbackContext context);
         void OnRam(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
 }

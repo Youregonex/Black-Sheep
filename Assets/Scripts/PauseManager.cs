@@ -13,28 +13,34 @@ namespace Youregone.GameSystems
         [Header("Debug")]
         [SerializeField] private bool _gamePaused;
 
+        private PlayerCharacterInput _playerInput;
+        private PlayerController _playerController;
+        private GameState _gameState;
         private List<PausableMonoBehaviour> _pausableObjectList = new();
 
 
         private void Start()
         {
-            ServiceLocator.Get<PlayerController>().OnPauseTriggered += PlayerController_OnPauseTriggered;
+            _playerController = ServiceLocator.Get<PlayerController>();
+
+            _playerInput = _playerController.PlayerCharacterInput;
+            _playerInput.OnPauseButtonPressed += PlayerCharacterInput_OnPauseButtonPressed;
+
+            _gameState = ServiceLocator.Get<GameState>();
+        }
+
+        private void PlayerCharacterInput_OnPauseButtonPressed()
+        {
+            if (_gameState.CurrentGameState == EGameState.Gameplay || _gameState.CurrentGameState == EGameState.Pause)
+            {
+                PauseTriggered();
+                return;
+            }
         }
 
         private void OnDestroy()
         {
-            ServiceLocator.Get<PlayerController>().OnPauseTriggered -= PlayerController_OnPauseTriggered;
-        }
-
-        private void PlayerController_OnPauseTriggered()
-        {
-            if (_gamePaused)
-            {
-                UnPauseGame();
-                return;
-            }
-
-            PauseGame();
+            _playerInput.OnPauseButtonPressed -= PlayerCharacterInput_OnPauseButtonPressed;
         }
 
         public void PauseGame()
@@ -46,7 +52,7 @@ namespace Youregone.GameSystems
                 pausable.Pause();
         }
 
-        public void UnPauseGame()
+        public void UnpauseGame()
         {
             _gamePaused = false;
             _pauseBackground.gameObject.SetActive(false);
@@ -69,6 +75,17 @@ namespace Youregone.GameSystems
                 return;
 
             _pausableObjectList.Remove(pausable);
+        }
+
+        private void PauseTriggered()
+        {
+            if (_gamePaused)
+            {
+                UnpauseGame();
+                return;
+            }
+
+            PauseGame();
         }
     }
 }

@@ -15,7 +15,6 @@ namespace Youregone.PlayerControls
         public event Action OnRamStop;
         public event Action OnDeath;
         public event Action OnDamageTaken;
-        public event Action OnPauseTriggered;
 
         private const string ANIMATION_JUMP_TRIGGER = "JUMP";
         private const string ANIMATION_LAND_TRIGGER = "LAND";
@@ -56,6 +55,8 @@ namespace Youregone.PlayerControls
         [SerializeField] private bool _isRaming = false;
         [SerializeField] private int _currentHealth;
         [SerializeField] private bool _canRechargeStamina;
+        [SerializeField] private bool _jumpPressed;
+        [SerializeField] private bool _ramPressed;
 
         private PlayerCharacterInput _playerInput;
         private float _baseGravityScale;
@@ -70,13 +71,14 @@ namespace Youregone.PlayerControls
         public bool IsRaming => _isRaming;
         public float CurrentSpeed => _currentSpeed;
         public int CurrentHealth => _currentHealth;
-
+        public PlayerCharacterInput PlayerCharacterInput => _playerInput;
 
         private void Awake()
         {
-            _playerInput = GetComponent<PlayerCharacterInput>();
-            _playerInput.OnJumpButtonPressed += Jump;
-
+            _playerInput = new();
+            //_playerInput.OnJumpButtonPressed += Jump;
+            //_playerInput.OnRamButtonPressed += StartRam;
+            _playerInput.OnRamButtonReleased += StopRam;
 
             _baseMaterial = _spriteRenderer.material;
             _rigidBody = GetComponent<Rigidbody2D>();
@@ -102,47 +104,24 @@ namespace Youregone.PlayerControls
 
         public void ObservedUpdate()
         {
-            if (Input.GetKeyDown(KeyCode.Escape) && (_gameState.CurrentGameState == EGameState.Gameplay ||
-                                                     _gameState.CurrentGameState == EGameState.Pause))
-            {
-                OnPauseTriggered?.Invoke();
-                return;
-            }
+            _jumpPressed = _playerInput.JumpPressed;
+            _ramPressed= _playerInput.RamPressed;
 
-            if (_gameState.CurrentGameState != EGameState.Gameplay || _gameState.CurrentGameState == EGameState.Pause)
+            if (_gameState.CurrentGameState != EGameState.Gameplay)
                 return;
 
             UpdateStaminaBar();
 
-            if (Input.GetKey(KeyCode.Space) && _currentHealth > 0 && _runStarted)
-            {
-                if (_isRaming)
-                    StopRam();
-
+            if (_playerInput.JumpPressed)
                 Jump();
-            }
+
+            if (_playerInput.RamPressed)
+                StartRam();
 
             if (_staminaCurrent <= 0 && _isRaming)
                 StopRam();
 
-            if (Input.GetKeyUp(KeyCode.F) && _isRaming)
-                StopRam();
-
-            if ((Input.GetKeyDown(KeyCode.F) || Input.GetKey(KeyCode.F)) && _currentHealth > 0 && _isGrounded && !_isRaming && _staminaCurrent > 0)
-                StartRam();
-
-            if (_isRaming)
-                _staminaCurrent -= _staminaDrain * Time.deltaTime;
-            else if (_canRechargeStamina && _staminaCurrent < _staminaMax)
-            {
-                _staminaCurrent += _staminaRechargeRate * Time.deltaTime;
-
-                if (_staminaCurrent >= _staminaMax)
-                {
-                    _staminaCurrent = _staminaMax;
-                    _staminaBarAnimator.SetTrigger(ANIMATION_STAMINA_BAR_FULL_CHARGE_TRIGGER);
-                }
-            }
+            ManageStamina();
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
@@ -160,6 +139,14 @@ namespace Youregone.PlayerControls
         private void OnDisable()
         {
             UpdateManager.UnregisterUpdateObserver(this);
+        }
+
+        private void OnDestroy()
+        {
+            _groundCheck.Landed -= Land;
+            //_playerInput.OnJumpButtonPressed -= Jump;
+            //_playerInput.OnRamButtonPressed -= StartRam;
+            _playerInput.OnRamButtonReleased -= StopRam;
         }
 
         public override void Pause()
@@ -183,6 +170,22 @@ namespace Youregone.PlayerControls
             _staminaBar.GetComponent<Animator>().speed = 1f;
         }
 
+        private void ManageStamina()
+        {
+            if (_isRaming)
+                _staminaCurrent -= _staminaDrain * Time.deltaTime;
+            else if (_canRechargeStamina && _staminaCurrent < _staminaMax)
+            {
+                _staminaCurrent += _staminaRechargeRate * Time.deltaTime;
+
+                if (_staminaCurrent >= _staminaMax)
+                {
+                    _staminaCurrent = _staminaMax;
+                    _staminaBarAnimator.SetTrigger(ANIMATION_STAMINA_BAR_FULL_CHARGE_TRIGGER);
+                }
+            }
+        }
+
         private void Flash()
         {
             if (_flashCoroutine != null)
@@ -199,11 +202,6 @@ namespace Youregone.PlayerControls
 
             _spriteRenderer.material = _baseMaterial;
             _flashCoroutine = null;
-        }
-
-        private void OnDestroy()
-        {
-            _groundCheck.Landed -= Land;
         }
 
         private void TakeDamage()
@@ -245,6 +243,9 @@ namespace Youregone.PlayerControls
             if (!_runStarted)
                 _runStarted = true;
 
+            if (_currentHealth <= 0 || !_isGrounded || _isRaming || _staminaCurrent <= 0)
+                return;
+
             _staminaCurrent -= _staminaCurrent * _minStaminaDrainPerUse;
             _isRaming = true;
             _canRechargeStamina = false;
@@ -255,6 +256,9 @@ namespace Youregone.PlayerControls
 
         private void StopRam()
         {
+            if (!_isRaming)
+                return;
+
             _isRaming = false;
             _currentSpeed = _baseMoveSpeed;
             OnRamStop?.Invoke();
@@ -293,8 +297,11 @@ namespace Youregone.PlayerControls
 
         private void Jump()
         {
-            if (!_isGrounded)
+            if (_currentHealth <= 0 || !_runStarted || !_isGrounded)
                 return;
+            
+            if (_isRaming)
+                StopRam();
 
             _isGrounded = false;
             _rigidBody.velocity = new Vector2(_currentSpeed, 0f);

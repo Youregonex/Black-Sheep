@@ -34,6 +34,10 @@ namespace Youregone.LevelGeneration
         [SerializeField, Range(0f, 1f)] private float _rareCollectableSpawnChance;
         [SerializeField] private Transform _collectableParentTransform;
 
+        [Header("Pool config")]
+        [SerializeField] private int _initialBirdPoolSize;
+        [SerializeField] private int _initialRockBreakPiecePoolSize;
+
         [Header("Test")]
         [SerializeField] private bool _progressiveDifficulty;
         [SerializeField] private int _maxDifficultyScore;
@@ -49,18 +53,11 @@ namespace Youregone.LevelGeneration
         private Factory<Collectable> _collectableFactory = new();
         private Factory<RockBreakPiece> _breakPieceFactory = new();
         private Factory<Bird> _birdFactory = new();
-        private BirdPool _birdPool;
+        private BasicPool<Bird> _birdPool;
         private CollectablePool _collectablPool;
         private ObstaclePool _obstaclePool;
-        private RockBreakPool _rockBreakPiecePool;
+        private BasicPool<RockBreakPiece> _rockBreakPiecePool;
 
-        private void Awake()
-        {
-            _collectablPool = new(_collectableFactory, _regularCollectablePrefab, _rareCollectablePrefab);
-            _obstaclePool = new(_obstacleFactory, _obstaclePrefabList);
-            _birdPool = new(_birdFactory, _birdPrefab);
-            _rockBreakPiecePool = new(_breakPieceFactory, _rockBreakPiecePrefab);
-        }
 
         private void OnEnable()
         {
@@ -71,6 +68,11 @@ namespace Youregone.LevelGeneration
         {
             _player = ServiceLocator.Get<PlayerController>();
             _scoreCounter = ServiceLocator.Get<GameScreenUI>().ScoreCounter;
+
+            _collectablPool = new(_collectableFactory, _regularCollectablePrefab, _rareCollectablePrefab);
+            _obstaclePool = new(_obstacleFactory, _obstaclePrefabList);
+            _birdPool = new(_birdFactory, _birdPrefab, _propsParent, _initialBirdPoolSize);
+            _rockBreakPiecePool = new(_breakPieceFactory, _rockBreakPiecePrefab, _rockBreakPiecesParent, _initialRockBreakPiecePoolSize);
         }
 
         public void ObservedUpdate()
@@ -145,7 +147,7 @@ namespace Youregone.LevelGeneration
                 if (UnityEngine.Random.Range(0f, 1f) >= _birdSpawnChance)
                     continue;
 
-                Bird bird = _birdPool.Dequeue(_propsParent);
+                Bird bird = _birdPool.Dequeue();
                 bird.transform.position = birdSpawnPoint.position;
                 bird.OnDestruction += Bird_OnDestruction;
                 Vector2 birdVelocity = new(_player.CurrentSpeed, 0f);
@@ -187,7 +189,7 @@ namespace Youregone.LevelGeneration
 
             for (int i = 0; i < piecesCount; i++)
             {
-                RockBreakPiece rockBreakPiece = _rockBreakPiecePool.Dequeue(_rockBreakPiecesParent);
+                RockBreakPiece rockBreakPiece = _rockBreakPiecePool.Dequeue();
                 rockBreakPiece.transform.position = obstacle.transform.position;
                 rockBreakPiece.OnDestruction += RockBreakPiece_OnDestruction;
             }
