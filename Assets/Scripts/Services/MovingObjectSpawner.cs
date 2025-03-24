@@ -15,39 +15,35 @@ namespace Youregone.LevelGeneration
         public event Action OnMaxDifficultyReached;
         public event Action OnMidDifficultyReached;
 
-        [Header("Obstacle Config")]
+        [CustomHeader("Obstacle Config")]
         [SerializeField] private List<Obstacle> _obstaclePrefabList;
-        [SerializeField, Range(0, 1f)] private float _obstacleSpawnChance;
         [SerializeField] private Transform _obstacleParentTransform;
+
+        [CustomHeader("Props config")]
+        [SerializeField] private Bird _birdPrefab;
+        [SerializeField] private Transform _propsParent;
         [SerializeField] private RockBreakPiece _rockBreakPiecePrefab;
         [SerializeField] private Transform _rockBreakPiecesParent;
 
-        [Header("Props config")]
-        [SerializeField] private Bird _birdPrefab;
-        [SerializeField, Range(0f, 1f)] private float _birdSpawnChance;
-        [SerializeField] private Transform _propsParent;
-
-        [Header("Collectable Config")]
+        [CustomHeader("Collectable Config")]
         [SerializeField] private Collectable _regularCollectablePrefab;
         [SerializeField] private Collectable _rareCollectablePrefab;
-        [SerializeField, Range(0, 1f)] private float _collectableSpawnChance;
-        [SerializeField, Range(0f, 1f)] private float _rareCollectableSpawnChance;
         [SerializeField] private Transform _collectableParentTransform;
 
-        [Header("Pool config")]
+        [CustomHeader("Pool config")]
         [SerializeField] private int _initialBirdPoolSize;
         [SerializeField] private int _initialRockBreakPiecePoolSize;
 
-        [Header("Test")]
-        [SerializeField] private bool _progressiveDifficulty;
-        [SerializeField] private int _maxDifficultyScore;
-
-        [Header("Debug")]
+        [CustomHeader("Debug")]
         [SerializeField] private bool _maxDifficultyReached;
         [SerializeField] private bool _midDifficultyReached;
 
+        private float _obstacleSpawnChance;
+        private int _maxDifficultyScore;
         private float _midDifficultyScore => _maxDifficultyScore / 2;
-        private ScoreCounter _scoreCounter;
+
+        private GameSettings _gameSettings;
+        private ScoreCounterUI _scoreCounter;
         private PlayerController _player;
         private Factory<Obstacle> _obstacleFactory = new();
         private Factory<Collectable> _collectableFactory = new();
@@ -66,6 +62,10 @@ namespace Youregone.LevelGeneration
 
         private void Start()
         {
+            _gameSettings = ServiceLocator.Get<GameSettings>();
+            _maxDifficultyScore = _gameSettings.MaxDifficultyScore;
+            _obstacleSpawnChance = _gameSettings.ObstacleSpawnChance;
+
             _player = ServiceLocator.Get<PlayerController>();
             _scoreCounter = ServiceLocator.Get<GameScreenUI>().ScoreCounter;
 
@@ -77,17 +77,17 @@ namespace Youregone.LevelGeneration
 
         public void ObservedUpdate()
         {
-            if (_progressiveDifficulty && !_maxDifficultyReached)
+            if (_gameSettings.ProgressiveDifficultyEnabled && !_maxDifficultyReached)
             {
                 _obstacleSpawnChance = _scoreCounter.CurrentScore / _maxDifficultyScore;
 
-                if (_scoreCounter.CurrentScore / _midDifficultyScore > 1f && !_midDifficultyReached)
+                if (_scoreCounter.CurrentScore / _midDifficultyScore >= .5f && !_midDifficultyReached)
                 {
                     _midDifficultyReached = true;
                     OnMidDifficultyReached?.Invoke();
                 }
 
-                if (_scoreCounter.CurrentScore / _maxDifficultyScore > 1f)
+                if (_scoreCounter.CurrentScore / _maxDifficultyScore >= 1f && !_maxDifficultyReached)
                 {
                     _obstacleSpawnChance = 1f;
                     _maxDifficultyReached = true;
@@ -120,12 +120,12 @@ namespace Youregone.LevelGeneration
 
         public void SpawnCollectable(Vector2 position)
         {
-            if (UnityEngine.Random.Range(0f, 1f) > _collectableSpawnChance)
+            if (UnityEngine.Random.Range(0f, 1f) > _gameSettings.CollectableSpawnChance)
                 return;
 
             Collectable pooledCollectable;
 
-            if (UnityEngine.Random.Range(0f, 1f) <= _rareCollectableSpawnChance)
+            if (UnityEngine.Random.Range(0f, 1f) <= _gameSettings.RareCollectableSpawnChance)
                 pooledCollectable = _collectablPool.DequeueCollectable(true, _collectableParentTransform);
             
             else
@@ -144,7 +144,7 @@ namespace Youregone.LevelGeneration
 
             foreach(Transform birdSpawnPoint in birdSpawnPositions)
             {
-                if (UnityEngine.Random.Range(0f, 1f) >= _birdSpawnChance)
+                if (UnityEngine.Random.Range(0f, 1f) >= _gameSettings.BirdSpawnChance)
                     continue;
 
                 Bird bird = _birdPool.Dequeue();

@@ -990,17 +990,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1960574023}
-  - {fileID: 2009078776}
-  - {fileID: 1426614468}
-  - {fileID: 1357494590}
-  - {fileID: 871325975}
-  - {fileID: 1235369856}
-  - {fileID: 1593498113}
+  - {fileID: 1307423203}
   - {fileID: 1157944649}
-  - {fileID: 1685374008}
-  - {fileID: 866583362}
-  - {fileID: 1605950230}
   - {fileID: 1892396146}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1357,7 +1348,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2000873232}
-  m_Father: {fileID: 1892396146}
+  m_Father: {fileID: 1307423203}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &469754162
 MonoBehaviour:
@@ -2158,12 +2149,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 866583361}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 370001719}
+  m_Father: {fileID: 1307423203}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &866583363
 MonoBehaviour:
@@ -2202,12 +2193,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 871325974}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 370001719}
+  m_Father: {fileID: 1307423203}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &871325976
 MonoBehaviour:
@@ -3377,50 +3368,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1762042472}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1235369855
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1235369856}
-  - component: {fileID: 1235369857}
-  m_Layer: 0
-  m_Name: HighScoreSaver
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1235369856
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1235369855}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 370001719}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1235369857
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1235369855}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4292f7449643646b993cd3bfd972540b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1279192278
 GameObject:
   m_ObjectHideFlags: 0
@@ -3715,6 +3662,47 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1303871321}
   m_CullTransparentMesh: 1
+--- !u!1 &1307423202
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1307423203}
+  m_Layer: 0
+  m_Name: Services
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1307423203
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1307423202}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1685374008}
+  - {fileID: 2009078776}
+  - {fileID: 1960574023}
+  - {fileID: 1426614468}
+  - {fileID: 1593498113}
+  - {fileID: 871325975}
+  - {fileID: 1357494590}
+  - {fileID: 469754161}
+  - {fileID: 866583362}
+  - {fileID: 1605950230}
+  m_Father: {fileID: 370001719}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1327860239
 GameObject:
   m_ObjectHideFlags: 0
@@ -3939,12 +3927,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1357494589}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 370001719}
+  m_Father: {fileID: 1307423203}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1357494591
 MonoBehaviour:
@@ -3984,12 +3972,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1426614467}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 370001719}
+  m_Father: {fileID: 1307423203}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1426614469
 MonoBehaviour:
@@ -4009,22 +3997,16 @@ MonoBehaviour:
   - {fileID: 4089737090867719624, guid: 654e9279d12bb44b6a51cf5163af451e, type: 3}
   - {fileID: 4089737090867719624, guid: bbfd8de1a672a4a0b92d023c0d51b09b, type: 3}
   - {fileID: 4089737090867719624, guid: d011efa3e403a445f968e90b7b5fbba8, type: 3}
-  _obstacleSpawnChance: 0
   _obstacleParentTransform: {fileID: 538472248}
   _rockBreakPiecePrefab: {fileID: 1674908274855518557, guid: 797a6649e2bf44a48812bd0a40d7f8ae, type: 3}
   _rockBreakPiecesParent: {fileID: 666565828}
   _birdPrefab: {fileID: 5329041660059366981, guid: 577bfc858b4c94b199ce53f4018482b7, type: 3}
-  _birdSpawnChance: 0.25
   _propsParent: {fileID: 910343899}
   _regularCollectablePrefab: {fileID: 5970340744938519519, guid: 405e3093b2ba7463f9130cb387deb1c4, type: 3}
   _rareCollectablePrefab: {fileID: 5970340744938519519, guid: b9b4c7fe88c1a4a968f3ca58b416e6e5, type: 3}
-  _collectableSpawnChance: 0.7
-  _rareCollectableSpawnChance: 0.05
   _collectableParentTransform: {fileID: 1008939086}
   _initialBirdPoolSize: 10
   _initialRockBreakPiecePoolSize: 50
-  _progressiveDifficulty: 1
-  _maxDifficultyScore: 2000
   _maxDifficultyReached: 0
   _midDifficultyReached: 1
 --- !u!1 &1441273365
@@ -4569,12 +4551,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1593498112}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 370001719}
+  m_Father: {fileID: 1307423203}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1593498114
 MonoBehaviour:
@@ -4615,12 +4597,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1605950229}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 370001719}
+  m_Father: {fileID: 1307423203}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1605950231
 MonoBehaviour:
@@ -4858,12 +4840,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1685374007}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 370001719}
+  m_Father: {fileID: 1307423203}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1685374009
 MonoBehaviour:
@@ -4877,8 +4859,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b152e04ed42a64af8bad8993fc876a77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _showIntro: 0
-  _showOutro: 0
+  _skipIntro: 1
+  _progressiveDifficultyEnabled: 1
+  _maxDifficultyScore: 2000
+  _obstacleSpawnChance: 0.4
+  _pitSpawnChanceStart: 0.2
+  _pitSpawnChanceMidGame: 0.3
+  _pitSpawnChanceMax: 0.4
+  _bridgeSpawnCooldownStart: 20
+  _bridgeSpawnCooldownMidGame: 15
+  _bridgeSpawnCooldownMax: 10
+  _collectableSpawnChance: 0.6
+  _rareCollectableSpawnChance: 0.05
+  _birdSpawnChance: 0.35
 --- !u!1 &1696599625
 GameObject:
   m_ObjectHideFlags: 0
@@ -5278,7 +5271,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 892769134}
-  - {fileID: 469754161}
   - {fileID: 1279192280}
   - {fileID: 1975936354}
   - {fileID: 1001872905}
@@ -5525,12 +5517,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1960574022}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 370001719}
+  m_Father: {fileID: 1307423203}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1960574024
 MonoBehaviour:
@@ -5544,7 +5536,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 103236d12686e4a5881445b5955407ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _skipIntro: 1
   _camera: {fileID: 519420033}
   _transitionPrefab: {fileID: 1781655435715550049, guid: 8a508b21d21ea4057a7fd3befd26743e, type: 3}
   _introGameObject: {fileID: 200622371}
@@ -5560,7 +5551,7 @@ MonoBehaviour:
   _introTransitionDuration: 1
   _introButtonFadeTime: 0.5
   _outroTransitionDuration: 2
-  _sosal: 0
+  _sosal: 1
   _sosalText: {fileID: 761514277}
   _sosalDuration: 0.2
   _currentGameState: 0
@@ -5877,7 +5868,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 370001719}
+  m_Father: {fileID: 1307423203}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2009078777
 MonoBehaviour:
@@ -5916,17 +5907,11 @@ MonoBehaviour:
   - {fileID: 151219202837881634, guid: 7979700f4466e421abaa792d9493a47f, type: 3}
   - {fileID: 151219202837881634, guid: 46cadb0c16b054614b86f08294cc3aec, type: 3}
   - {fileID: 151219202837881634, guid: da8c4c8bdc67b474c8339a978be65613, type: 3}
-  _pitChunkSpawnChance: 0.2
-  _bridgeChunkSpawnCooldown: 20
   _chunkParentTransform: {fileID: 33410147}
   _lastChunk: {fileID: 0}
   _nextChunk: {fileID: 0}
   _canSpawn: 1
   _bridgeChunkSpawnCooldownCurrent: 0
-  _pitSpawnChanceMidDifficulty: 0.3
-  _bridgeCooldownMidDifficulty: 15
-  _pitSpawnChanceMaxDifficulty: 0.4
-  _bridgeCooldownMaxDifficulty: 10
 --- !u!1 &2040080352
 GameObject:
   m_ObjectHideFlags: 0

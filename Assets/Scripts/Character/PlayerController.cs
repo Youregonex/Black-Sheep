@@ -23,7 +23,7 @@ namespace Youregone.PlayerControls
         private const string ANIMATION_DEATH_TRIGGER = "DEATH";
         private const string ANIMATION_STAMINA_BAR_FULL_CHARGE_TRIGGER = "BARFULL";
 
-        [Header("Sheep Config")]
+        [CustomHeader("Sheep Config")]
         [SerializeField] private float _baseMoveSpeed;
         [SerializeField] private float _ramMoveSpeed;
         [SerializeField] private float _jumpForce;
@@ -36,18 +36,18 @@ namespace Youregone.PlayerControls
         [SerializeField] private Image _staminaBar;
         [SerializeField] private bool _immortal;
 
-        [Header("Sprite Flash Config")]
+        [CustomHeader("Sprite Flash Config")]
         [SerializeField] private Material _flashMaterial;
         [SerializeField] private float _flashDuration;
 
-        [Header("Components")]
+        [CustomHeader("Components")]
         [SerializeField] private Animator _animator;
         [SerializeField] private Animator _staminaBarAnimator;
         [SerializeField] private GroundCheck _groundCheck;
         [SerializeField] private SpriteRenderer _spriteRenderer;
         [SerializeField] private Gradient _staminaGradient;
 
-        [Header("Debug")]
+        [CustomHeader("Debug")]
         [SerializeField] private float _currentSpeed;
         [SerializeField] private float _staminaCurrent;
         [SerializeField] private Material _baseMaterial;
@@ -55,8 +55,6 @@ namespace Youregone.PlayerControls
         [SerializeField] private bool _isRaming = false;
         [SerializeField] private int _currentHealth;
         [SerializeField] private bool _canRechargeStamina;
-        [SerializeField] private bool _jumpPressed;
-        [SerializeField] private bool _ramPressed;
 
         private PlayerCharacterInput _playerInput;
         private float _baseGravityScale;
@@ -76,8 +74,6 @@ namespace Youregone.PlayerControls
         private void Awake()
         {
             _playerInput = new();
-            //_playerInput.OnJumpButtonPressed += Jump;
-            //_playerInput.OnRamButtonPressed += StartRam;
             _playerInput.OnRamButtonReleased += StopRam;
 
             _baseMaterial = _spriteRenderer.material;
@@ -104,9 +100,6 @@ namespace Youregone.PlayerControls
 
         public void ObservedUpdate()
         {
-            _jumpPressed = _playerInput.JumpPressed;
-            _ramPressed= _playerInput.RamPressed;
-
             if (_gameState.CurrentGameState != EGameState.Gameplay)
                 return;
 
@@ -144,8 +137,6 @@ namespace Youregone.PlayerControls
         private void OnDestroy()
         {
             _groundCheck.Landed -= Land;
-            //_playerInput.OnJumpButtonPressed -= Jump;
-            //_playerInput.OnRamButtonPressed -= StartRam;
             _playerInput.OnRamButtonReleased -= StopRam;
         }
 
@@ -291,7 +282,6 @@ namespace Youregone.PlayerControls
             //For some reason sometimes "LAND" trigger gets stuck and jump animation breaks
             float triggerResetDelay = .25f;
             yield return new WaitForSeconds(triggerResetDelay);
-
             _animator.ResetTrigger(ANIMATION_LAND_TRIGGER);
         }
 

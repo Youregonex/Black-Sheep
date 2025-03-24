@@ -8,7 +8,7 @@ namespace Youregone.LevelGeneration
 {
     public class MovingObjectHandler : PausableMonoBehaviour, IService
     {
-        [Header("Debug")]
+        [CustomHeader("Debug")]
         [SerializeField] private List<MovingObject> _spawnedObjects;
 
         private float _currentSpeed

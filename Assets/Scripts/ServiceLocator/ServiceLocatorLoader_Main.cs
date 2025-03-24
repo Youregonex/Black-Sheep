@@ -17,7 +17,7 @@ namespace Youregone.SL
         [SerializeField] private PauseManager _pauseManager;
         [SerializeField] private SoundManager _soundManager;
         [SerializeField] private GameScreenUI _gameScreenUI;
-        [SerializeField] private GameSettings _gameSettings;
+        [SerializeField] private GameSystems.GameSettings _gameSettings;
         [SerializeField] private PlayerPrefsSaverLoader _playerPrefsSaverLoader;
 
         private void Awake()
@@ -29,7 +29,7 @@ namespace Youregone.SL
             ServiceLocator.Register<PauseManager>(_pauseManager);
             ServiceLocator.Register<SoundManager>(_soundManager);
             ServiceLocator.Register<GameScreenUI>(_gameScreenUI);
-            ServiceLocator.Register<GameSettings>(_gameSettings);
+            ServiceLocator.Register<GameSystems.GameSettings>(_gameSettings);
             ServiceLocator.Register<PlayerPrefsSaverLoader>(_playerPrefsSaverLoader);
         }
     }

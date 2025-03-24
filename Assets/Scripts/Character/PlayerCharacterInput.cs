@@ -1,6 +1,5 @@
 using UnityEngine.InputSystem;
 using System;
-using Youregone.GameSystems;
 
 namespace Youregone.PlayerControls
 {
@@ -30,8 +29,10 @@ namespace Youregone.PlayerControls
             _inputActions.Enable();
             _inputActions.CharacterInputActions.Jump.performed += Jump_performed;
             _inputActions.CharacterInputActions.Jump.canceled += Jump_canceled;
+
             _inputActions.CharacterInputActions.Ram.performed += Ram_performed;
             _inputActions.CharacterInputActions.Ram.canceled += Ram_Canceled;
+
             _inputActions.CharacterInputActions.Pause.performed += Pause_performed;
         }
 
@@ -40,8 +41,10 @@ namespace Youregone.PlayerControls
             _inputActions.Disable();
             _inputActions.CharacterInputActions.Jump.performed -= Jump_performed;
             _inputActions.CharacterInputActions.Jump.canceled -= Jump_canceled;
+
             _inputActions.CharacterInputActions.Ram.performed -= Ram_performed;
             _inputActions.CharacterInputActions.Ram.canceled -= Ram_Canceled;
+
             _inputActions.CharacterInputActions.Pause.performed -= Pause_performed;
         }
 

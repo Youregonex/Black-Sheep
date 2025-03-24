@@ -10,22 +10,22 @@ namespace Youregone.EnemyAI
     {
         private const string ATTACK_TRIGGER = "RAM";
 
-        [Header("Enemy Config")]
+        [CustomHeader("Enemy Config")]
         [SerializeField] private float _moveSpeed;
         [SerializeField] private float _triggerRadiusMin;
         [SerializeField] private float _triggerRadiusMax;
         [SerializeField] private float _alertRangeAddition;
 
-        [Header("DOTween Config")]
+        [CustomHeader("DOTween Config")]
         [SerializeField] private float _alertSignAnimationDuration;
         [SerializeField] private float _alertSignUpwardsMovementAmount;
         [SerializeField] private float _alertSignFadeTime;
 
-        [Header("Components")]
+        [CustomHeader("Components")]
         [SerializeField] private Animator _animator;
         [SerializeField] private GameObject _alertSign;
 
-        [Header("Debug")]
+        [CustomHeader("Debug")]
         [SerializeField] private bool _triggered = false;
         [SerializeField] private float _alertZoneSize;
         [SerializeField] private float _triggerZoneSize;

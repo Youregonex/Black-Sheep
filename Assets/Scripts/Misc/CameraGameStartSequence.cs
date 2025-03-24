@@ -9,7 +9,7 @@ namespace Youregone.GameCamera
     {
         public event Action OnCameraInPosition;
 
-        [Header("Settings")]
+        [CustomHeader("Settings")]
         [SerializeField] private float _cameraSequenceDelay;
         [SerializeField] private float _cameraMoveDuration;
         [SerializeField] private float _cameraZOffset;

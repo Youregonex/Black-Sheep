@@ -11,13 +11,13 @@ namespace Youregone.LevelGeneration
     {
         public event Action<RockBreakPiece> OnDestruction;
 
-        [Header("Rock Break Piece Config")]
+        [CustomHeader("Rock Break Piece Config")]
         [SerializeField] private Vector2 _direction;
         [SerializeField] private float _forceMultiplier;
         [SerializeField] private List<Sprite> _rockPiecesSpriteList;
         [SerializeField] private SpriteRenderer _spriteRenderer;
 
-        [Header("DOTween Config")]
+        [CustomHeader("DOTween Config")]
         [SerializeField] private float _fadeDuration;
         [SerializeField] private float _fadeDelay;
         [SerializeField] private float _slowdownDuration;

@@ -12,7 +12,7 @@ namespace Youregone.LevelGeneration
 
     public class Chunk : MovingObject
     { 
-        [Header("Config")]
+        [CustomHeader("Config")]
         [SerializeField] private Transform _endTransform;
         [SerializeField] private ChunkType _chunkType;
 

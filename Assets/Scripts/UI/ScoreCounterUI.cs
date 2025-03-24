@@ -6,12 +6,12 @@ using Youregone.SL;
 
 namespace Youregone.UI
 {
-    public class ScoreCounter : PausableMonoBehaviour, IUpdateObserver, IService
+    public class ScoreCounterUI : PausableMonoBehaviour, IUpdateObserver, IService
     {
-        [Header("Config")]
+        [CustomHeader("Config")]
         [SerializeField] private TextMeshProUGUI _scoreText;
 
-        [Header("Debug")]
+        [CustomHeader("Debug")]
         [SerializeField] private float _score;
         [SerializeField] private bool _isPlayerDead = false;
 

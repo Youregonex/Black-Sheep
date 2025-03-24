@@ -17,8 +17,7 @@ namespace Youregone.GameSystems
     {
         private const float TRANSITION_CAMERA_Y_OFFSET = 48; 
 
-        [Header("Config")]
-        [SerializeField] private bool _skipIntro;
+        [CustomHeader("Config")]
         [SerializeField] private CameraGameStartSequence _camera;
         [SerializeField] private SpriteRenderer _transitionPrefab;
         [SerializeField] private GameObject _introGameObject;
@@ -26,18 +25,18 @@ namespace Youregone.GameSystems
         [SerializeField] private float _outroDelay;
         [SerializeField] private float _sceneReloadDelay;
 
-        [Header("UI Elements")]
+        [CustomHeader("UI Elements")]
         [SerializeField] private Button _playButton;
         [SerializeField] private Button _exitButton;
         [SerializeField] private CanvasGroup _highScoreCanvasGroup;
         [SerializeField] private TextMeshProUGUI _highScoreText;
 
-        [Header("DOTWeen Config")]
+        [CustomHeader("DOTWeen Config")]
         [SerializeField] private float _introTransitionDuration;
         [SerializeField] private float _introButtonFadeTime;
         [SerializeField] private float _outroTransitionDuration;
 
-        [Header("Debug")]
+        [CustomHeader("Debug")]
         [SerializeField] private bool _sosal;
         [SerializeField] private TextMeshProUGUI _sosalText;
         [SerializeField] private float _sosalDuration;
@@ -46,6 +45,7 @@ namespace Youregone.GameSystems
 
         private Coroutine _startGameCoroutine;
         private Coroutine _sceneReloadCoroutine;
+        private GameSettings _gameSettings;
 
         public EGameState CurrentGameState => _currentGameState;
 
@@ -59,13 +59,14 @@ namespace Youregone.GameSystems
         {
             base.Start();
 
+            _gameSettings = ServiceLocator.Get<GameSettings>();
             ServiceLocator.Get<PlayerController>().OnDeath += PlayerController_OnDeath;
             ServiceLocator.Get<GameScreenUI>().OnGameReloadRequested += GameScreenUI_OnGameReloadRequested;
 
             SetupButtons();
             _highScoreCanvasGroup.alpha = 0;
 
-            if (_skipIntro)
+            if (_gameSettings.SkipIntro)
             {
                 if (_startGameCoroutine != null)
                     return;
@@ -207,7 +208,7 @@ namespace Youregone.GameSystems
             if (_currentGameState == EGameState.Gameplay)
                 yield break;
 
-            if(_skipIntro)
+            if(_gameSettings.SkipIntro)
             {
                 ShowUI();
                 _currentGameState = EGameState.Gameplay;

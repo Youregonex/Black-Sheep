@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using Youregone.PlayerControls;
 using Youregone.SL;
+using Youregone.GameSystems;
 
 namespace Youregone.LevelGeneration
 {
@@ -10,30 +11,26 @@ namespace Youregone.LevelGeneration
         private const string OBSTACLE_PARENT_NAME = "Rock";
         private const string COLLECTABLES_PARENT_NAME = "PickUp";
 
-        [Header("Preferences")]
+        [CustomHeader("Settings")]
         [SerializeField] private float _playerDistanceSpawnChunk;
 
-        [Header("Chunk Settings")]
+        [CustomHeader("Chunk Settings")]
         [SerializeField] private Chunk _startingChunk;
         [SerializeField] private List<Chunk> _pitChunkPrefabList;
         [SerializeField] private List<Chunk> _bridgeChunkPrefab;
         [SerializeField] private List<Chunk> _platformChunkPrefabList;
-        [SerializeField, Range(0f, 1f)] private float _pitChunkSpawnChance;
-        [SerializeField] private float _bridgeChunkSpawnCooldown;
         [SerializeField] private Transform _chunkParentTransform;
 
-        [Header("Debug")]
+        [CustomHeader("Debug")]
         [SerializeField] private Chunk _lastChunk;
         [SerializeField] private Chunk _nextChunk;
         [SerializeField] private bool _canSpawn;
         [SerializeField] private float _bridgeChunkSpawnCooldownCurrent;
 
-        [Header("Test")]
-        [SerializeField] private float _pitSpawnChanceMidDifficulty;
-        [SerializeField] private float _bridgeCooldownMidDifficulty;
-        [SerializeField] private float _pitSpawnChanceMaxDifficulty;
-        [SerializeField] private float _bridgeCooldownMaxDifficulty;
+        private float _pitSpawnChance;
+        private float _bridgeSpawnCooldown;
 
+        private GameSettings _gameSettings;
         private PlayerController _player;
         private MovingObjectSpawner _movingObjectSpawner;
 
@@ -43,11 +40,15 @@ namespace Youregone.LevelGeneration
             _player = ServiceLocator.Get<PlayerController>();
             _player.OnDeath += StopSpawning;
 
-            _movingObjectSpawner = ServiceLocator.Get<MovingObjectSpawner>();
-            _movingObjectSpawner.OnMaxDifficultyReached += MovingObjectSpawner_OnMaxDifficultyReached;
-            _movingObjectSpawner.OnMidDifficultyReached += MovingObjectSpawner_OnMidDifficultyReached;
+            _gameSettings = ServiceLocator.Get<GameSettings>();
+            _pitSpawnChance = _gameSettings.PitSpawnChanceStart;
+            _bridgeSpawnCooldown = _gameSettings.BridgeSpawnCooldownStart;
+            _bridgeChunkSpawnCooldownCurrent = _bridgeSpawnCooldown;
 
-            _bridgeChunkSpawnCooldownCurrent = _bridgeChunkSpawnCooldown;
+            _movingObjectSpawner = ServiceLocator.Get<MovingObjectSpawner>();
+            _movingObjectSpawner.OnMidDifficultyReached += MovingObjectSpawner_OnMidDifficultyReached;
+            _movingObjectSpawner.OnMaxDifficultyReached += MovingObjectSpawner_OnMaxDifficultyReached;
+
             _lastChunk = SpawnNextChunk();
         }
 
@@ -75,20 +76,20 @@ namespace Youregone.LevelGeneration
         private void OnDestroy()
         {
             _player.OnDeath -= StopSpawning;
-            _movingObjectSpawner.OnMaxDifficultyReached -= MovingObjectSpawner_OnMaxDifficultyReached;
             _movingObjectSpawner.OnMidDifficultyReached -= MovingObjectSpawner_OnMidDifficultyReached;
+            _movingObjectSpawner.OnMaxDifficultyReached -= MovingObjectSpawner_OnMaxDifficultyReached;
         }
 
         private void MovingObjectSpawner_OnMidDifficultyReached()
         {
-            _pitChunkSpawnChance = _pitSpawnChanceMidDifficulty;
-            _bridgeChunkSpawnCooldown = _bridgeCooldownMidDifficulty;
+            _pitSpawnChance = _gameSettings.PitSpawnChanceMidGame;
+            _bridgeSpawnCooldown = _gameSettings.BridgeSpawnCooldownMidGame;
         }
 
         private void MovingObjectSpawner_OnMaxDifficultyReached()
         {
-            _pitChunkSpawnChance = _pitSpawnChanceMaxDifficulty;
-            _bridgeChunkSpawnCooldown = _bridgeCooldownMaxDifficulty;
+            _pitSpawnChance = _gameSettings.PitSpawnChanceMax;
+            _bridgeSpawnCooldown = _gameSettings.BridgeSpawnCooldownMax;
         }
 
         private void StopSpawning()
@@ -131,11 +132,11 @@ namespace Youregone.LevelGeneration
         {
             if (lastChunk.ChunkType != ChunkType.Pit && lastChunk.ChunkType != ChunkType.Bridge && _bridgeChunkSpawnCooldownCurrent <= 0)
             {
-                _bridgeChunkSpawnCooldownCurrent = _bridgeChunkSpawnCooldown;
+                _bridgeChunkSpawnCooldownCurrent = _bridgeSpawnCooldown;
                 return _bridgeChunkPrefab[UnityEngine.Random.Range(0, _bridgeChunkPrefab.Count)];
             }
 
-            if(UnityEngine.Random.Range(0f, 1f) <= _pitChunkSpawnChance)
+            if(UnityEngine.Random.Range(0f, 1f) <= _pitSpawnChance)
                 return _pitChunkPrefabList[UnityEngine.Random.Range(0, _pitChunkPrefabList.Count)];
 
             return _platformChunkPrefabList[UnityEngine.Random.Range(0, _platformChunkPrefabList.Count)];

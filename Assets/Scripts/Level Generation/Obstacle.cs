@@ -9,7 +9,7 @@ namespace Youregone.LevelGeneration
     {
         public event Action<Obstacle> OnDestruction;
 
-        [Header("Obstacle Config")]
+        [CustomHeader("Obstacle Config")]
         [SerializeField] private ObstacleSO _obstacleSO;
         [SerializeField] private SpriteRenderer _spriteRenderer;
         [SerializeField] private Transform _birdSpawnPointsParent;

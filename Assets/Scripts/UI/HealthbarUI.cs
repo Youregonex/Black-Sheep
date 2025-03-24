@@ -8,7 +8,7 @@ namespace Youregone.UI
 {
     public class HealthbarUI : MonoBehaviour, IService
     {
-        [Header("Config")]
+        [CustomHeader("Config")]
         [SerializeField] private List<Image> _heartsUIList;
 
         private void Start()

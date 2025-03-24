@@ -7,10 +7,10 @@ namespace Youregone.GameSystems
 {
     public class PauseManager : MonoBehaviour, IService
     {
-        [Header("Config")]
+        [CustomHeader("Config")]
         [SerializeField] private GameObject _pauseBackground;
 
-        [Header("Debug")]
+        [CustomHeader("Debug")]
         [SerializeField] private bool _gamePaused;
 
         private PlayerCharacterInput _playerInput;

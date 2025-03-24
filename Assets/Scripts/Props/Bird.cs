@@ -10,7 +10,7 @@ namespace Youregone.LevelGeneration
     {
         public event Action<Bird> OnDestruction;
 
-        [Header("Bird Config")]
+        [CustomHeader("Bird Config")]
         [SerializeField] private Animator _animator;
         [SerializeField] private Vector2 _birdFlyVelocity;
         [SerializeField] private SpriteRenderer _spriteRenderer;

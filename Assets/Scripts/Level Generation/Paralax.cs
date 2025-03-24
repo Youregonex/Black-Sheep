@@ -7,14 +7,14 @@ namespace Youregone.LevelGeneration
 {
     public class Paralax : MovingObject, IUpdateObserver
     {
-        [Header("Paralax Config")]
+        [CustomHeader("Paralax Config")]
         [SerializeField] private float _paralaxSpawnDistance;
         [SerializeField] private float _paralaxSpawnXOffset;
         [SerializeField] private float _paralaxFactor;
         [SerializeField] private Paralax _paralaxLayerPrefab;
         [SerializeField] private Transform _paralaxEndPoint;
 
-        [Header("Debug")]
+        [CustomHeader("Debug")]
         [SerializeField] private bool _paralaxCreated = false;
 
         private PlayerController _player;

@@ -2,8 +2,8 @@ using UnityEngine;
 using Youregone.SL;
 using UnityEngine.UI;
 using System;
-using Youregone.SaveSystem;
 using UnityEngine.EventSystems;
+using Youregone.GameSystems;
 
 namespace Youregone.UI
 {
@@ -12,8 +12,8 @@ namespace Youregone.UI
         public event Action OnGameReloadRequested;
         public event Action OnGameOutroToggleRequest;
 
-        [Header("Config")]
-        [SerializeField] private ScoreCounter _scoreCounter;
+        [CustomHeader("Config")]
+        [SerializeField] private ScoreCounterUI _scoreCounter;
         [SerializeField] private HealthbarUI _healthbarUI;
         [SerializeField] private Button _mainMenuButton;
         [SerializeField] private Button _outroDisableButton;
@@ -21,7 +21,7 @@ namespace Youregone.UI
         [SerializeField] private Sprite _outroDisableButtonSpriteOff;
 
         public HealthbarUI HealthbarUI => _healthbarUI;
-        public ScoreCounter ScoreCounter => _scoreCounter;
+        public ScoreCounterUI ScoreCounter => _scoreCounter;
         public Button MainMenuButton => _mainMenuButton;
         public Button GameOutroDisableButton => _outroDisableButton;
 
@@ -36,7 +36,7 @@ namespace Youregone.UI
             _outroDisableButton.onClick.AddListener(() =>
             {
                 OnGameOutroToggleRequest?.Invoke();
-                _outroDisableButton.image.sprite = ServiceLocator.Get<GameSettings>().ShowOutro ? _outroDisableButtonSpriteOn : _outroDisableButtonSpriteOff;
+                _outroDisableButton.image.sprite = !ServiceLocator.Get<GameSettings>().ShowOutro ? _outroDisableButtonSpriteOff : _outroDisableButtonSpriteOn;
                 EventSystem.current.SetSelectedGameObject(null);
             });
 

@@ -8,12 +8,12 @@ namespace Youregone.GameSystems
 {
     public class OutroScene : MonoBehaviour
     {
-        [Header("Config")]
+        [CustomHeader("Config")]
         [SerializeField] private List<TextMeshProUGUI> _textObjectsList;
         [SerializeField] private TextMeshProUGUI _pressAnyKeyText;
         [SerializeField] private SpriteRenderer _spriteRenderer;
 
-        [Header("DOTween Config")]
+        [CustomHeader("DOTween Config")]
         [SerializeField] private float _textFadeDuration;
         [SerializeField] private float _pressAnyKeyFadeDuration;
 

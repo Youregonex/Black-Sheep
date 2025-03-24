@@ -14,17 +14,17 @@ namespace Youregone.LevelGeneration
 
         private const string START_ANIMATION = "STARTANIMATION";
 
-        [Header("Collectable Config")]
+        [CustomHeader("Collectable Config")]
         [SerializeField] private bool _rareCollectable;
         [SerializeField] private int _pointsBonus;
         [SerializeField] private Animator _animator;
         [SerializeField] private AudioClip _pickUpAudioClip;
 
-        [Header("Sin Wave Config")]
+        [CustomHeader("Sin Wave Config")]
         [SerializeField] private float _amplitude;
         [SerializeField] private float _frequency;
 
-        [Header("Debug")]
+        [CustomHeader("Debug")]
         [SerializeField] private float _yOrigin;
         [SerializeField] private float _randomSinWaveOffset;
         [SerializeField] private float _timeUnpaused;
