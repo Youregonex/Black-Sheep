@@ -79,6 +79,9 @@ namespace Youregone.LevelGeneration
         {
             if (_gameSettings.ProgressiveDifficultyEnabled && !_maxDifficultyReached)
             {
+                if (_scoreCounter == null)
+                    return;
+
                 _obstacleSpawnChance = _scoreCounter.CurrentScore / _maxDifficultyScore;
 
                 if (_scoreCounter.CurrentScore / _midDifficultyScore >= .5f && !_midDifficultyReached)

@@ -485,7 +485,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 169665614}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 992b9740df7fb4c77a8739ec075bdfa7, type: 3}
+  m_Script: {fileID: 11500000, guid: 5d09e74394975490b9c4cbc1951202ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _scoreText: {fileID: 1527969189}
@@ -991,7 +991,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1307423203}
-  - {fileID: 1157944649}
   - {fileID: 1892396146}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3190,12 +3189,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1157944648}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 370001719}
+  m_Father: {fileID: 1892396146}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1157944650
 MonoBehaviour:
@@ -3998,10 +3997,10 @@ MonoBehaviour:
   - {fileID: 4089737090867719624, guid: bbfd8de1a672a4a0b92d023c0d51b09b, type: 3}
   - {fileID: 4089737090867719624, guid: d011efa3e403a445f968e90b7b5fbba8, type: 3}
   _obstacleParentTransform: {fileID: 538472248}
-  _rockBreakPiecePrefab: {fileID: 1674908274855518557, guid: 797a6649e2bf44a48812bd0a40d7f8ae, type: 3}
-  _rockBreakPiecesParent: {fileID: 666565828}
   _birdPrefab: {fileID: 5329041660059366981, guid: 577bfc858b4c94b199ce53f4018482b7, type: 3}
   _propsParent: {fileID: 910343899}
+  _rockBreakPiecePrefab: {fileID: 1674908274855518557, guid: 797a6649e2bf44a48812bd0a40d7f8ae, type: 3}
+  _rockBreakPiecesParent: {fileID: 666565828}
   _regularCollectablePrefab: {fileID: 5970340744938519519, guid: 405e3093b2ba7463f9130cb387deb1c4, type: 3}
   _rareCollectablePrefab: {fileID: 5970340744938519519, guid: b9b4c7fe88c1a4a968f3ca58b416e6e5, type: 3}
   _collectableParentTransform: {fileID: 1008939086}
@@ -4270,7 +4269,7 @@ GameObject:
   - component: {fileID: 1527969190}
   - component: {fileID: 1527969189}
   m_Layer: 5
-  m_Name: Text (TMP) (1)
+  m_Name: ScoreText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4859,7 +4858,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b152e04ed42a64af8bad8993fc876a77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _skipIntro: 1
+  _skipIntro: 0
   _progressiveDifficultyEnabled: 1
   _maxDifficultyScore: 2000
   _obstacleSpawnChance: 0.4
@@ -5274,6 +5273,7 @@ Transform:
   - {fileID: 1279192280}
   - {fileID: 1975936354}
   - {fileID: 1001872905}
+  - {fileID: 1157944649}
   m_Father: {fileID: 370001719}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1937723296

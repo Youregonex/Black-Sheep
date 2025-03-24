@@ -6,7 +6,12 @@ namespace Youregone.SL
 {
     public class ServiceLocator
     {
-        private static readonly Dictionary<Type, IService> _services = new();
+        private static Dictionary<Type, IService> _services = new();
+
+        //static ServiceLocator()
+        //{
+        //    Application.quitting += Application_quitting;
+        //}
 
         public static void Register<T>(T service) where T : IService
         {
@@ -46,5 +51,11 @@ namespace Youregone.SL
                 Debug.LogWarning($"Service {type.Name} was not registered");
             }
         }
+
+        //private static void Application_quitting()
+        //{
+        //    _services.Clear();
+        //    _services = null;
+        //}
     }
 }

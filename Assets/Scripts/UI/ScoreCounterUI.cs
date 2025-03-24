@@ -43,7 +43,7 @@ namespace Youregone.UI
             if (_isPlayerDead || _player.CurrentSpeed <= 0 || _gameState.CurrentGameState == EGameState.Pause)
                 return;
 
-            _score += Time.deltaTime;
+            _score += Time.deltaTime * (_player.CurrentSpeed * .5f);
             _scoreText.text = ((int)_score).ToString();
         }
 
