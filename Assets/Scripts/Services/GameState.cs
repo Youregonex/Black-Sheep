@@ -15,11 +15,8 @@ namespace Youregone.GameSystems
 {
     public class GameState : PausableMonoBehaviour, IService
     {
-        private const float TRANSITION_CAMERA_Y_OFFSET = 48; 
-
         [CustomHeader("Config")]
         [SerializeField] private CameraGameStartSequence _camera;
-        [SerializeField] private SpriteRenderer _transitionPrefab;
         [SerializeField] private GameObject _introGameObject;
         [SerializeField] private List<OutroScene> _outroScenes;
         [SerializeField] private float _outroDelay;
@@ -32,7 +29,6 @@ namespace Youregone.GameSystems
         [SerializeField] private TextMeshProUGUI _highScoreText;
 
         [CustomHeader("DOTWeen Config")]
-        [SerializeField] private float _introTransitionDuration;
         [SerializeField] private float _introButtonFadeTime;
         [SerializeField] private float _outroTransitionDuration;
 
@@ -41,13 +37,25 @@ namespace Youregone.GameSystems
         [SerializeField] private TextMeshProUGUI _sosalText;
         [SerializeField] private float _sosalDuration;
         [SerializeField] private EGameState _currentGameState;
-        [SerializeField] private SpriteRenderer _transition;
 
         private Coroutine _startGameCoroutine;
         private Coroutine _sceneReloadCoroutine;
         private GameSettings _gameSettings;
+        private Transition _transition;
 
         public EGameState CurrentGameState => _currentGameState;
+
+        private void Initialize()
+        {
+            _transition = ServiceLocator.Get<Transition>();
+
+            _gameSettings = ServiceLocator.Get<GameSettings>();
+            ServiceLocator.Get<PlayerController>().OnDeath += PlayerController_OnDeath;
+            ServiceLocator.Get<GameScreenUI>().OnGameReloadRequested += GameScreenUI_OnGameReloadRequested;
+
+            SetupButtons();
+            _highScoreCanvasGroup.alpha = 0;
+        }
 
         private void Awake()
         {
@@ -59,12 +67,7 @@ namespace Youregone.GameSystems
         {
             base.Start();
 
-            _gameSettings = ServiceLocator.Get<GameSettings>();
-            ServiceLocator.Get<PlayerController>().OnDeath += PlayerController_OnDeath;
-            ServiceLocator.Get<GameScreenUI>().OnGameReloadRequested += GameScreenUI_OnGameReloadRequested;
-
-            SetupButtons();
-            _highScoreCanvasGroup.alpha = 0;
+            Initialize();
 
             if (_gameSettings.SkipIntro)
             {
@@ -130,43 +133,6 @@ namespace Youregone.GameSystems
             });
         }
 
-        private IEnumerator PlayTransitionStartCoroutine()
-        {
-            _transition = Instantiate(_transitionPrefab);
-            _transition.transform.position = new Vector3(_camera.transform.position.x,
-                                                         _camera.transform.position.y + TRANSITION_CAMERA_Y_OFFSET,
-                                                         0f);
-
-            yield return null;
-
-            Vector3 transitionGoalPosition = new(_camera.transform.position.x, _camera.transform.position.y, 0f);
-            _transition.transform.DOMove(transitionGoalPosition, _introTransitionDuration);
-
-            yield return new WaitForSeconds(_introTransitionDuration);
-        }
-
-        private IEnumerator PlayTransitionEndCoroutine()
-        {
-            if (_transition == null)
-                yield break;
-
-            Vector3 transitionYOffset = new(0f, 18f, 0f);
-            Vector3 transitionGoalPosition = _transition.transform.position - transitionYOffset;
-            _transition.transform.DOMove(transitionGoalPosition, _introTransitionDuration);
-
-            yield return new WaitForSeconds(_introTransitionDuration);
-
-            Destroy(_transition.gameObject);
-
-            _transition = null;
-        }
-
-        private IEnumerator PlayFullTransitionCoroutine()
-        {
-            yield return StartCoroutine(PlayTransitionStartCoroutine());
-            yield return StartCoroutine(PlayTransitionEndCoroutine());
-        }
-
         private void CameraGameStartSequence_OnCameraInPosition()
         {
             int highScore = ServiceLocator.Get<PlayerPrefsSaverLoader>().GetHighScore();
@@ -218,7 +184,7 @@ namespace Youregone.GameSystems
                 yield break;
             }
 
-            yield return StartCoroutine(PlayTransitionStartCoroutine());
+            yield return _transition.StartCoroutine(_transition.PlayTransitionStart());
 
             if (_sosal)
             {
@@ -229,12 +195,9 @@ namespace Youregone.GameSystems
                 yield return new WaitForSeconds(1f);
             }
 
-            if(_transition != null)
-                _transition.transform.position = new Vector3(_camera.CameraGamePoint.position.x, _camera.CameraGamePoint.position.y, 0f);
-
             _camera.MoveCameraToGamePoint();
 
-            yield return StartCoroutine(PlayTransitionEndCoroutine());
+            yield return _transition.StartCoroutine(_transition.PlayTransitionEnd());
 
             ShowUI();
 
@@ -247,20 +210,21 @@ namespace Youregone.GameSystems
         {
             HideUI();
 
-            yield return StartCoroutine(PlayTransitionStartCoroutine());
+            yield return _transition.StartCoroutine(_transition.PlayTransitionStart());
 
             foreach (OutroScene outroScene in _outroScenes)
             {
                 OutroScene currentOutroScene = Instantiate(outroScene);
                 currentOutroScene.transform.position = new Vector3(_camera.transform.position.x, _camera.transform.position.y, 0f);
 
-                yield return StartCoroutine(PlayTransitionEndCoroutine());
+                yield return _transition.StartCoroutine(_transition.PlayTransitionEnd());
 
                 yield return StartCoroutine(currentOutroScene.ShowTextCoroutine());
 
                 yield return new WaitUntil(() => Input.anyKeyDown);
 
-                yield return StartCoroutine(PlayTransitionStartCoroutine());
+                yield return _transition.StartCoroutine(_transition.PlayTransitionStart());
+
 
                 Destroy(currentOutroScene.gameObject);
             }

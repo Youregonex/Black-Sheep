@@ -53,8 +53,8 @@ namespace Youregone.PlayerControls
         [SerializeField] private Material _baseMaterial;
         [SerializeField] private bool _isGrounded = true;
         [SerializeField] private bool _isRaming = false;
+        [SerializeField] private bool _canRechargeStamina = true;
         [SerializeField] private int _currentHealth;
-        [SerializeField] private bool _canRechargeStamina;
 
         private PlayerCharacterInput _playerInput;
         private float _baseGravityScale;

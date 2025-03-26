@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 2390862036368883370, guid: c7e9494dc78e76746a02afaa00fa07b9, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     - target: {fileID: 2906941408807022960, guid: c7e9494dc78e76746a02afaa00fa07b9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -56,6 +60,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: 7TiledPitRock10
       objectReference: {fileID: 0}
+    - target: {fileID: 7129715123007575986, guid: c7e9494dc78e76746a02afaa00fa07b9, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+    - target: {fileID: 7806377216421624617, guid: c7e9494dc78e76746a02afaa00fa07b9, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

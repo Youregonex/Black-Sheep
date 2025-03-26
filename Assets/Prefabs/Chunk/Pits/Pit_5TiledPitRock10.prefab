@@ -77,10 +77,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3558801346795740222}
     m_Modifications:
+    - target: {fileID: -8533747050961283955, guid: 2968aa5e16d242a46915b738e3bfb8d7, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     - target: {fileID: -7792882650087864788, guid: 2968aa5e16d242a46915b738e3bfb8d7, type: 3}
       propertyPath: m_Name
       value: 5TiledPitRock10
       objectReference: {fileID: 0}
+    - target: {fileID: -3519036734285816689, guid: 2968aa5e16d242a46915b738e3bfb8d7, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+    - target: {fileID: 816100122543215600, guid: 2968aa5e16d242a46915b738e3bfb8d7, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     - target: {fileID: 6542619079950815124, guid: 2968aa5e16d242a46915b738e3bfb8d7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

@@ -115,8 +115,8 @@ namespace Youregone.LevelGeneration
             pooledObstacle.transform.position = position;
             pooledObstacle.OnDestruction += Obstacle_OnDestruction;
             pooledObstacle.transform.rotation = Quaternion.identity;
-            Vector2 collectableVelocity = new(_player.CurrentSpeed, 0f);
-            pooledObstacle.ChangeVelocity(collectableVelocity);
+            Vector2 currentGameVelocity = new(_player.CurrentSpeed, 0f);
+            pooledObstacle.ChangeVelocity(currentGameVelocity);
 
             SpawnBirdsOnObstacle(pooledObstacle);
         }
