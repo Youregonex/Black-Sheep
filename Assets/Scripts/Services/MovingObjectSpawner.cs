@@ -54,13 +54,7 @@ namespace Youregone.LevelGeneration
         private ObstaclePool _obstaclePool;
         private BasicPool<RockBreakPiece> _rockBreakPiecePool;
 
-
-        private void OnEnable()
-        {
-            UpdateManager.RegisterUpdateObserver(this);
-        }
-
-        private void Start()
+        private void Initialize()
         {
             _gameSettings = ServiceLocator.Get<GameSettings>();
             _maxDifficultyScore = _gameSettings.MaxDifficultyScore;
@@ -68,38 +62,37 @@ namespace Youregone.LevelGeneration
 
             _player = ServiceLocator.Get<PlayerController>();
             _scoreCounter = ServiceLocator.Get<GameScreenUI>().ScoreCounter;
+        }
 
-            _collectablPool = new(_collectableFactory, _regularCollectablePrefab, _rareCollectablePrefab);
-            _obstaclePool = new(_obstacleFactory, _obstaclePrefabList);
-            _birdPool = new(_birdFactory, _birdPrefab, _propsParent, _initialBirdPoolSize);
-            _rockBreakPiecePool = new(_breakPieceFactory, _rockBreakPiecePrefab, _rockBreakPiecesParent, _initialRockBreakPiecePoolSize);
+        private void Start()
+        {
+            Initialize();
+            CreatePools();
+
+            if (_gameSettings.ProgressiveDifficultyEnabled)
+                UpdateManager.RegisterUpdateObserver(this);
         }
 
         public void ObservedUpdate()
         {
-            if (_gameSettings.ProgressiveDifficultyEnabled && !_maxDifficultyReached)
+            _obstacleSpawnChance = _scoreCounter.CurrentScore / _maxDifficultyScore;
+
+            if (_scoreCounter.CurrentScore / _midDifficultyScore >= .5f && !_midDifficultyReached)
             {
-                if (_scoreCounter == null)
-                    return;
+                _midDifficultyReached = true;
+                OnMidDifficultyReached?.Invoke();
+            }
 
-                _obstacleSpawnChance = _scoreCounter.CurrentScore / _maxDifficultyScore;
-
-                if (_scoreCounter.CurrentScore / _midDifficultyScore >= .5f && !_midDifficultyReached)
-                {
-                    _midDifficultyReached = true;
-                    OnMidDifficultyReached?.Invoke();
-                }
-
-                if (_scoreCounter.CurrentScore / _maxDifficultyScore >= 1f && !_maxDifficultyReached)
-                {
-                    _obstacleSpawnChance = 1f;
-                    _maxDifficultyReached = true;
-                    OnMaxDifficultyReached?.Invoke();
-                }
+            if (_scoreCounter.CurrentScore / _maxDifficultyScore >= 1f && !_maxDifficultyReached)
+            {
+                _obstacleSpawnChance = 1f;
+                _maxDifficultyReached = true;
+                OnMaxDifficultyReached?.Invoke();
+                UpdateManager.UnregisterUpdateObserver(this);
             }
         }
 
-        private void OnDisable()
+        private void OnDestroy()
         {
             UpdateManager.UnregisterUpdateObserver(this);
         }
@@ -202,6 +195,14 @@ namespace Youregone.LevelGeneration
         {
             rockBreakPiece.OnDestruction -= RockBreakPiece_OnDestruction;
             _rockBreakPiecePool.Enqueue(rockBreakPiece);
+        }
+
+        private void CreatePools()
+        {
+            _collectablPool = new(_collectableFactory, _regularCollectablePrefab, _rareCollectablePrefab);
+            _obstaclePool = new(_obstacleFactory, _obstaclePrefabList);
+            _birdPool = new(_birdFactory, _birdPrefab, _propsParent, _initialBirdPoolSize);
+            _rockBreakPiecePool = new(_breakPieceFactory, _rockBreakPiecePrefab, _rockBreakPiecesParent, _initialRockBreakPiecePoolSize);
         }
     }
 }

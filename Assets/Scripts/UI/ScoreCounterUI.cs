@@ -13,12 +13,18 @@ namespace Youregone.UI
 
         [CustomHeader("Debug")]
         [SerializeField] private float _score;
-        [SerializeField] private bool _isPlayerDead = false;
 
         public float CurrentScore => _score;
 
         private GameState _gameState;
         private PlayerController _player;
+
+        private void Initialize()
+        {
+            _gameState = ServiceLocator.Get<GameState>();
+            _player = ServiceLocator.Get<PlayerController>();
+            _score = 0;
+        }
 
         private void OnEnable()
         {
@@ -28,19 +34,12 @@ namespace Youregone.UI
         protected override void Start()
         {
             base.Start();
-
-            _gameState = ServiceLocator.Get<GameState>();
-            _player = ServiceLocator.Get<PlayerController>();
-            _player.OnDeath += Death;
-            _score = 0;
+            Initialize();
         }
 
         public void ObservedUpdate()
         {
-            if (_player == null)
-                return;
-
-            if (_isPlayerDead || _player.CurrentSpeed <= 0 || _gameState.CurrentGameState == EGameState.Pause)
+            if (_player == null || _gameState.CurrentGameState != EGameState.Gameplay)
                 return;
 
             float scoreModifier = .5f;
@@ -53,18 +52,8 @@ namespace Youregone.UI
             UpdateManager.UnregisterUpdateObserver(this);
         }
 
-        private void OnDestroy()
-        {
-            _player.OnDeath -= Death;
-        }
-
         public void AddPoints(int points) => _score += points;
         public override void Pause() { }
         public override void Unpause() { }
-
-        private void Death()
-        {
-            _isPlayerDead = true;
-        }
     }
 }

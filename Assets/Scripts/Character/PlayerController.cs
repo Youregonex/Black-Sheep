@@ -29,7 +29,7 @@ namespace Youregone.PlayerControls
         [SerializeField] private float _jumpForce;
         [SerializeField] private float _staminaMax;
         [SerializeField] private float _staminaDrain;
-        [SerializeField, Range(0f, 1f)] private float _minStaminaDrainPerUse;
+        [SerializeField, Range(0f, 1f)] private float _minCurrentStaminaPercentDrainPerUse;
         [SerializeField] private float _staminaRechargeRate;
         [SerializeField] private float _staminaRechargeDelay;
         [SerializeField] private int _maxHealth;
@@ -46,6 +46,7 @@ namespace Youregone.PlayerControls
         [SerializeField] private GroundCheck _groundCheck;
         [SerializeField] private SpriteRenderer _spriteRenderer;
         [SerializeField] private Gradient _staminaGradient;
+        [SerializeField] private ParticleSystem _ramParticleSystem;
 
         [CustomHeader("Debug")]
         [SerializeField] private float _currentSpeed;
@@ -56,14 +57,16 @@ namespace Youregone.PlayerControls
         [SerializeField] private bool _canRechargeStamina = true;
         [SerializeField] private int _currentHealth;
 
-        private PlayerCharacterInput _playerInput;
-        private float _baseGravityScale;
         private Vector2 _prePauseVelocity;
-        private Coroutine _flashCoroutine;
-        private Coroutine _staminaCoroutine;
+        private float _baseGravityScale;
         private bool _runStarted = false;
+
+        private PlayerCharacterInput _playerInput;
         private Rigidbody2D _rigidBody;
         private GameState _gameState;
+
+        private Coroutine _flashCoroutine;
+        private Coroutine _staminaCoroutine;
 
         public bool IsGrounded => _isGrounded;
         public bool IsRaming => _isRaming;
@@ -71,7 +74,7 @@ namespace Youregone.PlayerControls
         public int CurrentHealth => _currentHealth;
         public PlayerCharacterInput PlayerCharacterInput => _playerInput;
 
-        private void Awake()
+        private void Initialize()
         {
             _playerInput = new();
             _playerInput.OnRamButtonReleased += StopRam;
@@ -84,6 +87,11 @@ namespace Youregone.PlayerControls
             _baseGravityScale = _rigidBody.gravityScale;
             _staminaCurrent = _staminaMax;
             _currentSpeed = 0f;
+        }
+
+        private void Awake()
+        {
+            Initialize();
         }
 
         private void OnEnable()
@@ -237,7 +245,8 @@ namespace Youregone.PlayerControls
             if (_currentHealth <= 0 || !_isGrounded || _isRaming || _staminaCurrent <= 0)
                 return;
 
-            _staminaCurrent -= _staminaCurrent * _minStaminaDrainPerUse;
+            _ramParticleSystem.Play();
+            _staminaCurrent -= _staminaCurrent * _minCurrentStaminaPercentDrainPerUse;
             _isRaming = true;
             _canRechargeStamina = false;
             _currentSpeed = _ramMoveSpeed;
@@ -250,6 +259,7 @@ namespace Youregone.PlayerControls
             if (!_isRaming)
                 return;
 
+            _ramParticleSystem.Stop();
             _isRaming = false;
             _currentSpeed = _baseMoveSpeed;
             OnRamStop?.Invoke();
