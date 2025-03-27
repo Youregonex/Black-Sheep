@@ -2,6 +2,7 @@ using UnityEngine;
 using DG.Tweening;
 using Youregone.PlayerControls;
 using Youregone.SL;
+using Cinemachine;
 
 namespace Youregone.Cam
 {
@@ -14,13 +15,13 @@ namespace Youregone.Cam
         [CustomHeader("DOTween Settings")]
         [SerializeField] private float _sizeChangeDuration;
 
-        private Camera _mainCamera;
+        private CinemachineVirtualCamera _virtualCamera;
         private Tween _currentTween;
 
         private void Start()
         {
-            _mainCamera = transform.GetComponent<Camera>();
-            _startSize = _mainCamera.orthographicSize;
+            _virtualCamera = transform.GetComponent<CinemachineVirtualCamera>();
+            _startSize = _virtualCamera.m_Lens.OrthographicSize;
             ServiceLocator.Get<PlayerController>().OnRamStart += PlayerController_OnRamStart;
             ServiceLocator.Get<PlayerController>().OnRamStop += PlayerController_OnRamStop; ;
         }
@@ -36,7 +37,11 @@ namespace Youregone.Cam
             if(_currentTween != null)
                 _currentTween.Kill();
 
-            _currentTween = _mainCamera.DOOrthoSize(_startSize, _sizeChangeDuration).OnComplete(() => _currentTween = null);
+            _currentTween = DOTween.To(
+                () => _virtualCamera.m_Lens.OrthographicSize,
+                x => _virtualCamera.m_Lens.OrthographicSize = x,
+                _startSize,
+                _sizeChangeDuration);
         }
 
         private void PlayerController_OnRamStart()
@@ -44,7 +49,11 @@ namespace Youregone.Cam
             if (_currentTween != null)
                 _currentTween.Kill();
 
-            _currentTween = _mainCamera.DOOrthoSize(_ramSize, _sizeChangeDuration).OnComplete(() => _currentTween = null);
+            _currentTween = DOTween.To(
+                () => _virtualCamera.m_Lens.OrthographicSize,
+                x => _virtualCamera.m_Lens.OrthographicSize = x,
+                _ramSize,
+                _sizeChangeDuration);
         }
     }
 }

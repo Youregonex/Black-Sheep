@@ -1,24 +1,32 @@
 using UnityEngine;
-using UnityEngine.UI;
 using System.Collections.Generic;
 using Youregone.PlayerControls;
 using Youregone.SL;
+using DG.Tweening;
 
 namespace Youregone.UI
 {
     public class HealthbarUI : MonoBehaviour, IService
     {
-        [CustomHeader("Config")]
-        [SerializeField] private List<Image> _heartsUIList;
+        [CustomHeader("Settings")]
+        [SerializeField] private List<HeartUI> _heartsUIList;
+
+        [CustomHeader("DOTween Settings")]
+        [SerializeField] private float _heartTargetScale;
+        [SerializeField] private float _heartAnimationDuration;
 
         private void Start()
         {
             ServiceLocator.Get<PlayerController>().OnDamageTaken += RemoveHeart;
             ServiceLocator.Get<PlayerController>().OnDeath += RemoveAllHearts;
+
+            foreach(HeartUI heartUI in _heartsUIList)
+                heartUI.Initialize(_heartTargetScale, _heartAnimationDuration);
         }
 
         private void OnDestroy()
         {
+            DOTween.KillAll();
             ServiceLocator.Get<PlayerController>().OnDamageTaken -= RemoveHeart;
             ServiceLocator.Get<PlayerController>().OnDeath -= RemoveAllHearts;
         }
@@ -27,13 +35,13 @@ namespace Youregone.UI
         {
             int heartIndex = ServiceLocator.Get<PlayerController>().CurrentHealth;
 
-            Destroy(_heartsUIList[heartIndex]);
+            _heartsUIList[heartIndex].PlayDestroyAnimation();
             _heartsUIList.RemoveAt(heartIndex);
         }
 
         private void RemoveAllHearts()
         {
-            foreach(Image heart in _heartsUIList)
+            foreach(HeartUI heart in _heartsUIList)
                 Destroy(heart.gameObject);
             
             _heartsUIList.Clear();
