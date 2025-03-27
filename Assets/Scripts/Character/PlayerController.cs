@@ -47,6 +47,7 @@ namespace Youregone.PlayerControls
         [SerializeField] private SpriteRenderer _spriteRenderer;
         [SerializeField] private Gradient _staminaGradient;
         [SerializeField] private ParticleSystem _ramParticleSystem;
+        [SerializeField] private ParticleSystem _ramParticleSystem_2;
 
         [CustomHeader("Debug")]
         [SerializeField] private float _currentSpeed;
@@ -246,6 +247,7 @@ namespace Youregone.PlayerControls
                 return;
 
             _ramParticleSystem.Play();
+            _ramParticleSystem_2.Play();
             _staminaCurrent -= _staminaCurrent * _minCurrentStaminaPercentDrainPerUse;
             _isRaming = true;
             _canRechargeStamina = false;
@@ -260,6 +262,7 @@ namespace Youregone.PlayerControls
                 return;
 
             _ramParticleSystem.Stop();
+            _ramParticleSystem_2.Stop();
             _isRaming = false;
             _currentSpeed = _baseMoveSpeed;
             OnRamStop?.Invoke();

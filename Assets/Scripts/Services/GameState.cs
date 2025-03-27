@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Youregone.UI;
-using Youregone.GameCamera;
+using Youregone.Cam;
 using Youregone.PlayerControls;
 using Youregone.SaveSystem;
 using DG.Tweening;
