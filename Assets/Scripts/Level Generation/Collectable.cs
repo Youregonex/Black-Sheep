@@ -1,5 +1,5 @@
 using UnityEngine;
-using Youregone.PlayerControls;
+using Youregone.YPlayerController;
 using Youregone.UI;
 using System.Collections;
 using Youregone.GameSystems;

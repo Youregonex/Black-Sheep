@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
-using Youregone.PlayerControls;
+using Youregone.YPlayerController;
 using Youregone.SL;
 using DG.Tweening;
 

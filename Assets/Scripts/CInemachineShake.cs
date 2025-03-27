@@ -1,11 +1,10 @@
 using UnityEngine;
 using Cinemachine;
-using System.Collections;
-using Youregone.PlayerControls;
+using Youregone.YPlayerController;
 using Youregone.SL;
 using DG.Tweening;
 
-namespace Youregone.Cam
+namespace Youregone.YCamera
 {
     public class CInemachineShake : MonoBehaviour
     {
@@ -14,7 +13,6 @@ namespace Youregone.Cam
         [SerializeField] private float _intensity;
         
         private CinemachineVirtualCamera _camera;
-        private Coroutine _currentCoroutine;
         private Tween _currentTween;
 
         private void Awake()
@@ -24,37 +22,17 @@ namespace Youregone.Cam
 
         private void Start()
         {
-            ServiceLocator.Get<PlayerController>().OnDamageTaken += PlayerController_OnDamageTaken;       
+            ServiceLocator.Get<PlayerController>().OnDamageTaken += ShakeCamera;
+            ServiceLocator.Get<PlayerController>().OnObstacleDestroyed += ShakeCamera;
         }
 
         private void OnDestroy()
         {
-            ServiceLocator.Get<PlayerController>().OnDamageTaken -= PlayerController_OnDamageTaken;
+            ServiceLocator.Get<PlayerController>().OnDamageTaken -= ShakeCamera;
+            ServiceLocator.Get<PlayerController>().OnObstacleDestroyed -= ShakeCamera;
         }
 
-        private void PlayerController_OnDamageTaken()
-        {
-            //if (_currentCoroutine != null)
-            //    StopCoroutine(_currentCoroutine);
-
-            //_currentCoroutine = StartCoroutine(ShakeCamera());
-            ShakeCam();
-        }
-
-        private IEnumerator ShakeCamera()
-        {
-            CinemachineBasicMultiChannelPerlin cinemachineBasicMultiChannelPerlin =
-                _camera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-
-            cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = _intensity;
-
-            yield return new WaitForSeconds(_shakeDuration);
-
-            cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = 0f;
-            _currentCoroutine = null;
-        }
-
-        private void ShakeCam()
+        private void ShakeCamera()
         {
             CinemachineBasicMultiChannelPerlin cinemachineBasicMultiChannelPerlin =
                 _camera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();

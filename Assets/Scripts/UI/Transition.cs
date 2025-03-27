@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using Youregone.SL;
-using Youregone.Cam;
+using Youregone.YCamera;
 using DG.Tweening;
 
 namespace Youregone.UI

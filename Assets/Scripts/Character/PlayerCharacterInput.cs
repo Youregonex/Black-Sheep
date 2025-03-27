@@ -1,12 +1,10 @@
 using UnityEngine.InputSystem;
 using System;
 
-namespace Youregone.PlayerControls
+namespace Youregone.YPlayerController
 {
     public class PlayerCharacterInput
     {
-        //public event Action OnJumpButtonPressed;
-        //public event Action OnRamButtonPressed;
         public event Action OnRamButtonReleased;
         public event Action OnPauseButtonPressed;
 
@@ -27,6 +25,7 @@ namespace Youregone.PlayerControls
         public void EnableInput()
         {
             _inputActions.Enable();
+            _inputActions.CharacterInputActions.Enable();
             _inputActions.CharacterInputActions.Jump.performed += Jump_performed;
             _inputActions.CharacterInputActions.Jump.canceled += Jump_canceled;
 
@@ -39,6 +38,7 @@ namespace Youregone.PlayerControls
         public void DisableInput()
         {
             _inputActions.Disable();
+            _inputActions.CharacterInputActions.Disable();
             _inputActions.CharacterInputActions.Jump.performed -= Jump_performed;
             _inputActions.CharacterInputActions.Jump.canceled -= Jump_canceled;
 

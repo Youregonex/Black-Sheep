@@ -1,7 +1,7 @@
 using UnityEngine;
 using Youregone.SO;
 using System;
-using Youregone.PlayerControls;
+using Youregone.YPlayerController;
 
 namespace Youregone.LevelGeneration
 {

@@ -1,5 +1,5 @@
 using UnityEngine;
-using Youregone.PlayerControls;
+using Youregone.YPlayerController;
 
 namespace Youregone.LevelGeneration
 {

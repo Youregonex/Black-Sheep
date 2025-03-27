@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Youregone.PlayerControls;
+using Youregone.YPlayerController;
 using Youregone.SL;
 
 namespace Youregone.GameSystems

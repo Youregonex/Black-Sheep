@@ -7,7 +7,7 @@ using UnityEngine.UI;
 using Youregone.GameSystems;
 using Youregone.SL;
 
-namespace Youregone.PlayerControls
+namespace Youregone.YPlayerController
 {
     public class PlayerController : PausableMonoBehaviour, IUpdateObserver, IService
     {
@@ -15,6 +15,7 @@ namespace Youregone.PlayerControls
         public event Action OnRamStop;
         public event Action OnDeath;
         public event Action OnDamageTaken;
+        public event Action OnObstacleDestroyed;
 
         private const string ANIMATION_JUMP_TRIGGER = "JUMP";
         private const string ANIMATION_LAND_TRIGGER = "LAND";
@@ -28,7 +29,7 @@ namespace Youregone.PlayerControls
         [SerializeField] private float _ramMoveSpeed;
         [SerializeField] private float _jumpForce;
         [SerializeField] private float _staminaMax;
-        [SerializeField] private float _staminaDrain;
+        [SerializeField, Range(0f, 100f)] private float _staminaDrain;
         [SerializeField, Range(0f, 1f)] private float _minCurrentStaminaPercentDrainPerUse;
         [SerializeField] private float _staminaRechargeRate;
         [SerializeField] private float _staminaRechargeDelay;
@@ -120,7 +121,7 @@ namespace Youregone.PlayerControls
             if (_playerInput.RamPressed)
                 StartRam();
 
-            if (_staminaCurrent <= 0 && _isRaming)
+            if ((_staminaCurrent <= 0 && _isRaming) || !_playerInput.RamPressed)
                 StopRam();
 
             ManageStamina();
@@ -131,6 +132,12 @@ namespace Youregone.PlayerControls
             if ((collision.transform.GetComponent<Obstacle>() && !_isRaming) || collision.transform.GetComponent<Enemy>())
             {
                 TakeDamage();
+                return;
+            }
+
+            if (collision.transform.GetComponent<Obstacle>() && _isRaming)
+            {
+                OnObstacleDestroyed?.Invoke();
                 return;
             }
 
@@ -157,6 +164,9 @@ namespace Youregone.PlayerControls
             _rigidBody.velocity = Vector2.zero;
             _rigidBody.gravityScale = 0f;
 
+            _ramParticleSystem.Pause();
+            _ramParticleSystem_2.Pause();
+
             _staminaBar.GetComponent<Animator>().speed = 0f;
         }
 
@@ -166,6 +176,15 @@ namespace Youregone.PlayerControls
 
             _rigidBody.velocity = _prePauseVelocity;
             _rigidBody.gravityScale = _baseGravityScale;
+
+            _ramParticleSystem.Play();
+            _ramParticleSystem_2.Play();
+
+            if(!_isRaming)
+            {
+                _ramParticleSystem.Stop();
+                _ramParticleSystem_2.Stop();
+            }
 
             _staminaBar.GetComponent<Animator>().speed = 1f;
         }
@@ -243,7 +262,7 @@ namespace Youregone.PlayerControls
             if (!_runStarted)
                 _runStarted = true;
 
-            if (_currentHealth <= 0 || !_isGrounded || _isRaming || _staminaCurrent <= 0)
+            if (_currentHealth <= 0 || !_isGrounded || _isRaming || _staminaCurrent <= 0 || _gameState.CurrentGameState != EGameState.Gameplay)
                 return;
 
             _ramParticleSystem.Play();
@@ -258,7 +277,7 @@ namespace Youregone.PlayerControls
 
         private void StopRam()
         {
-            if (!_isRaming)
+            if (!_isRaming || _gameState.CurrentGameState != EGameState.Gameplay)
                 return;
 
             _ramParticleSystem.Stop();

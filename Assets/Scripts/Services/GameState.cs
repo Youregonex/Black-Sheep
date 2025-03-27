@@ -1,8 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Youregone.UI;
-using Youregone.Cam;
-using Youregone.PlayerControls;
+using Youregone.YCamera;
+using Youregone.YPlayerController;
 using Youregone.SaveSystem;
 using DG.Tweening;
 using System.Collections;

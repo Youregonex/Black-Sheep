@@ -1,10 +1,10 @@
 using UnityEngine;
 using DG.Tweening;
-using Youregone.PlayerControls;
+using Youregone.YPlayerController;
 using Youregone.SL;
 using Cinemachine;
 
-namespace Youregone.Cam
+namespace Youregone.YCamera
 {
     public class GameCamera : MonoBehaviour
     {

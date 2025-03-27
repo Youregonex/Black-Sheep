@@ -1,7 +1,7 @@
 using UnityEngine;
 using System;
 
-namespace Youregone.PlayerControls
+namespace Youregone.YPlayerController
 {
     public class GroundCheck : MonoBehaviour
     {

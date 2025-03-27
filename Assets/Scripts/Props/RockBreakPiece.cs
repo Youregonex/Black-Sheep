@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System;
 using DG.Tweening;
 using Youregone.SL;
-using Youregone.PlayerControls;
+using Youregone.YPlayerController;
 
 namespace Youregone.LevelGeneration
 {
