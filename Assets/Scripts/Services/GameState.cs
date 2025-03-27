@@ -33,9 +33,6 @@ namespace Youregone.GameSystems
         [SerializeField] private float _outroTransitionDuration;
 
         [CustomHeader("Debug")]
-        [SerializeField] private bool _sosal;
-        [SerializeField] private TextMeshProUGUI _sosalText;
-        [SerializeField] private float _sosalDuration;
         [SerializeField] private EGameState _currentGameState;
 
         private Coroutine _startGameCoroutine;
@@ -186,15 +183,6 @@ namespace Youregone.GameSystems
 
             yield return _transition.StartCoroutine(_transition.PlayTransitionStart());
 
-            if (_sosal)
-            {
-                _sosalText.gameObject.SetActive(true);
-                yield return new WaitForSeconds(_sosalDuration);
-
-                _sosalText.gameObject.SetActive(false);
-                yield return new WaitForSeconds(1f);
-            }
-
             _camera.MoveCameraToGamePoint();
 
             yield return _transition.StartCoroutine(_transition.PlayTransitionEnd());
@@ -224,7 +212,6 @@ namespace Youregone.GameSystems
                 yield return new WaitUntil(() => Input.anyKeyDown);
 
                 yield return _transition.StartCoroutine(_transition.PlayTransitionStart());
-
 
                 Destroy(currentOutroScene.gameObject);
             }
