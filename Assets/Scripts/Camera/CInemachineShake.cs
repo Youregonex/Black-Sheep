@@ -1,5 +1,4 @@
 using UnityEngine;
-using Cinemachine;
 using Youregone.YPlayerController;
 using Youregone.SL;
 using DG.Tweening;
@@ -10,15 +9,9 @@ namespace Youregone.YCamera
     {
         [CustomHeader("Shake Settings")]
         [SerializeField] private float _shakeDuration;
-        [SerializeField] private float _intensity;
+        [SerializeField, Range(0f, 1f)] private float _intensity;
         
-        private CinemachineVirtualCamera _camera;
         private Tween _currentTween;
-
-        private void Awake()
-        {
-            _camera = GetComponent<CinemachineVirtualCamera>();
-        }
 
         private void Start()
         {
@@ -32,21 +25,12 @@ namespace Youregone.YCamera
             ServiceLocator.Get<PlayerController>().OnObstacleDestroyed -= ShakeCamera;
         }
 
-        private void ShakeCamera()
+        public void ShakeCamera()
         {
-            CinemachineBasicMultiChannelPerlin cinemachineBasicMultiChannelPerlin =
-                _camera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-
-            cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = _intensity;
-
             if (_currentTween != null)
                 _currentTween.Kill();
 
-            _currentTween = DOTween.To(
-                () => cinemachineBasicMultiChannelPerlin.m_AmplitudeGain,
-                x => cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = x,
-                0f,
-                _shakeDuration).OnComplete(() => _currentTween = null);
+            _currentTween = transform.DOShakePosition(_shakeDuration, _intensity).OnComplete(() => _currentTween = null);
         }
     }
 }

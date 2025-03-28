@@ -20,7 +20,7 @@ TagManager:
   - FallZone
   - RockPiece
   - Test
-  - 
+  - WaterReflectionIgnore
   - 
   - 
   - 
@@ -40,4 +40,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: WaterReflectionIgnore
+    uniqueID: 1565254841
     locked: 0
