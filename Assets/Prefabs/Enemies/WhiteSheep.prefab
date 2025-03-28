@@ -80,7 +80,7 @@ MonoBehaviour:
   _moveSpeed: 10
   _triggerRadiusMin: 6
   _triggerRadiusMax: 12
-  _alertRangeAddition: 7
+  _alertRangeAddition: 8
   _alertSignAnimationDuration: 0.6
   _alertSignUpwardsMovementAmount: 0.4
   _alertSignFadeTime: 0.2

@@ -5950,7 +5950,7 @@ Transform:
   m_GameObject: {fileID: 342034431}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 16, y: 3.37, z: -10}
+  m_LocalPosition: {x: 14.4, y: 3.37, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6057,7 +6057,7 @@ Transform:
   m_GameObject: {fileID: 388855701}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 16, y: 3.3, z: -10}
+  m_LocalPosition: {x: 14.4, y: 3.3, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6605,7 +6605,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 16, y: 3.3, z: -10}
+  m_LocalPosition: {x: 14.4, y: 3.3, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7568,7 +7568,7 @@ GameObject:
   - component: {fileID: 909946230}
   - component: {fileID: 909946231}
   - component: {fileID: 909946232}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: TutorialImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7853,7 +7853,7 @@ GameObject:
   - component: {fileID: 947328351}
   - component: {fileID: 947328352}
   - component: {fileID: 947328353}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8453,7 +8453,7 @@ Transform:
   m_GameObject: {fileID: 1065516637}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 16, y: 3.3, z: -10}
+  m_LocalPosition: {x: 14.4, y: 3.3, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9454,8 +9454,8 @@ MonoBehaviour:
   _propsParent: {fileID: 910343899}
   _rockBreakPiecePrefab: {fileID: 1674908274855518557, guid: 797a6649e2bf44a48812bd0a40d7f8ae, type: 3}
   _rockBreakPiecesParent: {fileID: 666565828}
-  _regularCollectablePrefab: {fileID: 5970340744938519519, guid: 405e3093b2ba7463f9130cb387deb1c4, type: 3}
-  _rareCollectablePrefab: {fileID: 5970340744938519519, guid: b9b4c7fe88c1a4a968f3ca58b416e6e5, type: 3}
+  _regularCollectablePrefab: {fileID: 878131931865976532, guid: 4648e28b38c234528bd569295fd6cd34, type: 3}
+  _rareCollectablePrefab: {fileID: 75493814151650832, guid: 117821777fbf041bd93c638f8b6b3f70, type: 3}
   _collectableParentTransform: {fileID: 1008939086}
   _initialBirdPoolSize: 10
   _initialRockBreakPiecePoolSize: 50
@@ -9486,7 +9486,7 @@ Transform:
   m_GameObject: {fileID: 1441273365}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -1.6, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -9855,7 +9855,7 @@ GameObject:
   - component: {fileID: 1549660482}
   - component: {fileID: 1549660484}
   - component: {fileID: 1549660483}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10362,10 +10362,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _skipIntro: 1
-  _progressiveDifficultyEnabled: 0
+  _progressiveDifficultyEnabled: 1
   _maxDifficultyScore: 2000
   _obstacleSpawnChance: 0.339
-  _pitSpawnChanceStart: 0
+  _pitSpawnChanceStart: 0.2
   _pitSpawnChanceMidGame: 0.3
   _pitSpawnChanceMax: 0.4
   _bridgeSpawnCooldownStart: 20
@@ -10598,7 +10598,7 @@ GameObject:
   - component: {fileID: 1884041896}
   - component: {fileID: 1884041898}
   - component: {fileID: 1884041897}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11209,7 +11209,7 @@ Transform:
   m_GameObject: {fileID: 1994863135}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 15.9105, y: -3.4710002, z: 0}
+  m_LocalPosition: {x: 14.310499, y: -3.4710002, z: 0}
   m_LocalScale: {x: 3003.001, y: 617.6306, z: 204.91}
   m_ConstrainProportionsScale: 1
   m_Children: []
