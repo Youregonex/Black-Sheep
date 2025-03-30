@@ -50,7 +50,7 @@ namespace Youregone.YPlayerController
         [SerializeField] private SpriteRenderer _spriteRenderer;
         [SerializeField] private Gradient _staminaGradient;
         [SerializeField] private ParticleSystem _ramParticleSystem;
-        [SerializeField] private ParticleSystem _ramParticleSystem_2;
+        [SerializeField] private ParticleSystem _windParticleSystem;
 
         [CustomHeader("Rock Break Combo UI")]
         [SerializeField] private TextMeshProUGUI _comboText;
@@ -182,7 +182,7 @@ namespace Youregone.YPlayerController
             _rigidBody.gravityScale = 0f;
 
             _ramParticleSystem.Pause();
-            _ramParticleSystem_2.Pause();
+            _windParticleSystem.Pause();
 
             _staminaBar.GetComponent<Animator>().speed = 0f;
         }
@@ -195,12 +195,12 @@ namespace Youregone.YPlayerController
             _rigidBody.gravityScale = _baseGravityScale;
 
             _ramParticleSystem.Play();
-            _ramParticleSystem_2.Play();
+            _windParticleSystem.Play();
 
             if(!_isRaming)
             {
                 _ramParticleSystem.Stop();
-                _ramParticleSystem_2.Stop();
+                _windParticleSystem.Stop();
             }
 
             _staminaBar.GetComponent<Animator>().speed = 1f;
@@ -210,6 +210,9 @@ namespace Youregone.YPlayerController
         {
             StartComboTimer();
             _currentCombo++;
+
+            if (_currentCombo == 1)
+                return;
 
             _comboText.text = $"X {_currentCombo}";
 
@@ -320,6 +323,9 @@ namespace Youregone.YPlayerController
             _animator.SetTrigger(ANIMATION_DEATH_TRIGGER);
             _currentSpeed = 0f;
             OnDeath?.Invoke();
+
+            if (_isRaming)
+                _windParticleSystem.Stop();
         }
 
         private void UpdateStaminaBar()
@@ -338,7 +344,7 @@ namespace Youregone.YPlayerController
                 return;
 
             _ramParticleSystem.Play();
-            _ramParticleSystem_2.Play();
+            _windParticleSystem.Play();
             _staminaCurrent -= _staminaCurrent * _minCurrentStaminaPercentDrainPerUse;
             _isRaming = true;
             _canRechargeStamina = false;
@@ -353,16 +359,27 @@ namespace Youregone.YPlayerController
                 return;
 
             _ramParticleSystem.Stop();
-            _ramParticleSystem_2.Stop();
+            _windParticleSystem.Stop();
             _isRaming = false;
             _currentSpeed = _baseMoveSpeed;
             OnRamStop?.Invoke();
+
             _animator.SetTrigger(ANIMATION_STOPRAM_TRIGGER);
+
+            StartCoroutine(ResetRamStopAnimationTriggerWithDelay());
 
             if (_staminaCoroutine != null)
                 StopCoroutine(_staminaCoroutine);
 
             _staminaCoroutine = StartCoroutine(StaminaRechargeDelayCoroutine());
+        }
+
+        private IEnumerator ResetRamStopAnimationTriggerWithDelay()
+        {
+            //For some reason sometimes "RAMSTOP" trigger gets stuck and ram animation breaks
+            float triggerResetDelay = .25f;
+            yield return new WaitForSeconds(triggerResetDelay);
+            _animator.ResetTrigger(ANIMATION_STOPRAM_TRIGGER);
         }
 
         private IEnumerator StaminaRechargeDelayCoroutine()
