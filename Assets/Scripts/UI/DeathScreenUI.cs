@@ -55,8 +55,8 @@ namespace Youregone.UI
 
         public void ShowWindow()
         {
-            gameObject.SetActive(true);
             HideAllElements();
+            gameObject.SetActive(true);
 
             _currentScoreText.text = ((int)ServiceLocator.Get<GameScreenUI>().ScoreCounter.CurrentScore).ToString();
             _highScoreText.text = ServiceLocator.Get<PlayerPrefsSaverLoader>().GetHighScore().ToString();
@@ -67,13 +67,14 @@ namespace Youregone.UI
         private IEnumerator ShowWindowCoroutine()
         {
             Tween currentTween = _selfRectTransform.DOAnchorPos(Vector2.zero, _animationDuration).From(new Vector2(0f, Screen.height / 2));
-            _backgroundImage.DOFade(.8f, _animationDuration).From(0f);
+            float backgroundGoalAlpha = .8f;
+            _backgroundImage.DOFade(backgroundGoalAlpha, _animationDuration).From(0f);
 
             yield return currentTween.WaitForCompletion();
 
-            float sheepYOffset = 20f;
-            Vector2 sheepStartPosition = new(-_pathImage.rectTransform.rect.width / 2f, sheepYOffset);
-            _sheepImage.rectTransform.anchoredPosition = sheepStartPosition;
+            float uiSheepYOffset = 20f;
+            Vector2 uiSheepStartPosition = new(-_pathImage.rectTransform.rect.width / 2f, uiSheepYOffset);
+            _sheepImage.rectTransform.anchoredPosition = uiSheepStartPosition;
 
             _highScoreCanvasGroup.DOFade(1f, _textFadeDuration).From(0f);
             _barCanvasGroup.DOFade(1f, _textFadeDuration).From(0f);
@@ -85,10 +86,9 @@ namespace Youregone.UI
             int highScrore = ServiceLocator.Get<PlayerPrefsSaverLoader>().GetHighScore();
             float t = (float)currentScore / highScrore;
 
-            if (t < .1f)
-                t = .1f;
+            t = t <= .1f ? .1f : t;
 
-            Vector2 sheepGoalPosition = new(Mathf.Lerp(-_pathImage.rectTransform.rect.width / 2f, _pathImage.rectTransform.rect.width / 2f, t), sheepYOffset);
+            Vector2 sheepGoalPosition = new(Mathf.Lerp(-_pathImage.rectTransform.rect.width / 2f, _pathImage.rectTransform.rect.width / 2f, t), uiSheepYOffset);
             currentTween = _sheepImage.rectTransform.DOAnchorPos(sheepGoalPosition, _sheepSpeed).SetEase(Ease.InOutQuad);
 
             yield return currentTween.WaitForCompletion();

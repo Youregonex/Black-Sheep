@@ -211,9 +211,6 @@ namespace Youregone.YPlayerController
             StartComboTimer();
             _currentCombo++;
 
-            if (_currentCombo == 1)
-                return;
-
             _comboText.text = $"X {_currentCombo}";
 
             if (_comboTextSequence != null)

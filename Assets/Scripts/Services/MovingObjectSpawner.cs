@@ -121,7 +121,7 @@ namespace Youregone.LevelGeneration
 
             Collectable pooledCollectable;
 
-            if (UnityEngine.Random.Range(0f, 1f) <= _gameSettings.RareCollectableSpawnChance)
+            if (UnityEngine.Random.Range(0f, 1f) < _gameSettings.RareCollectableSpawnChance)
                 pooledCollectable = _collectablPool.DequeueCollectable(true, _collectableParentTransform);
             
             else
