@@ -1,12 +1,9 @@
 using UnityEngine;
-using UnityEngine.UI;
 using Youregone.UI;
 using Youregone.YCamera;
 using Youregone.YPlayerController;
 using Youregone.SaveSystem;
-using DG.Tweening;
 using System.Collections;
-using TMPro;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using Youregone.SL;
@@ -16,28 +13,20 @@ namespace Youregone.GameSystems
     public class GameState : PausableMonoBehaviour, IService
     {
         [CustomHeader("Config")]
-        [SerializeField] private CameraGameStartSequence _camera;
-        [SerializeField] private GameObject _introGameObject;
+        [SerializeField] private GameCamera _camera;
         [SerializeField] private List<OutroScene> _outroScenes;
         [SerializeField] private float _outroDelay;
         [SerializeField] private float _sceneReloadDelay;
 
         [CustomHeader("UI Elements")]
-        [SerializeField] private Button _playButton;
-        [SerializeField] private Button _exitButton;
-        [SerializeField] private CanvasGroup _highScoreCanvasGroup;
-        [SerializeField] private TextMeshProUGUI _highScoreText;
+        [SerializeField] private DeathScreenUI _deathScreenUI;
 
         [CustomHeader("DOTWeen Config")]
-        [SerializeField] private float _introButtonFadeTime;
         [SerializeField] private float _outroTransitionDuration;
 
         [CustomHeader("Debug")]
         [SerializeField] private EGameState _currentGameState;
 
-        private Coroutine _startGameCoroutine;
-        private Coroutine _sceneReloadCoroutine;
-        private GameSettings _gameSettings;
         private Transition _transition;
 
         public EGameState CurrentGameState => _currentGameState;
@@ -45,44 +34,35 @@ namespace Youregone.GameSystems
         private void Initialize()
         {
             _transition = ServiceLocator.Get<Transition>();
-
-            _gameSettings = ServiceLocator.Get<GameSettings>();
             ServiceLocator.Get<PlayerController>().OnDeath += PlayerController_OnDeath;
-            ServiceLocator.Get<GameScreenUI>().OnGameReloadRequested += GameScreenUI_OnGameReloadRequested;
+            ServiceLocator.Get<GameScreenUI>().OnMainMenuLoadRequest += GameScreenUI_OnMainMenuLoadRequest;
 
-            SetupButtons();
-            _highScoreCanvasGroup.alpha = 0;
+            _deathScreenUI.OnTryAgainButtonPressed += DeathScreenUI_OnTryAgainButtonPressed;
+            _deathScreenUI.OnMainMenuButtonPressed += DeathScreenUI_OnMainMenuButtonPressed;
         }
 
         private void Awake()
         {
-            _currentGameState = EGameState.Intro;
-            _camera.OnCameraInPosition += CameraGameStartSequence_OnCameraInPosition;
+            _currentGameState = EGameState.PreGameplay;
         }
 
         protected override void Start()
         {
             base.Start();
 
+            HideUI();
             Initialize();
 
-            if (_gameSettings.SkipIntro)
-            {
-                if (_startGameCoroutine != null)
-                    return;
-
-                _startGameCoroutine = StartCoroutine(StartGameSequenceCoroutine());
-                return;
-            }
-
-            _camera.PlayCameraIntroSequence();
+            StartCoroutine(StartGameCoroutine());
         }
 
         private void OnDestroy()
         {
-            _camera.OnCameraInPosition -= CameraGameStartSequence_OnCameraInPosition;
             ServiceLocator.Get<PlayerController>().OnDeath -= PlayerController_OnDeath;
-            ServiceLocator.Get<GameScreenUI>().OnGameReloadRequested -= GameScreenUI_OnGameReloadRequested;
+            ServiceLocator.Get<GameScreenUI>().OnMainMenuLoadRequest -= GameScreenUI_OnMainMenuLoadRequest;
+
+            _deathScreenUI.OnTryAgainButtonPressed += DeathScreenUI_OnTryAgainButtonPressed;
+            _deathScreenUI.OnMainMenuButtonPressed += DeathScreenUI_OnMainMenuButtonPressed;
         }
 
         public override void Pause()
@@ -98,60 +78,31 @@ namespace Youregone.GameSystems
             _currentGameState = EGameState.Gameplay;
         }
 
-        private void GameScreenUI_OnGameReloadRequested()
+        private void DeathScreenUI_OnMainMenuButtonPressed()
         {
-            if (_sceneReloadCoroutine != null)
-            {
-                StopCoroutine(_sceneReloadCoroutine);
-                _sceneReloadCoroutine = null;
-            }
-
-            SceneReload();
+            StartCoroutine(LoadMainMenuCoroutine());
         }
 
-        private void SetupButtons()
+        private IEnumerator LoadMainMenuCoroutine()
         {
-            _playButton.interactable = false;
-            _exitButton.interactable = false;
-
-            _playButton.onClick.RemoveAllListeners();
-            _playButton.onClick.AddListener(() =>
-            {
-                if (_startGameCoroutine != null)
-                    return;
-
-                _startGameCoroutine = StartCoroutine(StartGameSequenceCoroutine());
-            });
-
-            _exitButton.onClick.RemoveAllListeners();
-            _exitButton.onClick.AddListener(() =>
-            {
-                Application.Quit();
-            });
+            yield return StartCoroutine(_transition.PlayTransitionStart());
+            SceneManager.LoadScene(0);
         }
 
-        private void CameraGameStartSequence_OnCameraInPosition()
+        private void DeathScreenUI_OnTryAgainButtonPressed()
         {
-            int highScore = ServiceLocator.Get<PlayerPrefsSaverLoader>().GetHighScore();
+            StartCoroutine(ReloadSceneCoroutine());
+        }
 
-            Sequence sequence = DOTween.Sequence();
-            sequence.Append(_playButton.image.DOFade(1f, _introButtonFadeTime).SetEase(Ease.Linear));
-            sequence.Append(_exitButton.image.DOFade(1f, _introButtonFadeTime).SetEase(Ease.Linear));
+        private IEnumerator ReloadSceneCoroutine()
+        {
+            yield return StartCoroutine(_transition.PlayTransitionStart());
+            ReloadScene();
+        }
 
-            if(highScore != 0)
-            {
-                _highScoreText.text = highScore.ToString();
-                sequence.Append(_highScoreCanvasGroup.DOFade(1f, _introButtonFadeTime));
-            }
-
-            sequence.OnComplete(() =>
-            {
-                _playButton.interactable = true;
-                _exitButton.interactable = true;
-
-            });
-
-            sequence.Play();
+        private void GameScreenUI_OnMainMenuLoadRequest()
+        {
+            StartCoroutine(LoadMainMenuCoroutine());
         }
 
         private IEnumerator SceneReloadDelayCoroutine()
@@ -161,37 +112,17 @@ namespace Youregone.GameSystems
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
 
-        private void SceneReload()
+        private void ReloadScene()
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
 
-        private IEnumerator StartGameSequenceCoroutine()
+        private IEnumerator StartGameCoroutine()
         {
-            if (_currentGameState == EGameState.Gameplay)
-                yield break;
-
-            if(_gameSettings.SkipIntro)
-            {
-                ShowUI();
-                _currentGameState = EGameState.Gameplay;
-
-                _camera.MoveCameraToGamePoint();
-                Destroy(_introGameObject);
-                yield break;
-            }
-
-            yield return _transition.StartCoroutine(_transition.PlayTransitionStart());
-
-            _camera.MoveCameraToGamePoint();
-
-            yield return _transition.StartCoroutine(_transition.PlayTransitionEnd());
+            yield return StartCoroutine(_transition.PlayTransitionEnd());
 
             ShowUI();
-
             _currentGameState = EGameState.Gameplay;
-            _startGameCoroutine = null;
-            Destroy(_introGameObject); 
         }
 
         private IEnumerator PlayOutroCoroutine()
@@ -242,21 +173,27 @@ namespace Youregone.GameSystems
 
         private IEnumerator PlayerController_OnDeath_Coroutine()
         {
-            int currentScore = (int)ServiceLocator.Get<GameScreenUI>().ScoreCounter.CurrentScore;
-            if (currentScore > ServiceLocator.Get<PlayerPrefsSaverLoader>().GetHighScore())
-                ServiceLocator.Get<PlayerPrefsSaverLoader>().SaveHighScore(currentScore);
-
             _currentGameState = EGameState.Outro;
 
             yield return new WaitForSeconds(_outroDelay);
 
-            if(!ServiceLocator.Get<GameSettings>().ShowOutro)
+            if (!ServiceLocator.Get<GameSettings>().OutroEnabled)
             {
-                _sceneReloadCoroutine = StartCoroutine(SceneReloadDelayCoroutine());
+                _deathScreenUI.ShowWindow();
+                SaveHighScore();
+
                 yield break;
             }
 
+            SaveHighScore();
             StartCoroutine(PlayOutroCoroutine());
+        }
+
+        private void SaveHighScore()
+        {
+            int currentScore = (int)ServiceLocator.Get<GameScreenUI>().ScoreCounter.CurrentScore;
+            if (currentScore > ServiceLocator.Get<PlayerPrefsSaverLoader>().GetHighScore())
+                ServiceLocator.Get<PlayerPrefsSaverLoader>().SaveHighScore(currentScore);
         }
     }
 }

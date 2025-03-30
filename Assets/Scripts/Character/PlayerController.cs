@@ -6,6 +6,8 @@ using Youregone.EnemyAI;
 using UnityEngine.UI;
 using Youregone.GameSystems;
 using Youregone.SL;
+using TMPro;
+using DG.Tweening;
 
 namespace Youregone.YPlayerController
 {
@@ -50,6 +52,15 @@ namespace Youregone.YPlayerController
         [SerializeField] private ParticleSystem _ramParticleSystem;
         [SerializeField] private ParticleSystem _ramParticleSystem_2;
 
+        [CustomHeader("Rock Break Combo UI")]
+        [SerializeField] private TextMeshProUGUI _comboText;
+        [SerializeField] private float _comboTextFontSizeStart;
+        [SerializeField] private float _comboTextFontSizeMax;
+        [SerializeField] private float _comboTextAnimationDuration;
+        [SerializeField] private Color _comboTextStartColor;
+        [SerializeField] private Color _comboTextNewColor;
+        [SerializeField] private float _comboResetTimerMax;
+
         [CustomHeader("Debug")]
         [SerializeField] private float _currentSpeed;
         [SerializeField] private float _staminaCurrent;
@@ -62,6 +73,8 @@ namespace Youregone.YPlayerController
         private Vector2 _prePauseVelocity;
         private float _baseGravityScale;
         private bool _runStarted = false;
+        private int _currentCombo = 0;
+        private float _comboResetTimerCurrent;
 
         private PlayerCharacterInput _playerInput;
         private Rigidbody2D _rigidBody;
@@ -69,6 +82,9 @@ namespace Youregone.YPlayerController
 
         private Coroutine _flashCoroutine;
         private Coroutine _staminaCoroutine;
+
+        private Sequence _comboTextSequence;
+        private Tween _comboTimerTween;
 
         public bool IsGrounded => _isGrounded;
         public bool IsRaming => _isRaming;
@@ -138,6 +154,7 @@ namespace Youregone.YPlayerController
             if (collision.transform.GetComponent<Obstacle>() && _isRaming)
             {
                 OnObstacleDestroyed?.Invoke();
+                StartCombo();
                 return;
             }
 
@@ -187,6 +204,61 @@ namespace Youregone.YPlayerController
             }
 
             _staminaBar.GetComponent<Animator>().speed = 1f;
+        }
+
+        private void StartCombo()
+        {
+            StartComboTimer();
+            _currentCombo++;
+
+            _comboText.text = $"X {_currentCombo}";
+
+            if (_comboTextSequence != null)
+                _comboTextSequence.Kill();
+            
+            _comboTextSequence = DOTween.Sequence();
+
+            _comboTextSequence
+                .Append(_comboText.DOColor(_comboTextNewColor, _comboTextAnimationDuration).From(_comboTextStartColor))
+                .Join(DOTween.To(
+                    () => _comboText.fontSize,
+                    x => _comboText.fontSize = x,
+                    _comboTextFontSizeMax,
+                    _comboTextAnimationDuration))
+                .Append(_comboText.DOColor(_comboTextStartColor, _comboTextAnimationDuration).From(_comboTextNewColor))
+                .Join(DOTween.To(
+                    () => _comboText.fontSize,
+                    x => _comboText.fontSize = x,
+                    _comboTextFontSizeStart,
+                    _comboTextAnimationDuration))
+                .OnComplete(() =>
+                {
+                    _comboTextSequence = DOTween.Sequence();
+                    _comboTextSequence
+                     .Append(_comboText.DOFade(0f, _comboResetTimerCurrent))
+                     .OnComplete(() => _comboTextSequence = null);
+                });
+
+            _comboTextSequence.Play();
+        }
+
+        private void StartComboTimer()
+        {
+            if (_comboTimerTween != null)
+                _comboTimerTween.Kill();
+
+            _comboTimerTween = DOTween.To(
+                () => _comboResetTimerCurrent,
+                x => _comboResetTimerCurrent = x,
+                0f,
+                _comboResetTimerMax)
+                .From(_comboResetTimerMax)
+                .OnComplete(() =>
+                {
+                    Debug.Log($"Combo Ended : {_currentCombo}");
+                    _comboTimerTween = null;
+                    _currentCombo = 0;
+                });
         }
 
         private void ManageStamina()

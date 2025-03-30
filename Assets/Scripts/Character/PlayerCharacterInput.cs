@@ -7,6 +7,7 @@ namespace Youregone.YPlayerController
     {
         public event Action OnRamButtonReleased;
         public event Action OnPauseButtonPressed;
+        public event Action OnScreenTap;
 
         private CharacterMainInputActions _inputActions;
 
@@ -26,6 +27,7 @@ namespace Youregone.YPlayerController
         {
             _inputActions.Enable();
             _inputActions.CharacterInputActions.Enable();
+
             _inputActions.CharacterInputActions.Jump.performed += Jump_performed;
             _inputActions.CharacterInputActions.Jump.canceled += Jump_canceled;
 
@@ -33,12 +35,15 @@ namespace Youregone.YPlayerController
             _inputActions.CharacterInputActions.Ram.canceled += Ram_Canceled;
 
             _inputActions.CharacterInputActions.Pause.performed += Pause_performed;
+
+            _inputActions.CharacterInputActions.ScreenTap.performed += ScreenTap_performed;
         }
 
         public void DisableInput()
         {
             _inputActions.Disable();
             _inputActions.CharacterInputActions.Disable();
+
             _inputActions.CharacterInputActions.Jump.performed -= Jump_performed;
             _inputActions.CharacterInputActions.Jump.canceled -= Jump_canceled;
 
@@ -46,6 +51,13 @@ namespace Youregone.YPlayerController
             _inputActions.CharacterInputActions.Ram.canceled -= Ram_Canceled;
 
             _inputActions.CharacterInputActions.Pause.performed -= Pause_performed;
+
+            _inputActions.CharacterInputActions.ScreenTap.performed -= ScreenTap_performed;
+        }
+
+        private void ScreenTap_performed(InputAction.CallbackContext context)
+        {
+            OnScreenTap?.Invoke();
         }
 
         private void Pause_performed(InputAction.CallbackContext context)
@@ -56,19 +68,16 @@ namespace Youregone.YPlayerController
         private void Jump_performed(InputAction.CallbackContext context)
         {
             _jumpPressed = true;
-            //OnJumpButtonPressed?.Invoke();
         }
 
         private void Jump_canceled(InputAction.CallbackContext context)
         {
             _jumpPressed = false;
-            //OnJumpButtonPressed?.Invoke();
         }
 
         private void Ram_performed(InputAction.CallbackContext context)
         {
             _ramPressed = true;
-            //OnRamButtonPressed?.Invoke();
         }
 
         private void Ram_Canceled(InputAction.CallbackContext context)

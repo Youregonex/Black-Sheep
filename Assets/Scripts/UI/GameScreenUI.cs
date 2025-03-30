@@ -9,7 +9,7 @@ namespace Youregone.UI
 {
     public class GameScreenUI : MonoBehaviour, IService
     {
-        public event Action OnGameReloadRequested;
+        public event Action OnMainMenuLoadRequest;
         public event Action OnGameOutroToggleRequest;
 
         [CustomHeader("Config")]
@@ -29,18 +29,18 @@ namespace Youregone.UI
         {
             _mainMenuButton.onClick.AddListener(() =>
             {
-                OnGameReloadRequested?.Invoke();
+                OnMainMenuLoadRequest?.Invoke();
                 EventSystem.current.SetSelectedGameObject(null);
             });
 
             _outroDisableButton.onClick.AddListener(() =>
             {
                 OnGameOutroToggleRequest?.Invoke();
-                _outroDisableButton.image.sprite = !ServiceLocator.Get<GameSettings>().ShowOutro ? _outroDisableButtonSpriteOff : _outroDisableButtonSpriteOn;
+                _outroDisableButton.image.sprite = !ServiceLocator.Get<GameSettings>().OutroEnabled ? _outroDisableButtonSpriteOff : _outroDisableButtonSpriteOn;
                 EventSystem.current.SetSelectedGameObject(null);
             });
 
-            _outroDisableButton.image.sprite = ServiceLocator.Get<GameSettings>().ShowOutro ? _outroDisableButtonSpriteOn : _outroDisableButtonSpriteOff;
+            _outroDisableButton.image.sprite = ServiceLocator.Get<GameSettings>().OutroEnabled ? _outroDisableButtonSpriteOn : _outroDisableButtonSpriteOff;
         }
     }
 }

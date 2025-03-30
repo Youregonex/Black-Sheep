@@ -16,7 +16,7 @@ namespace Youregone.LevelGeneration
         private const string START_ANIMATION = "STARTANIMATION";
 
         [CustomHeader("Collectable Config")]
-        [SerializeField] private bool _rareCollectable;
+        [SerializeField] private bool _isRareCollectable;
         [SerializeField] private int _pointsBonus;
         [SerializeField] private SpriteRenderer _spriteRenderer;
         [SerializeField] private Animator _animator;
@@ -36,7 +36,7 @@ namespace Youregone.LevelGeneration
         [SerializeField] private float _randomSinWaveOffset;
         [SerializeField] private float _timeUnpaused;
 
-        public bool IsRareCollectable => _rareCollectable;
+        public bool IsRareCollectable => _isRareCollectable;
 
         private GameState _gameState;
         private Coroutine _currentCoroutine;
@@ -46,8 +46,8 @@ namespace Youregone.LevelGeneration
         {
             base.Awake();
 
-            _randomSinWaveOffset = UnityEngine.Random.Range(-1f, 1f);
             UpdateYOrigin();
+            _randomSinWaveOffset = UnityEngine.Random.Range(-1f, 1f);
             _randomAnimationDelay = UnityEngine.Random.Range(0f, 1f);
         }
 
@@ -101,7 +101,7 @@ namespace Youregone.LevelGeneration
                         OnDestraction?.Invoke(this);
                     })
                     .Play();
-                
+
                 return;
             }
 

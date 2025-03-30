@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.Collections;
 using Youregone.SL;
-using Youregone.YCamera;
 using DG.Tweening;
 
 namespace Youregone.UI
@@ -11,7 +10,7 @@ namespace Youregone.UI
         [CustomHeader("Settings")]
         [SerializeField] private RectTransform _topAnchoredTransition;
         [SerializeField] private RectTransform _bottomAnchoredTransition;
-        [SerializeField] private CameraGameStartSequence _camera;
+        [SerializeField] private Camera _camera;
 
         [CustomHeader("DOTween Settings")]
         [SerializeField] private float _transitionDuration;

@@ -7,8 +7,8 @@ namespace Youregone.GameSystems
 {
     public class GameSettings : MonoBehaviour, IService
     {
-        [CustomHeader("Skip Scenes")]
-        [SerializeField] private bool _skipIntro;
+        //[CustomHeader("Skip Scenes")]
+        //[SerializeField] private bool _skipIntro;
 
         [CustomHeader("Progressive Difficulty")]
         [SerializeField] private bool _progressiveDifficultyEnabled;
@@ -33,7 +33,7 @@ namespace Youregone.GameSystems
 
         private PlayerPrefsSaverLoader _playerPrefsSaverLoader;
 
-        public bool SkipIntro => _skipIntro;
+        //public bool SkipIntro => _skipIntro;
         public bool ProgressiveDifficultyEnabled => _progressiveDifficultyEnabled;
         public float ObstacleSpawnChance => _obstacleSpawnChance;
         public float BirdSpawnChance => _birdSpawnChance;
@@ -50,7 +50,7 @@ namespace Youregone.GameSystems
         public float CollectableSpawnChance => _collectableSpawnChance;
         public float RareCollectableSpawnChance => _rareCollectableSpawnChance;
 
-        public bool ShowOutro
+        public bool OutroEnabled
         {
             get
             {
@@ -59,7 +59,7 @@ namespace Youregone.GameSystems
 
                 return _playerPrefsSaverLoader.OutroEnabled;
             }
-        } 
+        }
 
         private void Start()
         {

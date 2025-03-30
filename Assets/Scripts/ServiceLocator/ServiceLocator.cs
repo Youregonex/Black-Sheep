@@ -8,18 +8,13 @@ namespace Youregone.SL
     {
         private static Dictionary<Type, IService> _services = new();
 
-        //static ServiceLocator()
-        //{
-        //    Application.quitting += Application_quitting;
-        //}
-
         public static void Register<T>(T service) where T : IService
         {
             Type type = typeof(T);
 
             if (_services.ContainsKey(type))
             {
-                Debug.LogWarning($"Service {type.Name} is already registered and will be replaced!");
+                //Debug.LogWarning($"Service {type.Name} is already registered and will be replaced!");
             }
 
             _services[type] = service;
@@ -51,11 +46,5 @@ namespace Youregone.SL
                 Debug.LogWarning($"Service {type.Name} was not registered");
             }
         }
-
-        //private static void Application_quitting()
-        //{
-        //    _services.Clear();
-        //    _services = null;
-        //}
     }
 }

@@ -3,7 +3,7 @@ namespace Youregone.GameSystems
 {
     public enum EGameState
     {
-        Intro,
+        PreGameplay,
         Gameplay,
         Pause,
         Outro
