@@ -147,7 +147,8 @@ namespace Youregone.GameSystems
                 Destroy(currentOutroScene.gameObject);
             }
 
-            StartCoroutine(SceneReloadDelayCoroutine());
+            yield return _transition.StartCoroutine(_transition.PlayTransitionEnd());
+            _deathScreenUI.ShowWindow();
         }
 
         private void PlayerController_OnDeath()

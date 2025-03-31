@@ -123,15 +123,9 @@ namespace Youregone.LevelGeneration
 
             float rareSpawnChance = UnityEngine.Random.Range(0f, 1f);
             if (rareSpawnChance < _gameSettings.RareCollectableSpawnChance)
-            {
                 pooledCollectable = _collectablPool.DequeueCollectable(true, _collectableParentTransform);
-                Debug.Log($"Spawning rare | chance: {_gameSettings.RareCollectableSpawnChance} | rolled: {rareSpawnChance}");
-            }    
-            
             else
-            {
                 pooledCollectable = _collectablPool.DequeueCollectable(false, _collectableParentTransform);
-            }
 
             pooledCollectable.transform.position = position;
             pooledCollectable.UpdateYOrigin();

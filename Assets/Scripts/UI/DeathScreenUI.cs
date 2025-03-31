@@ -110,15 +110,21 @@ namespace Youregone.UI
 
             yield return _currentSequence.WaitForCompletion();
 
+            _tryAgainButton.gameObject.SetActive(true);
+            _mainMenuButton.gameObject.SetActive(true);
+            _tryAgainButton.interactable = false;
+            _mainMenuButton.interactable = false;
+
             _currentSequence = DOTween.Sequence();
             _currentSequence
                 .Append(_tryAgainButton.image.DOFade(1f, _buttonsFadeDuration).From(0f))
                 .Join(_mainMenuButton.image.DOFade(1f, _buttonsFadeDuration).From(0f))
+                .SetEase(Ease.Linear)
                 .OnComplete(() =>
                 {
-                    _tryAgainButton.gameObject.SetActive(true);
-                    _mainMenuButton.gameObject.SetActive(true);
                     _currentSequence = null;
+                    _tryAgainButton.interactable = true;
+                    _mainMenuButton.interactable = true;
                 });
         }
 
