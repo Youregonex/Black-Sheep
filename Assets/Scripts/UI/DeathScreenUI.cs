@@ -26,6 +26,7 @@ namespace Youregone.UI
         [SerializeField] private Image _backgroundImage;
         [SerializeField] private Image _sheepImage;
         [SerializeField] private Image _pathImage;
+        [SerializeField] private RectTransform _flag;
 
         [CustomHeader("DOTween Settings")]
         [SerializeField] private float _animationDuration;
@@ -76,6 +77,23 @@ namespace Youregone.UI
         {
             float backgroundGoalAlpha = .8f;
 
+            float currentScore = ServiceLocator.Get<ScoreCounter>().CurrentScore;
+            int highScrore = ServiceLocator.Get<PlayerPrefsSaverLoader>().GetHighScore();
+            float t;
+
+            if (highScrore != 0)
+                t = currentScore / highScrore;
+            else
+                t = 100f;
+
+            if (t > 1)
+            {
+                t = .75f; // any number past .5f
+                _flag.anchoredPosition = _pathImage.rectTransform.anchoredPosition;
+            }
+            else
+                t = t <= .1f ? .1f : t; // min distance so sheep doesn't stand at 0 without movement
+
             _currentSequence = DOTween.Sequence();
             _currentSequence
                 .Append(_selfRectTransform.DOAnchorPos(Vector2.zero, _animationDuration).From(new Vector2(0f, Screen.height / 2)))
@@ -97,10 +115,6 @@ namespace Youregone.UI
 
             yield return _currentSequence.WaitForCompletion();
 
-            int currentScore = (int)ServiceLocator.Get<ScoreCounter>().CurrentScore;
-            int highScrore = ServiceLocator.Get<PlayerPrefsSaverLoader>().GetHighScore();
-            float t = (float)currentScore / highScrore;
-            t = t <= .1f ? .1f : t;
             Vector2 sheepGoalPosition = new(Mathf.Lerp(-_pathImage.rectTransform.rect.width / 2f, _pathImage.rectTransform.rect.width / 2f, t), uiSheepYOffset);
 
             _currentSequence = DOTween.Sequence();

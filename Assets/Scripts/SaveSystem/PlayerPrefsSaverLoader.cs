@@ -30,7 +30,7 @@ namespace Youregone.SaveSystem
 
         public void SaveHighScore(int highscore)
         {
-            Debug.Log("Saving High Score");
+            Debug.Log($"Saving High Score {highscore}");
             PlayerPrefs.SetInt(PLAYERPREFS_HIGH_SCORE_KEY, highscore);
             PlayerPrefs.Save();
         }

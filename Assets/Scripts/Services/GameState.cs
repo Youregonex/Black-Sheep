@@ -142,6 +142,7 @@ namespace Youregone.GameSystems
 
             yield return _transition.StartCoroutine(_transition.PlayTransitionEnd());
             _deathScreenUI.ShowWindow();
+            SaveHighScore();
         }
 
         private void PlayerController_OnDeath()
@@ -179,7 +180,6 @@ namespace Youregone.GameSystems
                 yield break;
             }
 
-            SaveHighScore();
             StartCoroutine(PlayOutroCoroutine());
         }
 
