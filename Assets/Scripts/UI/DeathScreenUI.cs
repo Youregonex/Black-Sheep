@@ -33,6 +33,7 @@ namespace Youregone.UI
         [SerializeField] private float _sheepSpeed;
 
         private RectTransform _selfRectTransform;
+        private Sequence _currentSequence;
 
         private void Awake()
         {
@@ -53,6 +54,12 @@ namespace Youregone.UI
             });
         }
 
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Mouse0) && _currentSequence != null)
+                _currentSequence.Complete();
+        }
+
         public void ShowWindow()
         {
             HideAllElements();
@@ -66,38 +73,53 @@ namespace Youregone.UI
 
         private IEnumerator ShowWindowCoroutine()
         {
-            Tween currentTween = _selfRectTransform.DOAnchorPos(Vector2.zero, _animationDuration).From(new Vector2(0f, Screen.height / 2));
             float backgroundGoalAlpha = .8f;
-            _backgroundImage.DOFade(backgroundGoalAlpha, _animationDuration).From(0f);
 
-            yield return currentTween.WaitForCompletion();
+            _currentSequence = DOTween.Sequence();
+            _currentSequence
+                .Append(_selfRectTransform.DOAnchorPos(Vector2.zero, _animationDuration).From(new Vector2(0f, Screen.height / 2)))
+                .Join(_backgroundImage.DOFade(backgroundGoalAlpha, _animationDuration).From(0f)
+                .OnComplete(() => _currentSequence = null));
+
+            yield return _currentSequence.WaitForCompletion();
 
             float uiSheepYOffset = 20f;
             Vector2 uiSheepStartPosition = new(-_pathImage.rectTransform.rect.width / 2f, uiSheepYOffset);
             _sheepImage.rectTransform.anchoredPosition = uiSheepStartPosition;
 
-            _highScoreCanvasGroup.DOFade(1f, _textFadeDuration).From(0f);
-            _barCanvasGroup.DOFade(1f, _textFadeDuration).From(0f);
-            currentTween = _currentScoreCanvasGroup.DOFade(1f, _textFadeDuration).From(0f);
+            _currentSequence = DOTween.Sequence();
+            _currentSequence
+                .Append(_highScoreCanvasGroup.DOFade(1f, _textFadeDuration).From(0f))
+                .Join(_barCanvasGroup.DOFade(1f, _textFadeDuration).From(0f))
+                .Join(_currentScoreCanvasGroup.DOFade(1f, _textFadeDuration).From(0f))
+                .OnComplete(() => _currentSequence = null);
 
-            yield return currentTween.WaitForCompletion();
+            yield return _currentSequence.WaitForCompletion();
 
             int currentScore = (int)ServiceLocator.Get<GameScreenUI>().ScoreCounter.CurrentScore;
             int highScrore = ServiceLocator.Get<PlayerPrefsSaverLoader>().GetHighScore();
             float t = (float)currentScore / highScrore;
-
             t = t <= .1f ? .1f : t;
-
             Vector2 sheepGoalPosition = new(Mathf.Lerp(-_pathImage.rectTransform.rect.width / 2f, _pathImage.rectTransform.rect.width / 2f, t), uiSheepYOffset);
-            currentTween = _sheepImage.rectTransform.DOAnchorPos(sheepGoalPosition, _sheepSpeed).SetEase(Ease.InOutQuad);
 
-            yield return currentTween.WaitForCompletion();
+            _currentSequence = DOTween.Sequence();
+            _currentSequence
+                .Append(_sheepImage.rectTransform.DOAnchorPos(sheepGoalPosition, _sheepSpeed)
+                .SetEase(Ease.InOutQuad))
+                .OnComplete(() => _currentSequence = null);
 
-            _tryAgainButton.gameObject.SetActive(true);
-            _mainMenuButton.gameObject.SetActive(true);
+            yield return _currentSequence.WaitForCompletion();
 
-            _tryAgainButton.image.DOFade(1f, _buttonsFadeDuration).From(0f);
-            _mainMenuButton.image.DOFade(1f, _buttonsFadeDuration).From(0f);
+            _currentSequence = DOTween.Sequence();
+            _currentSequence
+                .Append(_tryAgainButton.image.DOFade(1f, _buttonsFadeDuration).From(0f))
+                .Join(_mainMenuButton.image.DOFade(1f, _buttonsFadeDuration).From(0f))
+                .OnComplete(() =>
+                {
+                    _tryAgainButton.gameObject.SetActive(true);
+                    _mainMenuButton.gameObject.SetActive(true);
+                    _currentSequence = null;
+                });
         }
 
         private void HideAllElements()

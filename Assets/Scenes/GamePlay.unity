@@ -10527,8 +10527,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1994863137}
   - component: {fileID: 1994863136}
-  m_Layer: 0
-  m_Name: px
+  m_Layer: 4
+  m_Name: Water
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10912,6 +10912,10 @@ PrefabInstance:
       value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 5257244555878351172, guid: 5a327b5a138c846628f9028e402ba0d7, type: 3}
+      propertyPath: _collider
+      value: 
+      objectReference: {fileID: 1160231922162813774}
+    - target: {fileID: 5257244555878351172, guid: 5a327b5a138c846628f9028e402ba0d7, type: 3}
       propertyPath: _immortal
       value: 0
       objectReference: {fileID: 0}
@@ -10920,8 +10924,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 312738780}
     - target: {fileID: 5257244555878351172, guid: 5a327b5a138c846628f9028e402ba0d7, type: 3}
+      propertyPath: _boxCastWidth
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5257244555878351172, guid: 5a327b5a138c846628f9028e402ba0d7, type: 3}
       propertyPath: _staminaDrain
       value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 5257244555878351172, guid: 5a327b5a138c846628f9028e402ba0d7, type: 3}
+      propertyPath: _boxCastHeight
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5257244555878351172, guid: 5a327b5a138c846628f9028e402ba0d7, type: 3}
+      propertyPath: _boxCastLength
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 5257244555878351172, guid: 5a327b5a138c846628f9028e402ba0d7, type: 3}
       propertyPath: _ramParticleSystem
@@ -10979,6 +10995,10 @@ PrefabInstance:
       propertyPath: _comboTextAnimationDuration
       value: 0.25
       objectReference: {fileID: 0}
+    - target: {fileID: 5257244555878351172, guid: 5a327b5a138c846628f9028e402ba0d7, type: 3}
+      propertyPath: _groundCheckLayerMask.m_Bits
+      value: 256
+      objectReference: {fileID: 0}
     - target: {fileID: 6748735199782755533, guid: 5a327b5a138c846628f9028e402ba0d7, type: 3}
       propertyPath: m_Layer
       value: 15
@@ -11032,6 +11052,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5a327b5a138c846628f9028e402ba0d7, type: 3}
+--- !u!61 &1160231922162813774 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 5058871427143978221, guid: 5a327b5a138c846628f9028e402ba0d7, type: 3}
+  m_PrefabInstance: {fileID: 1160231922162813773}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1270810308722611037 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3724977797290788021, guid: bd844bce582e34598a0147adbab52361, type: 3}

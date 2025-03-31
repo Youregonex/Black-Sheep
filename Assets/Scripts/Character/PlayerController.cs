@@ -52,6 +52,12 @@ namespace Youregone.YPlayerController
         [SerializeField] private ParticleSystem _ramParticleSystem;
         [SerializeField] private ParticleSystem _windParticleSystem;
 
+        [CustomHeader("Ground Check")]
+        [SerializeField] private BoxCollider2D _collider;
+        [SerializeField] private LayerMask _groundCheckLayerMask;
+        [SerializeField] private float _boxCastWidth;
+        [SerializeField] private float _boxCastHeight;
+
         [CustomHeader("Rock Break Combo UI")]
         [SerializeField] private TextMeshProUGUI _comboText;
         [SerializeField] private float _comboTextFontSizeStart;
@@ -407,6 +413,19 @@ namespace Youregone.YPlayerController
         {
             if (_currentHealth <= 0 || !_runStarted || !_isGrounded)
                 return;
+
+            Vector2 origin = new(transform.position.x, _collider.bounds.min.y);
+            Vector2 size = new(_boxCastWidth, _boxCastHeight);
+            RaycastHit2D raycastHit2D = Physics2D.BoxCast(origin, size, 0f, Vector2.down, 0f, _groundCheckLayerMask);
+
+            if (!raycastHit2D)
+            {
+                Debug.Log("No ground!");
+                return;
+            }
+            else
+                Debug.Log("Jumping");
+                
             
             if (_isRaming)
                 StopRam();
@@ -415,6 +434,12 @@ namespace Youregone.YPlayerController
             _rigidBody.velocity = new Vector2(_currentSpeed, 0f);
             _rigidBody.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
             _animator.SetTrigger(ANIMATION_JUMP_TRIGGER);
+        }
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireCube(new Vector3(transform.position.x, _collider.bounds.min.y, 0f), new Vector3(_boxCastWidth, _boxCastHeight, 0f));
         }
     }
 }
