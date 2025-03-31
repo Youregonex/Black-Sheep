@@ -261,7 +261,6 @@ namespace Youregone.YPlayerController
                 .From(_comboResetTimerMax)
                 .OnComplete(() =>
                 {
-                    Debug.Log($"Combo Ended : {_currentCombo}");
                     _comboTimerTween = null;
                     _currentCombo = 0;
                 });
@@ -419,13 +418,7 @@ namespace Youregone.YPlayerController
             RaycastHit2D raycastHit2D = Physics2D.BoxCast(origin, size, 0f, Vector2.down, 0f, _groundCheckLayerMask);
 
             if (!raycastHit2D)
-            {
-                Debug.Log("No ground!");
                 return;
-            }
-            else
-                Debug.Log("Jumping");
-                
             
             if (_isRaming)
                 StopRam();

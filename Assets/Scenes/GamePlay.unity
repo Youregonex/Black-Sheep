@@ -7776,9 +7776,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1565254841
-  m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: 5ad98e7fae9f941d783e1d7fecdc723f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.9019608}
   m_FlipX: 0
@@ -9343,7 +9343,7 @@ MonoBehaviour:
   _topAnchoredTransition: {fileID: 1050549457}
   _bottomAnchoredTransition: {fileID: 160357456}
   _camera: {fileID: 519420031}
-  _transitionDuration: 1
+  _transitionDuration: 0.75
 --- !u!4 &1558517396
 Transform:
   m_ObjectHideFlags: 0
@@ -9898,10 +9898,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b152e04ed42a64af8bad8993fc876a77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _progressiveDifficultyEnabled: 1
+  _progressiveDifficultyEnabled: 0
   _maxDifficultyScore: 2000
-  _obstacleSpawnChance: 1
-  _pitSpawnChanceStart: 0.2
+  _obstacleSpawnChance: 0
+  _pitSpawnChanceStart: 0
   _pitSpawnChanceMidGame: 0.3
   _pitSpawnChanceMax: 0.4
   _bridgeSpawnCooldownStart: 17
@@ -10907,6 +10907,10 @@ PrefabInstance:
       propertyPath: m_Maskable
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5058871427143978221, guid: 5a327b5a138c846628f9028e402ba0d7, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.32
+      objectReference: {fileID: 0}
     - target: {fileID: 5125378742239864495, guid: 5a327b5a138c846628f9028e402ba0d7, type: 3}
       propertyPath: m_Layer
       value: 15
@@ -10917,7 +10921,7 @@ PrefabInstance:
       objectReference: {fileID: 1160231922162813774}
     - target: {fileID: 5257244555878351172, guid: 5a327b5a138c846628f9028e402ba0d7, type: 3}
       propertyPath: _immortal
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5257244555878351172, guid: 5a327b5a138c846628f9028e402ba0d7, type: 3}
       propertyPath: _comboText
@@ -10929,7 +10933,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5257244555878351172, guid: 5a327b5a138c846628f9028e402ba0d7, type: 3}
       propertyPath: _staminaDrain
-      value: 45
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5257244555878351172, guid: 5a327b5a138c846628f9028e402ba0d7, type: 3}
       propertyPath: _boxCastHeight

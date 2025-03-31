@@ -84,6 +84,10 @@ PrefabInstance:
       propertyPath: _rareCollectable
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5970340744938519519, guid: 5890df1e31c2a41eeac49fd36aa859a2, type: 3}
+      propertyPath: _isRareCollectable
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6059654795220275851, guid: 5890df1e31c2a41eeac49fd36aa859a2, type: 3}
       propertyPath: m_Name
       value: Collectable_Clover_Rare
