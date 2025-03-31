@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using Youregone.SL;
 using Youregone.SaveSystem;
+using Youregone.GameSystems;
 
 namespace Youregone.UI
 {
@@ -65,7 +66,7 @@ namespace Youregone.UI
             HideAllElements();
             gameObject.SetActive(true);
 
-            _currentScoreText.text = ((int)ServiceLocator.Get<GameScreenUI>().ScoreCounter.CurrentScore).ToString();
+            _currentScoreText.text = ((int)ServiceLocator.Get<ScoreCounter>().CurrentScore).ToString();
             _highScoreText.text = ServiceLocator.Get<PlayerPrefsSaverLoader>().GetHighScore().ToString();
 
             StartCoroutine(ShowWindowCoroutine());
@@ -96,7 +97,7 @@ namespace Youregone.UI
 
             yield return _currentSequence.WaitForCompletion();
 
-            int currentScore = (int)ServiceLocator.Get<GameScreenUI>().ScoreCounter.CurrentScore;
+            int currentScore = (int)ServiceLocator.Get<ScoreCounter>().CurrentScore;
             int highScrore = ServiceLocator.Get<PlayerPrefsSaverLoader>().GetHighScore();
             float t = (float)currentScore / highScrore;
             t = t <= .1f ? .1f : t;

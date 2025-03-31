@@ -20,6 +20,7 @@ namespace Youregone.SL
         [SerializeField] private GameSettings _gameSettings;
         [SerializeField] private PlayerPrefsSaverLoader _playerPrefsSaverLoader;
         [SerializeField] private Transition _transition;
+        [SerializeField] private ScoreCounter _scoreCounter;
 
         private void Awake()
         {
@@ -33,6 +34,7 @@ namespace Youregone.SL
             ServiceLocator.Register<GameSettings>(_gameSettings);
             ServiceLocator.Register<PlayerPrefsSaverLoader>(_playerPrefsSaverLoader);
             ServiceLocator.Register<Transition>(_transition);
+            ServiceLocator.Register<ScoreCounter>(_scoreCounter);
         }
     }
 }

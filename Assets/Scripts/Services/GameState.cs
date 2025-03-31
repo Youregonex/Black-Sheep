@@ -105,13 +105,6 @@ namespace Youregone.GameSystems
             StartCoroutine(LoadMainMenuCoroutine());
         }
 
-        private IEnumerator SceneReloadDelayCoroutine()
-        {
-            yield return new WaitForSeconds(_sceneReloadDelay);
-
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        }
-
         private void ReloadScene()
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -192,7 +185,7 @@ namespace Youregone.GameSystems
 
         private void SaveHighScore()
         {
-            int currentScore = (int)ServiceLocator.Get<GameScreenUI>().ScoreCounter.CurrentScore;
+            int currentScore = (int)ServiceLocator.Get<ScoreCounter>().CurrentScore;
             if (currentScore > ServiceLocator.Get<PlayerPrefsSaverLoader>().GetHighScore())
                 ServiceLocator.Get<PlayerPrefsSaverLoader>().SaveHighScore(currentScore);
         }

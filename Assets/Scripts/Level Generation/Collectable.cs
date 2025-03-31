@@ -86,7 +86,7 @@ namespace Youregone.LevelGeneration
             {
                 _lightGameObject.SetActive(false);
 
-                ServiceLocator.Get<GameScreenUI>().ScoreCounter.AddPoints(_pointsBonus);
+                ServiceLocator.Get<ScoreCounter>().AddPoints(_pointsBonus);
                 ServiceLocator.Get<SoundManager>().PlaySoundAtPosition(_pickUpAudioClip, .05f, transform.position);
 
                 _rigidBody.velocity = Vector2.zero;

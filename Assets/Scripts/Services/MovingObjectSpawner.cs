@@ -43,7 +43,7 @@ namespace Youregone.LevelGeneration
         private float _midDifficultyScore => _maxDifficultyScore / 2;
 
         private GameSettings _gameSettings;
-        private ScoreCounterUI _scoreCounter;
+        private ScoreCounter _scoreCounter;
         private PlayerController _player;
         private Factory<Obstacle> _obstacleFactory = new();
         private Factory<Collectable> _collectableFactory = new();
@@ -61,7 +61,7 @@ namespace Youregone.LevelGeneration
             _obstacleSpawnChance = _gameSettings.ObstacleSpawnChance;
 
             _player = ServiceLocator.Get<PlayerController>();
-            _scoreCounter = ServiceLocator.Get<GameScreenUI>().ScoreCounter;
+            _scoreCounter = ServiceLocator.Get<ScoreCounter>();
         }
 
         private void Start()
@@ -113,7 +113,7 @@ namespace Youregone.LevelGeneration
 
             SpawnBirdsOnObstacle(pooledObstacle);
         }
-
+        
         public void SpawnCollectable(Vector2 position)
         {
             if (UnityEngine.Random.Range(0f, 1f) > _gameSettings.CollectableSpawnChance)
@@ -122,6 +122,7 @@ namespace Youregone.LevelGeneration
             Collectable pooledCollectable;
 
             float rareSpawnChance = UnityEngine.Random.Range(0f, 1f);
+
             if (rareSpawnChance < _gameSettings.RareCollectableSpawnChance)
                 pooledCollectable = _collectablPool.DequeueCollectable(true, _collectableParentTransform);
             else

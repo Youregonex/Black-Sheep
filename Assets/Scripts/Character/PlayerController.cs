@@ -18,6 +18,7 @@ namespace Youregone.YPlayerController
         public event Action OnDeath;
         public event Action OnDamageTaken;
         public event Action OnObstacleDestroyed;
+        public event Action<int> OnComboFinished;
 
         private const string ANIMATION_JUMP_TRIGGER = "JUMP";
         private const string ANIMATION_LAND_TRIGGER = "LAND";
@@ -241,7 +242,7 @@ namespace Youregone.YPlayerController
                 {
                     _comboTextSequence = DOTween.Sequence();
                     _comboTextSequence
-                     .Append(_comboText.DOFade(0f, _comboResetTimerCurrent))
+                     .Append(_comboText.DOFade(0f, _comboResetTimerMax))
                      .OnComplete(() => _comboTextSequence = null);
                 });
 
@@ -262,6 +263,7 @@ namespace Youregone.YPlayerController
                 .OnComplete(() =>
                 {
                     _comboTimerTween = null;
+                    OnComboFinished?.Invoke(_currentCombo);
                     _currentCombo = 0;
                 });
         }

@@ -1,59 +1,55 @@
 using UnityEngine;
 using TMPro;
-using Youregone.YPlayerController;
 using Youregone.GameSystems;
 using Youregone.SL;
+using DG.Tweening;
 
 namespace Youregone.UI
 {
-    public class ScoreCounterUI : PausableMonoBehaviour, IUpdateObserver, IService
+    public class ScoreCounterUI : MonoBehaviour
     {
         [CustomHeader("Config")]
         [SerializeField] private TextMeshProUGUI _scoreText;
 
-        [CustomHeader("Debug")]
-        [SerializeField] private float _score;
+        [CustomHeader("DOTween Settings")]
+        [SerializeField] private float _animationDuration;
+        [SerializeField] private float _scaleTo;
+        [SerializeField] private Color _colorTo;
+        [SerializeField] private Color _baseColor;
 
-        public float CurrentScore => _score;
+        private Sequence _currentSequence;
 
-        private GameState _gameState;
-        private PlayerController _player;
-
-        private void Initialize()
+        private void Start()
         {
-            _gameState = ServiceLocator.Get<GameState>();
-            _player = ServiceLocator.Get<PlayerController>();
-            _score = 0;
+            ServiceLocator.Get<ScoreCounter>().OnScoreChanged += ScoreCounter_OnScoreChanged;
+            ServiceLocator.Get<ScoreCounter>().OnComboPointsAwarded += PlayAnimation;
         }
 
-        private void OnEnable()
+        private void OnDestroy()
         {
-            UpdateManager.RegisterUpdateObserver(this);
+            ServiceLocator.Get<ScoreCounter>().OnScoreChanged -= ScoreCounter_OnScoreChanged;
+            ServiceLocator.Get<ScoreCounter>().OnComboPointsAwarded -= PlayAnimation;
         }
 
-        protected override void Start()
+        private void PlayAnimation()
         {
-            base.Start();
-            Initialize();
+            if (_currentSequence != null)
+                _currentSequence.Kill();
+
+            _currentSequence = DOTween.Sequence();
+
+            _currentSequence
+                .Append(_scoreText.transform.DOScale(_scaleTo, _animationDuration / 2))
+                .Join(_scoreText.DOColor(_colorTo, _animationDuration / 2))
+                .Append(_scoreText.transform.DOScale(Vector2.one, _animationDuration / 2))
+                .Join(_scoreText.DOColor(_baseColor, _animationDuration / 2))
+                .OnComplete(() => _currentSequence = null);
+            _currentSequence.Play();
         }
 
-        public void ObservedUpdate()
+        private void ScoreCounter_OnScoreChanged(int updatedScore)
         {
-            if (_player == null || _gameState.CurrentGameState != EGameState.Gameplay)
-                return;
-
-            float scoreModifier = .5f;
-            _score += Time.deltaTime * (_player.CurrentSpeed * scoreModifier);
-            _scoreText.text = ((int)_score).ToString();
+            _scoreText.text = $"Score: {updatedScore}";
         }
-
-        private void OnDisable()
-        {
-            UpdateManager.UnregisterUpdateObserver(this);
-        }
-
-        public void AddPoints(int points) => _score += points;
-        public override void Pause() { }
-        public override void Unpause() { }
     }
 }
