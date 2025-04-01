@@ -25,5 +25,18 @@ namespace Youregone.SaveSystem
             string json = File.ReadAllText(_filePath);
             return JsonUtility.FromJson<SerializableDictionary<string, int>>(json);
         }
+
+        public static void DeleteScoreFile()
+        {
+            if (File.Exists(_filePath))
+            {
+                File.Delete(_filePath);
+                Debug.Log("File deleted: " + _filePath);
+            }
+            else
+            {
+                Debug.LogWarning("File wasn't found: " + _filePath);
+            }
+        }
     }
 }

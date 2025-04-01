@@ -52,7 +52,7 @@ namespace Youregone.UI
 
             _tryAgainButton.onClick.AddListener(() =>
             {
-                SaveScore(_nameInputField.text, (int)ServiceLocator.Get<ScoreCounter>().CurrentScore);
+                SaveScoreHolder(_nameInputField.text, (int)ServiceLocator.Get<ScoreCounter>().CurrentScore);
                 OnTryAgainButtonPressed?.Invoke();
                 _tryAgainButton.interactable = false;
                 _mainMenuButton.interactable = false;
@@ -60,7 +60,7 @@ namespace Youregone.UI
 
             _mainMenuButton.onClick.AddListener(() =>
             {
-                SaveScore(_nameInputField.text, (int)ServiceLocator.Get<ScoreCounter>().CurrentScore);
+                SaveScoreHolder(_nameInputField.text, (int)ServiceLocator.Get<ScoreCounter>().CurrentScore);
                 OnMainMenuButtonPressed?.Invoke();
                 _tryAgainButton.interactable = false;
                 _mainMenuButton.interactable = false;
@@ -121,7 +121,11 @@ namespace Youregone.UI
                 .Join(_backgroundImage.DOFade(backgroundGoalAlpha, _animationDuration).From(0f))
                 .Join(_leaderBoardCanvasGroup.GetComponent<RectTransform>().DOAnchorPos(Vector2.zero, _animationDuration).From(new Vector2(0f, Screen.height / 2)))
                 .Join(_leaderBoardCanvasGroup.DOFade(1f, _animationDuration).From(0f))
-                .OnComplete(() => _currentSequence = null);
+                .OnComplete(() =>
+                {
+                    _currentSequence = null;
+                    StartCoroutine(ShowScoreHolders());
+                });
 
             yield return _currentSequence.WaitForCompletion();
 
@@ -163,7 +167,6 @@ namespace Youregone.UI
                 .SetEase(Ease.Linear)
                 .OnComplete(() =>
                 {
-                    StartCoroutine(ShowScoreHolders());
                     _tryAgainButton.image.color = new Color(1f, 1f, 1f, .5f);
                     _mainMenuButton.image.color = new Color(1f, 1f, 1f, .5f);
                     _currentSequence = null;
@@ -217,7 +220,7 @@ namespace Youregone.UI
             }
         }
 
-        private void SaveScore(string name, int score)
+        private void SaveScoreHolder(string name, int score)
         {
             _highscoreDatabase.SaveScoreHolder(name, score);
         }
