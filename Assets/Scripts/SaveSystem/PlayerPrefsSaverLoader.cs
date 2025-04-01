@@ -6,7 +6,6 @@ namespace Youregone.SaveSystem
     public class PlayerPrefsSaverLoader : MonoBehaviour, IService
     {
         private const string OUTRO_ENABLED_PLAYER_PREFS_KEY = "OUTROENABLED";
-        public const string PLAYERPREFS_HIGH_SCORE_KEY = "HIGHSCORE";
 
         public bool OutroEnabled
         {
@@ -26,19 +25,6 @@ namespace Youregone.SaveSystem
         {
             if(!PlayerPrefs.HasKey(OUTRO_ENABLED_PLAYER_PREFS_KEY))
                 PlayerPrefs.SetInt(OUTRO_ENABLED_PLAYER_PREFS_KEY, 1);
-        }
-
-        public void SaveHighScore(int highscore)
-        {
-            Debug.Log($"Saving High Score {highscore}");
-            PlayerPrefs.SetInt(PLAYERPREFS_HIGH_SCORE_KEY, highscore);
-            PlayerPrefs.Save();
-        }
-
-        public int GetHighScore()
-        {
-            Debug.Log($"Loading High Score {PlayerPrefs.GetInt(PLAYERPREFS_HIGH_SCORE_KEY)}");
-            return PlayerPrefs.GetInt(PLAYERPREFS_HIGH_SCORE_KEY);
         }
 
         public void ToggleOutroEnable()

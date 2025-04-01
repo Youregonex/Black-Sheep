@@ -142,7 +142,6 @@ namespace Youregone.GameSystems
 
             yield return _transition.StartCoroutine(_transition.PlayTransitionEnd());
             _deathScreenUI.ShowWindow();
-            SaveHighScore();
         }
 
         private void PlayerController_OnDeath()
@@ -175,19 +174,11 @@ namespace Youregone.GameSystems
             if (!ServiceLocator.Get<GameSettings>().OutroEnabled)
             {
                 _deathScreenUI.ShowWindow();
-                SaveHighScore();
 
                 yield break;
             }
 
             StartCoroutine(PlayOutroCoroutine());
-        }
-
-        private void SaveHighScore()
-        {
-            int currentScore = (int)ServiceLocator.Get<ScoreCounter>().CurrentScore;
-            if (currentScore > ServiceLocator.Get<PlayerPrefsSaverLoader>().GetHighScore())
-                ServiceLocator.Get<PlayerPrefsSaverLoader>().SaveHighScore(currentScore);
         }
     }
 }

@@ -7,6 +7,7 @@ using System.Collections;
 using Youregone.SL;
 using Youregone.SaveSystem;
 using Youregone.GameSystems;
+using Youregone.YPlayerController;
 
 namespace Youregone.UI
 {
@@ -27,6 +28,7 @@ namespace Youregone.UI
         [SerializeField] private Image _sheepImage;
         [SerializeField] private Image _pathImage;
         [SerializeField] private RectTransform _flag;
+        [SerializeField] private TMP_InputField _nameInputField;
 
         [CustomHeader("DOTween Settings")]
         [SerializeField] private float _animationDuration;
@@ -34,15 +36,18 @@ namespace Youregone.UI
         [SerializeField] private float _textFadeDuration;
         [SerializeField] private float _sheepSpeed;
 
+        private HighscoreDatabase _highscoreDatabase;
         private RectTransform _selfRectTransform;
         private Sequence _currentSequence;
 
         private void Awake()
         {
             _selfRectTransform = GetComponent<RectTransform>();
+            _highscoreDatabase = new();
 
             _tryAgainButton.onClick.AddListener(() =>
             {
+                SaveScore(_nameInputField.text, (int)ServiceLocator.Get<ScoreCounter>().CurrentScore);
                 OnTryAgainButtonPressed?.Invoke();
                 _tryAgainButton.interactable = false;
                 _mainMenuButton.interactable = false;
@@ -50,16 +55,21 @@ namespace Youregone.UI
 
             _mainMenuButton.onClick.AddListener(() =>
             {
+                SaveScore(_nameInputField.text, (int)ServiceLocator.Get<ScoreCounter>().CurrentScore);
                 OnMainMenuButtonPressed?.Invoke();
                 _tryAgainButton.interactable = false;
                 _mainMenuButton.interactable = false;
             });
         }
 
-        private void Update()
+        private void Start()
         {
-            if (Input.GetKeyDown(KeyCode.Mouse0) && _currentSequence != null)
-                _currentSequence.Complete();
+            ServiceLocator.Get<PlayerController>().PlayerCharacterInput.OnScreenTap += PlayerCharacterInput_OnScreenTap;
+            _nameInputField.onValueChanged.AddListener(CheckNameInputField);
+        }
+        private void OnDestroy()
+        {
+            ServiceLocator.Get<PlayerController>().PlayerCharacterInput.OnScreenTap -= PlayerCharacterInput_OnScreenTap;
         }
 
         public void ShowWindow()
@@ -68,9 +78,15 @@ namespace Youregone.UI
             gameObject.SetActive(true);
 
             _currentScoreText.text = ((int)ServiceLocator.Get<ScoreCounter>().CurrentScore).ToString();
-            _highScoreText.text = ServiceLocator.Get<PlayerPrefsSaverLoader>().GetHighScore().ToString();
+            _highScoreText.text = _highscoreDatabase.GetHighestScore().ToString();
 
             StartCoroutine(ShowWindowCoroutine());
+        }
+
+        private void PlayerCharacterInput_OnScreenTap()
+        {
+            if (Input.GetKeyDown(KeyCode.Mouse0) && _currentSequence != null)
+                _currentSequence.Complete();
         }
 
         private IEnumerator ShowWindowCoroutine()
@@ -78,7 +94,7 @@ namespace Youregone.UI
             float backgroundGoalAlpha = .8f;
 
             float currentScore = ServiceLocator.Get<ScoreCounter>().CurrentScore;
-            int highScrore = ServiceLocator.Get<PlayerPrefsSaverLoader>().GetHighScore();
+            int highScrore = _highscoreDatabase.GetHighestScore();
             float t;
 
             if (highScrore != 0)
@@ -127,6 +143,8 @@ namespace Youregone.UI
 
             _tryAgainButton.gameObject.SetActive(true);
             _mainMenuButton.gameObject.SetActive(true);
+            _nameInputField.gameObject.SetActive(true);
+
             _tryAgainButton.interactable = false;
             _mainMenuButton.interactable = false;
 
@@ -134,19 +152,46 @@ namespace Youregone.UI
             _currentSequence
                 .Append(_tryAgainButton.image.DOFade(1f, _buttonsFadeDuration).From(0f))
                 .Join(_mainMenuButton.image.DOFade(1f, _buttonsFadeDuration).From(0f))
+                .Join(_nameInputField.image.DOFade(1f, _buttonsFadeDuration).From(0f))
                 .SetEase(Ease.Linear)
                 .OnComplete(() =>
                 {
+                    _tryAgainButton.image.color = new Color(1f, 1f, 1f, .5f);
+                    _mainMenuButton.image.color = new Color(1f, 1f, 1f, .5f);
                     _currentSequence = null;
-                    _tryAgainButton.interactable = true;
-                    _mainMenuButton.interactable = true;
                 });
+        }
+
+        private void CheckNameInputField(string name)
+        {
+            if(!string.IsNullOrWhiteSpace(name))
+            {
+                _tryAgainButton.image.color = new Color(1f, 1f, 1f, 1f);
+                _mainMenuButton.image.color = new Color(1f, 1f, 1f, 1f);
+
+                _tryAgainButton.interactable = true;
+                _mainMenuButton.interactable = true;
+            }
+            else
+            {
+                _tryAgainButton.image.color = new Color(1f, 1f, 1f, .5f);
+                _mainMenuButton.image.color = new Color(1f, 1f, 1f, .5f);
+
+                _tryAgainButton.interactable = false;
+                _mainMenuButton.interactable = false;
+            }
+        }
+
+        private void SaveScore(string name, int score)
+        {
+            _highscoreDatabase.SaveScoreHolder(name, score);
         }
 
         private void HideAllElements()
         {
             _tryAgainButton.gameObject.SetActive(false);
             _mainMenuButton.gameObject.SetActive(false);
+            _nameInputField.gameObject.SetActive(false);
 
             _highScoreCanvasGroup.alpha = 0f;
             _currentScoreCanvasGroup.alpha = 0f;
