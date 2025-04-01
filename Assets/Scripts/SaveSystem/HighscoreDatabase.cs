@@ -38,7 +38,7 @@ namespace Youregone.SaveSystem
         {
             if(_scoreHoldersDictionary.ContainsKey(name))
             {
-                if (_scoreHoldersDictionary[name] > score)
+                if (_scoreHoldersDictionary[name] < score)
                     _scoreHoldersDictionary[name] = score;
                 else
                     return;
