@@ -5,40 +5,50 @@ namespace Youregone.SaveSystem
 {
     public class HighscoreDatabase
     {
-        private SerializableDictionary<string, int> _nameHighscoreDictionary;
+        private SerializableDictionary<string, int> _scoreHoldersDictionary;
 
-        public Dictionary<string, int> NameHighScoreDictionary => _nameHighscoreDictionary;
+        public Dictionary<string, int> ScoreHoldersDictionary => _scoreHoldersDictionary;
 
         public HighscoreDatabase()
         {
-            _nameHighscoreDictionary = JsonSaverLoader.LoadScoreHolders();
+            _scoreHoldersDictionary = JsonSaverLoader.LoadScoreHolders();
         }
 
         public int GetHighestScore()
         {
-            return _nameHighscoreDictionary.OrderByDescending(entry => entry.Value).FirstOrDefault().Value;
+            return _scoreHoldersDictionary.OrderByDescending(entry => entry.Value).FirstOrDefault().Value;
         }
 
         public Dictionary<string, int> GetHighscoreHolders()
         {
-            return _nameHighscoreDictionary;
+            return _scoreHoldersDictionary;
+        }
+
+        public Dictionary<string, int> GetTopScoreHolders(int amount)
+        {
+            Dictionary<string, int> topScores = _scoreHoldersDictionary
+                .OrderByDescending(entry => entry.Value)
+                .Take(amount)
+                .ToDictionary(entry => entry.Key, entry => entry.Value);
+
+            return topScores;
         }
 
         public void SaveScoreHolder(string name, int score)
         {
-            if(_nameHighscoreDictionary.ContainsKey(name))
+            if(_scoreHoldersDictionary.ContainsKey(name))
             {
-                if (_nameHighscoreDictionary[name] > score)
-                    _nameHighscoreDictionary[name] = score;
+                if (_scoreHoldersDictionary[name] > score)
+                    _scoreHoldersDictionary[name] = score;
                 else
                     return;
             }
             else
             {
-                _nameHighscoreDictionary.Add(name, score);
+                _scoreHoldersDictionary.Add(name, score);
             }
 
-            JsonSaverLoader.SaveScoreHolder(_nameHighscoreDictionary);
+            JsonSaverLoader.SaveScoreHolder(_scoreHoldersDictionary);
         }
     }
 }

@@ -8,6 +8,8 @@ using Youregone.SL;
 using Youregone.SaveSystem;
 using Youregone.GameSystems;
 using Youregone.YPlayerController;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Youregone.UI
 {
@@ -29,6 +31,9 @@ namespace Youregone.UI
         [SerializeField] private Image _pathImage;
         [SerializeField] private RectTransform _flag;
         [SerializeField] private TMP_InputField _nameInputField;
+        [SerializeField] private CanvasGroup _leaderBoardCanvasGroup;
+        [SerializeField] private ScoreHolderUI _scoreHolderPrefab;
+        [SerializeField] private Transform _scoreHolderParent;
 
         [CustomHeader("DOTween Settings")]
         [SerializeField] private float _animationDuration;
@@ -113,8 +118,10 @@ namespace Youregone.UI
             _currentSequence = DOTween.Sequence();
             _currentSequence
                 .Append(_selfRectTransform.DOAnchorPos(Vector2.zero, _animationDuration).From(new Vector2(0f, Screen.height / 2)))
-                .Join(_backgroundImage.DOFade(backgroundGoalAlpha, _animationDuration).From(0f)
-                .OnComplete(() => _currentSequence = null));
+                .Join(_backgroundImage.DOFade(backgroundGoalAlpha, _animationDuration).From(0f))
+                .Join(_leaderBoardCanvasGroup.GetComponent<RectTransform>().DOAnchorPos(Vector2.zero, _animationDuration).From(new Vector2(0f, Screen.height / 2)))
+                .Join(_leaderBoardCanvasGroup.DOFade(1f, _animationDuration).From(0f))
+                .OnComplete(() => _currentSequence = null);
 
             yield return _currentSequence.WaitForCompletion();
 
@@ -156,6 +163,7 @@ namespace Youregone.UI
                 .SetEase(Ease.Linear)
                 .OnComplete(() =>
                 {
+                    StartCoroutine(ShowScoreHolders());
                     _tryAgainButton.image.color = new Color(1f, 1f, 1f, .5f);
                     _mainMenuButton.image.color = new Color(1f, 1f, 1f, .5f);
                     _currentSequence = null;
@@ -179,6 +187,33 @@ namespace Youregone.UI
 
                 _tryAgainButton.interactable = false;
                 _mainMenuButton.interactable = false;
+            }
+        }
+
+        private IEnumerator ShowScoreHolders()
+        {
+            int amountOfHoldersToShow = 8;
+
+            if (_highscoreDatabase.ScoreHoldersDictionary.Count < amountOfHoldersToShow)
+                amountOfHoldersToShow = _highscoreDatabase.ScoreHoldersDictionary.Count;
+
+            Dictionary<string, int> scoreHolders = _highscoreDatabase.GetTopScoreHolders(amountOfHoldersToShow);
+
+            int currentIndex = 0;
+            float _delay = .2f;
+
+            foreach(KeyValuePair<string, int> keyValuePair in scoreHolders)
+            {
+                if (currentIndex >= amountOfHoldersToShow)
+                    break;
+
+                ScoreHolderUI recordHolderUI = Instantiate(_scoreHolderPrefab);
+                recordHolderUI.transform.SetParent(_scoreHolderParent, false);
+                recordHolderUI.SetData(keyValuePair.Key, keyValuePair.Value);
+
+                yield return new WaitForSeconds(_delay);
+
+                currentIndex++;
             }
         }
 
