@@ -174,7 +174,7 @@ namespace Youregone.UI
 
             yield return _currentSequence.WaitForCompletion();
 
-            if (!(SystemInfo.deviceType == DeviceType.Handheld))
+            if ((SystemInfo.deviceType == DeviceType.Handheld))
             {
                 _nameInputField.ActivateInputField();
                 TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default);
