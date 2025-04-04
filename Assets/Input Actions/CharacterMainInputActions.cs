@@ -78,17 +78,6 @@ public partial class @CharacterMainInputActions: IInputActionCollection2, IDispo
                 },
                 {
                     ""name"": """",
-                    ""id"": ""653a7afc-047b-4a15-95e8-ae1b0d45be55"",
-                    ""path"": ""<Touchscreen>/touch*/Press"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Jump"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""7fff68ff-3bde-489a-82cc-bd3efcc0be60"",
                     ""path"": ""<Keyboard>/f"",
                     ""interactions"": """",

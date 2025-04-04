@@ -5,10 +5,10 @@ using System;
 
 namespace Youregone.UI
 {
-    public class RamButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+    public class JumpButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
-        public event Action OnRamButtonPressed;
-        public event Action OnRamButtonReleased;
+        public event Action OnJumpButtonPressed;
+        public event Action OnJumpButtonReleased;
 
         public Button Button { get; private set; }
 
@@ -16,7 +16,7 @@ namespace Youregone.UI
         {
             Button = GetComponent<Button>();
 
-            if(!(SystemInfo.deviceType == DeviceType.Handheld))
+            if (!(SystemInfo.deviceType == DeviceType.Handheld))
             {
                 gameObject.SetActive(false);
             }
@@ -24,12 +24,12 @@ namespace Youregone.UI
 
         public void OnPointerDown(PointerEventData eventData)
         {
-            OnRamButtonPressed?.Invoke();
+            OnJumpButtonPressed?.Invoke();
         }
 
         public void OnPointerUp(PointerEventData eventData)
         {
-            OnRamButtonReleased?.Invoke();
+            OnJumpButtonReleased?.Invoke();
         }
     }
 }

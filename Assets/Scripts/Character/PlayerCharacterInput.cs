@@ -1,6 +1,7 @@
 using UnityEngine.InputSystem;
 using System;
 using Youregone.UI;
+using UnityEngine;
 
 namespace Youregone.YPlayerController
 {
@@ -15,57 +16,86 @@ namespace Youregone.YPlayerController
         private bool _jumpPressed;
         private bool _ramPressed;
         private RamButton _ramButton;
+        private JumpButton _jumpButton;
 
         public bool JumpPressed => _jumpPressed;
         public bool RamPressed => _ramPressed;
 
-        public PlayerCharacterInput(RamButton ramButton)
+        public PlayerCharacterInput(JumpButton jumpButton, RamButton ramButton)
         {
             _inputActions = new();
 
+            _jumpButton = jumpButton;
             _ramButton = ramButton;
-            SetupButton();
             EnableInput();
         }
 
         public void EnableInput()
         {
-            _ramButton.Button.interactable = true;
+            if(SystemInfo.deviceType == DeviceType.Handheld)
+            {
+                _ramButton.Button.interactable = true;
+                _jumpButton.Button.interactable = true;
+                _ramButton.OnRamButtonPressed += RamButton_OnRamButtonPressed;
+                _ramButton.OnRamButtonReleased += RamButton_OnRamButtonReleased;
+                _jumpButton.OnJumpButtonPressed += JumpButton_OnJumpButtonPressed;
+                _jumpButton.OnJumpButtonReleased += JumpButton_OnJumpButtonReleased;
+            }
+
             _inputActions.Enable();
             _inputActions.CharacterInputActions.Enable();
 
-            _inputActions.CharacterInputActions.Jump.performed += Jump_performed;
-            _inputActions.CharacterInputActions.Jump.canceled += Jump_canceled;
+            if(SystemInfo.deviceType == DeviceType.Desktop)
+            {
+                _inputActions.CharacterInputActions.Jump.performed += Jump_performed;
+                _inputActions.CharacterInputActions.Jump.canceled += Jump_canceled;
 
-            _inputActions.CharacterInputActions.Ram.performed += Ram_performed;
-            _inputActions.CharacterInputActions.Ram.canceled += Ram_Canceled;
+                _inputActions.CharacterInputActions.Ram.performed += Ram_performed;
+                _inputActions.CharacterInputActions.Ram.canceled += Ram_Canceled;
 
-            _inputActions.CharacterInputActions.Pause.performed += Pause_performed;
+                _inputActions.CharacterInputActions.Pause.performed += Pause_performed;
+            }
 
             _inputActions.CharacterInputActions.ScreenTap.performed += ScreenTap_performed;
         }
 
         public void DisableInput()
         {
-            _ramButton.Button.interactable = false;
+            if (SystemInfo.deviceType == DeviceType.Handheld)
+            {
+                _ramButton.Button.interactable = false;
+                _jumpButton.Button.interactable = false;
+                _ramButton.OnRamButtonPressed -= RamButton_OnRamButtonPressed;
+                _ramButton.OnRamButtonReleased -= RamButton_OnRamButtonReleased;
+                _jumpButton.OnJumpButtonPressed -= JumpButton_OnJumpButtonPressed;
+                _jumpButton.OnJumpButtonReleased -= JumpButton_OnJumpButtonReleased;
+            }
+
             _inputActions.Disable();
             _inputActions.CharacterInputActions.Disable();
 
-            _inputActions.CharacterInputActions.Jump.performed -= Jump_performed;
-            _inputActions.CharacterInputActions.Jump.canceled -= Jump_canceled;
+            if (SystemInfo.deviceType == DeviceType.Desktop)
+            {
+                _inputActions.CharacterInputActions.Jump.performed -= Jump_performed;
+                _inputActions.CharacterInputActions.Jump.canceled -= Jump_canceled;
 
-            _inputActions.CharacterInputActions.Ram.performed -= Ram_performed;
-            _inputActions.CharacterInputActions.Ram.canceled -= Ram_Canceled;
+                _inputActions.CharacterInputActions.Ram.performed -= Ram_performed;
+                _inputActions.CharacterInputActions.Ram.canceled -= Ram_Canceled;
 
-            _inputActions.CharacterInputActions.Pause.performed -= Pause_performed;
+                _inputActions.CharacterInputActions.Pause.performed -= Pause_performed;
+            }
 
             _inputActions.CharacterInputActions.ScreenTap.performed -= ScreenTap_performed;
         }
 
-        private void SetupButton()
+        private void JumpButton_OnJumpButtonPressed()
         {
-            _ramButton.OnRamButtonPressed += RamButton_OnRamButtonPressed; ;
-            _ramButton.OnRamButtonReleased += RamButton_OnRamButtonReleased; ;
+            _jumpPressed = true;
+        }
+
+        private void JumpButton_OnJumpButtonReleased()
+        {
+            _jumpPressed = false;
         }
 
         private void RamButton_OnRamButtonPressed()

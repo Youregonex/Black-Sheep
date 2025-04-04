@@ -54,6 +54,7 @@ namespace Youregone.YPlayerController
         [SerializeField] private ParticleSystem _ramParticleSystem;
         [SerializeField] private ParticleSystem _windParticleSystem;
         [SerializeField] private RamButton _ramButton;
+        [SerializeField] private JumpButton _jumpButton;
 
         [CustomHeader("Ground Check")]
         [SerializeField] private BoxCollider2D _collider;
@@ -103,7 +104,7 @@ namespace Youregone.YPlayerController
 
         private void Initialize()
         {
-            _playerInput = new(_ramButton);
+            _playerInput = new(_jumpButton, _ramButton);
             _playerInput.OnRamButtonReleased += StopRam;
 
             _baseMaterial = _spriteRenderer.material;
