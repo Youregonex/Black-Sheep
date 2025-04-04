@@ -79,7 +79,7 @@ public partial class @CharacterMainInputActions: IInputActionCollection2, IDispo
                 {
                     ""name"": """",
                     ""id"": ""653a7afc-047b-4a15-95e8-ae1b0d45be55"",
-                    ""path"": ""<Touchscreen>/primaryTouch/tap"",
+                    ""path"": ""<Touchscreen>/touch*/Press"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
