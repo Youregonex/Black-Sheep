@@ -171,6 +171,14 @@ namespace Youregone.UI
                     _mainMenuButton.image.color = new Color(1f, 1f, 1f, .5f);
                     _currentSequence = null;
                 });
+
+            yield return _currentSequence.WaitForCompletion();
+
+            if (!(SystemInfo.deviceType == DeviceType.Handheld))
+            {
+                _nameInputField.ActivateInputField();
+                TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default);
+            }
         }
 
         private void CheckNameInputField(string name)
