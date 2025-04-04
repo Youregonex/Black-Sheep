@@ -105,7 +105,11 @@ namespace Youregone.LevelGeneration
             if (_lastChunk == null)
             {
                 chunkToSpawn = _startingChunk;
-                chunkSpawnPosition = Vector2.zero;
+                float cameraHeight = Camera.main.orthographicSize;
+                float cameraWidth = cameraHeight * Camera.main.aspect;
+
+                float leftEdge = Camera.main.transform.position.x - cameraWidth;
+                chunkSpawnPosition = new Vector2(leftEdge, transform.position.y);
             }
             else
             {

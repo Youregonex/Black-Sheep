@@ -55,6 +55,7 @@ namespace Youregone.YPlayerController
         [SerializeField] private ParticleSystem _windParticleSystem;
         [SerializeField] private RamButton _ramButton;
         [SerializeField] private JumpButton _jumpButton;
+        [SerializeField] private Transform _playerStartPosition;
 
         [CustomHeader("Ground Check")]
         [SerializeField] private BoxCollider2D _collider;
@@ -120,6 +121,8 @@ namespace Youregone.YPlayerController
         private void Awake()
         {
             Initialize();
+
+            transform.position = _playerStartPosition.position;
         }
 
         private void OnEnable()
