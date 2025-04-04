@@ -6074,7 +6074,7 @@ Transform:
   m_GameObject: {fileID: 342034431}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 16, y: 2.95, z: -10}
+  m_LocalPosition: {x: 16, y: 3.3, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6349,7 +6349,7 @@ Transform:
   m_GameObject: {fileID: 388855701}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 16, y: 2.93, z: -10}
+  m_LocalPosition: {x: 16, y: 2.95, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6847,7 +6847,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 16, y: 2.93, z: -10}
+  m_LocalPosition: {x: 16, y: 2.95, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -9471,6 +9471,53 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 550, y: 0.5}
   m_EdgeRadius: 0
+--- !u!1 &1280818425
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1280818426}
+  - component: {fileID: 1280818427}
+  m_Layer: 4
+  m_Name: Water
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1280818426
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1280818425}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 16, y: -0.27, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1994863137}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1280818427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1280818425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 294ea0e33a9aa45799e11bf49926d9dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _waterReflctionCamera: {fileID: 342034434}
+  _waterVisualTransform: {fileID: 1994863137}
 --- !u!1 &1303871321
 GameObject:
   m_ObjectHideFlags: 0
@@ -10797,7 +10844,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1691830066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11390,7 +11437,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!82 &1975049301
 AudioSource:
   m_ObjectHideFlags: 0
@@ -11651,9 +11698,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1994863137}
   - component: {fileID: 1994863136}
-  - component: {fileID: 1994863138}
   m_Layer: 4
-  m_Name: Water
+  m_Name: WaterVisual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11719,26 +11765,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1994863135}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 16, y: -3.8899999, z: 0}
-  m_LocalScale: {x: 2913.8782, y: 617.6306, z: 204.91}
-  m_ConstrainProportionsScale: 1
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -3.09, z: 0}
+  m_LocalScale: {x: 2845.114, y: 617.6306, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1280818426}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1994863138
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1994863135}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 294ea0e33a9aa45799e11bf49926d9dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _waterReflctionCamera: {fileID: 342034434}
 --- !u!4 &2009078776
 Transform:
   m_ObjectHideFlags: 0
@@ -12742,7 +12775,6 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 388855703}
-  - {fileID: 342034435}
   - {fileID: 519420032}
   - {fileID: 1065516638}
   - {fileID: 1160231922162813773}
@@ -12751,4 +12783,5 @@ SceneRoots:
   - {fileID: 1441273366}
   - {fileID: 489018196}
   - {fileID: 527638626}
-  - {fileID: 1994863137}
+  - {fileID: 342034435}
+  - {fileID: 1280818426}
