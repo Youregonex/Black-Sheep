@@ -8,6 +8,7 @@ using Youregone.GameSystems;
 using Youregone.SL;
 using TMPro;
 using DG.Tweening;
+using Youregone.UI;
 
 namespace Youregone.YPlayerController
 {
@@ -52,6 +53,7 @@ namespace Youregone.YPlayerController
         [SerializeField] private Gradient _staminaGradient;
         [SerializeField] private ParticleSystem _ramParticleSystem;
         [SerializeField] private ParticleSystem _windParticleSystem;
+        [SerializeField] private RamButton _ramButton;
 
         [CustomHeader("Ground Check")]
         [SerializeField] private BoxCollider2D _collider;
@@ -101,7 +103,7 @@ namespace Youregone.YPlayerController
 
         private void Initialize()
         {
-            _playerInput = new();
+            _playerInput = new(_ramButton);
             _playerInput.OnRamButtonReleased += StopRam;
 
             _baseMaterial = _spriteRenderer.material;

@@ -1,5 +1,6 @@
 using UnityEngine.InputSystem;
 using System;
+using Youregone.UI;
 
 namespace Youregone.YPlayerController
 {
@@ -13,18 +14,23 @@ namespace Youregone.YPlayerController
 
         private bool _jumpPressed;
         private bool _ramPressed;
+        private RamButton _ramButton;
 
         public bool JumpPressed => _jumpPressed;
         public bool RamPressed => _ramPressed;
 
-        public PlayerCharacterInput()
+        public PlayerCharacterInput(RamButton ramButton)
         {
             _inputActions = new();
+
+            _ramButton = ramButton;
+            SetupButton();
             EnableInput();
         }
 
         public void EnableInput()
         {
+            _ramButton.Button.interactable = true;
             _inputActions.Enable();
             _inputActions.CharacterInputActions.Enable();
 
@@ -41,6 +47,7 @@ namespace Youregone.YPlayerController
 
         public void DisableInput()
         {
+            _ramButton.Button.interactable = false;
             _inputActions.Disable();
             _inputActions.CharacterInputActions.Disable();
 
@@ -53,6 +60,22 @@ namespace Youregone.YPlayerController
             _inputActions.CharacterInputActions.Pause.performed -= Pause_performed;
 
             _inputActions.CharacterInputActions.ScreenTap.performed -= ScreenTap_performed;
+        }
+
+        private void SetupButton()
+        {
+            _ramButton.OnRamButtonPressed += RamButton_OnRamButtonPressed; ;
+            _ramButton.OnRamButtonReleased += RamButton_OnRamButtonReleased; ;
+        }
+
+        private void RamButton_OnRamButtonPressed()
+        {
+            _ramPressed = true;
+        }
+
+        private void RamButton_OnRamButtonReleased()
+        {
+            _ramPressed = false;
         }
 
         private void ScreenTap_performed(InputAction.CallbackContext context)
