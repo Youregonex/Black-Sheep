@@ -54,7 +54,7 @@ namespace Youregone.SaveSystem
 
             if (downloadTask.IsCompletedSuccessfully)
             {
-                StartCoroutine(SyncLocalDatabaseCoroutine(downloadTask.Result));
+                StartCoroutine(SyncLocalDatabaseWithWebCoroutine(downloadTask.Result));
             }
             else
             {
@@ -62,12 +62,9 @@ namespace Youregone.SaveSystem
             }
         }
 
-        private IEnumerator SyncLocalDatabaseCoroutine(List<ScoreEntry> downloadedScoreEntries)
+        private IEnumerator SyncLocalDatabaseWithWebCoroutine(List<ScoreEntry> downloadedScoreEntries)
         {
             _localScoreHoldersList = JsonSaverLoader.LoadScoreHolders();
-
-            if (_localScoreHoldersList.Count == 0)
-                yield break;
 
             List<ScoreEntry> uploadNewLocalEntriesToWebList = _localScoreHoldersList.Except(downloadedScoreEntries).ToList();
             List<ScoreEntry> saveNewWebEntriesLocallyList = downloadedScoreEntries.Except(_localScoreHoldersList).ToList();
