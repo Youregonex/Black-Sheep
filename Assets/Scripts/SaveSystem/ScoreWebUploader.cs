@@ -10,12 +10,6 @@ namespace Youregone.Web
     {
         private const string URL = "https://script.google.com/macros/s/AKfycbwuwVTi1YJvVCmOHUzecIgouw961cfemhwV50wzRs0vfcMdc4fwLYL3ePtCeMpWInnX/exec";
 
-        [System.Serializable]
-        public class ScoreEntryList
-        {
-            public List<ScoreEntry> list;
-        }
-
         public static void UploadScoreHolder(string playerName, int playerScore)
         {
             ScoreEntry entry = new(playerName, playerScore);
@@ -36,19 +30,19 @@ namespace Youregone.Web
                         await Task.Yield();
 
                     if (www.result == UnityWebRequest.Result.Success)
-                    {
-                        string rawJson = "{\"list\":" + www.downloadHandler.text + "}";
+                    { 
+                        string rawJson = "{\"scoreEntryList\":" + www.downloadHandler.text + "}";
                         Debug.Log("Received JSON: " + rawJson);
 
                         var scores = JsonUtility.FromJson<ScoreEntryList>(rawJson);
 
-                        if (scores == null || scores.list == null)
+                        if (scores == null || scores.scoreEntryList == null)
                         {
                             Debug.LogError("Failed to parse scores. Data is null.");
                             return null;
                         }
 
-                        return scores.list;
+                        return scores.scoreEntryList;
                     }
                     else
                     {

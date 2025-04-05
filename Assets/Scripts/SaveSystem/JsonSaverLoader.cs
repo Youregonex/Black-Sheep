@@ -10,7 +10,9 @@ namespace Youregone.SaveSystem
 
         public static void SaveScoreHoldersJson(List<ScoreEntry> scoreHolders)
         {
-            string json = JsonUtility.ToJson(scoreHolders, true);
+            ScoreEntryList scoreEntryList = new(scoreHolders);
+
+            string json = JsonUtility.ToJson(scoreEntryList, true);
             File.WriteAllText(_filePath, json);
             Debug.Log($"Data saved at {_filePath}");
         }
@@ -24,7 +26,9 @@ namespace Youregone.SaveSystem
             }
 
             string json = File.ReadAllText(_filePath);
-            return JsonUtility.FromJson<List<ScoreEntry>>(json);
+            ScoreEntryList scoreEntryList = JsonUtility.FromJson<ScoreEntryList>(json);
+
+            return scoreEntryList.scoreEntryList;
         }
 
         public static void DeleteScoreFileJson()

@@ -11,7 +11,6 @@ using Youregone.YPlayerController;
 using System.Collections.Generic;
 using System.Linq;
 using Youregone.Web;
-using System.Threading.Tasks;
 
 namespace Youregone.UI
 {
@@ -93,7 +92,7 @@ namespace Youregone.UI
             gameObject.SetActive(true);
 
             _currentScoreText.text = ((int)ServiceLocator.Get<ScoreCounter>().CurrentScore).ToString();
-            _highScoreText.text = ServiceLocator.Get<LocalDatabase>().Highscore.ToString();
+            _highScoreText.text = _localDatabase.Highscore.ToString();
 
             StartCoroutine(ShowWindowCoroutine());
         }
@@ -107,7 +106,7 @@ namespace Youregone.UI
         private IEnumerator ShowWindowCoroutine()
         {
             float currentScore = ServiceLocator.Get<ScoreCounter>().CurrentScore;
-            int highScrore = ServiceLocator.Get<LocalDatabase>().Highscore;
+            int highScrore = _localDatabase.Highscore;
             float t;
 
             if (highScrore != 0)
@@ -262,7 +261,7 @@ namespace Youregone.UI
             //    yield break;
             //}
 
-            List<ScoreEntry> scoreHolders = ServiceLocator.Get<LocalDatabase>().ScoreHoldersList;
+            List<ScoreEntry> scoreHolders = _localDatabase.ScoreHoldersList;
             int amountOfHoldersToShow = Mathf.Min(8, scoreHolders.Count);
             float _delay = .15f;
 
