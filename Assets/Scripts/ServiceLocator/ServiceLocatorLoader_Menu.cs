@@ -9,13 +9,13 @@ namespace Youregone.SL
         [Header("Services to register")]
         [SerializeField] private PlayerPrefsSaverLoader _playerPrefsSaverLoader;
         [SerializeField] private Transition _transition;
-        [SerializeField] private HighscoreDatabase _highscoreDatabase;
+        [SerializeField] private LocalDatabase _localDatabase;
 
         private void Awake()
         {
             ServiceLocator.Register<PlayerPrefsSaverLoader>(_playerPrefsSaverLoader);
             ServiceLocator.Register<Transition>(_transition);
-            ServiceLocator.Register<HighscoreDatabase>(_highscoreDatabase);
+            ServiceLocator.Register<LocalDatabase>(_localDatabase);
         }
     }
 }

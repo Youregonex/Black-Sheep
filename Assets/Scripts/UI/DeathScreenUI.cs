@@ -43,16 +43,21 @@ namespace Youregone.UI
         [SerializeField] private float _textFadeDuration;
         [SerializeField] private float _sheepSpeed;
 
+        private LocalDatabase _localDatabase;
         private RectTransform _selfRectTransform;
         private Sequence _currentSequence;
 
         private void Awake()
         {
+            _localDatabase = ServiceLocator.Get<LocalDatabase>();
             _selfRectTransform = GetComponent<RectTransform>();
 
             _tryAgainButton.onClick.AddListener(() =>
             {
-                ScoreWebUploader.UploadScoreHolder(_nameInputField.text, (int)ServiceLocator.Get<ScoreCounter>().CurrentScore, this);
+                if (_localDatabase.InternetConnectionAvailable)
+                    ScoreWebUploader.UploadScoreHolder(_nameInputField.text, (int)ServiceLocator.Get<ScoreCounter>().CurrentScore);
+
+                _localDatabase.SaveNewScoreEntry(_nameInputField.text, (int)ServiceLocator.Get<ScoreCounter>().CurrentScore);
 
                 OnTryAgainButtonPressed?.Invoke();
                 _tryAgainButton.interactable = false;
@@ -61,7 +66,10 @@ namespace Youregone.UI
 
             _mainMenuButton.onClick.AddListener(() =>
             {
-                ScoreWebUploader.UploadScoreHolder(_nameInputField.text, (int)ServiceLocator.Get<ScoreCounter>().CurrentScore, this);
+                if (_localDatabase.InternetConnectionAvailable)
+                    ScoreWebUploader.UploadScoreHolder(_nameInputField.text, (int)ServiceLocator.Get<ScoreCounter>().CurrentScore);
+
+                _localDatabase.SaveNewScoreEntry(_nameInputField.text, (int)ServiceLocator.Get<ScoreCounter>().CurrentScore);
 
                 OnMainMenuButtonPressed?.Invoke();
                 _tryAgainButton.interactable = false;
@@ -85,7 +93,7 @@ namespace Youregone.UI
             gameObject.SetActive(true);
 
             _currentScoreText.text = ((int)ServiceLocator.Get<ScoreCounter>().CurrentScore).ToString();
-            _highScoreText.text = ServiceLocator.Get<HighscoreDatabase>().Highscore.ToString();
+            _highScoreText.text = ServiceLocator.Get<LocalDatabase>().Highscore.ToString();
 
             StartCoroutine(ShowWindowCoroutine());
         }
@@ -99,7 +107,7 @@ namespace Youregone.UI
         private IEnumerator ShowWindowCoroutine()
         {
             float currentScore = ServiceLocator.Get<ScoreCounter>().CurrentScore;
-            int highScrore = ServiceLocator.Get<HighscoreDatabase>().Highscore;
+            int highScrore = ServiceLocator.Get<LocalDatabase>().Highscore;
             float t;
 
             if (highScrore != 0)
@@ -226,50 +234,45 @@ namespace Youregone.UI
 
         private IEnumerator ShowScoreHolders()
         {
-            Dictionary<string, int> scoreHolders = null;
+            //List<ScoreEntry> scoreHolders = null;
 
-            Debug.Log("Starting download");
-            Task<Dictionary<string, int>> downloadTask = ScoreWebUploader.DownloadScoreHoldersAsync();
+            //Debug.Log("Starting download");
+            //Task<List<ScoreEntry>> downloadTask = ScoreWebUploader.DownloadScoreHoldersAsync();
 
-            while (!downloadTask.IsCompleted)
-            {
-                Debug.Log("Downloading...");
-                yield return null;
-            }
+            //while (!downloadTask.IsCompleted)
+            //{
+            //    Debug.Log("Downloading...");
+            //    yield return null;
+            //}
 
-            if (downloadTask.IsCompletedSuccessfully)
-            {
-                Debug.Log("Download succeeded");
-                scoreHolders = downloadTask.Result;
-            }
-            else
-            {
-                Debug.LogError("Download failed");
-                yield break;
-            }
+            //if (downloadTask.IsCompletedSuccessfully)
+            //{
+            //    Debug.Log("Download succeeded");
+            //    scoreHolders = downloadTask.Result;
+            //}
+            //else
+            //{
+            //    Debug.LogError("Download failed");
+            //    yield break;
+            //}
 
-            if (scoreHolders == null || scoreHolders.Count == 0)
-            {
-                Debug.Log("Data is null");
-                yield break;
-            }
+            //if (scoreHolders == null || scoreHolders.Count == 0)
+            //{
+            //    Debug.Log("Data is null");
+            //    yield break;
+            //}
 
+            List<ScoreEntry> scoreHolders = ServiceLocator.Get<LocalDatabase>().ScoreHoldersList;
             int amountOfHoldersToShow = Mathf.Min(8, scoreHolders.Count);
-            int currentIndex = 0;
-            float _delay = .2f;
+            float _delay = .15f;
 
-            foreach(KeyValuePair<string, int> keyValuePair in scoreHolders)
+            for(int i = 0; i < amountOfHoldersToShow; i++)
             {
-                if (currentIndex >= amountOfHoldersToShow)
-                    break;
-
                 ScoreHolderUI recordHolderUI = Instantiate(_scoreHolderPrefab);
                 recordHolderUI.transform.SetParent(_scoreHolderParent, false);
-                recordHolderUI.SetData(keyValuePair.Key, keyValuePair.Value);
+                recordHolderUI.SetData(scoreHolders[i].name, scoreHolders[i].score);
 
                 yield return new WaitForSeconds(_delay);
-
-                currentIndex++;
             }
         }
 

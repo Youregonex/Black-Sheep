@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
@@ -7,26 +8,26 @@ namespace Youregone.SaveSystem
     {
         private static string _filePath = Path.Combine(Application.persistentDataPath, "scoreData.json");
 
-        public static void SaveScoreHolder(SerializableDictionary<string, int> scoreHolders)
+        public static void SaveScoreHoldersJson(List<ScoreEntry> scoreHolders)
         {
             string json = JsonUtility.ToJson(scoreHolders, true);
             File.WriteAllText(_filePath, json);
             Debug.Log($"Data saved at {_filePath}");
         }
 
-        public static SerializableDictionary<string, int> LoadScoreHolders()
+        public static List<ScoreEntry> LoadScoreHolders()
         {
             if (!File.Exists(_filePath))
             {
                 Debug.LogWarning("Save file does not exist");
-                return new SerializableDictionary<string, int>();
+                return new List<ScoreEntry>();
             }
 
             string json = File.ReadAllText(_filePath);
-            return JsonUtility.FromJson<SerializableDictionary<string, int>>(json);
+            return JsonUtility.FromJson<List<ScoreEntry>>(json);
         }
 
-        public static void DeleteScoreFile()
+        public static void DeleteScoreFileJson()
         {
             if (File.Exists(_filePath))
             {

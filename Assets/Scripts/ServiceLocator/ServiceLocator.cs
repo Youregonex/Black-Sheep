@@ -6,7 +6,7 @@ namespace Youregone.SL
 {
     public class ServiceLocator
     {
-        private static Dictionary<Type, IService> _services = new();
+        private static System.Collections.Generic.Dictionary<Type, IService> _services = new();
 
         public static void Register<T>(T service) where T : IService
         {

@@ -1,22 +1,14 @@
 using UnityEngine;
 using UnityEngine.Networking;
-using System.Collections;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System;
 
 namespace Youregone.Web
 {
-    public static class ScoreWebUploader
+    public static partial class ScoreWebUploader
     {
         private const string URL = "https://script.google.com/macros/s/AKfycbwuwVTi1YJvVCmOHUzecIgouw961cfemhwV50wzRs0vfcMdc4fwLYL3ePtCeMpWInnX/exec";
-
-        [System.Serializable]
-        public class ScoreEntry
-        {
-            public string name;
-            public int score;
-        }
 
         [System.Serializable]
         public class ScoreEntryList
@@ -24,19 +16,15 @@ namespace Youregone.Web
             public List<ScoreEntry> list;
         }
 
-        public static void UploadScoreHolder(string playerName, int playerScore, MonoBehaviour coroutineHost)
+        public static void UploadScoreHolder(string playerName, int playerScore)
         {
-            ScoreEntry entry = new()
-            {
-                name = playerName,
-                score = playerScore
-            };
+            ScoreEntry entry = new(playerName, playerScore);
 
             Debug.Log($"Posting {JsonUtility.ToJson(entry)}");
-            coroutineHost.StartCoroutine(SendData(JsonUtility.ToJson(entry)));
+            _= SendDataAsync(JsonUtility.ToJson(entry));
         }
 
-        public static async Task<Dictionary<string, int>> DownloadScoreHoldersAsync()
+        public static async Task<List<ScoreEntry>> DownloadScoreHoldersAsync()
         {
             try
             {
@@ -60,14 +48,7 @@ namespace Youregone.Web
                             return null;
                         }
 
-                        Dictionary<string, int> scoreDict = new();
-                        foreach (var entry in scores.list)
-                        {
-                            if (!scoreDict.ContainsKey(entry.name))
-                                scoreDict[entry.name] = entry.score;
-                        }
-
-                        return scoreDict;
+                        return scores.list;
                     }
                     else
                     {
@@ -83,22 +64,28 @@ namespace Youregone.Web
             }
         }
 
-        private static IEnumerator SendData(string json)
+        public static async Task SendDataAsync(string json)
         {
-            UnityWebRequest www = UnityWebRequest.PostWwwForm(URL, "");
-            byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
-            www.uploadHandler = new UploadHandlerRaw(bodyRaw);
-            www.SetRequestHeader("Content-Type", "application/json");
-
-            yield return www.SendWebRequest();
-
-            if (www.result == UnityWebRequest.Result.Success)
+            using (UnityWebRequest www = new UnityWebRequest(URL, UnityWebRequest.kHttpVerbPOST))
             {
-                Debug.Log("Score sent!");
-            }
-            else
-            {
-                Debug.LogError("Error: " + www.error);
+                byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
+                www.uploadHandler = new UploadHandlerRaw(bodyRaw);
+                www.downloadHandler = new DownloadHandlerBuffer();
+                www.SetRequestHeader("Content-Type", "application/json");
+
+                var operation = www.SendWebRequest();
+
+                while (!operation.isDone)
+                    await Task.Yield();
+
+                if (www.result == UnityWebRequest.Result.Success)
+                {
+                    Debug.Log("Score uploaded!");
+                }
+                else
+                {
+                    Debug.LogError("Error uploading score: " + www.error);
+                }
             }
         }
     }

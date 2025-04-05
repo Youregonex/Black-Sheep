@@ -105,7 +105,7 @@ namespace Youregone.YCamera
         {
             _stihCanvasGroup.DOFade(1f, _objectFadeTime);
 
-            int highScore = ServiceLocator.Get<HighscoreDatabase>().Highscore;
+            int highScore = ServiceLocator.Get<LocalDatabase>().Highscore;
 
             Sequence sequence = DOTween.Sequence();
             sequence.Append(_playButton.image.DOFade(1f, _objectFadeTime).SetEase(Ease.Linear));
