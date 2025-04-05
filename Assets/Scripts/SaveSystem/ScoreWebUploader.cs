@@ -8,7 +8,7 @@ namespace Youregone.Web
 {
     public static partial class ScoreWebUploader
     {
-        private const string URL = "https://script.google.com/macros/s/AKfycbwuwVTi1YJvVCmOHUzecIgouw961cfemhwV50wzRs0vfcMdc4fwLYL3ePtCeMpWInnX/exec";
+        private const string URL = "https://script.google.com/macros/s/AKfycbymtSHB_9x5UosYnFxvS9NwHGrgwaraXH0-pif9q2CO7jsRnnaLombl3kYMMt9FdRKB/exec";
 
         public static void UploadScoreHolder(string playerName, int playerScore)
         {
@@ -60,7 +60,7 @@ namespace Youregone.Web
 
         public static async Task SendDataAsync(string json)
         {
-            using (UnityWebRequest www = new UnityWebRequest(URL, UnityWebRequest.kHttpVerbPOST))
+            using (UnityWebRequest www = new(URL, UnityWebRequest.kHttpVerbPOST))
             {
                 byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
                 www.uploadHandler = new UploadHandlerRaw(bodyRaw);

@@ -23,6 +23,12 @@ namespace Youregone.SaveSystem
             UpdateLocalDatabaseAsync();
         }
 
+        public void SaveNewScoreEntry(string name, int score)
+        {
+            _localScoreHoldersList.Add(new ScoreEntry(name, score));
+            JsonSaverLoader.SaveScoreHoldersJson(_localScoreHoldersList);
+        }
+
         private async void UpdateLocalDatabaseAsync()
         {
             if(!await InternetChecker.IsInternetAvailableAsync())
@@ -33,7 +39,8 @@ namespace Youregone.SaveSystem
 
                 if (_localScoreHoldersList.Count > 0)
                     Highscore = _localScoreHoldersList.OrderByDescending(entry => entry.score).FirstOrDefault().score;
-                else Highscore = 0;
+                else
+                    Highscore = 0;
 
                 return;
             }
@@ -47,7 +54,6 @@ namespace Youregone.SaveSystem
 
             if (downloadTask.IsCompletedSuccessfully)
             {
-                Debug.Log("Score holders downloaded");
                 StartCoroutine(SyncLocalDatabaseCoroutine(downloadTask.Result));
             }
             else
@@ -63,25 +69,25 @@ namespace Youregone.SaveSystem
             if (_localScoreHoldersList.Count == 0)
                 yield break;
 
-            List<ScoreEntry> localListExceptWebList = _localScoreHoldersList.Except(downloadedScoreEntries).ToList();
-            List<ScoreEntry> webListExceptLocalList = downloadedScoreEntries.Except(_localScoreHoldersList).ToList();
+            List<ScoreEntry> uploadNewLocalEntriesToWebList = _localScoreHoldersList.Except(downloadedScoreEntries).ToList();
+            List<ScoreEntry> saveNewWebEntriesLocallyList = downloadedScoreEntries.Except(_localScoreHoldersList).ToList();
 
-            _localScoreHoldersList.AddRange(webListExceptLocalList);
-            JsonSaverLoader.SaveScoreHoldersJson(_localScoreHoldersList);
+            if(saveNewWebEntriesLocallyList.Count > 0)
+            {
+                _localScoreHoldersList.AddRange(saveNewWebEntriesLocallyList);
+                JsonSaverLoader.SaveScoreHoldersJson(_localScoreHoldersList);
+            }
 
-            foreach (ScoreEntry scoreEntry in localListExceptWebList)
+            foreach (ScoreEntry scoreEntry in uploadNewLocalEntriesToWebList)
             {
                 ScoreWebUploader.UploadScoreHolder(scoreEntry.name, scoreEntry.score);
                 yield return null;
             }
 
-            Highscore = _localScoreHoldersList.OrderByDescending(entry => entry.score).First().score;
-        }
-
-        public void SaveNewScoreEntry(string name, int score)
-        {
-            _localScoreHoldersList.Add(new ScoreEntry(name, score));
-            JsonSaverLoader.SaveScoreHoldersJson(_localScoreHoldersList);
+            if (_localScoreHoldersList.Count == 0)
+                Highscore = 0;
+            else
+                Highscore = _localScoreHoldersList.OrderByDescending(entry => entry.score).First().score;
         }
     }
 }
