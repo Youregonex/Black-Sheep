@@ -10,6 +10,8 @@ using Youregone.GameSystems;
 using Youregone.YPlayerController;
 using System.Collections.Generic;
 using System.Linq;
+using Youregone.Web;
+using System.Threading.Tasks;
 
 namespace Youregone.UI
 {
@@ -41,18 +43,17 @@ namespace Youregone.UI
         [SerializeField] private float _textFadeDuration;
         [SerializeField] private float _sheepSpeed;
 
-        private HighscoreDatabase _highscoreDatabase;
         private RectTransform _selfRectTransform;
         private Sequence _currentSequence;
 
         private void Awake()
         {
             _selfRectTransform = GetComponent<RectTransform>();
-            _highscoreDatabase = new();
 
             _tryAgainButton.onClick.AddListener(() =>
             {
-                SaveScoreHolder(_nameInputField.text, (int)ServiceLocator.Get<ScoreCounter>().CurrentScore);
+                ScoreWebUploader.UploadScoreHolder(_nameInputField.text, (int)ServiceLocator.Get<ScoreCounter>().CurrentScore, this);
+
                 OnTryAgainButtonPressed?.Invoke();
                 _tryAgainButton.interactable = false;
                 _mainMenuButton.interactable = false;
@@ -60,7 +61,8 @@ namespace Youregone.UI
 
             _mainMenuButton.onClick.AddListener(() =>
             {
-                SaveScoreHolder(_nameInputField.text, (int)ServiceLocator.Get<ScoreCounter>().CurrentScore);
+                ScoreWebUploader.UploadScoreHolder(_nameInputField.text, (int)ServiceLocator.Get<ScoreCounter>().CurrentScore, this);
+
                 OnMainMenuButtonPressed?.Invoke();
                 _tryAgainButton.interactable = false;
                 _mainMenuButton.interactable = false;
@@ -83,7 +85,7 @@ namespace Youregone.UI
             gameObject.SetActive(true);
 
             _currentScoreText.text = ((int)ServiceLocator.Get<ScoreCounter>().CurrentScore).ToString();
-            _highScoreText.text = _highscoreDatabase.GetHighestScore().ToString();
+            _highScoreText.text = ServiceLocator.Get<HighscoreDatabase>().Highscore.ToString();
 
             StartCoroutine(ShowWindowCoroutine());
         }
@@ -96,10 +98,8 @@ namespace Youregone.UI
 
         private IEnumerator ShowWindowCoroutine()
         {
-            float backgroundGoalAlpha = .8f;
-
             float currentScore = ServiceLocator.Get<ScoreCounter>().CurrentScore;
-            int highScrore = _highscoreDatabase.GetHighestScore();
+            int highScrore = ServiceLocator.Get<HighscoreDatabase>().Highscore;
             float t;
 
             if (highScrore != 0)
@@ -109,11 +109,30 @@ namespace Youregone.UI
 
             if (t > 1)
             {
-                t = .75f; // any number past .5f
+                t = .75f; // (.51f - 1f)
                 _flag.anchoredPosition = _pathImage.rectTransform.anchoredPosition;
             }
             else
                 t = t <= .1f ? .1f : t; // min distance so sheep doesn't stand at 0 without movement
+
+            yield return StartCoroutine(PlayBackgroundAnimation());
+
+            yield return StartCoroutine(PlayTextAndPathFadeInAnimation());
+
+            yield return StartCoroutine(PlaySheepAnimation(t));
+
+            yield return StartCoroutine(PlayButtonsFadeInAnimation());
+
+            if (SystemInfo.deviceType == DeviceType.Handheld)
+            {
+                _nameInputField.ActivateInputField();
+                TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default);
+            }
+        }
+
+        private IEnumerator PlayBackgroundAnimation()
+        {
+            float backgroundGoalAlpha = .8f;
 
             _currentSequence = DOTween.Sequence();
             _currentSequence
@@ -128,7 +147,10 @@ namespace Youregone.UI
                 });
 
             yield return _currentSequence.WaitForCompletion();
+        }
 
+        private IEnumerator PlayTextAndPathFadeInAnimation()
+        {
             float uiSheepYOffset = 20f;
             Vector2 uiSheepStartPosition = new(-_pathImage.rectTransform.rect.width / 2f, uiSheepYOffset);
             _sheepImage.rectTransform.anchoredPosition = uiSheepStartPosition;
@@ -141,7 +163,11 @@ namespace Youregone.UI
                 .OnComplete(() => _currentSequence = null);
 
             yield return _currentSequence.WaitForCompletion();
+        }
 
+        private IEnumerator PlaySheepAnimation(float t)
+        {
+            float uiSheepYOffset = 20f;
             Vector2 sheepGoalPosition = new(Mathf.Lerp(-_pathImage.rectTransform.rect.width / 2f, _pathImage.rectTransform.rect.width / 2f, t), uiSheepYOffset);
 
             _currentSequence = DOTween.Sequence();
@@ -151,7 +177,10 @@ namespace Youregone.UI
                 .OnComplete(() => _currentSequence = null);
 
             yield return _currentSequence.WaitForCompletion();
+        }
 
+        private IEnumerator PlayButtonsFadeInAnimation()
+        {
             _tryAgainButton.gameObject.SetActive(true);
             _mainMenuButton.gameObject.SetActive(true);
             _nameInputField.gameObject.SetActive(true);
@@ -173,12 +202,6 @@ namespace Youregone.UI
                 });
 
             yield return _currentSequence.WaitForCompletion();
-
-            if (SystemInfo.deviceType == DeviceType.Handheld)
-            {
-                _nameInputField.ActivateInputField();
-                TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default);
-            }
         }
 
         private void CheckNameInputField(string name)
@@ -203,13 +226,35 @@ namespace Youregone.UI
 
         private IEnumerator ShowScoreHolders()
         {
-            int amountOfHoldersToShow = 8;
+            Dictionary<string, int> scoreHolders = null;
 
-            if (_highscoreDatabase.ScoreHoldersDictionary.Count < amountOfHoldersToShow)
-                amountOfHoldersToShow = _highscoreDatabase.ScoreHoldersDictionary.Count;
+            Debug.Log("Starting download");
+            Task<Dictionary<string, int>> downloadTask = ScoreWebUploader.DownloadScoreHoldersAsync();
 
-            Dictionary<string, int> scoreHolders = _highscoreDatabase.GetTopScoreHolders(amountOfHoldersToShow);
+            while (!downloadTask.IsCompleted)
+            {
+                Debug.Log("Downloading...");
+                yield return null;
+            }
 
+            if (downloadTask.IsCompletedSuccessfully)
+            {
+                Debug.Log("Download succeeded");
+                scoreHolders = downloadTask.Result;
+            }
+            else
+            {
+                Debug.LogError("Download failed");
+                yield break;
+            }
+
+            if (scoreHolders == null || scoreHolders.Count == 0)
+            {
+                Debug.Log("Data is null");
+                yield break;
+            }
+
+            int amountOfHoldersToShow = Mathf.Min(8, scoreHolders.Count);
             int currentIndex = 0;
             float _delay = .2f;
 
@@ -226,11 +271,6 @@ namespace Youregone.UI
 
                 currentIndex++;
             }
-        }
-
-        private void SaveScoreHolder(string name, int score)
-        {
-            _highscoreDatabase.SaveScoreHolder(name, score);
         }
 
         private void HideAllElements()

@@ -31,11 +31,11 @@ namespace Youregone.SaveSystem
             if (File.Exists(_filePath))
             {
                 File.Delete(_filePath);
-                Debug.Log("File deleted: " + _filePath);
+                Debug.Log("Save file deleted: " + _filePath);
             }
             else
             {
-                Debug.LogWarning("File wasn't found: " + _filePath);
+                Debug.LogWarning("There is no save file at: " + _filePath);
             }
         }
     }

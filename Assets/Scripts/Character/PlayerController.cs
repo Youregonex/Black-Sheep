@@ -133,7 +133,7 @@ namespace Youregone.YPlayerController
         protected override void Start()
         {
             base.Start();
-
+            
             _gameState = ServiceLocator.Get<GameState>();
         }
 

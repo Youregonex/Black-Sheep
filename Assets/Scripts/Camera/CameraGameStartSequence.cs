@@ -32,7 +32,6 @@ namespace Youregone.YCamera
         public Transform CameraStartPoint => _cameraStartPoint;
         public Transform CameraEndPoint => _cameraEndPoint;
 
-        private HighscoreDatabase _highscoreDatabase;
         private Tween _currentTween;
         private bool _introSkipped = false;
 
@@ -45,7 +44,6 @@ namespace Youregone.YCamera
 
         private void Start()
         {
-            _highscoreDatabase = new();
             StartCoroutine(PlayCameraIntroSequence());
         }
 
@@ -107,7 +105,7 @@ namespace Youregone.YCamera
         {
             _stihCanvasGroup.DOFade(1f, _objectFadeTime);
 
-            int highScore = _highscoreDatabase.GetHighestScore();
+            int highScore = ServiceLocator.Get<HighscoreDatabase>().Highscore;
 
             Sequence sequence = DOTween.Sequence();
             sequence.Append(_playButton.image.DOFade(1f, _objectFadeTime).SetEase(Ease.Linear));

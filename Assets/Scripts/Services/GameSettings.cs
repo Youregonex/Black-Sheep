@@ -63,6 +63,8 @@ namespace Youregone.GameSystems
 
         private void Start()
         {
+            JsonSaverLoader.DeleteScoreFile();
+
             if(_playerPrefsSaverLoader == null)
                 _playerPrefsSaverLoader = ServiceLocator.Get<PlayerPrefsSaverLoader>();
 

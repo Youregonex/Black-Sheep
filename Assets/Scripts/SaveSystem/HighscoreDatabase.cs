@@ -1,54 +1,39 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using UnityEngine;
+using Youregone.SL;
+using Youregone.Web;
 
 namespace Youregone.SaveSystem
 {
-    public class HighscoreDatabase
+    public class HighscoreDatabase : MonoBehaviour, IService
     {
         private SerializableDictionary<string, int> _scoreHoldersDictionary;
 
         public Dictionary<string, int> ScoreHoldersDictionary => _scoreHoldersDictionary;
+        public int Highscore { get; private set; }
 
-        public HighscoreDatabase()
+        private void Awake()
         {
-            _scoreHoldersDictionary = JsonSaverLoader.LoadScoreHolders();
+            UpdateHighscore();
         }
 
-        public int GetHighestScore()
+        private async void UpdateHighscore()
         {
-            return _scoreHoldersDictionary.OrderByDescending(entry => entry.Value).FirstOrDefault().Value;
-        }
+            Task<Dictionary<string, int>> downloadTask = ScoreWebUploader.DownloadScoreHoldersAsync();
 
-        public Dictionary<string, int> GetHighscoreHolders()
-        {
-            return _scoreHoldersDictionary;
-        }
+            await downloadTask;
 
-        public Dictionary<string, int> GetTopScoreHolders(int amount)
-        {
-            Dictionary<string, int> topScores = _scoreHoldersDictionary
-                .OrderByDescending(entry => entry.Value)
-                .Take(amount)
-                .ToDictionary(entry => entry.Key, entry => entry.Value);
-
-            return topScores;
-        }
-
-        public void SaveScoreHolder(string name, int score)
-        {
-            if(_scoreHoldersDictionary.ContainsKey(name))
+            if (downloadTask.IsCompletedSuccessfully)
             {
-                if (_scoreHoldersDictionary[name] < score)
-                    _scoreHoldersDictionary[name] = score;
-                else
-                    return;
+                Debug.Log("Highscore successfully updated!");
+                Highscore = downloadTask.Result.ElementAt(0).Value;
             }
             else
             {
-                _scoreHoldersDictionary.Add(name, score);
+                Debug.LogError("Couldn't update highscore");
             }
-
-            JsonSaverLoader.SaveScoreHolder(_scoreHoldersDictionary);
         }
     }
 }
