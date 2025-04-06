@@ -1,14 +1,14 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using System;
 
 namespace Youregone.UI
 {
-    public class JumpButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+    public class InputButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
-        public event Action OnJumpButtonPressed;
-        public event Action OnJumpButtonReleased;
+        public event Action OnButtonPressed;
+        public event Action OnButtonReleased;
 
         public Button Button { get; private set; }
 
@@ -24,12 +24,12 @@ namespace Youregone.UI
 
         public void OnPointerDown(PointerEventData eventData)
         {
-            OnJumpButtonPressed?.Invoke();
+            OnButtonPressed?.Invoke();
         }
 
         public void OnPointerUp(PointerEventData eventData)
         {
-            OnJumpButtonReleased?.Invoke();
+            OnButtonReleased?.Invoke();
         }
     }
 }

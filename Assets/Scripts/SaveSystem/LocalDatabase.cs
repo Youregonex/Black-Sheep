@@ -25,7 +25,12 @@ namespace Youregone.SaveSystem
 
         public void SaveNewScoreEntry(string name, int score)
         {
-            _localScoreHoldersList.Add(new ScoreEntry(name, score));
+            ScoreEntry scoreEntry = new(name, score);
+
+            if (_localScoreHoldersList.Contains(scoreEntry))
+                return;
+
+            _localScoreHoldersList.Add(scoreEntry);
             JsonSaverLoader.SaveScoreHoldersJson(_localScoreHoldersList);
         }
 

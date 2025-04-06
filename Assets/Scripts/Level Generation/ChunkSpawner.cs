@@ -31,6 +31,7 @@ namespace Youregone.LevelGeneration
         private float _bridgeSpawnCooldown;
 
         private GameSettings _gameSettings;
+        private GameState _gameState;
         private PlayerController _player;
         private MovingObjectSpawner _movingObjectSpawner;
 
@@ -39,8 +40,10 @@ namespace Youregone.LevelGeneration
         {
             _player = ServiceLocator.Get<PlayerController>();
             _player.OnDeath += StopSpawning;
+            _gameState = ServiceLocator.Get<GameState>();
 
             _gameSettings = ServiceLocator.Get<GameSettings>();
+
             _pitSpawnChance = _gameSettings.PitSpawnChanceStart;
             _bridgeSpawnCooldown = _gameSettings.BridgeSpawnCooldownStart;
             _bridgeChunkSpawnCooldownCurrent = _bridgeSpawnCooldown;
@@ -52,8 +55,12 @@ namespace Youregone.LevelGeneration
             _lastChunk = SpawnNextChunk();
         }
 
+        //Not an observed update, observed update starts with 1 frame skip which causes spawn troubes
         private void Update()
         {
+            if (_gameState.CurrentGameState != EGameState.Gameplay)
+                return;
+
             if (_bridgeChunkSpawnCooldownCurrent > 0)
                 _bridgeChunkSpawnCooldownCurrent -= Time.deltaTime;
 

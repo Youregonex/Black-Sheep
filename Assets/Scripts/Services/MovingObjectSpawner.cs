@@ -53,6 +53,7 @@ namespace Youregone.LevelGeneration
         private CollectablePool _collectablPool;
         private ObstaclePool _obstaclePool;
         private BasicPool<RockBreakPiece> _rockBreakPiecePool;
+        private GameState _gameState;
 
         private void Initialize()
         {
@@ -71,13 +72,18 @@ namespace Youregone.LevelGeneration
 
             if (_gameSettings.ProgressiveDifficultyEnabled)
                 UpdateManager.RegisterUpdateObserver(this);
+
+            _gameState = ServiceLocator.Get<GameState>();
         }
 
         public void ObservedUpdate()
         {
+            if (_gameState.CurrentGameState != EGameState.Gameplay)
+                return;
+
             _obstacleSpawnChance = _scoreCounter.CurrentScore / _maxDifficultyScore;
 
-            if (_scoreCounter.CurrentScore / _midDifficultyScore >= .5f && !_midDifficultyReached)
+            if(_scoreCounter.CurrentScore / _midDifficultyScore >= .5f && !_midDifficultyReached)
             {
                 _midDifficultyReached = true;
                 OnMidDifficultyReached?.Invoke();

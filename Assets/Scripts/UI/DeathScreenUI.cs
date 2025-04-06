@@ -50,36 +50,14 @@ namespace Youregone.UI
         {
             _localDatabase = ServiceLocator.Get<LocalDatabase>();
             _selfRectTransform = GetComponent<RectTransform>();
+            _nameInputField.onValueChanged.AddListener(CheckNameInputField);
 
-            _tryAgainButton.onClick.AddListener(() =>
-            {
-                if (_localDatabase.InternetConnectionAvailable)
-                    ScoreWebUploader.UploadScoreHolder(_nameInputField.text, (int)ServiceLocator.Get<ScoreCounter>().CurrentScore);
-
-                _localDatabase.SaveNewScoreEntry(_nameInputField.text, (int)ServiceLocator.Get<ScoreCounter>().CurrentScore);
-
-                OnTryAgainButtonPressed?.Invoke();
-                _tryAgainButton.interactable = false;
-                _mainMenuButton.interactable = false;
-            });
-
-            _mainMenuButton.onClick.AddListener(() =>
-            {
-                if (_localDatabase.InternetConnectionAvailable)
-                    ScoreWebUploader.UploadScoreHolder(_nameInputField.text, (int)ServiceLocator.Get<ScoreCounter>().CurrentScore);
-
-                _localDatabase.SaveNewScoreEntry(_nameInputField.text, (int)ServiceLocator.Get<ScoreCounter>().CurrentScore);
-
-                OnMainMenuButtonPressed?.Invoke();
-                _tryAgainButton.interactable = false;
-                _mainMenuButton.interactable = false;
-            });
+            SetupButtons();
         }
 
         private void Start()
         {
             ServiceLocator.Get<PlayerController>().PlayerCharacterInput.OnScreenTap += PlayerCharacterInput_OnScreenTap;
-            _nameInputField.onValueChanged.AddListener(CheckNameInputField);
         }
         private void OnDestroy()
         {
@@ -99,7 +77,7 @@ namespace Youregone.UI
 
         private void PlayerCharacterInput_OnScreenTap()
         {
-            if (Input.GetKeyDown(KeyCode.Mouse0) && _currentSequence != null)
+            if (_currentSequence != null)
                 _currentSequence.Complete();
         }
 
@@ -116,7 +94,7 @@ namespace Youregone.UI
 
             if (t > 1)
             {
-                t = .75f; // (.51f - 1f)
+                t = .75f; // (.51f -- 1f)
                 _flag.anchoredPosition = _pathImage.rectTransform.anchoredPosition;
             }
             else
@@ -233,34 +211,6 @@ namespace Youregone.UI
 
         private IEnumerator ShowScoreHolders()
         {
-            //List<ScoreEntry> scoreHolders = null;
-
-            //Debug.Log("Starting download");
-            //Task<List<ScoreEntry>> downloadTask = ScoreWebUploader.DownloadScoreHoldersAsync();
-
-            //while (!downloadTask.IsCompleted)
-            //{
-            //    Debug.Log("Downloading...");
-            //    yield return null;
-            //}
-
-            //if (downloadTask.IsCompletedSuccessfully)
-            //{
-            //    Debug.Log("Download succeeded");
-            //    scoreHolders = downloadTask.Result;
-            //}
-            //else
-            //{
-            //    Debug.LogError("Download failed");
-            //    yield break;
-            //}
-
-            //if (scoreHolders == null || scoreHolders.Count == 0)
-            //{
-            //    Debug.Log("Data is null");
-            //    yield break;
-            //}
-
             List<ScoreEntry> scoreHolders = _localDatabase.ScoreHoldersList;
             int amountOfHoldersToShow = Mathf.Min(8, scoreHolders.Count);
             float _delay = .15f;
@@ -284,6 +234,33 @@ namespace Youregone.UI
             _highScoreCanvasGroup.alpha = 0f;
             _currentScoreCanvasGroup.alpha = 0f;
             _barCanvasGroup.alpha = 0f;
+        }
+
+        private void SetupButtons()
+        {
+            _tryAgainButton.onClick.AddListener(() =>
+            {
+                if (_localDatabase.InternetConnectionAvailable)
+                    ScoreWebUploader.UploadScoreHolder(_nameInputField.text, (int)ServiceLocator.Get<ScoreCounter>().CurrentScore);
+
+                _localDatabase.SaveNewScoreEntry(_nameInputField.text, (int)ServiceLocator.Get<ScoreCounter>().CurrentScore);
+
+                OnTryAgainButtonPressed?.Invoke();
+                _tryAgainButton.interactable = false;
+                _mainMenuButton.interactable = false;
+            });
+
+            _mainMenuButton.onClick.AddListener(() =>
+            {
+                if (_localDatabase.InternetConnectionAvailable)
+                    ScoreWebUploader.UploadScoreHolder(_nameInputField.text, (int)ServiceLocator.Get<ScoreCounter>().CurrentScore);
+
+                _localDatabase.SaveNewScoreEntry(_nameInputField.text, (int)ServiceLocator.Get<ScoreCounter>().CurrentScore);
+
+                OnMainMenuButtonPressed?.Invoke();
+                _tryAgainButton.interactable = false;
+                _mainMenuButton.interactable = false;
+            });
         }
     }
 }

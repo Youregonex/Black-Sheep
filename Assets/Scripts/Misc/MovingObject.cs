@@ -30,8 +30,10 @@ namespace Youregone.LevelGeneration
                 Destroy(gameObject);
         }
 
-        protected virtual void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
+
             ServiceLocator.Get<MovingObjectHandler>().RemoveObject(this);
         }
 

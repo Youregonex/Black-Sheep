@@ -3,18 +3,21 @@ using UnityEngine.Networking;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System;
+using System.Linq;
+using System.Diagnostics;
 
 namespace Youregone.Web
 {
     public static partial class ScoreWebUploader
     {
-        private const string URL = "https://script.google.com/macros/s/AKfycbymtSHB_9x5UosYnFxvS9NwHGrgwaraXH0-pif9q2CO7jsRnnaLombl3kYMMt9FdRKB/exec";
+        private const string URL = "https://script.google.com/macros/s/AKfycbzEEgDe37oqb2v2acMjeFS9IXocM5f58tNuko01EP0icEbp2rO0K2P_dNOKBMhId9YN/exec";
+        private const string AMOUNT_OF_TOP_RECORD_HOLDERS = "topAmount=8";
 
         public static void UploadScoreHolder(string playerName, int playerScore)
         {
             ScoreEntry entry = new(playerName, playerScore);
 
-            Debug.Log($"Posting {JsonUtility.ToJson(entry)}");
+            UnityEngine.Debug.Log($"Posting {JsonUtility.ToJson(entry)}");
             _= SendDataAsync(JsonUtility.ToJson(entry));
         }
 
@@ -24,36 +27,41 @@ namespace Youregone.Web
             {
                 using (UnityWebRequest www = UnityWebRequest.Get(URL))
                 {
-                    var operation = www.SendWebRequest();
+                    Stopwatch stopwatch = new();
+                    stopwatch.Start();
+
+                    UnityWebRequestAsyncOperation operation = www.SendWebRequest();
 
                     while (!operation.isDone)
                         await Task.Yield();
 
-                    if (www.result == UnityWebRequest.Result.Success)
-                    { 
-                        string rawJson = "{\"scoreEntryList\":" + www.downloadHandler.text + "}";
-                        Debug.Log("Received JSON: " + rawJson);
+                    stopwatch.Stop();
 
-                        var scores = JsonUtility.FromJson<ScoreEntryList>(rawJson);
+                    if (www.result == UnityWebRequest.Result.Success)
+                    {
+                        string rawJson = "{\"scoreEntryList\":" + www.downloadHandler.text + "}";
+                        UnityEngine.Debug.Log($"Received JSON (Time spent: {stopwatch.ElapsedMilliseconds}ms): " + rawJson);
+
+                        ScoreEntryList scores = JsonUtility.FromJson<ScoreEntryList>(rawJson);
 
                         if (scores == null || scores.scoreEntryList == null)
                         {
-                            Debug.LogError("Failed to parse scores. Data is null.");
+                            UnityEngine.Debug.LogError("Failed to parse scores. Data is null.");
                             return null;
                         }
 
-                        return scores.scoreEntryList;
+                        return scores.scoreEntryList.OrderByDescending(entry => entry.score).ToList();
                     }
                     else
                     {
-                        Debug.LogError("Failed to download scores: " + www.error);
+                        UnityEngine.Debug.LogError("Failed to download scores: " + www.error);
                         return null;
                     }
                 }
             }
             catch (Exception ex)
             {
-                Debug.LogError("Error during download: " + ex.Message);
+                UnityEngine.Debug.LogError("Error during download: " + ex.Message);
                 return null;
             }
         }
@@ -74,11 +82,11 @@ namespace Youregone.Web
 
                 if (www.result == UnityWebRequest.Result.Success)
                 {
-                    Debug.Log("Score uploaded!");
+                    UnityEngine.Debug.Log("Score uploaded!");
                 }
                 else
                 {
-                    Debug.LogError("Error uploading score: " + www.error);
+                    UnityEngine.Debug.LogError("Error uploading score: " + www.error);
                 }
             }
         }

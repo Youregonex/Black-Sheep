@@ -15,13 +15,13 @@ namespace Youregone.YPlayerController
 
         private bool _jumpPressed;
         private bool _ramPressed;
-        private RamButton _ramButton;
-        private JumpButton _jumpButton;
+        private InputButton _ramButton;
+        private InputButton _jumpButton;
 
         public bool JumpPressed => _jumpPressed;
         public bool RamPressed => _ramPressed;
 
-        public PlayerCharacterInput(JumpButton jumpButton, RamButton ramButton)
+        public PlayerCharacterInput(InputButton jumpButton, InputButton ramButton)
         {
             _inputActions = new();
 
@@ -36,10 +36,10 @@ namespace Youregone.YPlayerController
             {
                 _ramButton.Button.interactable = true;
                 _jumpButton.Button.interactable = true;
-                _ramButton.OnRamButtonPressed += RamButton_OnRamButtonPressed;
-                _ramButton.OnRamButtonReleased += RamButton_OnRamButtonReleased;
-                _jumpButton.OnJumpButtonPressed += JumpButton_OnJumpButtonPressed;
-                _jumpButton.OnJumpButtonReleased += JumpButton_OnJumpButtonReleased;
+                _ramButton.OnButtonPressed += RamButton_OnRamButtonPressed;
+                _ramButton.OnButtonReleased += RamButton_OnRamButtonReleased;
+                _jumpButton.OnButtonPressed += JumpButton_OnJumpButtonPressed;
+                _jumpButton.OnButtonReleased += JumpButton_OnJumpButtonReleased;
             }
 
             _inputActions.Enable();
@@ -65,10 +65,10 @@ namespace Youregone.YPlayerController
             {
                 _ramButton.Button.interactable = false;
                 _jumpButton.Button.interactable = false;
-                _ramButton.OnRamButtonPressed -= RamButton_OnRamButtonPressed;
-                _ramButton.OnRamButtonReleased -= RamButton_OnRamButtonReleased;
-                _jumpButton.OnJumpButtonPressed -= JumpButton_OnJumpButtonPressed;
-                _jumpButton.OnJumpButtonReleased -= JumpButton_OnJumpButtonReleased;
+                _ramButton.OnButtonPressed -= RamButton_OnRamButtonPressed;
+                _ramButton.OnButtonReleased -= RamButton_OnRamButtonReleased;
+                _jumpButton.OnButtonPressed -= JumpButton_OnJumpButtonPressed;
+                _jumpButton.OnButtonReleased -= JumpButton_OnJumpButtonReleased;
             }
 
             _inputActions.Disable();
@@ -90,11 +90,13 @@ namespace Youregone.YPlayerController
 
         private void JumpButton_OnJumpButtonPressed()
         {
+            Debug.Log("Jump Button Pressed");
             _jumpPressed = true;
         }
 
         private void JumpButton_OnJumpButtonReleased()
         {
+            Debug.Log("Jump Button Released");
             _jumpPressed = false;
         }
 

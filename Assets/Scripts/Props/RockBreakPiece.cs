@@ -28,11 +28,6 @@ namespace Youregone.LevelGeneration
         private Tween _fadeTween;
         private Tween _slowDownTween;
 
-        protected override void Start()
-        {
-            AddPausableObject();
-        }
-
         private void OnEnable()
         {
             ServiceLocator.Get<MovingObjectHandler>().AddObject(this);

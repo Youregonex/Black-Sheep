@@ -42,6 +42,7 @@ namespace Youregone.LevelGeneration
         private Coroutine _currentCoroutine;
         private float _randomAnimationDelay;
 
+
         protected override void Awake()
         {
             base.Awake();
@@ -92,7 +93,7 @@ namespace Youregone.LevelGeneration
                 _rigidBody.velocity = Vector2.zero;
 
                 Sequence sequence = DOTween.Sequence();
-                        sequence
+                sequence
                     .Append(transform.DOMove(Vector2.up * _yMoveAmount, _animationDuration))
                     .Join(transform.DORotate(new Vector3(0f, 0f, 360f), _animationDuration, RotateMode.FastBeyond360))
                     .Join(_spriteRenderer.DOFade(0f, _animationDuration * 1.5f).SetEase(Ease.OutQuad))

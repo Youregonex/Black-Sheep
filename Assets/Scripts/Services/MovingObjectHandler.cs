@@ -11,17 +11,6 @@ namespace Youregone.LevelGeneration
         [CustomHeader("Debug")]
         [SerializeField] private List<MovingObject> _spawnedObjects;
 
-        private float _currentSpeed
-        {
-            get
-            {
-                if (_player != null)
-                    return _player.CurrentSpeed;
-                else
-                    return 0;
-            }
-        }
-
         private PlayerController _player;
 
 
@@ -30,27 +19,29 @@ namespace Youregone.LevelGeneration
             base.Start();
 
             _player = ServiceLocator.Get<PlayerController>();
-
-            _player.OnRamStart += ChangeVelocityToCurrentSpeed;
-            _player.OnRamStop += ChangeVelocityToCurrentSpeed;
-            _player.OnDeath += StopObjects;
+            _player.OnSpeedChanged += PlayerController_OnSpeedChanged;
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
-            _player.OnRamStart -= ChangeVelocityToCurrentSpeed;
-            _player.OnRamStop -= ChangeVelocityToCurrentSpeed;
-            _player.OnDeath -= StopObjects;
+            base.OnDestroy();
+
+            _player.OnSpeedChanged -= PlayerController_OnSpeedChanged;
+        }
+
+        private void PlayerController_OnSpeedChanged(float currentSpeed)
+        {
+            ChangeVelocityToCurrentSpeed(currentSpeed);
         }
 
         public override void Pause()
         {
-            StopObjects();
+            ChangeVelocityToCurrentSpeed(0f);
         }
 
         public override void Unpause()
         {
-            ChangeVelocityToCurrentSpeed();
+            ChangeVelocityToCurrentSpeed(_player.CurrentSpeed);
         }
 
         public void AddObject(MovingObject movingObject)
@@ -59,9 +50,6 @@ namespace Youregone.LevelGeneration
                 return;
 
             _spawnedObjects.Add(movingObject);
-
-            //if(_player != null)
-            //    movingObject.ChangeVelocity(new Vector3 (_player.CurrentSpeed, 0f));
         }
 
         public void RemoveObject(MovingObject movingObject)
@@ -72,17 +60,11 @@ namespace Youregone.LevelGeneration
             _spawnedObjects.Remove(movingObject);
         }
 
-        private void StopObjects()
-        {
-            foreach (MovingObject movingObject in _spawnedObjects)
-                movingObject.StopMovement();
-        }
-
-        private void ChangeVelocityToCurrentSpeed()
+        private void ChangeVelocityToCurrentSpeed(float currentSpeed)
         {
             foreach (MovingObject movingObject in _spawnedObjects)
             {
-                Vector2 newObjectVelocity = new(_currentSpeed, 0f);
+                Vector2 newObjectVelocity = new(currentSpeed, 0f);
                 movingObject.ChangeVelocity(newObjectVelocity);
             }
         }

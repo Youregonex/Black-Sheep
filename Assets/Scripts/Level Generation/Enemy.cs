@@ -86,6 +86,7 @@ namespace Youregone.EnemyAI
 
             if (_currentTween != null)
                 _currentTween.Kill();
+
         }
 
         public override void Pause()
@@ -103,6 +104,8 @@ namespace Youregone.EnemyAI
 
             if(_alertSignAnimator != null)
                 _alertSignAnimator.speed = 0f;
+
+            _rigidBody.velocity = Vector2.zero;
         }
 
         public override void Unpause()
@@ -120,6 +123,11 @@ namespace Youregone.EnemyAI
 
             if (_alertSignAnimator != null)
                 _alertSignAnimator.speed = 1f;
+
+            if(_triggered)
+                _rigidBody.velocity = new Vector2(-(_player.CurrentSpeed + _sheepVelocity.x), 0f);
+            else
+                _rigidBody.velocity = new Vector2(-_player.CurrentSpeed, 0f);
         }
 
         public override void ChangeVelocity(Vector2 newVelocity)

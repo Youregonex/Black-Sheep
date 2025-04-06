@@ -20,12 +20,14 @@ namespace Youregone.YPlayerController
         public event Action OnDamageTaken;
         public event Action OnObstacleDestroyed;
         public event Action<int> OnComboFinished;
+        public event Action<float> OnSpeedChanged;
 
         private const string ANIMATION_JUMP_TRIGGER = "JUMP";
         private const string ANIMATION_LAND_TRIGGER = "LAND";
         private const string ANIMATION_STARTRAM_TRIGGER = "START_RAM";
         private const string ANIMATION_STOPRAM_TRIGGER = "STOP_RAM";
         private const string ANIMATION_DEATH_TRIGGER = "DEATH";
+        private const string ANIMATION_GAME_STARTED = "GAMESTARTED";
         private const string ANIMATION_STAMINA_BAR_FULL_CHARGE_TRIGGER = "BARFULL";
 
         [CustomHeader("Sheep Config")]
@@ -53,8 +55,8 @@ namespace Youregone.YPlayerController
         [SerializeField] private Gradient _staminaGradient;
         [SerializeField] private ParticleSystem _ramParticleSystem;
         [SerializeField] private ParticleSystem _windParticleSystem;
-        [SerializeField] private RamButton _ramButton;
-        [SerializeField] private JumpButton _jumpButton;
+        [SerializeField] private InputButton _ramButton;
+        [SerializeField] private InputButton _jumpButton;
         [SerializeField] private Transform _playerStartPosition;
 
         [CustomHeader("Ground Check")]
@@ -83,7 +85,6 @@ namespace Youregone.YPlayerController
 
         private Vector2 _prePauseVelocity;
         private float _baseGravityScale;
-        private bool _runStarted = false;
         private int _currentCombo = 0;
         private float _comboResetTimerCurrent;
 
@@ -99,9 +100,20 @@ namespace Youregone.YPlayerController
 
         public bool IsGrounded => _isGrounded;
         public bool IsRaming => _isRaming;
-        public float CurrentSpeed => _currentSpeed;
         public int CurrentHealth => _currentHealth;
         public PlayerCharacterInput PlayerCharacterInput => _playerInput;
+
+        public float CurrentSpeed {
+            get
+            {
+                return _currentSpeed;
+            }
+            private set
+            {
+                _currentSpeed = value;
+                OnSpeedChanged?.Invoke(_currentSpeed);
+            }
+        }
 
         private void Initialize()
         {
@@ -115,7 +127,7 @@ namespace Youregone.YPlayerController
 
             _baseGravityScale = _rigidBody.gravityScale;
             _staminaCurrent = _staminaMax;
-            _currentSpeed = 0f;
+            CurrentSpeed = 0f;
         }
 
         private void Awake()
@@ -135,6 +147,7 @@ namespace Youregone.YPlayerController
             base.Start();
             
             _gameState = ServiceLocator.Get<GameState>();
+            _gameState.OnGameStarted += GameState_OnGameStarted;
         }
 
         public void ObservedUpdate()
@@ -180,10 +193,13 @@ namespace Youregone.YPlayerController
             UpdateManager.UnregisterUpdateObserver(this);
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
+
             _groundCheck.Landed -= Land;
             _playerInput.OnRamButtonReleased -= StopRam;
+            _gameState.OnGameStarted -= GameState_OnGameStarted;
         }
 
         public override void Pause()
@@ -217,6 +233,12 @@ namespace Youregone.YPlayerController
             }
 
             _staminaBar.GetComponent<Animator>().speed = 1f;
+        }
+
+        private void GameState_OnGameStarted()
+        {
+            CurrentSpeed = _baseMoveSpeed;
+            _animator.SetTrigger(ANIMATION_GAME_STARTED);
         }
 
         private void StartCombo()
@@ -331,7 +353,7 @@ namespace Youregone.YPlayerController
         {
             Debug.Log("Death");
             _animator.SetTrigger(ANIMATION_DEATH_TRIGGER);
-            _currentSpeed = 0f;
+            CurrentSpeed = 0f;
             OnDeath?.Invoke();
 
             if (_isRaming)
@@ -347,9 +369,6 @@ namespace Youregone.YPlayerController
 
         private void StartRam()
         {
-            if (!_runStarted)
-                _runStarted = true;
-
             if (_currentHealth <= 0 || !_isGrounded || _isRaming || _staminaCurrent <= 0 || _gameState.CurrentGameState != EGameState.Gameplay)
                 return;
 
@@ -358,7 +377,7 @@ namespace Youregone.YPlayerController
             _staminaCurrent -= _staminaCurrent * _minCurrentStaminaPercentDrainPerUse;
             _isRaming = true;
             _canRechargeStamina = false;
-            _currentSpeed = _ramMoveSpeed;
+            CurrentSpeed = _ramMoveSpeed;
             OnRamStart?.Invoke();
             _animator.SetTrigger(ANIMATION_STARTRAM_TRIGGER);
         }
@@ -371,7 +390,7 @@ namespace Youregone.YPlayerController
             _ramParticleSystem.Stop();
             _windParticleSystem.Stop();
             _isRaming = false;
-            _currentSpeed = _baseMoveSpeed;
+            CurrentSpeed = _baseMoveSpeed;
             OnRamStop?.Invoke();
 
             _animator.SetTrigger(ANIMATION_STOPRAM_TRIGGER);
@@ -418,7 +437,7 @@ namespace Youregone.YPlayerController
 
         private void Jump()
         {
-            if (_currentHealth <= 0 || !_runStarted || !_isGrounded)
+            if (_currentHealth <= 0 || _gameState.CurrentGameState != EGameState.Gameplay || !_isGrounded)
                 return;
 
             Vector2 origin = new(transform.position.x, _collider.bounds.min.y);

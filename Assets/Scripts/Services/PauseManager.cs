@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Youregone.YPlayerController;
 using Youregone.SL;
+using Youregone.UI;
 
 namespace Youregone.GameSystems
 {
@@ -27,38 +28,23 @@ namespace Youregone.GameSystems
             _playerInput.OnPauseButtonPressed += PlayerCharacterInput_OnPauseButtonPressed;
 
             _gameState = ServiceLocator.Get<GameState>();
+
+            ServiceLocator.Get<GameScreenUI>().OnPauseButtonPressed += GameScreenUI_OnPauseButtonPressed;
+        }
+
+        private void GameScreenUI_OnPauseButtonPressed()
+        {
+            PauseTriggered();
         }
 
         private void PlayerCharacterInput_OnPauseButtonPressed()
         {
-            if (_gameState.CurrentGameState == EGameState.Gameplay || _gameState.CurrentGameState == EGameState.Pause)
-            {
-                PauseTriggered();
-                return;
-            }
+            PauseTriggered();
         }
 
         private void OnDestroy()
         {
             _playerInput.OnPauseButtonPressed -= PlayerCharacterInput_OnPauseButtonPressed;
-        }
-
-        public void PauseGame()
-        {
-            _gamePaused = true;
-            _pauseBackground.gameObject.SetActive(true);
-
-            foreach (PausableMonoBehaviour pausable in _pausableObjectList)
-                pausable.Pause();
-        }
-
-        public void UnpauseGame()
-        {
-            _gamePaused = false;
-            _pauseBackground.gameObject.SetActive(false);
-
-            foreach (PausableMonoBehaviour pausable in _pausableObjectList)
-                pausable.Unpause();
         }
 
         public void AddPausableObject(PausableMonoBehaviour pausable)
@@ -77,8 +63,29 @@ namespace Youregone.GameSystems
             _pausableObjectList.Remove(pausable);
         }
 
+        private void PauseGame()
+        {
+            _gamePaused = true;
+            _pauseBackground.gameObject.SetActive(true);
+
+            foreach (PausableMonoBehaviour pausable in _pausableObjectList)
+                pausable.Pause();
+        }
+
+        private void UnpauseGame()
+        {
+            _gamePaused = false;
+            _pauseBackground.gameObject.SetActive(false);
+
+            foreach (PausableMonoBehaviour pausable in _pausableObjectList)
+                pausable.Unpause();
+        }
+
         private void PauseTriggered()
         {
+            if (!(_gameState.CurrentGameState == EGameState.Gameplay || _gameState.CurrentGameState == EGameState.Pause))
+                return;
+
             if (_gamePaused)
             {
                 UnpauseGame();

@@ -2,7 +2,7 @@ using UnityEngine;
 using Youregone.UI;
 using Youregone.YCamera;
 using Youregone.YPlayerController;
-using Youregone.SaveSystem;
+using System;
 using System.Collections;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
@@ -12,6 +12,8 @@ namespace Youregone.GameSystems
 {
     public class GameState : PausableMonoBehaviour, IService
     {
+        public event Action OnGameStarted;
+
         [CustomHeader("Config")]
         [SerializeField] private GameCamera _camera;
         [SerializeField] private List<OutroScene> _outroScenes;
@@ -56,13 +58,15 @@ namespace Youregone.GameSystems
             StartCoroutine(StartGameCoroutine());
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
+
             ServiceLocator.Get<PlayerController>().OnDeath -= PlayerController_OnDeath;
             ServiceLocator.Get<GameScreenUI>().OnMainMenuLoadRequest -= GameScreenUI_OnMainMenuLoadRequest;
 
-            _deathScreenUI.OnTryAgainButtonPressed += DeathScreenUI_OnTryAgainButtonPressed;
-            _deathScreenUI.OnMainMenuButtonPressed += DeathScreenUI_OnMainMenuButtonPressed;
+            _deathScreenUI.OnTryAgainButtonPressed -= DeathScreenUI_OnTryAgainButtonPressed;
+            _deathScreenUI.OnMainMenuButtonPressed -= DeathScreenUI_OnMainMenuButtonPressed;
         }
 
         public override void Pause()
@@ -115,7 +119,10 @@ namespace Youregone.GameSystems
             yield return StartCoroutine(_transition.PlayTransitionEnd());
 
             ShowUI();
+            yield return new WaitUntil(() => Input.anyKeyDown);
+
             _currentGameState = EGameState.Gameplay;
+            OnGameStarted?.Invoke();
         }
 
         private IEnumerator PlayOutroCoroutine()
@@ -149,21 +156,8 @@ namespace Youregone.GameSystems
             StartCoroutine(PlayerController_OnDeath_Coroutine());
         }
 
-        private void ShowUI()
-        {
-            ServiceLocator.Get<GameScreenUI>().ScoreCounter.gameObject.SetActive(true);
-            ServiceLocator.Get<GameScreenUI>().HealthbarUI.gameObject.SetActive(true);
-            ServiceLocator.Get<GameScreenUI>().GameOutroDisableButton.gameObject.SetActive(true);
-            ServiceLocator.Get<GameScreenUI>().MainMenuButton.gameObject.SetActive(true);
-        }
-
-        private void HideUI()
-        {
-            ServiceLocator.Get<GameScreenUI>().ScoreCounter.gameObject.SetActive(false);
-            ServiceLocator.Get<GameScreenUI>().HealthbarUI.gameObject.SetActive(false);
-            ServiceLocator.Get<GameScreenUI>().GameOutroDisableButton.gameObject.SetActive(false);
-            ServiceLocator.Get<GameScreenUI>().MainMenuButton.gameObject.SetActive(false);
-        }
+        private void ShowUI() => ServiceLocator.Get<GameScreenUI>().ShowScreenUI();
+        private void HideUI() => ServiceLocator.Get<GameScreenUI>().HideScreenUI();
 
         private IEnumerator PlayerController_OnDeath_Coroutine()
         {
