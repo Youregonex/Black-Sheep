@@ -237,12 +237,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _currentXVelocity: 0
-  _rareCollectable: 0
+  _isRareCollectable: 0
   _pointsBonus: 10
   _spriteRenderer: {fileID: 3788368847817347332}
   _animator: {fileID: 8657216370997770005}
   _pickUpAudioClip: {fileID: 8300000, guid: e28ac5ba9fd804391b7ec5d007c6e80b, type: 3}
   _lightGameObject: {fileID: 3945925662966247633}
+  _trigger: {fileID: 1046111021665882047}
   _amplitude: 0.25
   _frequency: 1.5
   _animationDuration: 0.75

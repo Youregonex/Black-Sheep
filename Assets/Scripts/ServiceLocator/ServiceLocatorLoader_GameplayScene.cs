@@ -22,6 +22,7 @@ namespace Youregone.SL
         [SerializeField] private Transition _transition;
         [SerializeField] private ScoreCounter _scoreCounter;
         [SerializeField] private LocalDatabase _localDatabase;
+        [SerializeField] private PlayerCloversCollected _playerCloversCollected;
 
         private void Awake()
         {
@@ -37,6 +38,7 @@ namespace Youregone.SL
             ServiceLocator.Register<Transition>(_transition);
             ServiceLocator.Register<ScoreCounter>(_scoreCounter);
             ServiceLocator.Register<LocalDatabase>(_localDatabase);
+            ServiceLocator.Register<PlayerCloversCollected>(_playerCloversCollected);
         }
     }
 }

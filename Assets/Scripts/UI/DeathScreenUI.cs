@@ -19,19 +19,30 @@ namespace Youregone.UI
         public event Action OnTryAgainButtonPressed;
         public event Action OnMainMenuButtonPressed;
 
-        [CustomHeader("Components")]
-        [SerializeField] private Button _tryAgainButton;
-        [SerializeField] private Button _mainMenuButton;
-        [SerializeField] private TextMeshProUGUI _highScoreText;
-        [SerializeField] private TextMeshProUGUI _currentScoreText;
+        [CustomHeader("Canvas Groups")]
         [SerializeField] private CanvasGroup _highScoreCanvasGroup;
         [SerializeField] private CanvasGroup _currentScoreCanvasGroup;
         [SerializeField] private CanvasGroup _barCanvasGroup;
+        [SerializeField] private CanvasGroup _cloversCollectedCanvasGroup;
+
+        [CustomHeader("Buttons")]
+        [SerializeField] private Button _tryAgainButton;
+        [SerializeField] private Button _mainMenuButton;
+
+        [CustomHeader("Images")]
         [SerializeField] private Image _backgroundImage;
         [SerializeField] private Image _sheepImage;
         [SerializeField] private Image _pathImage;
-        [SerializeField] private RectTransform _flag;
+
+        [CustomHeader("TMPs")]
+        [SerializeField] private TextMeshProUGUI _highScoreText;
+        [SerializeField] private TextMeshProUGUI _currentScoreText;
+        [SerializeField] private TextMeshProUGUI _baseCloversCollectedText;
+        [SerializeField] private TextMeshProUGUI _rareCloversCollectedText;
+
+        [CustomHeader("Other")]
         [SerializeField] private TMP_InputField _nameInputField;
+        [SerializeField] private RectTransform _flag;
         [SerializeField] private CanvasGroup _leaderBoardCanvasGroup;
         [SerializeField] private ScoreHolderUI _scoreHolderPrefab;
         [SerializeField] private Transform _scoreHolderParent;
@@ -41,24 +52,23 @@ namespace Youregone.UI
         [SerializeField] private float _buttonsFadeDuration;
         [SerializeField] private float _textFadeDuration;
         [SerializeField] private float _sheepSpeed;
+        [SerializeField] private float _cloverTextAnimationTime;
 
-        private LocalDatabase _localDatabase;
+        [CustomHeader("Debug")]
+        [SerializeField] private LocalDatabase _localDatabase;
+
+        private PlayerPrefsSaverLoader _playerPrefs;
         private RectTransform _selfRectTransform;
         private Sequence _currentSequence;
 
         private void Awake()
         {
-            _localDatabase = ServiceLocator.Get<LocalDatabase>();
             _selfRectTransform = GetComponent<RectTransform>();
             _nameInputField.onValueChanged.AddListener(CheckNameInputField);
 
             SetupButtons();
         }
 
-        private void Start()
-        {
-            ServiceLocator.Get<PlayerController>().PlayerCharacterInput.OnScreenTap += PlayerCharacterInput_OnScreenTap;
-        }
         private void OnDestroy()
         {
             ServiceLocator.Get<PlayerController>().PlayerCharacterInput.OnScreenTap -= PlayerCharacterInput_OnScreenTap;
@@ -66,6 +76,10 @@ namespace Youregone.UI
 
         public void ShowWindow()
         {
+            _localDatabase = ServiceLocator.Get<LocalDatabase>();
+            _playerPrefs = ServiceLocator.Get<PlayerPrefsSaverLoader>();
+            ServiceLocator.Get<PlayerController>().PlayerCharacterInput.OnScreenTap += PlayerCharacterInput_OnScreenTap;
+
             HideAllElements();
             gameObject.SetActive(true);
 
@@ -87,6 +101,11 @@ namespace Youregone.UI
             int highScrore = _localDatabase.Highscore;
             float t;
 
+            string lastName = _playerPrefs.GetLastRecordHolderName();
+
+            if (lastName != null)
+                _nameInputField.text = lastName;
+
             if (highScrore != 0)
                 t = currentScore / highScrore;
             else
@@ -106,13 +125,9 @@ namespace Youregone.UI
 
             yield return StartCoroutine(PlaySheepAnimation(t));
 
-            yield return StartCoroutine(PlayButtonsFadeInAnimation());
+            yield return StartCoroutine(PlayButtonsAndCloversCollectedFadeInAnimation());
 
-            if (SystemInfo.deviceType == DeviceType.Handheld)
-            {
-                _nameInputField.ActivateInputField();
-                TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default);
-            }
+            CheckNameInputField(_nameInputField.text);
         }
 
         private IEnumerator PlayBackgroundAnimation()
@@ -164,11 +179,14 @@ namespace Youregone.UI
             yield return _currentSequence.WaitForCompletion();
         }
 
-        private IEnumerator PlayButtonsFadeInAnimation()
+        private IEnumerator PlayButtonsAndCloversCollectedFadeInAnimation()
         {
             _tryAgainButton.gameObject.SetActive(true);
             _mainMenuButton.gameObject.SetActive(true);
             _nameInputField.gameObject.SetActive(true);
+
+            _baseCloversCollectedText.text = "0";
+            _rareCloversCollectedText.text = "0";
 
             _tryAgainButton.interactable = false;
             _mainMenuButton.interactable = false;
@@ -178,12 +196,29 @@ namespace Youregone.UI
                 .Append(_tryAgainButton.image.DOFade(1f, _buttonsFadeDuration).From(0f))
                 .Join(_mainMenuButton.image.DOFade(1f, _buttonsFadeDuration).From(0f))
                 .Join(_nameInputField.image.DOFade(1f, _buttonsFadeDuration).From(0f))
+                .Join(_cloversCollectedCanvasGroup.DOFade(1f, _buttonsFadeDuration).From(0f))
                 .SetEase(Ease.Linear)
                 .OnComplete(() =>
                 {
                     _tryAgainButton.image.color = new Color(1f, 1f, 1f, .5f);
                     _mainMenuButton.image.color = new Color(1f, 1f, 1f, .5f);
-                    _currentSequence = null;
+                    _currentSequence = DOTween.Sequence();
+
+
+                    int baseCloverGoal = ServiceLocator.Get<PlayerCloversCollected>().BaseCloversCollected;
+                    int rareCloverGoal = ServiceLocator.Get<PlayerCloversCollected>().RareCloversCollected;
+
+                    _currentSequence = DOTween.Sequence();
+                    _currentSequence
+                    .Append(DOVirtual.Float(0f, baseCloverGoal, _cloverTextAnimationTime, value =>
+                    {
+                        _baseCloversCollectedText.text = Mathf.RoundToInt(value).ToString();
+                    }))
+                    .Join(DOVirtual.Float(0f, rareCloverGoal, _cloverTextAnimationTime, value =>
+                    {
+                        _rareCloversCollectedText.text = Mathf.RoundToInt(value).ToString();
+                    }))
+                    .OnComplete(() => _currentSequence = null);
                 });
 
             yield return _currentSequence.WaitForCompletion();
@@ -231,35 +266,38 @@ namespace Youregone.UI
             _mainMenuButton.gameObject.SetActive(false);
             _nameInputField.gameObject.SetActive(false);
 
+            _cloversCollectedCanvasGroup.alpha = 0f;
             _highScoreCanvasGroup.alpha = 0f;
             _currentScoreCanvasGroup.alpha = 0f;
             _barCanvasGroup.alpha = 0f;
+        }
+
+        private void ButtonClickSaveResults()
+        {
+            int currentScore = (int)ServiceLocator.Get<ScoreCounter>().CurrentScore;
+
+            if (_localDatabase.InternetConnectionAvailable)
+                ScoreWebUploader.UploadScoreHolder(_nameInputField.text, currentScore);
+
+            _localDatabase.SaveNewScoreEntry(_nameInputField.text, currentScore);
+            _playerPrefs.SaveLastRecordHolderName(_nameInputField.text);
+            
+            _tryAgainButton.interactable = false;
+            _mainMenuButton.interactable = false;
         }
 
         private void SetupButtons()
         {
             _tryAgainButton.onClick.AddListener(() =>
             {
-                if (_localDatabase.InternetConnectionAvailable)
-                    ScoreWebUploader.UploadScoreHolder(_nameInputField.text, (int)ServiceLocator.Get<ScoreCounter>().CurrentScore);
-
-                _localDatabase.SaveNewScoreEntry(_nameInputField.text, (int)ServiceLocator.Get<ScoreCounter>().CurrentScore);
-
-                OnTryAgainButtonPressed?.Invoke();
-                _tryAgainButton.interactable = false;
-                _mainMenuButton.interactable = false;
+                ButtonClickSaveResults();
+                OnTryAgainButtonPressed?.Invoke(); 
             });
 
             _mainMenuButton.onClick.AddListener(() =>
             {
-                if (_localDatabase.InternetConnectionAvailable)
-                    ScoreWebUploader.UploadScoreHolder(_nameInputField.text, (int)ServiceLocator.Get<ScoreCounter>().CurrentScore);
-
-                _localDatabase.SaveNewScoreEntry(_nameInputField.text, (int)ServiceLocator.Get<ScoreCounter>().CurrentScore);
-
+                ButtonClickSaveResults();
                 OnMainMenuButtonPressed?.Invoke();
-                _tryAgainButton.interactable = false;
-                _mainMenuButton.interactable = false;
             });
         }
     }
