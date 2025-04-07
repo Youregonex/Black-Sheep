@@ -58,10 +58,7 @@ namespace Youregone.LevelGeneration
         //Not an observed update, observed update starts with 1 frame skip which causes spawn troubes
         private void Update()
         {
-            if (_gameState.CurrentGameState != EGameState.Gameplay)
-                return;
-
-            if (_bridgeChunkSpawnCooldownCurrent > 0)
+            if (_bridgeChunkSpawnCooldownCurrent > 0 && _gameState.CurrentGameState == EGameState.Gameplay)
                 _bridgeChunkSpawnCooldownCurrent -= Time.deltaTime;
 
             if (!_canSpawn)

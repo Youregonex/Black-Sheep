@@ -1,6 +1,5 @@
 using UnityEngine;
 using Youregone.YPlayerController;
-using Youregone.UI;
 using System.Collections;
 using Youregone.GameSystems;
 using System;
@@ -22,6 +21,7 @@ namespace Youregone.LevelGeneration
         [SerializeField] private Animator _animator;
         [SerializeField] private AudioClip _pickUpAudioClip;
         [SerializeField] private GameObject _lightGameObject;
+        [SerializeField] private Collider2D _trigger;
 
         [CustomHeader("Sin Wave Config")]
         [SerializeField] private float _amplitude;
@@ -54,6 +54,7 @@ namespace Youregone.LevelGeneration
 
         private void OnEnable()
         {
+            _trigger.enabled = true;
             _lightGameObject.SetActive(true);
             _spriteRenderer.color = new Color(1f, 1f, 1f, 1f);
 
@@ -85,9 +86,11 @@ namespace Youregone.LevelGeneration
         {
             if (collision.transform.GetComponent<PlayerController>())
             {
+                _trigger.enabled = false;   
                 _lightGameObject.SetActive(false);
 
                 ServiceLocator.Get<ScoreCounter>().AddPoints(_pointsBonus);
+                ServiceLocator.Get<PlayerCloversCollected>().CollectClover(_isRareCollectable);
                 ServiceLocator.Get<SoundManager>().PlaySoundAtPosition(_pickUpAudioClip, .05f, transform.position);
 
                 _rigidBody.velocity = Vector2.zero;

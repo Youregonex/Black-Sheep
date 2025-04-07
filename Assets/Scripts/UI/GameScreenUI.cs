@@ -21,11 +21,13 @@ namespace Youregone.UI
         [SerializeField] private Button _pauseButton;
         [SerializeField] private Sprite _outroDisableButtonSpriteOn;
         [SerializeField] private Sprite _outroDisableButtonSpriteOff;
+        [SerializeField] private CloversCollectedUI _cloversCollectedUI;
 
         public HealthbarUI HealthbarUI => _healthbarUI;
         public ScoreCounterUI ScoreCounter => _scoreCounter;
         public Button MainMenuButton => _mainMenuButton;
         public Button OutroDisableButton => _outroDisableButton;
+        public CloversCollectedUI CloversCollectedUI => _cloversCollectedUI;
 
         private void Start()
         {
@@ -58,6 +60,7 @@ namespace Youregone.UI
             _outroDisableButton.gameObject.SetActive(true);
             _mainMenuButton.gameObject.SetActive(true);
             _pauseButton.gameObject.SetActive(true);
+            _cloversCollectedUI.gameObject.SetActive(true);
         }
 
         public void HideScreenUI()
@@ -67,6 +70,7 @@ namespace Youregone.UI
             _outroDisableButton.gameObject.SetActive(false);
             _mainMenuButton.gameObject.SetActive(false);
             _pauseButton.gameObject.SetActive(false);
+            _cloversCollectedUI.gameObject.SetActive(false);
         }
     }
 }

@@ -6,6 +6,7 @@ using Youregone.Web;
 using Youregone.Utils;
 using System.Linq;
 using System.Collections;
+using System.Threading;
 
 namespace Youregone.SaveSystem
 {
@@ -18,9 +19,22 @@ namespace Youregone.SaveSystem
 
         public bool InternetConnectionAvailable { get; private set; }
 
+        private Coroutine _currentCoroutine;
+        private CancellationTokenSource _cts;
+
         private void Awake()
         {
-            UpdateLocalDatabaseAsync();
+            _cts = new();
+            UpdateLocalDatabaseAsync(_cts.Token);
+        }
+
+        private void OnDestroy()
+        {
+            if (_cts != null && !_cts.IsCancellationRequested)
+                _cts.Cancel();
+
+            if (_currentCoroutine != null)
+                StopCoroutine(_currentCoroutine);
         }
 
         public void SaveNewScoreEntry(string name, int score)
@@ -34,10 +48,16 @@ namespace Youregone.SaveSystem
             JsonSaverLoader.SaveScoreHoldersJson(_localScoreHoldersList);
         }
 
-        private async void UpdateLocalDatabaseAsync()
+        private async void UpdateLocalDatabaseAsync(CancellationToken cancellationToken)
         {
+            if (cancellationToken.IsCancellationRequested)
+                return;
+
             if(!await InternetChecker.IsInternetAvailableAsync())
             {
+                if (cancellationToken.IsCancellationRequested)
+                    return;
+
                 Debug.Log("No internet connection! Loading from json");
                 InternetConnectionAvailable = false;
                 _localScoreHoldersList = JsonSaverLoader.LoadScoreHolders();
@@ -57,9 +77,12 @@ namespace Youregone.SaveSystem
 
             await downloadTask;
 
+            if (cancellationToken.IsCancellationRequested)
+                return;
+
             if (downloadTask.IsCompletedSuccessfully)
             {
-                StartCoroutine(SyncLocalDatabaseWithWebCoroutine(downloadTask.Result));
+                _currentCoroutine = StartCoroutine(SyncLocalDatabaseWithWebCoroutine(downloadTask.Result));
             }
             else
             {
@@ -90,6 +113,8 @@ namespace Youregone.SaveSystem
                 Highscore = 0;
             else
                 Highscore = _localScoreHoldersList.OrderByDescending(entry => entry.score).First().score;
+
+            _currentCoroutine = null;
         }
     }
 }
