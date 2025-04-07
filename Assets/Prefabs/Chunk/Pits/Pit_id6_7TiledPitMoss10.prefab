@@ -88,11 +88,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 164726969791134555, guid: bb7511719052045baaa719a797728bbe, type: 3}
       propertyPath: m_Name
-      value: Pit_7TiledPitMoss10
+      value: id6_Pit_7TiledPitMoss10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5780256725482360834, guid: bb7511719052045baaa719a797728bbe, type: 3}
+      propertyPath: _id
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5780256725482360834, guid: bb7511719052045baaa719a797728bbe, type: 3}
       propertyPath: _chunkType
-      value: 2
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5780256725482360834, guid: bb7511719052045baaa719a797728bbe, type: 3}
+      propertyPath: _chunkIndex
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5941132070058190634, guid: bb7511719052045baaa719a797728bbe, type: 3}
       propertyPath: m_LocalPosition.x

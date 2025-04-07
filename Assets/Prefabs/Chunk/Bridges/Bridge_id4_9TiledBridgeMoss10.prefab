@@ -206,11 +206,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 164726969791134555, guid: bb7511719052045baaa719a797728bbe, type: 3}
       propertyPath: m_Name
-      value: Bridge_9TiledBridgeMoss10
+      value: id4_Bridge_9TiledBridgeMoss10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5780256725482360834, guid: bb7511719052045baaa719a797728bbe, type: 3}
+      propertyPath: _id
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5780256725482360834, guid: bb7511719052045baaa719a797728bbe, type: 3}
       propertyPath: _chunkType
-      value: 1
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5780256725482360834, guid: bb7511719052045baaa719a797728bbe, type: 3}
+      propertyPath: _chunkIndex
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5941132070058190634, guid: bb7511719052045baaa719a797728bbe, type: 3}
       propertyPath: m_LocalPosition.x

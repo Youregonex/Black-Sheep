@@ -5039,7 +5039,7 @@ GameObject:
   m_Component:
   - component: {fileID: 33410147}
   m_Layer: 3
-  m_Name: ChunkParent
+  m_Name: ChunkParentPool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5058,7 +5058,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1441273366}
+  m_Father: {fileID: 489018196}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &46621933
 GameObject:
@@ -6936,6 +6936,7 @@ Transform:
   - {fileID: 1008939086}
   - {fileID: 910343899}
   - {fileID: 666565828}
+  - {fileID: 33410147}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &497983738
@@ -7414,7 +7415,7 @@ GameObject:
   m_Component:
   - component: {fileID: 538472248}
   m_Layer: 0
-  m_Name: ObstacleParent
+  m_Name: ObstaclePool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7707,7 +7708,7 @@ GameObject:
   m_Component:
   - component: {fileID: 666565828}
   m_Layer: 3
-  m_Name: RockPiecesParent
+  m_Name: RockPiecesPool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8926,7 +8927,7 @@ GameObject:
   m_Component:
   - component: {fileID: 910343899}
   m_Layer: 3
-  m_Name: PropsParent
+  m_Name: PropsPool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9600,7 +9601,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1008939086}
   m_Layer: 0
-  m_Name: CollectableParent
+  m_Name: CollectablePool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11174,7 +11175,6 @@ Transform:
   m_Children:
   - {fileID: 909946229}
   - {fileID: 1969522050}
-  - {fileID: 33410147}
   - {fileID: 1844424863}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -13264,7 +13264,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb48312a9ace34994870c07b2c25b6c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerDistanceSpawnChunk: 60
+  _playerTriggerSpawnRange: 50
   _startingChunk: {fileID: 5780256725482360834, guid: 7d5f6123026f0433cb7c7ab2116479af, type: 3}
   _pitChunkPrefabList:
   - {fileID: 151219202837881634, guid: 047ab94569aff4e5c81c72d3ea5844a6, type: 3}
@@ -13292,7 +13292,6 @@ MonoBehaviour:
   _chunkParentTransform: {fileID: 33410147}
   _lastChunk: {fileID: 0}
   _nextChunk: {fileID: 0}
-  _canSpawn: 1
   _bridgeChunkSpawnCooldownCurrent: 0
 --- !u!1 &2099148659
 GameObject:

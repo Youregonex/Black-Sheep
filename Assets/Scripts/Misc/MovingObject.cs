@@ -33,18 +33,12 @@ namespace Youregone.LevelGeneration
         protected override void OnDestroy()
         {
             base.OnDestroy();
-
             ServiceLocator.Get<MovingObjectHandler>().RemoveObject(this);
         }
 
         public virtual void ChangeVelocity(Vector2 newVelocity)
         {
             _rigidBody.velocity = -newVelocity;
-        }
-
-        public virtual void StopMovement()
-        {
-            _rigidBody.velocity = Vector2.zero;
         }
 
         public override void Pause() {}

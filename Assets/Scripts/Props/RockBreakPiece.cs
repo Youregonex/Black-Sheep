@@ -122,30 +122,6 @@ namespace Youregone.LevelGeneration
             });
         }
 
-        public override void StopMovement()
-        {
-            ChangeVelocity(Vector2.zero);
-        }
-
-        //private void ChangeVelocityTween()
-        //{
-        //    if (_slowDownTween != null)
-        //    {
-        //        _slowDownTween.Kill();
-        //        _slowDownTween = null;
-        //    }
-
-        //    _slowDownTween = DOTween.To(
-        //        () => _rigidBody.velocity.x,
-        //        x => _rigidBody.velocity = new Vector2(x, _rigidBody.velocity.y),
-        //        -ServiceLocator.Get<PlayerController>().CurrentSpeed,
-        //        _slowdownDuration
-        //    ).SetEase(Ease.OutQuad).OnComplete(() =>
-        //    {
-        //        _slowDownTween = null;
-        //    });
-        //}
-
         private void ApplyForce()
         {
             float randomXForceModifier;
@@ -163,9 +139,6 @@ namespace Youregone.LevelGeneration
             }
 
             _rigidBody.AddForce(new Vector2(_direction.x * _forceMultiplier * randomXForceModifier, _direction.y * _forceMultiplier * randomYForceModifier), ForceMode2D.Impulse);
-
-            if (_rigidBody.velocity.x <= 0 || _rigidBody.velocity.y <= 0)
-                Debug.Log($"{gameObject.name} velocity is {_rigidBody.velocity}");
         }
 
 

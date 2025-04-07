@@ -3,16 +3,19 @@ using System.Collections.Generic;
 using Youregone.YPlayerController;
 using Youregone.SL;
 using Youregone.GameSystems;
+using Youregone.ObjectPooling;
+using Youregone.Factories;
+using DG.Tweening;
 
 namespace Youregone.LevelGeneration
 {
-    public class ChunkSpawner : MonoBehaviour
+    public class ChunkSpawner : PausableMonoBehaviour
     {
         private const string OBSTACLE_PARENT_NAME = "Rock";
         private const string COLLECTABLES_PARENT_NAME = "PickUp";
 
         [CustomHeader("Settings")]
-        [SerializeField] private float _playerDistanceSpawnChunk;
+        [SerializeField] private float _playerTriggerSpawnRange;
 
         [CustomHeader("Chunk Settings")]
         [SerializeField] private Chunk _startingChunk;
@@ -24,81 +27,69 @@ namespace Youregone.LevelGeneration
         [CustomHeader("Debug")]
         [SerializeField] private Chunk _lastChunk;
         [SerializeField] private Chunk _nextChunk;
-        [SerializeField] private bool _canSpawn;
         [SerializeField] private float _bridgeChunkSpawnCooldownCurrent;
 
         private float _pitSpawnChance;
-        private float _bridgeSpawnCooldown;
+        private float _bridgeSpawnCooldownMax;
 
         private GameSettings _gameSettings;
-        private GameState _gameState;
         private PlayerController _player;
         private MovingObjectSpawner _movingObjectSpawner;
+        private ChunkPool _chunkPool;
+        private Factory<Chunk> _chunkFactory;
 
+        private Tween _bridgeCooldownTimerTween;
 
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
+
+            InitializePool();
+
             _player = ServiceLocator.Get<PlayerController>();
-            _player.OnDeath += StopSpawning;
-            _gameState = ServiceLocator.Get<GameState>();
 
             _gameSettings = ServiceLocator.Get<GameSettings>();
-
             _pitSpawnChance = _gameSettings.PitSpawnChanceStart;
-            _bridgeSpawnCooldown = _gameSettings.BridgeSpawnCooldownStart;
-            _bridgeChunkSpawnCooldownCurrent = _bridgeSpawnCooldown;
+            _bridgeSpawnCooldownMax = _gameSettings.BridgeSpawnCooldownStart;
 
             _movingObjectSpawner = ServiceLocator.Get<MovingObjectSpawner>();
             _movingObjectSpawner.OnMidDifficultyReached += MovingObjectSpawner_OnMidDifficultyReached;
             _movingObjectSpawner.OnMaxDifficultyReached += MovingObjectSpawner_OnMaxDifficultyReached;
 
+            RestartBridgeCooldownTimer();
             _lastChunk = SpawnNextChunk();
         }
 
-        //Not an observed update, observed update starts with 1 frame skip which causes spawn troubes
-        private void Update()
+        protected override void OnDestroy()
         {
-            if (_bridgeChunkSpawnCooldownCurrent > 0 && _gameState.CurrentGameState == EGameState.Gameplay)
-                _bridgeChunkSpawnCooldownCurrent -= Time.deltaTime;
+            base.OnDestroy();
 
-            if (!_canSpawn)
-                return;
-
-            if (_player == null)
-                return;
-
-            if (_lastChunk == null)
-                return;
-
-            if (Vector2.Distance(_player.transform.position, _lastChunk.EndTransform.position) <= _playerDistanceSpawnChunk)
-            {
-                _lastChunk = SpawnNextChunk();
-            }
-        }
-
-
-        private void OnDestroy()
-        {
-            _player.OnDeath -= StopSpawning;
             _movingObjectSpawner.OnMidDifficultyReached -= MovingObjectSpawner_OnMidDifficultyReached;
             _movingObjectSpawner.OnMaxDifficultyReached -= MovingObjectSpawner_OnMaxDifficultyReached;
+        }
+
+        public override void Pause()
+        {
+            if (_bridgeCooldownTimerTween != null)
+                _bridgeCooldownTimerTween.Pause();
+        }
+
+        public override void Unpause()
+        {
+            if (_bridgeCooldownTimerTween != null)
+                _bridgeCooldownTimerTween.Play();
         }
 
         private void MovingObjectSpawner_OnMidDifficultyReached()
         {
             _pitSpawnChance = _gameSettings.PitSpawnChanceMidGame;
-            _bridgeSpawnCooldown = _gameSettings.BridgeSpawnCooldownMidGame;
+            _bridgeSpawnCooldownMax = _gameSettings.BridgeSpawnCooldownMidGame;
         }
 
         private void MovingObjectSpawner_OnMaxDifficultyReached()
         {
             _pitSpawnChance = _gameSettings.PitSpawnChanceMax;
-            _bridgeSpawnCooldown = _gameSettings.BridgeSpawnCooldownMax;
-        }
-
-        private void StopSpawning()
-        {
-            _canSpawn = false;
+            _bridgeSpawnCooldownMax = _gameSettings.BridgeSpawnCooldownMax;
         }
 
         private Chunk SpawnNextChunk()
@@ -121,26 +112,53 @@ namespace Youregone.LevelGeneration
                 chunkSpawnPosition = new Vector2(_lastChunk.EndTransform.position.x, 0f);
             }
 
-            Chunk spawnedChunk = Instantiate(chunkToSpawn, chunkSpawnPosition, Quaternion.identity);
-            Vector2 chunkVelocity = new(_player.CurrentSpeed, 0f);
-            spawnedChunk.ChangeVelocity(chunkVelocity);
-            spawnedChunk.transform.parent = _chunkParentTransform;
+            Chunk pooledChunk = null;
 
-            _nextChunk = PickNextChunk(spawnedChunk);
+            if (chunkToSpawn == _startingChunk)
+            {
+                pooledChunk = Instantiate(chunkToSpawn, chunkSpawnPosition, Quaternion.identity);
+                pooledChunk.transform.SetParent(_chunkParentTransform);
+                Vector2 chunkVelocity = new(_player.CurrentSpeed, 0f);
+                pooledChunk.ChangeVelocity(chunkVelocity);
+            }
+            else
+            {
+                pooledChunk = _chunkPool.Dequeue(chunkToSpawn.ChunkType, chunkToSpawn.ChunkID);
+                pooledChunk.transform.position = chunkSpawnPosition;
+                Vector2 chunkVelocity = new(_player.CurrentSpeed, 0f);
+                pooledChunk.ChangeVelocity(chunkVelocity);
+                pooledChunk.OnDestruction += EnqueueChunk;
+            }
 
-            if(_nextChunk.ChunkType != ChunkType.Bridge)
-                PlaceObstacles(spawnedChunk);
 
-            PlaceCollectables(spawnedChunk);
+            _nextChunk = PickNextChunk(pooledChunk);
 
-            return spawnedChunk;
+            if(_nextChunk.ChunkType != EChunkType.Bridge)
+                PlaceObstacles(pooledChunk);
+
+            PlaceCollectables(pooledChunk);
+
+            pooledChunk.OnPlayerInRange += Chunk_OnPlayerInRange;
+            return pooledChunk;
+        }
+
+        private void Chunk_OnPlayerInRange(Chunk chunk)
+        {
+            chunk.OnPlayerInRange -= Chunk_OnPlayerInRange;
+            _lastChunk = SpawnNextChunk();
+        }
+
+        private void EnqueueChunk(Chunk chunk)
+        {
+            chunk.OnDestruction -= EnqueueChunk;
+            _chunkPool.Enqueue(chunk);
         }
 
         private Chunk PickNextChunk(Chunk lastChunk)
         {
-            if (lastChunk.ChunkType != ChunkType.Pit && lastChunk.ChunkType != ChunkType.Bridge && _bridgeChunkSpawnCooldownCurrent <= 0)
+            if (lastChunk.ChunkType != EChunkType.Pit && lastChunk.ChunkType != EChunkType.Bridge && _bridgeChunkSpawnCooldownCurrent <= 0)
             {
-                _bridgeChunkSpawnCooldownCurrent = _bridgeSpawnCooldown;
+                RestartBridgeCooldownTimer();
                 return _bridgeChunkPrefab[UnityEngine.Random.Range(0, _bridgeChunkPrefab.Count)];
             }
 
@@ -148,6 +166,20 @@ namespace Youregone.LevelGeneration
                 return _pitChunkPrefabList[UnityEngine.Random.Range(0, _pitChunkPrefabList.Count)];
 
             return _platformChunkPrefabList[UnityEngine.Random.Range(0, _platformChunkPrefabList.Count)];
+        }
+
+        private void RestartBridgeCooldownTimer()
+        {
+            _bridgeChunkSpawnCooldownCurrent = _bridgeSpawnCooldownMax;
+
+            _bridgeCooldownTimerTween = DOTween
+            .To(
+                () => _bridgeChunkSpawnCooldownCurrent,
+                value => _bridgeChunkSpawnCooldownCurrent = value,
+                0f,
+                _bridgeSpawnCooldownMax)
+            .SetEase(Ease.Linear)
+            .OnComplete(() => _bridgeCooldownTimerTween = null);
         }
 
         private void PlaceObstacles(Chunk chunk)
@@ -178,6 +210,18 @@ namespace Youregone.LevelGeneration
         {
             Transform parent = chunk.transform.GetChild(0).GetChild(0).GetChild(0).Find(parentName);
             return parent;
+        }
+
+        private void InitializePool()
+        {
+            _chunkFactory = new();
+
+            Dictionary<EChunkType, List<Chunk>> prefabs = new();
+            prefabs.Add(_pitChunkPrefabList[0].ChunkType, _pitChunkPrefabList);
+            prefabs.Add(_bridgeChunkPrefab[0].ChunkType, _bridgeChunkPrefab);
+            prefabs.Add(_platformChunkPrefabList[0].ChunkType, _platformChunkPrefabList);
+
+            _chunkPool = new(prefabs, _chunkFactory, _playerTriggerSpawnRange, _chunkParentTransform);
         }
     }
 }

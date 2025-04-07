@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5941132070058190634}
   - component: {fileID: 2109287337838728093}
   - component: {fileID: 5780256725482360834}
+  - component: {fileID: -4645039545118133695}
   m_Layer: 3
   m_Name: StartChunk_40
   m_TagString: Untagged
@@ -77,6 +78,42 @@ MonoBehaviour:
   _currentXVelocity: 0
   _endTransform: {fileID: 2022043274051044090}
   _chunkType: 0
+  _id: 0
+--- !u!58 &-4645039545118133695
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 164726969791134555}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 30, y: 0}
+  serializedVersion: 2
+  m_Radius: 60
 --- !u!1 &5803017059336995698
 GameObject:
   m_ObjectHideFlags: 0
