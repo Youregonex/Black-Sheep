@@ -12,8 +12,8 @@ namespace Youregone.SaveSystem
 {
     public class LocalDatabase : MonoBehaviour, IService
     {
-        private List<ScoreEntry> _localScoreHoldersList = new();
-
+        private List<ScoreEntry> _localScoreHoldersList;
+        private List<ScoreEntry> _personalResults = new();
         public List<ScoreEntry> ScoreHoldersList => _localScoreHoldersList.OrderByDescending(entry => entry.score).ToList();
         public int Highscore { get; private set; }
 
@@ -24,8 +24,10 @@ namespace Youregone.SaveSystem
 
         private void Awake()
         {
+            _localScoreHoldersList = new();
             _cts = new();
             UpdateLocalDatabaseAsync(_cts.Token);
+            JsonSaverLoader.DeleteOldScoreFileJson();
         }
 
         private void OnDestroy()
@@ -37,14 +39,26 @@ namespace Youregone.SaveSystem
                 StopCoroutine(_currentCoroutine);
         }
 
-        public void SaveNewScoreEntry(string name, int score)
+        public void SaveNewScoreEntry(string shortName, int score)
         {
-            ScoreEntry scoreEntry = new(name, score);
+            string fullName = StringEncryptor.GetFullName(shortName);
+            ScoreEntry scoreEntry = _localScoreHoldersList.Find(entry => entry.name == fullName);
 
-            if (_localScoreHoldersList.Contains(scoreEntry))
-                return;
+            if (scoreEntry != null)
+            {
+                Debug.Log($"Found entry with same name {scoreEntry.name}");
+                if (scoreEntry.score < score)
+                {
+                    scoreEntry.score = score;
+                    Debug.Log($"{scoreEntry.name} changing score");
+                }
+            }
+            else
+            {
+                scoreEntry = new(fullName, score);
+                _localScoreHoldersList.Add(scoreEntry);
+            }
 
-            _localScoreHoldersList.Add(scoreEntry);
             JsonSaverLoader.SaveScoreHoldersJson(_localScoreHoldersList);
         }
 
@@ -97,7 +111,7 @@ namespace Youregone.SaveSystem
             List<ScoreEntry> uploadNewLocalEntriesToWebList = _localScoreHoldersList.Except(downloadedScoreEntries).ToList();
             List<ScoreEntry> saveNewWebEntriesLocallyList = downloadedScoreEntries.Except(_localScoreHoldersList).ToList();
 
-            if(saveNewWebEntriesLocallyList.Count > 0)
+            if (saveNewWebEntriesLocallyList.Count > 0)
             {
                 _localScoreHoldersList.AddRange(saveNewWebEntriesLocallyList);
                 JsonSaverLoader.SaveScoreHoldersJson(_localScoreHoldersList);
@@ -105,7 +119,7 @@ namespace Youregone.SaveSystem
 
             foreach (ScoreEntry scoreEntry in uploadNewLocalEntriesToWebList)
             {
-                ScoreWebUploader.UploadScoreHolder(scoreEntry.name, scoreEntry.score);
+                ScoreWebUploader.UploadScoreHolder(scoreEntry.name, scoreEntry.score, false);
                 yield return null;
             }
 

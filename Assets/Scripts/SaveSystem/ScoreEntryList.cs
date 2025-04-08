@@ -3,10 +3,10 @@
 [System.Serializable]
 public class ScoreEntryList
 {
-    public List<ScoreEntry> scoreEntryList;
+    public List<ScoreEntry> list;
 
     public ScoreEntryList(List<ScoreEntry> scoreEntryList)
     {
-        this.scoreEntryList = scoreEntryList;
+        this.list = scoreEntryList;
     }
 }

@@ -17,7 +17,7 @@ namespace Youregone.DeveloperTools
         {
             _deleteSaveFilesButton.onClick.AddListener(() =>
             {
-                JsonSaverLoader.DeleteScoreFileJson();
+                JsonSaverLoader.DeleteOldScoreFileJson();
             });
         }
 

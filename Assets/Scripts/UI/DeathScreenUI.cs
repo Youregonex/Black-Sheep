@@ -11,6 +11,7 @@ using Youregone.YPlayerController;
 using System.Collections.Generic;
 using System.Linq;
 using Youregone.Web;
+using Youregone.Utils;
 
 namespace Youregone.UI
 {
@@ -202,23 +203,34 @@ namespace Youregone.UI
                 {
                     _tryAgainButton.image.color = new Color(1f, 1f, 1f, .5f);
                     _mainMenuButton.image.color = new Color(1f, 1f, 1f, .5f);
-                    _currentSequence = DOTween.Sequence();
-
 
                     int baseCloverGoal = ServiceLocator.Get<PlayerCloversCollected>().BaseCloversCollected;
                     int rareCloverGoal = ServiceLocator.Get<PlayerCloversCollected>().RareCloversCollected;
 
                     _currentSequence = DOTween.Sequence();
                     _currentSequence
+                    // base clover animation
                     .Append(DOVirtual.Float(0f, baseCloverGoal, _cloverTextAnimationTime, value =>
                     {
                         _baseCloversCollectedText.text = Mathf.RoundToInt(value).ToString();
                     }))
+                    .SetEase(Ease.InOutQuad)
+                    .Join(_baseCloversCollectedText.transform.DOScale(1.5f, .5f).SetLoops(2, LoopType.Yoyo))
+                    .Join(_baseCloversCollectedText.DOColor(Color.yellow, 0.2f).SetLoops(2, LoopType.Yoyo))
+                    // rare clover animation
                     .Join(DOVirtual.Float(0f, rareCloverGoal, _cloverTextAnimationTime, value =>
                     {
                         _rareCloversCollectedText.text = Mathf.RoundToInt(value).ToString();
                     }))
-                    .OnComplete(() => _currentSequence = null);
+                    .SetEase(Ease.InOutQuad)
+                    .Join(_rareCloversCollectedText.transform.DOScale(1.5f, .5f).SetLoops(2, LoopType.Yoyo))
+                    .Join(_rareCloversCollectedText.DOColor(Color.yellow, 0.2f).SetLoops(2, LoopType.Yoyo))
+                    .OnComplete(() =>
+                    {
+                        _currentSequence = null;
+                        _baseCloversCollectedText.DOColor(Color.white, 0.2f);
+                        _rareCloversCollectedText.DOColor(Color.white, 0.2f);
+                    });
                 });
 
             yield return _currentSequence.WaitForCompletion();
@@ -247,6 +259,7 @@ namespace Youregone.UI
         private IEnumerator ShowScoreHolders()
         {
             List<ScoreEntry> scoreHolders = _localDatabase.ScoreHoldersList;
+
             int amountOfHoldersToShow = Mathf.Min(8, scoreHolders.Count);
             float _delay = .15f;
 
@@ -254,7 +267,7 @@ namespace Youregone.UI
             {
                 ScoreHolderUI recordHolderUI = Instantiate(_scoreHolderPrefab);
                 recordHolderUI.transform.SetParent(_scoreHolderParent, false);
-                recordHolderUI.SetData(scoreHolders[i].name, scoreHolders[i].score);
+                recordHolderUI.SetData(StringEncryptor.GetShortName(scoreHolders[i].name), scoreHolders[i].score);
 
                 yield return new WaitForSeconds(_delay);
             }
@@ -276,11 +289,11 @@ namespace Youregone.UI
         {
             int currentScore = (int)ServiceLocator.Get<ScoreCounter>().CurrentScore;
 
-            if (_localDatabase.InternetConnectionAvailable)
-                ScoreWebUploader.UploadScoreHolder(_nameInputField.text, currentScore);
-
             _localDatabase.SaveNewScoreEntry(_nameInputField.text, currentScore);
             _playerPrefs.SaveLastRecordHolderName(_nameInputField.text);
+
+            if (_localDatabase.InternetConnectionAvailable)
+                ScoreWebUploader.UploadScoreHolder(_nameInputField.text, currentScore, true);
             
             _tryAgainButton.interactable = false;
             _mainMenuButton.interactable = false;
