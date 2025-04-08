@@ -12,19 +12,21 @@ namespace Youregone.SaveSystem
 {
     public class LocalDatabase : MonoBehaviour, IService
     {
-        private List<ScoreEntry> _localScoreHoldersList;
-        private List<ScoreEntry> _personalResults = new();
-        public List<ScoreEntry> ScoreHoldersList => _localScoreHoldersList.OrderByDescending(entry => entry.score).ToList();
-        public int Highscore { get; private set; }
+        private List<ScoreEntry> _personalResults;
+        private List<ScoreEntry> _personalAndWebResults;
 
+        public int Highscore { get; private set; }
         public bool InternetConnectionAvailable { get; private set; }
+        public List<ScoreEntry> PersonalResults => _personalResults.OrderByDescending(entry => entry.score).ToList();
+        public List<ScoreEntry> PersonalAndWebResults => _personalAndWebResults.OrderByDescending(entry => entry.score).ToList();
 
         private Coroutine _currentCoroutine;
         private CancellationTokenSource _cts;
 
         private void Awake()
         {
-            _localScoreHoldersList = new();
+            _personalResults = new();
+            _personalAndWebResults = new();
             _cts = new();
             UpdateLocalDatabaseAsync(_cts.Token);
             JsonSaverLoader.DeleteOldScoreFileJson();
@@ -42,7 +44,7 @@ namespace Youregone.SaveSystem
         public void SaveNewScoreEntry(string shortName, int score)
         {
             string fullName = StringEncryptor.GetFullName(shortName);
-            ScoreEntry scoreEntry = _localScoreHoldersList.Find(entry => entry.name == fullName);
+            ScoreEntry scoreEntry = _personalResults.Find(entry => entry.name == fullName);
 
             if (scoreEntry != null)
             {
@@ -56,10 +58,10 @@ namespace Youregone.SaveSystem
             else
             {
                 scoreEntry = new(fullName, score);
-                _localScoreHoldersList.Add(scoreEntry);
+                _personalResults.Add(scoreEntry);
             }
 
-            JsonSaverLoader.SaveScoreHoldersJson(_localScoreHoldersList);
+            JsonSaverLoader.SaveScoreHoldersJson(_personalResults);
         }
 
         private async void UpdateLocalDatabaseAsync(CancellationToken cancellationToken)
@@ -74,10 +76,10 @@ namespace Youregone.SaveSystem
 
                 Debug.Log("No internet connection! Loading from json");
                 InternetConnectionAvailable = false;
-                _localScoreHoldersList = JsonSaverLoader.LoadScoreHolders();
+                _personalResults = JsonSaverLoader.LoadScoreHolders();
 
-                if (_localScoreHoldersList.Count > 0)
-                    Highscore = _localScoreHoldersList.OrderByDescending(entry => entry.score).FirstOrDefault().score;
+                if (_personalResults.Count > 0)
+                    Highscore = _personalResults.OrderByDescending(entry => entry.score).FirstOrDefault().score;
                 else
                     Highscore = 0;
 
@@ -106,16 +108,13 @@ namespace Youregone.SaveSystem
 
         private IEnumerator SyncLocalDatabaseWithWebCoroutine(List<ScoreEntry> downloadedScoreEntries)
         {
-            _localScoreHoldersList = JsonSaverLoader.LoadScoreHolders();
+            _personalResults = JsonSaverLoader.LoadScoreHolders();
 
-            List<ScoreEntry> uploadNewLocalEntriesToWebList = _localScoreHoldersList.Except(downloadedScoreEntries).ToList();
-            List<ScoreEntry> saveNewWebEntriesLocallyList = downloadedScoreEntries.Except(_localScoreHoldersList).ToList();
+            List<ScoreEntry> uploadNewLocalEntriesToWebList = _personalResults.Except(downloadedScoreEntries).ToList();
+            List<ScoreEntry> saveNewWebEntriesLocallyList = downloadedScoreEntries.Except(_personalResults).ToList();
 
-            if (saveNewWebEntriesLocallyList.Count > 0)
-            {
-                _localScoreHoldersList.AddRange(saveNewWebEntriesLocallyList);
-                JsonSaverLoader.SaveScoreHoldersJson(_localScoreHoldersList);
-            }
+            _personalAndWebResults.AddRange(_personalResults);
+            _personalAndWebResults.AddRange(saveNewWebEntriesLocallyList);
 
             foreach (ScoreEntry scoreEntry in uploadNewLocalEntriesToWebList)
             {
@@ -123,10 +122,10 @@ namespace Youregone.SaveSystem
                 yield return null;
             }
 
-            if (_localScoreHoldersList.Count == 0)
+            if (_personalResults.Count == 0)
                 Highscore = 0;
             else
-                Highscore = _localScoreHoldersList.OrderByDescending(entry => entry.score).First().score;
+                Highscore = _personalResults.OrderByDescending(entry => entry.score).First().score;
 
             _currentCoroutine = null;
         }

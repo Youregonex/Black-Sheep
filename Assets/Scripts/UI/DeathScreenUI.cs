@@ -258,7 +258,12 @@ namespace Youregone.UI
 
         private IEnumerator ShowScoreHolders()
         {
-            List<ScoreEntry> scoreHolders = _localDatabase.ScoreHoldersList;
+            List<ScoreEntry> scoreHolders;
+
+            if (_localDatabase.InternetConnectionAvailable)
+                scoreHolders = _localDatabase.PersonalAndWebResults;
+            else
+                scoreHolders = _localDatabase.PersonalResults;
 
             int amountOfHoldersToShow = Mathf.Min(8, scoreHolders.Count);
             float _delay = .15f;
@@ -267,7 +272,9 @@ namespace Youregone.UI
             {
                 ScoreHolderUI recordHolderUI = Instantiate(_scoreHolderPrefab);
                 recordHolderUI.transform.SetParent(_scoreHolderParent, false);
-                recordHolderUI.SetData(StringEncryptor.GetShortName(scoreHolders[i].name), scoreHolders[i].score);
+
+                bool isPersonalRecord = _localDatabase.PersonalResults.Contains(scoreHolders[i]);
+                recordHolderUI.SetData(StringEncryptor.GetShortName(scoreHolders[i].name), scoreHolders[i].score, isPersonalRecord);
 
                 yield return new WaitForSeconds(_delay);
             }

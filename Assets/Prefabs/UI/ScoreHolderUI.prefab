@@ -263,6 +263,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: {fileID: 8086275073312519905}
   _score: {fileID: 7278073150644881444}
+  _background: {fileID: 3711418925937843403}
+  _defaultBackgroundColor: {r: 0.990566, g: 0.6017637, b: 0.13550198, a: 0.8235294}
+  _personalRecordBackgroundColor: {r: 0.654818, g: 0.9433962, b: 0.22694907, a: 0.8235294}
   _animationDuration: 0.5
 --- !u!225 &1597997726035519167
 CanvasGroup:
