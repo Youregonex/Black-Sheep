@@ -12,7 +12,6 @@ namespace Youregone.LevelGeneration
         protected override void OnEnable()
         {
             base.OnEnable();
-            Debug.Log("Spawning Enemy");
             Enemy enemy = Instantiate(_enemyPrefab, _enemySpawnPoint.position, Quaternion.identity);
             enemy.transform.SetParent(transform);
         }
