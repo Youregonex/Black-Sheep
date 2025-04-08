@@ -125,7 +125,7 @@ namespace Youregone.SaveSystem
             if (_personalResults.Count == 0)
                 Highscore = 0;
             else
-                Highscore = _personalResults.OrderByDescending(entry => entry.score).First().score;
+                Highscore = _personalAndWebResults.OrderByDescending(entry => entry.score).First().score;
 
             _currentCoroutine = null;
         }
