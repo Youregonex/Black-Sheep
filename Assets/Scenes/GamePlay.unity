@@ -12235,13 +12235,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b152e04ed42a64af8bad8993fc876a77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _progressiveDifficultyEnabled: 0
+  _progressiveDifficultyEnabled: 1
   _maxDifficultyScore: 3000
-  _obstacleSpawnChance: 0
+  _obstacleSpawnChance: 0.2
   _pitSpawnChanceStart: 0
   _pitSpawnChanceMidGame: 0.3
   _pitSpawnChanceMax: 0.4
-  _bridgeSpawnCooldownStart: 0
+  _bridgeSpawnCooldownStart: 17
   _bridgeSpawnCooldownMidGame: 13
   _bridgeSpawnCooldownMax: 10
   _collectableSpawnChance: 0.6
@@ -13418,7 +13418,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5257244555878351172, guid: 5a327b5a138c846628f9028e402ba0d7, type: 3}
       propertyPath: _immortal
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5257244555878351172, guid: 5a327b5a138c846628f9028e402ba0d7, type: 3}
       propertyPath: _comboText
@@ -13434,7 +13434,7 @@ PrefabInstance:
       objectReference: {fileID: 1160313910}
     - target: {fileID: 5257244555878351172, guid: 5a327b5a138c846628f9028e402ba0d7, type: 3}
       propertyPath: _staminaDrain
-      value: 0
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 5257244555878351172, guid: 5a327b5a138c846628f9028e402ba0d7, type: 3}
       propertyPath: _windParticleSystem
