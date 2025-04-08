@@ -12237,8 +12237,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _progressiveDifficultyEnabled: 1
   _maxDifficultyScore: 3000
-  _obstacleSpawnChance: 0
-  _pitSpawnChanceStart: 0.2
+  _obstacleSpawnChance: 0.2
+  _pitSpawnChanceStart: 0
   _pitSpawnChanceMidGame: 0.3
   _pitSpawnChanceMax: 0.4
   _bridgeSpawnCooldownStart: 17
@@ -13283,7 +13283,6 @@ MonoBehaviour:
   - {fileID: 8955263863341417930, guid: 90292422e10ee48e59f4157b19a5ad5d, type: 3}
   - {fileID: 2936817898505050731, guid: 9cd90d14d774b4892afc06894a5bd6bc, type: 3}
   - {fileID: 1746810401142198347, guid: 951c7ba90d3f0432db695f6ba23d361d, type: 3}
-  - {fileID: 5973992649843087123, guid: 30e21017c2aee4e299480829050c6e24, type: 3}
   _platformChunkPrefabList:
   - {fileID: 151219202837881634, guid: 53bf13e79e85747918a2fee1724986f3, type: 3}
   - {fileID: 151219202837881634, guid: 7979700f4466e421abaa792d9493a47f, type: 3}

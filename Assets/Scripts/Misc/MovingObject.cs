@@ -7,7 +7,7 @@ namespace Youregone.LevelGeneration
     public class MovingObject : PausableMonoBehaviour
     {
         [CustomHeader("Debug")]
-        [SerializeField] private float _currentXVelocity;
+        [SerializeField] protected float _currentXVelocity;
 
         protected Rigidbody2D _rigidBody;
 
