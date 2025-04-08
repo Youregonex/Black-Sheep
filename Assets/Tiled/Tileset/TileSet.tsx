@@ -24,8 +24,8 @@
  </tile>
  <tile id="24">
   <objectgroup draworder="index" id="2">
-   <object id="4" x="24" y="0">
-    <polygon points="0,0 0,24 -24,24 -24,0"/>
+   <object id="5" x="0" y="0">
+    <polygon points="0,0 24,0 24,24 0,24"/>
    </object>
   </objectgroup>
  </tile>
