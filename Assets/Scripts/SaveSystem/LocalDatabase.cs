@@ -7,11 +7,14 @@ using Youregone.Utils;
 using System.Linq;
 using System.Collections;
 using System.Threading;
+using System;
 
 namespace Youregone.SaveSystem
 {
     public class LocalDatabase : MonoBehaviour, IService
     {
+        public Action OnLocalDatabaseUpdated;
+
         private List<ScoreEntry> _personalResults;
         private List<ScoreEntry> _personalAndWebResults;
 
@@ -25,7 +28,7 @@ namespace Youregone.SaveSystem
 
         private void Awake()
         {
-            _personalResults = new();
+            _personalResults = JsonSaverLoader.LoadScoreHolders();
             _personalAndWebResults = new();
             _cts = new();
             UpdateLocalDatabaseAsync(_cts.Token);
@@ -122,12 +125,11 @@ namespace Youregone.SaveSystem
                 yield return null;
             }
 
-            if (_personalResults.Count == 0)
-                Highscore = 0;
-            else
-                Highscore = _personalAndWebResults.OrderByDescending(entry => entry.score).First().score;
+            Highscore = _personalAndWebResults.OrderByDescending(entry => entry.score).First().score;
 
             _currentCoroutine = null;
+
+            OnLocalDatabaseUpdated?.Invoke();
         }
     }
 }

@@ -107,15 +107,23 @@ namespace Youregone.YCamera
 
             int highScore = ServiceLocator.Get<LocalDatabase>().Highscore;
 
+            if(highScore == 0)
+            {
+                if(ServiceLocator.Get<LocalDatabase>().PersonalResults.Count != 0)
+                {
+                    ServiceLocator.Get<LocalDatabase>().OnLocalDatabaseUpdated += UpdateHighscoreUI;
+                    Debug.Log("Subscribing to update");
+                }
+            }
+            else
+            {
+                Debug.Log("HS is not 0");
+                UpdateHighscoreUI();
+            }
+
             Sequence sequence = DOTween.Sequence();
             sequence.Append(_playButton.image.DOFade(1f, _objectFadeTime).SetEase(Ease.Linear));
             sequence.Append(_exitButton.image.DOFade(1f, _objectFadeTime).SetEase(Ease.Linear));
-
-            if (highScore != 0)
-            {
-                _highScoreText.text = highScore.ToString();
-                sequence.Append(_highScoreCanvasGroup.DOFade(1f, _objectFadeTime));
-            }
 
             sequence.OnComplete(() =>
             {
@@ -125,6 +133,15 @@ namespace Youregone.YCamera
             });
 
             sequence.Play();
+        }
+
+        private void UpdateHighscoreUI()
+        {
+            ServiceLocator.Get<LocalDatabase>().OnLocalDatabaseUpdated -= UpdateHighscoreUI;
+
+            int highScore = ServiceLocator.Get<LocalDatabase>().Highscore;
+            _highScoreText.text = highScore.ToString();
+            _highScoreCanvasGroup.DOFade(1f, _objectFadeTime).From(0f);
         }
 
         private IEnumerator CameraIntroSequenceCoroutine(float delay)

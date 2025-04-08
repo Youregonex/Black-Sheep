@@ -21,7 +21,7 @@ namespace Youregone.LevelGeneration
         [SerializeField] private Animator _animator;
         [SerializeField] private AudioClip _pickUpAudioClip;
         [SerializeField] private GameObject _lightGameObject;
-        [SerializeField] private Collider2D _trigger;
+        [SerializeField] private Collider2D _triggerZone;
 
         [CustomHeader("Sin Wave Config")]
         [SerializeField] private float _amplitude;
@@ -38,6 +38,7 @@ namespace Youregone.LevelGeneration
 
         public bool IsRareCollectable => _isRareCollectable;
 
+        private bool _isTriggered;
         private GameState _gameState;
         private Coroutine _currentCoroutine;
         private float _randomAnimationDelay;
@@ -54,7 +55,8 @@ namespace Youregone.LevelGeneration
 
         private void OnEnable()
         {
-            _trigger.enabled = true;
+            _isTriggered = false;
+            _triggerZone.enabled = true;
             _lightGameObject.SetActive(true);
             _spriteRenderer.color = new Color(1f, 1f, 1f, 1f);
 
@@ -84,10 +86,11 @@ namespace Youregone.LevelGeneration
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.transform.GetComponent<PlayerController>())
+            if (collision.transform.GetComponent<PlayerController>() && !_isTriggered)
             {
-                _trigger.enabled = false;   
                 _lightGameObject.SetActive(false);
+                _triggerZone.enabled = false;   
+                _isTriggered = true;
 
                 ServiceLocator.Get<ScoreCounter>().AddPoints(_pointsBonus);
                 ServiceLocator.Get<PlayerCloversCollected>().CollectClover(_isRareCollectable);
