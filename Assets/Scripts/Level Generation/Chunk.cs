@@ -10,12 +10,12 @@ namespace Youregone.LevelGeneration
         public Action<Chunk> OnDestruction;
         public Action<Chunk> OnPlayerInRange;
 
-        [CustomHeader("Config")]
-        [SerializeField] private Transform _endTransform;
+        [CustomHeader("Settings")]
+        [SerializeField] protected Transform _endTransform;
 
         [CustomHeader("Don't change after initialization")]
-        [SerializeField] private EChunkType _chunkType;
-        [SerializeField] private int _id;
+        [SerializeField] protected EChunkType _chunkType;
+        [SerializeField] protected int _id;
 
         private CircleCollider2D _playerTrigger;
 
@@ -29,7 +29,7 @@ namespace Youregone.LevelGeneration
             _playerTrigger = GetComponent<CircleCollider2D>();
         }
 
-        private void OnEnable()
+        protected virtual void OnEnable()
         {
             ServiceLocator.Get<MovingObjectHandler>().AddObject(this);
         }
