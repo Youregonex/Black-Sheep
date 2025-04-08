@@ -112,12 +112,10 @@ namespace Youregone.YCamera
                 if(ServiceLocator.Get<LocalDatabase>().PersonalResults.Count != 0)
                 {
                     ServiceLocator.Get<LocalDatabase>().OnLocalDatabaseUpdated += UpdateHighscoreUI;
-                    Debug.Log("Subscribing to update");
                 }
             }
             else
             {
-                Debug.Log("HS is not 0");
                 UpdateHighscoreUI();
             }
 

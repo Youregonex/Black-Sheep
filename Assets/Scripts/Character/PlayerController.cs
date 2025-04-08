@@ -288,6 +288,7 @@ namespace Youregone.YPlayerController
                 0f,
                 _comboResetTimerMax)
                 .From(_comboResetTimerMax)
+                .SetEase(Ease.Linear)
                 .OnComplete(() =>
                 {
                     _comboTimerTween = null;
