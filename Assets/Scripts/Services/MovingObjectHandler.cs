@@ -13,7 +13,6 @@ namespace Youregone.LevelGeneration
 
         private PlayerController _player;
 
-
         protected override void Start()
         {
             base.Start();

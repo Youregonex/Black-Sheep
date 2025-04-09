@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Youregone.SaveSystem;
-using System.Collections;
 
 namespace Youregone.DeveloperTools
 {
@@ -17,7 +16,7 @@ namespace Youregone.DeveloperTools
         {
             _deleteSaveFilesButton.onClick.AddListener(() =>
             {
-                JsonSaverLoader.DeleteOldScoreFileJson();
+                JsonSaverLoader.DeleteLegacySaveFiles();
             });
         }
 

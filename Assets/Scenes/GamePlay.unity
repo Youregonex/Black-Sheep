@@ -12237,8 +12237,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _progressiveDifficultyEnabled: 1
   _maxDifficultyScore: 3000
-  _obstacleSpawnChance: 0.2
-  _pitSpawnChanceStart: 0
+  _obstacleSpawnChance: 0
+  _pitSpawnChanceStart: 0.2
   _pitSpawnChanceMidGame: 0.3
   _pitSpawnChanceMax: 0.4
   _bridgeSpawnCooldownStart: 17

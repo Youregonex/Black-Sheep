@@ -209,7 +209,7 @@ namespace Youregone.UI
 
                     _currentSequence = DOTween.Sequence();
                     _currentSequence
-                    // base clover animation
+                    // base uiClover animation
                     .Append(DOVirtual.Float(0f, baseCloverGoal, _cloverTextAnimationTime, value =>
                     {
                         _baseCloversCollectedText.text = Mathf.RoundToInt(value).ToString();
@@ -217,7 +217,7 @@ namespace Youregone.UI
                     .SetEase(Ease.InOutQuad)
                     .Join(_baseCloversCollectedText.transform.DOScale(1.5f, .5f).SetLoops(2, LoopType.Yoyo))
                     .Join(_baseCloversCollectedText.DOColor(Color.yellow, 0.2f).SetLoops(2, LoopType.Yoyo))
-                    // rare clover animation
+                    // rare uiClover animation
                     .Join(DOVirtual.Float(0f, rareCloverGoal, _cloverTextAnimationTime, value =>
                     {
                         _rareCloversCollectedText.text = Mathf.RoundToInt(value).ToString();

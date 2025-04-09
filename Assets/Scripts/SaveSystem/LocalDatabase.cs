@@ -32,7 +32,7 @@ namespace Youregone.SaveSystem
             _personalAndWebResults = new();
             _cts = new();
             UpdateLocalDatabaseAsync(_cts.Token);
-            JsonSaverLoader.DeleteOldScoreFileJson();
+            JsonSaverLoader.DeleteLegacySaveFiles();
         }
 
         private void OnDestroy()
