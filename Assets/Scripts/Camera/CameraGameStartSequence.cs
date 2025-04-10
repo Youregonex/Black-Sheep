@@ -22,8 +22,10 @@ namespace Youregone.YCamera
         [CustomHeader("UI Elements")]
         [SerializeField] private Button _playButton;
         [SerializeField] private Button _exitButton;
+        [SerializeField] private Button _shopButton;
         [SerializeField] private TextMeshProUGUI _highScoreText;
         [SerializeField] private CanvasGroup _highScoreCanvasGroup;
+        [SerializeField] private ShopUI _shopUI;
 
         [CustomHeader("DOTween Settings")]
         [SerializeField] private float _cameraMoveDuration;
@@ -81,6 +83,15 @@ namespace Youregone.YCamera
         {
             _playButton.interactable = false;
             _exitButton.interactable = false;
+            _shopButton.interactable = false;
+
+            _shopButton.onClick.AddListener(() =>
+            {
+                if (_shopUI.ShopOpened)
+                    return;
+
+                _shopUI.ShowWindow();
+            });
 
             _playButton.onClick.RemoveAllListeners();
             _playButton.onClick.AddListener(() =>
@@ -120,17 +131,17 @@ namespace Youregone.YCamera
             }
 
             Sequence sequence = DOTween.Sequence();
-            sequence.Append(_playButton.image.DOFade(1f, _objectFadeTime).SetEase(Ease.Linear));
-            sequence.Append(_exitButton.image.DOFade(1f, _objectFadeTime).SetEase(Ease.Linear));
-
-            sequence.OnComplete(() =>
-            {
-                _playButton.interactable = true;
-                _exitButton.interactable = true;
-
-            });
-
-            sequence.Play();
+            sequence
+                .Append(_playButton.image.DOFade(1f, _objectFadeTime))
+                .Join(_exitButton.image.DOFade(1f, _objectFadeTime))
+                .Join(_shopButton.image.DOFade(1f, _objectFadeTime))
+                .SetEase(Ease.Linear)
+                .OnComplete(() =>
+                {
+                    _playButton.interactable = true;
+                    _exitButton.interactable = true;
+                    _shopButton.interactable = true;
+                });
         }
 
         private void UpdateHighscoreUI()

@@ -31,6 +31,7 @@ namespace Youregone.UI
         [SerializeField] private Button _nextSkinButton;
         [SerializeField] private Button _previousSkinButton;
         [SerializeField] private Button _selectButton;
+        [SerializeField] private Button _closeShopButton;
 
         [CustomHeader("Debug")]
         [SerializeField] private List<SkinOption> _skinOptionList;
@@ -44,19 +45,21 @@ namespace Youregone.UI
             {
                 return _skinsPreviewsOnScreenAmount + 2; // +2 offscreen (1 most-left and 1 most-right)
             }
-        } 
+        }
 
+        public bool ShopOpened { get; private set; }
 
         private void Awake()
         {
             _skinOptionList = new();
-
-            ShowWindow();
+            _selfCanvasGroup.alpha = 0f;
             SetupButtons();
         }
 
         public void ShowWindow()
         {
+            ShopOpened = true;
+
             Vector2 newSizeDelta = _skinPreviewParent.sizeDelta;
             newSizeDelta.x = _skinOptionDistance * _skinsPreviewsOnScreenAmount;
             _skinPreviewParent.sizeDelta = newSizeDelta;
@@ -77,6 +80,8 @@ namespace Youregone.UI
 
         public void CloseWindow()
         {
+            ShopOpened = false;
+
             if (_currentCoroutine != null)
                 StopCoroutine(_currentCoroutine);
 
@@ -125,6 +130,11 @@ namespace Youregone.UI
 
         private void SetupButtons()
         {
+            _closeShopButton.onClick.AddListener(() =>
+            {
+                CloseWindow();
+            });
+
             _nextSkinButton.onClick.AddListener(() =>
             {
                 _nextSkinButton.interactable = false;
