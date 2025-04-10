@@ -4902,82 +4902,11 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-<<<<<<< Updated upstream:Assets/Scenes/MainMenu.unity
   - component: {fileID: 1830034636}
   - component: {fileID: 1830034638}
   - component: {fileID: 1830034637}
-=======
-  - component: {fileID: 1426614468}
-  - component: {fileID: 1426614469}
   m_Layer: 0
-  m_Name: MovingObjectSpawner
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1426614468
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1426614467}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 370001719}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1426614469
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1426614467}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6afc93786052b4ea68826902af84eef3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _obstaclePrefabList:
-  - {fileID: 4376247592429332925, guid: 4920bd351bfd447e584f3febfef802a7, type: 3}
-  - {fileID: 7288890945467340022, guid: f12a392a14fcc43e7a87a8832f957e61, type: 3}
-  - {fileID: 972619965670897136, guid: 86964e1c2e8ad447b9158c1699d0a6b0, type: 3}
-  - {fileID: 4797351735213537896, guid: 2f1d562fea4bd43f397ed14bc18dadbc, type: 3}
-  - {fileID: 4797351735213537896, guid: 23317cb44b04046dab25b7c1118cef9a, type: 3}
-  - {fileID: 4797351735213537896, guid: 8b6b9ba3541b4487ca6f53cbf95cb1a0, type: 3}
-  - {fileID: 4797351735213537896, guid: 1b4c4c9af4a2e4136935503d2e146505, type: 3}
-  - {fileID: 4797351735213537896, guid: fc1933cab881b446ca9146e708ddb2cc, type: 3}
-  - {fileID: 4797351735213537896, guid: 00e9a6360336241eba8826c43000638b, type: 3}
-  - {fileID: 4797351735213537896, guid: 2fb5e08f68d814153b42310c6adf51ec, type: 3}
-  _obstacleSpawnChance: 0
-  _collectablePrefab: {fileID: 5970340744938519519, guid: 405e3093b2ba7463f9130cb387deb1c4, type: 3}
-  _collectableSpawnChance: 0.7
-  _rareCollectablePrefab: {fileID: 5970340744938519519, guid: b9b4c7fe88c1a4a968f3ca58b416e6e5, type: 3}
-  _rareCollectableSpawnChance: 0.05
-  _progressiveDifficulty: 1
-  _maxDifficultyScore: 2000
-  _maxDifficultyReached: 0
-  _midDifficultyReached: 0
---- !u!1 &1441922842
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1441922843}
-  - component: {fileID: 1441922846}
-  - component: {fileID: 1441922845}
-  - component: {fileID: 1441922844}
->>>>>>> Stashed changes:Assets/Scenes/SampleScene.unity
-  m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: SelectText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
