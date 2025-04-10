@@ -70,7 +70,6 @@ namespace Youregone.UI
             for (int i = -(_skinPreviewOverallAmount / 2); i <= _skinPreviewOverallAmount / 2; i++)
             {
                 float positionX = i * _skinOptionDistance;
-                Debug.Log($"Position: {i} *  {_skinOptionDistance} = {i * _skinOptionDistance}");
                 SkinOption skinOption = CreateSkinOption(positionX, false);
 
                 if (i == 0)

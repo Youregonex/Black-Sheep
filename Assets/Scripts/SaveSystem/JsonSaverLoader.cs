@@ -47,14 +47,10 @@ namespace Youregone.SaveSystem
 
         public static void DeleteLegacySaveFiles()
         {
-            if (!File.Exists(_oldFilePath))
-                Debug.LogWarning($"Couldn't find {_oldFilePath} to delete");
-            else
+            if (File.Exists(_oldFilePath))
                 File.Delete(_oldFilePath);
 
-            if (!File.Exists(_newFilePath))
-                Debug.LogWarning($"Couldn't find {_newFilePath} to delete");
-            else
+            if (File.Exists(_newFilePath))
                 File.Delete(_newFilePath);
         }
 
@@ -68,7 +64,6 @@ namespace Youregone.SaveSystem
                 if (!file.Equals(CurrentFilePath))
                 {
                     File.Delete(file);
-                    Debug.Log("Old save file deleted: " + file);
                 }
             }
         }
