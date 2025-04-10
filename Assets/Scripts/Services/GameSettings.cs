@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
+using Youregone.LevelGeneration;
 using Youregone.SaveSystem;
 using Youregone.SL;
 using Youregone.UI;
@@ -25,8 +27,13 @@ namespace Youregone.GameSystems
         [SerializeField, Range(0, 1f)] private float _collectableSpawnChance;
         [SerializeField, Range(0f, 1f)] private float _rareCollectableSpawnChance;
 
+        [CustomHeader("Buff Drop Settings")]
+        [SerializeField, Range(0f, 1f)] private float _buffDropChance;
+        [SerializeField] private List<Buff> _buffList;
+
         [CustomHeader("Props")]
         [SerializeField, Range(0f, 1f)] private float _birdSpawnChance;
+
 
         private PlayerPrefsSaverLoader _playerPrefsSaverLoader;
 
@@ -40,11 +47,12 @@ namespace Youregone.GameSystems
         public float PitSpawnChanceMidGame => _pitSpawnChanceMidGame;
         public float BridgeSpawnCooldownMax => _bridgeSpawnCooldownMax;
         public float PitSpawnChanceMax => _pitSpawnChanceMax;
-
+        public float BuffDropChance => _buffDropChance;
         public int MaxDifficultyScore => _maxDifficultyScore;
-
         public float CollectableSpawnChance => _collectableSpawnChance;
         public float RareCollectableSpawnChance => _rareCollectableSpawnChance;
+
+        public List<Buff> BuffList => _buffList;
 
         public bool OutroEnabled
         {

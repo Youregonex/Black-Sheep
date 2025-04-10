@@ -21,6 +21,7 @@ namespace Youregone.YPlayerController
         public event Action OnObstacleDestroyed;
         public event Action<int> OnComboFinished;
         public event Action<float> OnSpeedChanged;
+        public event Action OnHealthAdded;
 
         private const string ANIMATION_JUMP_TRIGGER = "JUMP";
         private const string ANIMATION_LAND_TRIGGER = "LAND";
@@ -101,6 +102,7 @@ namespace Youregone.YPlayerController
         public bool IsGrounded => _isGrounded;
         public bool IsRaming => _isRaming;
         public int CurrentHealth => _currentHealth;
+        public float StaminaDrain => _staminaDrain;
         public PlayerCharacterInput PlayerCharacterInput => _playerInput;
 
         public float CurrentSpeed {
@@ -200,6 +202,23 @@ namespace Youregone.YPlayerController
             _groundCheck.Landed -= Land;
             _playerInput.OnRamButtonReleased -= StopRam;
             _gameState.OnGameStarted -= GameState_OnGameStarted;
+        }
+
+        public void AddHealth()
+        {
+            if (_currentHealth == _maxHealth)
+                return;
+
+            _currentHealth++;
+            OnHealthAdded?.Invoke();
+        }
+
+        public void SetStaminaDrain(float amount)
+        {
+            if (amount > 100f || amount < 0f)
+                return;
+
+            _staminaDrain = amount;
         }
 
         public override void Pause()

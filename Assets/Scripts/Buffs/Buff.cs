@@ -1,61 +1,52 @@
-using UnityEngine;
-using System.Collections.Generic;
-using System;
 using DG.Tweening;
+using UnityEngine;
 using Youregone.SL;
 using Youregone.YPlayerController;
 
 namespace Youregone.LevelGeneration
 {
-    public class RockBreakPiece : MovingObject
+    public abstract class Buff : MovingObject
     {
-        public event Action<RockBreakPiece> OnDestruction;
-
-        [CustomHeader("Rock Break Piece Config")]
-        [SerializeField] private Vector2 _direction;
-        [SerializeField] private float _forceMultiplier;
-        [SerializeField] private List<Sprite> _rockPiecesSpriteList;
-        [SerializeField] private SpriteRenderer _spriteRenderer;
+        [CustomHeader("Buff Settings")]
+        [SerializeField] protected Vector2 _direction;
+        [SerializeField] protected float _forceMultiplier;
+        [SerializeField] protected Collider2D _collider;
 
         [CustomHeader("DOTween Config")]
-        [SerializeField] private float _fadeDuration;
-        [SerializeField] private float _fadeDelay;
-        [SerializeField] private float _slowdownDuration;
+        [SerializeField] protected float _slowdownDuration;
 
         private Vector2 _prePauseVelocity;
         private float _prePauseGravityScale;
         private float _prePauseAngularVelocity;
-        private Tween _fadeTween;
         private Tween _slowDownTween;
 
         private void OnEnable()
         {
-            ServiceLocator.Get<MovingObjectHandler>().AddObject(this);
-
-            PickRandomSprite();
-            _spriteRenderer.color = new Color(1f, 1f, 1f, 1f);
-
             ApplyForce();
+
             Vector2 newVelocity = new(ServiceLocator.Get<PlayerController>().CurrentSpeed, _rigidBody.velocity.y);
             ChangeVelocity(newVelocity);
-
-            _fadeTween = _spriteRenderer.DOFade(0f, _fadeDuration).SetDelay(_fadeDelay).SetEase(Ease.InOutQuad).OnComplete(() =>
-            {
-                OnDestruction?.Invoke(this);
-                _fadeTween = null;
-            });
         }
 
-        private void OnDisable()
-        {
-            ServiceLocator.Get<MovingObjectHandler>().AddObject(this);
+        protected abstract void Apply(PlayerController player);
 
-            KillActiveTweens();
+        protected override void OnCollisionEnter2D(Collision2D collision)
+        {
+            base.OnCollisionEnter2D(collision);
+
+            if(collision.transform.TryGetComponent(out PlayerController player))
+            {
+                _collider.enabled = false;
+                Apply(player);
+            }
         }
 
         protected override void OnDestroy()
         {
-            KillActiveTweens();
+            base.OnDestroy();
+
+            if(_slowDownTween != null)
+                _slowDownTween.Complete();
         }
 
         public override void Pause()
@@ -67,9 +58,6 @@ namespace Youregone.LevelGeneration
             if (_slowDownTween != null)
                 _slowDownTween.Pause();
 
-            if (_fadeTween != null)
-                _fadeTween.Pause();
-
             _rigidBody.velocity = Vector2.zero;
             _rigidBody.gravityScale = 0f;
             _rigidBody.angularVelocity = 0f;
@@ -80,27 +68,9 @@ namespace Youregone.LevelGeneration
             if (_slowDownTween != null)
                 _slowDownTween.Play();
 
-            if (_fadeTween != null)
-                _fadeTween.Play();
-
             _rigidBody.velocity = _prePauseVelocity;
             _rigidBody.gravityScale = _prePauseGravityScale;
             _rigidBody.angularVelocity = _prePauseAngularVelocity;
-        }
-
-        private void KillActiveTweens()
-        {
-            if (_fadeTween != null)
-            {
-                _fadeTween.Kill();
-                _fadeTween = null;
-            }
-
-            if (_slowDownTween != null)
-            {
-                _slowDownTween.Kill();
-                _slowDownTween = null;
-            }
         }
 
         public override void ChangeVelocity(Vector2 newVelocity)
@@ -139,13 +109,6 @@ namespace Youregone.LevelGeneration
             }
 
             _rigidBody.AddForce(new Vector2(_direction.x * _forceMultiplier * randomXForceModifier, _direction.y * _forceMultiplier * randomYForceModifier), ForceMode2D.Impulse);
-        }
-
-
-        private void PickRandomSprite()
-        {
-            int randomSpriteIndex = UnityEngine.Random.Range(0, _rockPiecesSpriteList.Count);
-            _spriteRenderer.sprite = _rockPiecesSpriteList[randomSpriteIndex];
         }
     }
 }

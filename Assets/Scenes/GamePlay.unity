@@ -8948,6 +8948,41 @@ Transform:
   m_Children: []
   m_Father: {fileID: 489018196}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &913057351
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 913057352}
+  m_Layer: 5
+  m_Name: HeartTempParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &913057352
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 913057351}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1673285481}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!1 &916226260
 GameObject:
   m_ObjectHideFlags: 0
@@ -12116,6 +12151,7 @@ RectTransform:
   m_Children:
   - {fileID: 169665615}
   - {fileID: 1940779739}
+  - {fileID: 913057352}
   - {fileID: 762839138}
   - {fileID: 899960146}
   - {fileID: 1303871322}
@@ -12246,6 +12282,10 @@ MonoBehaviour:
   _bridgeSpawnCooldownMax: 10
   _collectableSpawnChance: 0.6
   _rareCollectableSpawnChance: 0.05
+  _buffDropChance: 0.15
+  _buffList:
+  - {fileID: 7373342838658920548, guid: 8a1b4a28059de4c8ab06c27935913774, type: 3}
+  - {fileID: 4911825477061818020, guid: a019c752cbcf04d5184ebb89aa5db158, type: 3}
   _birdSpawnChance: 0.35
 --- !u!1 &1691830065
 GameObject:
@@ -12773,8 +12813,13 @@ MonoBehaviour:
   - {fileID: 564675483}
   - {fileID: 627311898}
   - {fileID: 1405942547}
-  _heartTargetScale: 1.5
-  _heartAnimationDuration: 0.75
+  _heartPrefab: {fileID: 7795240207648263339, guid: 5d7a4edf6d0c64d00a8e6caab3991c7d, type: 3}
+  _heartParent: {fileID: 1940779739}
+  _tempParent: {fileID: 913057352}
+  _heartAnimationDuration: 0.8
+  _rotateMin: -75
+  _rotateMax: 75
+  _targetScale: 1.5
 --- !u!1 &1942452244
 GameObject:
   m_ObjectHideFlags: 0

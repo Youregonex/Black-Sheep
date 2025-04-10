@@ -196,6 +196,14 @@ namespace Youregone.LevelGeneration
                 rockBreakPiece.transform.position = obstacle.transform.position;
                 rockBreakPiece.OnDestruction += RockBreakPiece_OnDestruction;
             }
+
+            if (UnityEngine.Random.Range(0f, 1f) > _gameSettings.BuffDropChance)
+                return;
+
+            int randomBuffId = UnityEngine.Random.Range(0, _gameSettings.BuffList.Count);
+            Buff buff = Instantiate(_gameSettings.BuffList[randomBuffId]);
+            Vector2 offset = new(.5f, .5f);
+            buff.transform.position = (Vector2)obstacle.transform.position + offset;
         }
 
         private void RockBreakPiece_OnDestruction(RockBreakPiece rockBreakPiece)
