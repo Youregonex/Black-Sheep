@@ -169,12 +169,6 @@ namespace Youregone.UI
 
             foreach(SkinOption skinOption in _skinOptionList)
             {
-                if (foreachIndex == 0)
-                {
-                    foreachIndex++;
-                    continue;
-                }
-
                 lastTween = skinOption.SelfRectTransform.DOAnchorPosX(
                     skinOption.SelfRectTransform.anchoredPosition.x - _skinOptionDistance,
                     _animationDuration);
