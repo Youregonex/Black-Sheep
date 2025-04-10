@@ -12,45 +12,67 @@ namespace Youregone.UI
         [CustomHeader("Skin Settings")]
         [SerializeField] private List<Sprite> _skinsList;
 
-        [CustomHeader("Other")]
-        [SerializeField] private CanvasGroup _selfCanvasGroup;
-        [SerializeField] private SkinOption _skinOptionPrefab;
-        [SerializeField] private Transform _skinPreviewParent;
-
-        [CustomHeader("Positions")]
-        [SerializeField] private Transform _nextSkinTransform;
+        [CustomHeader("Skin Preview Settings")]
+        [SerializeField] private int _skinsPreviewsOnScreenAmount;
+        [SerializeField] private float _skinOptionDistance;
+        [SerializeField] private RectTransform _skinPreviewParent;
         [SerializeField] private Transform _currentSkinTransform;
-        [SerializeField] private Transform _previousSkinTransform;
+        [SerializeField] private SkinOption _skinOptionPrefab;
+
+        [CustomHeader("Components")]
+        [SerializeField] private CanvasGroup _selfCanvasGroup;
 
         [CustomHeader("DOTween Settings")]
         [SerializeField] private float _animationDuration;
+        [SerializeField] private Vector3 _currentSkinOptionGoalScale;
+        [SerializeField] private Vector3 _skinOptionDefaultScale;
 
         [CustomHeader("Buttons")]
         [SerializeField] private Button _nextSkinButton;
         [SerializeField] private Button _previousSkinButton;
         [SerializeField] private Button _selectButton;
 
-        private int _currentIndex;
-        private SkinOption _nextSkinOption;
-        private SkinOption _currentSkinOption;
-        private SkinOption _previousSkinOption;
+        [CustomHeader("Debug")]
+        [SerializeField] private List<SkinOption> _skinOptionList;
 
+        private int _currentIndex;
         private Coroutine _currentCoroutine;
+
+        private int _skinPreviewOverallAmount
+        {
+            get
+            {
+                return _skinsPreviewsOnScreenAmount + 2; // +2 offscreen (1 most-left and 1 most-right)
+            }
+        } 
+
 
         private void Awake()
         {
+            _skinOptionList = new();
+
             ShowWindow();
             SetupButtons();
         }
 
         public void ShowWindow()
         {
+            Vector2 newSizeDelta = _skinPreviewParent.sizeDelta;
+            newSizeDelta.x = _skinOptionDistance * _skinsPreviewsOnScreenAmount;
+            _skinPreviewParent.sizeDelta = newSizeDelta;
+
             _selfCanvasGroup.alpha = 1f;
             _currentIndex = 0;
 
-            _currentSkinOption = CreateSkinOption(ESkinOptionType.Current);
-            _nextSkinOption = CreateSkinOption(ESkinOptionType.Next);
-            _previousSkinOption = CreateSkinOption(ESkinOptionType.Previous);
+            for (int i = -(_skinPreviewOverallAmount / 2); i <= _skinPreviewOverallAmount / 2; i++)
+            {
+                float positionX = i * _skinOptionDistance;
+                Debug.Log($"Position: {i} *  {_skinOptionDistance} = {i * _skinOptionDistance}");
+                SkinOption skinOption = CreateSkinOption(positionX, false);
+
+                if (i == 0)
+                    skinOption.transform.localScale = _currentSkinOptionGoalScale;
+            }
         }
 
         public void CloseWindow()
@@ -58,56 +80,47 @@ namespace Youregone.UI
             if (_currentCoroutine != null)
                 StopCoroutine(_currentCoroutine);
 
-            Destroy(_nextSkinOption.gameObject);
-            Destroy(_currentSkinOption.gameObject);
-            Destroy(_previousSkinOption.gameObject);
-
+            foreach(SkinOption skinOption in _skinOptionList)
+            {
+                Destroy(skinOption.gameObject);
+            }
+            _skinOptionList.Clear();
             _selfCanvasGroup.alpha = 0f;
         }
 
-        private SkinOption CreateSkinOption(ESkinOptionType skinOptionType)
+        private SkinOption CreateSkinOption(float positionX, bool addAtStart)
         {
             SkinOption skinOption;
-            Transform spawnPositionTransform;
             Sprite sprite;
 
-            switch (skinOptionType)
-            {
-                case ESkinOptionType.Current:
-                    spawnPositionTransform = _currentSkinTransform;
-                    sprite = _skinsList[_currentIndex];
-                    break;
+            sprite = _skinsList[GetSkinIdFromPosition(positionX)];
 
-                case ESkinOptionType.Next:
-
-                    spawnPositionTransform = _nextSkinTransform;
-
-                    if (_currentIndex + 1 >= _skinsList.Count)
-                        sprite = _skinsList[0];
-                    else
-                        sprite = _skinsList[_currentIndex + 1];
-
-                    break;
-
-                case ESkinOptionType.Previous:
-                    spawnPositionTransform = _previousSkinTransform;
-
-                    if (_currentIndex - 1 < 0)
-                        sprite = _skinsList[_skinsList.Count - 1];
-                    else
-                        sprite = _skinsList[_currentIndex - 1];
-
-                    break;
-
-                default:
-                    Debug.LogError("Wrong SkinOption Type");
-                    return null;
-            }
-
-            skinOption = Instantiate(_skinOptionPrefab, spawnPositionTransform.position, Quaternion.identity);
+            skinOption = Instantiate(_skinOptionPrefab);
             skinOption.transform.SetParent(_skinPreviewParent);
+            skinOption.SelfRectTransform.anchoredPosition = new Vector2(positionX, 0f);
             skinOption.SetSprite(sprite);
+
+            if(addAtStart)
+                _skinOptionList.Insert(0, skinOption);
+            else
+                _skinOptionList.Add(skinOption);
+
             return skinOption;
+        }
+
+        private int GetSkinIdFromPosition(float positionX)
+        {
+            int skinOptionPlacementId = (int)(positionX / _skinOptionDistance);
+            int skinOptionPlacementIdToSkinListId = _currentIndex + skinOptionPlacementId;
+            int resultId = skinOptionPlacementIdToSkinListId;
+
+            if(skinOptionPlacementIdToSkinListId < 0)
+                resultId = _skinsList.Count - Mathf.Abs(skinOptionPlacementIdToSkinListId);
+            
+            if (skinOptionPlacementIdToSkinListId >= _skinsList.Count)
+                resultId = skinOptionPlacementIdToSkinListId - _skinsList.Count;
+            
+            return resultId;
         }
 
         private void SetupButtons()
@@ -122,16 +135,11 @@ namespace Youregone.UI
                 if (_currentIndex == _skinsList.Count)
                     _currentIndex = 0;
 
-                Destroy(_previousSkinOption.gameObject);
-
-                _currentCoroutine = StartCoroutine(PlayNextButtonAnimation(() =>
+                _currentCoroutine =  StartCoroutine(PlayNextButtonAnimation(() =>
                 {
-                    _previousSkinOption = _currentSkinOption;
-                    _currentSkinOption = _nextSkinOption;
-                    _nextSkinOption = CreateSkinOption(ESkinOptionType.Next);
-
                     _nextSkinButton.interactable = true;
                     _previousSkinButton.interactable = true;
+                    _currentCoroutine = null;
                 }));
             });
 
@@ -145,50 +153,88 @@ namespace Youregone.UI
                 if (_currentIndex < 0)
                     _currentIndex = _skinsList.Count - 1;
 
-                Destroy(_nextSkinOption.gameObject);
-
                 _currentCoroutine = StartCoroutine(PlayPreviousButtonAnimation(() =>
                 {
-                    _nextSkinOption = _currentSkinOption;
-                    _currentSkinOption = _previousSkinOption;
-                    _previousSkinOption = CreateSkinOption(ESkinOptionType.Previous);
-
                     _nextSkinButton.interactable = true;
                     _previousSkinButton.interactable = true;
+                    _currentCoroutine = null;
                 }));
             });
         }
 
-        private IEnumerator PlayNextButtonAnimation(Action action)
+        private IEnumerator PlayNextButtonAnimation(Action callback)
         {
-            Sequence sequence = DOTween.Sequence();
-            sequence
-                .Append(_currentSkinOption.SelfRectTransform.DOAnchorPosX(-400f, _animationDuration))
-                .Join(_nextSkinOption.SelfRectTransform.DOAnchorPosX(0f, _animationDuration));
+            int foreachIndex = 0;
+            Tween lastTween = null;
 
-            yield return sequence.WaitForCompletion();
-            action?.Invoke();
-            _currentCoroutine = null;
+            foreach(SkinOption skinOption in _skinOptionList)
+            {
+                if (foreachIndex == 0)
+                {
+                    foreachIndex++;
+                    continue;
+                }
+
+                lastTween = skinOption.SelfRectTransform.DOAnchorPosX(
+                    skinOption.SelfRectTransform.anchoredPosition.x - _skinOptionDistance,
+                    _animationDuration);
+
+                if(foreachIndex == _skinPreviewOverallAmount / 2)
+                {
+                    skinOption.SelfRectTransform.DOScale(_skinOptionDefaultScale, _animationDuration);
+                }
+
+                if(foreachIndex == _skinPreviewOverallAmount / 2 + 1)
+                {
+                    skinOption.SelfRectTransform.DOScale(_currentSkinOptionGoalScale, _animationDuration);
+                }
+
+                foreachIndex++;
+            }
+
+            yield return lastTween.WaitForCompletion();
+
+            lastTween = null;
+            Destroy(_skinOptionList[0].gameObject);
+            _skinOptionList.RemoveAt(0);
+            callback?.Invoke();
+            CreateSkinOption(foreachIndex / 2 * _skinOptionDistance, false);
         }
 
-        private IEnumerator PlayPreviousButtonAnimation(Action action)
+        private IEnumerator PlayPreviousButtonAnimation(Action callback)
         {
-            Sequence sequence = DOTween.Sequence();
-            sequence
-                .Append(_currentSkinOption.SelfRectTransform.DOAnchorPosX(400f, _animationDuration))
-                .Join(_previousSkinOption.SelfRectTransform.DOAnchorPosX(0f, _animationDuration));
+            int foreachIndex = 0;
+            Tween lastTween = null;
 
-            yield return sequence.WaitForCompletion();
-            action?.Invoke();
-            _currentCoroutine = null;
-        }
+            foreach (SkinOption skinOption in _skinOptionList)
+            {
+                lastTween = skinOption.SelfRectTransform.DOAnchorPosX(
+                    skinOption.SelfRectTransform.anchoredPosition.x + _skinOptionDistance,
+                    _animationDuration
+                );
 
-        private enum ESkinOptionType
-        {
-            None,
-            Current,
-            Previous,
-            Next
+                if (foreachIndex == _skinPreviewOverallAmount / 2)
+                {
+                    skinOption.SelfRectTransform.DOScale(_skinOptionDefaultScale, _animationDuration);
+                }
+
+                if (foreachIndex == _skinPreviewOverallAmount / 2 - 1)
+                {
+                    skinOption.SelfRectTransform.DOScale(_currentSkinOptionGoalScale, _animationDuration);
+                }
+
+                foreachIndex++;
+            }
+
+            yield return lastTween.WaitForCompletion();
+            lastTween = null;
+
+            Destroy(_skinOptionList[^1].gameObject);
+            _skinOptionList.RemoveAt(_skinOptionList.Count - 1);
+
+            callback?.Invoke();
+
+            CreateSkinOption(-foreachIndex / 2 * _skinOptionDistance, true);
         }
     }
 }
