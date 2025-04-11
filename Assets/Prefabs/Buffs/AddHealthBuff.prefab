@@ -82,7 +82,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 0.1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 2
@@ -111,10 +111,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _currentXVelocity: 0
   _direction: {x: 1, y: 1}
-  _forceMultiplier: 6
+  _forceMultiplier: 0.6
   _collider: {fileID: 6166841325294119486}
   _slowdownDuration: 3
-  _healthAddAmount: 1
 --- !u!1 &4468518555733241994
 GameObject:
   m_ObjectHideFlags: 0

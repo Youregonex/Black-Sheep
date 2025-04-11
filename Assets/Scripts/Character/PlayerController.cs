@@ -206,7 +206,7 @@ namespace Youregone.YPlayerController
 
         public void AddHealth()
         {
-            if (_currentHealth == _maxHealth)
+            if (_currentHealth == _maxHealth || _currentHealth == 0)
                 return;
 
             _currentHealth++;

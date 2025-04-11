@@ -6871,7 +6871,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scoreModifier: 0.5
-  _pointsPerCombo: 5
+  _pointsPerCombo: 10
 --- !u!4 &469754161
 Transform:
   m_ObjectHideFlags: 0
@@ -12282,7 +12282,7 @@ MonoBehaviour:
   _bridgeSpawnCooldownMax: 10
   _collectableSpawnChance: 0.6
   _rareCollectableSpawnChance: 0.05
-  _buffDropChance: 0.15
+  _buffDropChance: 0.1
   _buffList:
   - {fileID: 7373342838658920548, guid: 8a1b4a28059de4c8ab06c27935913774, type: 3}
   - {fileID: 4911825477061818020, guid: a019c752cbcf04d5184ebb89aa5db158, type: 3}
