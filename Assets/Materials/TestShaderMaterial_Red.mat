@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: TestShaderMaterial
+  m_Name: TestShaderMaterial_Red
   m_Shader: {fileID: 4800000, guid: b87599f74e7d74618b2f90a1ecd30d60, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -29,7 +29,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _ColorMap:
         m_Texture: {fileID: 2800000, guid: 4f3d4dc4ebf6b4b20b9f600bf89b3ecb, type: 3}
-        m_Scale: {x: 6, y: 6}
+        m_Scale: {x: 5, y: 8}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 0}
@@ -46,11 +46,11 @@ Material:
     m_Ints: []
     m_Floats:
     - _EnableExternalAlpha: 0
-    - _OffsetXSpeed: -0.5
-    - _OffsetYSpeed: 1
+    - _OffsetXSpeed: 0.5
+    - _OffsetYSpeed: -1
     m_Colors:
     - _Color: {r: 0, g: 0, b: 0, a: 1}
-    - _ColorTint: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorTint: {r: 0.9245283, g: 0.73426235, b: 0.44918123, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

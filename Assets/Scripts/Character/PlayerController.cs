@@ -108,6 +108,7 @@ namespace Youregone.YPlayerController
         public float CurrentSpeed {
             get
             {
+
                 return _currentSpeed;
             }
             private set

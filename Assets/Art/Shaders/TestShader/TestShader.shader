@@ -1,5 +1,13 @@
 Shader "Youregone/TestShader" {
 
+    Properties{
+        [Header(Surface Options)]
+        [MainTexture] _ColorMap("Color", 2D) = "white" {}
+        [MainColor] _ColorTint("Tint", Color) = (1, 1, 1, 1)
+        _OffsetXSpeed("XSpeed", Float) = 0.0
+        _OffsetYSpeed("YSpeed", Float) = 0.0
+    }
+
     SubShader {
 
         Tags {
@@ -15,7 +23,7 @@ Shader "Youregone/TestShader" {
             #pragma vertex Vertex
             #pragma fragment Fragment
 
-            #include "TestShaderForward.hlsl" 
+            #include "TestShaderUniversal2D.hlsl" 
             ENDHLSL
         }
     }

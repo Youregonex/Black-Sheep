@@ -24,7 +24,7 @@ namespace Youregone.Utils
             return result;
         }
 
-        private static string Encrypt(string plainText)
+        public static string Encrypt(string plainText)
         {
             byte[] keyBytes = Encoding.UTF8.GetBytes(_encryptionKey);
             byte[] ivBytes = new byte[16];
@@ -43,7 +43,7 @@ namespace Youregone.Utils
             }
         }
 
-        private static string Decrypt(string encryptedText)
+        public static string Decrypt(string encryptedText)
         {
             byte[] keyBytes = Encoding.UTF8.GetBytes(_encryptionKey);
             byte[] ivBytes = new byte[16];

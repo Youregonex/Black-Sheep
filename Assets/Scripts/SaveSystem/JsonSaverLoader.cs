@@ -23,7 +23,6 @@ namespace Youregone.SaveSystem
 
             ScoreEntryList scoreEntryList = new(scoreHolders);
             string json = JsonUtility.ToJson(scoreEntryList, true);
-
             File.WriteAllText(CurrentFilePath, json);
         }
 
