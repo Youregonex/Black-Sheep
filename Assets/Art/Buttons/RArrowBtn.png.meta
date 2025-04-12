@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 626750133bd494f4182ee21c28af0b88
+guid: 9b931bd5a779149f8b4c9c79bca904f3
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -123,7 +123,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: MainPageBtn_0
+      name: RArrowBtn_0
       rect:
         serializedVersion: 2
         x: 0
@@ -137,14 +137,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9718a3fea94c140c8906527f26e0a734
-      internalID: 1252898253
+      spriteID: b168b4ead9c0c4ec5b087c32e8d4d40f
+      internalID: -338715091
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MainPageBtn_1
+      name: RArrowBtn_1
       rect:
         serializedVersion: 2
         x: 48
@@ -158,29 +158,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 40598cdc9af5744c4acebf28aba82d26
-      internalID: 1276275459
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MainPageBtn_2
-      rect:
-        serializedVersion: 2
-        x: 96
-        y: 0
-        width: 48
-        height: 48
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d50e693eebc4442a1905692701d3fb1a
-      internalID: 1660641106
+      spriteID: 5dc1b679ad54945279fc3fee4bd1097e
+      internalID: 423006092
       vertices: []
       indices: 
       edges: []
@@ -188,7 +167,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: a9ad4527234574f10819aa520e7ba6a9
+    spriteID: caa2b4ebda2894cdb9f03143b2775eda
     internalID: 0
     vertices: []
     indices: 
@@ -196,9 +175,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      MainPageBtn_0: 1252898253
-      MainPageBtn_1: 1276275459
-      MainPageBtn_2: 1660641106
+      RArrowBtn_0: -338715091
+      RArrowBtn_1: 423006092
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

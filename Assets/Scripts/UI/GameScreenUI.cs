@@ -17,11 +17,6 @@ namespace Youregone.UI
         [CustomHeader("Config")]
         [SerializeField] private ScoreCounterUI _scoreCounter;
         [SerializeField] private HealthbarUI _healthbarUI;
-        [SerializeField] private Button _mainMenuButton;
-        [SerializeField] private Button _outroDisableButton;
-        [SerializeField] private Button _pauseButton;
-        [SerializeField] private Sprite _outroDisableButtonSpriteOn;
-        [SerializeField] private Sprite _outroDisableButtonSpriteOff;
         [SerializeField] private CloversCollectedUI _cloversCollectedUI;
         [SerializeField] private Sprite _mainMenuButtonPressedSprite;
         [SerializeField] private CanvasGroup _onScreenPathCanvasGroup;
@@ -29,6 +24,17 @@ namespace Youregone.UI
         [SerializeField] private RectTransform _flagWebHS;
         [SerializeField] private RectTransform _flagPersonalHS;
         [SerializeField] private RectTransform _flagParent;
+
+        [CustomHeader("Buttons")]
+        [SerializeField] private Button _mainMenuButton;
+        [SerializeField] private Button _outroDisableButton;
+        [SerializeField] private Button _pauseButton;
+
+        [CustomHeader("Sprites")]
+        [SerializeField] private Sprite _outroDisableButtonSpriteOn;
+        [SerializeField] private Sprite _outroDisableButtonSpriteOff;
+        [SerializeField] private Sprite _pauseSpriteGameNotPaused;
+        [SerializeField] private Sprite _pauseSpriteGamePaused;
 
         private int _personalHighscore;
         private int _webHighscore;
@@ -65,6 +71,11 @@ namespace Youregone.UI
 
             _pauseButton.onClick.AddListener(() =>
             {
+                if(ServiceLocator.Get<GameState>().CurrentGameState == EGameState.Pause)
+                    _pauseButton.image.sprite = _pauseSpriteGameNotPaused;
+                else
+                    _pauseButton.image.sprite = _pauseSpriteGamePaused;
+
                 OnPauseButtonPressed?.Invoke();
                 EventSystem.current.SetSelectedGameObject(null);
             });
