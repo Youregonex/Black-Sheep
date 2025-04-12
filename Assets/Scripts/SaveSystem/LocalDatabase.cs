@@ -26,6 +26,8 @@ namespace Youregone.SaveSystem
         private Coroutine _currentCoroutine;
         private CancellationTokenSource _cts;
 
+        public bool DatabaseUpdated { get; private set; }
+
         private void Awake()
         {
             _personalResults = JsonSaverLoader.LoadScoreHolders();
@@ -67,6 +69,22 @@ namespace Youregone.SaveSystem
             JsonSaverLoader.SaveScoreHoldersJson(_personalResults);
         }
 
+        public int GetHighscore(bool isPersonal)
+        {
+            if (!DatabaseUpdated)
+                return -1;
+
+            if (isPersonal && _personalResults.Count > 0)
+                return _personalResults.OrderByDescending(entry => entry.score).FirstOrDefault().score;
+            else if(_personalResults.Count == 0)
+                return 0;
+
+            if (_personalAndWebResults.Count > 0)
+                return _personalAndWebResults.OrderByDescending(entry => entry.score).FirstOrDefault().score;
+            else
+                return 0;
+        }
+
         private async void UpdateLocalDatabaseAsync(CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
@@ -86,6 +104,9 @@ namespace Youregone.SaveSystem
                 else
                     Highscore = 0;
 
+                _personalAndWebResults = null;
+                DatabaseUpdated = true;
+                OnLocalDatabaseUpdated?.Invoke();
                 return;
             }
 
@@ -128,7 +149,7 @@ namespace Youregone.SaveSystem
             Highscore = _personalAndWebResults.OrderByDescending(entry => entry.score).First().score;
 
             _currentCoroutine = null;
-
+            DatabaseUpdated = true;
             OnLocalDatabaseUpdated?.Invoke();
         }
     }

@@ -12,12 +12,21 @@ namespace Youregone.UI
         [SerializeField] private RectTransform _bottomAnchoredTransition;
         [SerializeField] private Camera _mainCamera;
         [SerializeField] private RectTransform _parentCanvas;
+        [SerializeField] private RectTransform _loadingScreen;
 
         [CustomHeader("DOTween Settings")]
         [SerializeField] private float _transitionDuration;
 
         private Tween _currentTween;
         private Coroutine _currentCoroutine;
+
+        private void Awake()
+        {
+            float startingSizeX = _parentCanvas.rect.size.x;
+            _topAnchoredTransition.sizeDelta = new Vector2(startingSizeX, _topAnchoredTransition.sizeDelta.y);
+            _bottomAnchoredTransition.sizeDelta = new Vector2(startingSizeX, _bottomAnchoredTransition.sizeDelta.y);
+            _loadingScreen.sizeDelta = _parentCanvas.sizeDelta;
+        }
 
         public IEnumerator PlayTransitionStart()
         {
@@ -28,7 +37,7 @@ namespace Youregone.UI
             }
 
             yield return _currentCoroutine = StartCoroutine(PlayTransitionStartCoroutine());
-
+            _loadingScreen.gameObject.SetActive(true);
             _currentCoroutine = null;
         }
 
@@ -40,8 +49,8 @@ namespace Youregone.UI
                 yield break;
             }
 
+            _loadingScreen.gameObject.SetActive(false);
             yield return _currentCoroutine = StartCoroutine(PlayTransitionEndCoroutine());
-
             _currentCoroutine = null;
         }
 

@@ -7,6 +7,7 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using Youregone.SL;
+using Youregone.SaveSystem;
 
 namespace Youregone.GameSystems
 {
@@ -116,13 +117,20 @@ namespace Youregone.GameSystems
 
         private IEnumerator StartGameCoroutine()
         {
+            if(!ServiceLocator.Get<LocalDatabase>().DatabaseUpdated)
+                yield return new WaitUntil(() => ServiceLocator.Get<LocalDatabase>().DatabaseUpdated); 
+            
             yield return StartCoroutine(_transition.PlayTransitionEnd());
-
             ShowUI();
             yield return new WaitUntil(() => Input.anyKeyDown);
 
             _currentGameState = EGameState.Gameplay;
             OnGameStarted?.Invoke();
+        }
+
+        private void LocalDatabase_OnLocalDatabaseUpdated()
+        {
+            ServiceLocator.Get<LocalDatabase>().OnLocalDatabaseUpdated -= LocalDatabase_OnLocalDatabaseUpdated;
         }
 
         private IEnumerator PlayOutroCoroutine()

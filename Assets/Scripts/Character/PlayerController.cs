@@ -36,12 +36,11 @@ namespace Youregone.YPlayerController
         [SerializeField] private float _ramMoveSpeed;
         [SerializeField] private float _jumpForce;
         [SerializeField] private float _staminaMax;
-        [SerializeField, Range(0f, 100f)] private float _staminaDrain;
+        [SerializeField, Range(0f, 100f)] private float _baseStaminaDrain;
         [SerializeField, Range(0f, 1f)] private float _minCurrentStaminaPercentDrainPerUse;
         [SerializeField] private float _staminaRechargeRate;
         [SerializeField] private float _staminaRechargeDelay;
         [SerializeField] private int _maxHealth;
-        [SerializeField] private Image _staminaBar;
         [SerializeField] private bool _immortal;
 
         [CustomHeader("Sprite Flash Config")]
@@ -49,6 +48,8 @@ namespace Youregone.YPlayerController
         [SerializeField] private float _flashDuration;
 
         [CustomHeader("Components")]
+        [SerializeField] private GameObject _staminaBar;
+        [SerializeField] private Image _staminaBarFill;
         [SerializeField] private Animator _animator;
         [SerializeField] private Animator _staminaBarAnimator;
         [SerializeField] private GroundCheck _groundCheck;
@@ -59,6 +60,7 @@ namespace Youregone.YPlayerController
         [SerializeField] private InputButton _ramButton;
         [SerializeField] private InputButton _jumpButton;
         [SerializeField] private Transform _playerStartPosition;
+        [SerializeField] private TextMeshProUGUI _infiniteStaminaText;
 
         [CustomHeader("Ground Check")]
         [SerializeField] private BoxCollider2D _collider;
@@ -83,11 +85,13 @@ namespace Youregone.YPlayerController
         [SerializeField] private bool _isRaming = false;
         [SerializeField] private bool _canRechargeStamina = true;
         [SerializeField] private int _currentHealth;
+        [SerializeField] private float _currentStaminaDrain;
 
         private Vector2 _prePauseVelocity;
         private float _baseGravityScale;
         private int _currentCombo = 0;
         private float _comboResetTimerCurrent;
+        private float _currentInfiniteStaminaTimer;
 
         private PlayerCharacterInput _playerInput;
         private Rigidbody2D _rigidBody;
@@ -95,20 +99,19 @@ namespace Youregone.YPlayerController
 
         private Coroutine _flashCoroutine;
         private Coroutine _staminaCoroutine;
+        private Coroutine _infiniteStaminaCoroutine;
 
         private Sequence _comboTextSequence;
         private Tween _comboTimerTween;
+        private Tween _infiniteStaminaTween;
 
-        public bool IsGrounded => _isGrounded;
         public bool IsRaming => _isRaming;
         public int CurrentHealth => _currentHealth;
-        public float StaminaDrain => _staminaDrain;
         public PlayerCharacterInput PlayerCharacterInput => _playerInput;
 
         public float CurrentSpeed {
             get
             {
-
                 return _currentSpeed;
             }
             private set
@@ -128,6 +131,7 @@ namespace Youregone.YPlayerController
             _groundCheck.Landed += Land;
             _currentHealth = _maxHealth;
 
+            _currentStaminaDrain = _baseStaminaDrain;
             _baseGravityScale = _rigidBody.gravityScale;
             _staminaCurrent = _staminaMax;
             CurrentSpeed = 0f;
@@ -214,12 +218,29 @@ namespace Youregone.YPlayerController
             OnHealthAdded?.Invoke();
         }
 
-        public void SetStaminaDrain(float amount)
+        public void TriggerInfiniteStaminaBuff(float duration)
         {
-            if (amount > 100f || amount < 0f)
-                return;
+            _infiniteStaminaText.alpha = 1f;
+            _currentStaminaDrain = 0f;
 
-            _staminaDrain = amount;
+            if (_infiniteStaminaTween != null)
+                _infiniteStaminaTween.Kill();
+
+            _currentInfiniteStaminaTimer += duration;
+            _infiniteStaminaTween =
+                DOTween.To(
+                    () => _currentInfiniteStaminaTimer,
+                    x => _currentInfiniteStaminaTimer = x,
+                    0f,
+                    duration)
+                .SetEase(Ease.Linear)
+                .OnUpdate(() => _infiniteStaminaText.text = $"Infinite Stamina: {_currentInfiniteStaminaTimer:F1}")
+                .OnComplete(() =>
+                {
+                    _infiniteStaminaTween = null;
+                    _infiniteStaminaText.alpha = 0f;
+                    _currentStaminaDrain = _baseStaminaDrain;
+                });
         }
 
         public override void Pause()
@@ -233,7 +254,7 @@ namespace Youregone.YPlayerController
             _ramParticleSystem.Pause();
             _windParticleSystem.Pause();
 
-            _staminaBar.GetComponent<Animator>().speed = 0f;
+            _staminaBarFill.GetComponent<Animator>().speed = 0f;
         }
 
         public override void Unpause()
@@ -252,7 +273,7 @@ namespace Youregone.YPlayerController
                 _windParticleSystem.Stop();
             }
 
-            _staminaBar.GetComponent<Animator>().speed = 1f;
+            _staminaBarFill.GetComponent<Animator>().speed = 1f;
         }
 
         private void GameState_OnGameStarted()
@@ -320,7 +341,7 @@ namespace Youregone.YPlayerController
         private void ManageStamina()
         {
             if (_isRaming)
-                _staminaCurrent -= _staminaDrain * Time.deltaTime;
+                _staminaCurrent -= _currentStaminaDrain * Time.deltaTime;
             else if (_canRechargeStamina && _staminaCurrent < _staminaMax)
             {
                 _staminaCurrent += _staminaRechargeRate * Time.deltaTime;
@@ -375,6 +396,8 @@ namespace Youregone.YPlayerController
             Debug.Log("Death");
             _animator.SetTrigger(ANIMATION_DEATH_TRIGGER);
             CurrentSpeed = 0f;
+            _staminaBar.SetActive(false);
+            _infiniteStaminaText.gameObject.SetActive(false);
             OnDeath?.Invoke();
 
             if (_isRaming)
@@ -384,8 +407,8 @@ namespace Youregone.YPlayerController
         private void UpdateStaminaBar()
         {
             float fillAmount = _staminaCurrent / _staminaMax;
-            _staminaBar.fillAmount = fillAmount;
-            _staminaBar.color = _staminaGradient.Evaluate(fillAmount);
+            _staminaBarFill.fillAmount = fillAmount;
+            _staminaBarFill.color = _staminaGradient.Evaluate(fillAmount);
         }
 
         private void StartRam()

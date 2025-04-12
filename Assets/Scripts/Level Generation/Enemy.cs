@@ -137,7 +137,6 @@ namespace Youregone.EnemyAI
         private void RamTowardsPlayer()
         {
             transform.SetParent(null);
-            ServiceLocator.Get<MovingObjectHandler>().RemoveObject(this);
             _sheepVelocity = new Vector2(_moveSpeed, 0f);
             _rigidBody.velocity = new Vector2(-(_player.CurrentSpeed + _sheepVelocity.x), 0f);
             _animator.SetTrigger(ATTACK_TRIGGER);
