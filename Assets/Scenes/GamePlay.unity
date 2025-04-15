@@ -8307,7 +8307,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -310, y: -6}
-  m_SizeDelta: {x: 140, y: 140}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &762839139
 MonoBehaviour:
@@ -8961,7 +8961,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -30, y: -6}
-  m_SizeDelta: {x: 140, y: 140}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &899960147
 MonoBehaviour:
@@ -10605,7 +10605,7 @@ GameObject:
   - component: {fileID: 1960574023}
   - component: {fileID: 1960574024}
   m_Layer: 0
-  m_Name: GameStateManager
+  m_Name: GameState
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10891,7 +10891,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -170, y: -7}
-  m_SizeDelta: {x: 140, y: 140}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1303871323
 MonoBehaviour:
@@ -13619,8 +13619,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _camera: {fileID: 388855705}
   _outroScenes:
-  - {fileID: 1078606594878748557, guid: 75f8e0bb156a74d51bc627363e20099c, type: 3}
-  - {fileID: 1078606594878748557, guid: fd29f030cd659483389f0153b258f102, type: 3}
+  - {fileID: 5710961590367465030, guid: c2d127835a480437f8ea888e3938a49b, type: 3}
+  - {fileID: 2495751905780427949, guid: f6023b75d327643c7b109e1bd7180fa0, type: 3}
   _outroDelay: 1
   _sceneReloadDelay: 1
   _deathScreenUI: {fileID: 1788958712}

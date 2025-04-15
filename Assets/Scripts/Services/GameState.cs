@@ -173,16 +173,14 @@ namespace Youregone.GameSystems
 
             yield return new WaitForSeconds(_outroDelay);
 
-            _deathScreenUI.ShowWindow();
+            if (!ServiceLocator.Get<GameSettings>().OutroEnabled)
+            {
+                _deathScreenUI.ShowWindow();
 
-            //if (!ServiceLocator.Get<GameSettings>().OutroEnabled)
-            //{
-            //    _deathScreenUI.ShowWindow();
+                yield break;
+            }
 
-            //    yield break;
-            //}
-
-            //StartCoroutine(PlayOutroCoroutine());
+            StartCoroutine(PlayOutroCoroutine());
         }
     }
 }
