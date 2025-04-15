@@ -164,8 +164,8 @@ namespace Youregone.GameSystems
             StartCoroutine(PlayerController_OnDeath_Coroutine());
         }
 
-        private void ShowUI() => ServiceLocator.Get<GameScreenUI>().ShowScreenUI();
-        private void HideUI() => ServiceLocator.Get<GameScreenUI>().HideScreenUI();
+        private void ShowUI() => ServiceLocator.Get<GameScreenUI>().ShowUIElements();
+        private void HideUI() => ServiceLocator.Get<GameScreenUI>().HideUIElements();
 
         private IEnumerator PlayerController_OnDeath_Coroutine()
         {
@@ -173,14 +173,16 @@ namespace Youregone.GameSystems
 
             yield return new WaitForSeconds(_outroDelay);
 
-            if (!ServiceLocator.Get<GameSettings>().OutroEnabled)
-            {
-                _deathScreenUI.ShowWindow();
+            _deathScreenUI.ShowWindow();
 
-                yield break;
-            }
+            //if (!ServiceLocator.Get<GameSettings>().OutroEnabled)
+            //{
+            //    _deathScreenUI.ShowWindow();
 
-            StartCoroutine(PlayOutroCoroutine());
+            //    yield break;
+            //}
+
+            //StartCoroutine(PlayOutroCoroutine());
         }
     }
 }
