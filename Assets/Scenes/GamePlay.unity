@@ -8813,6 +8813,8 @@ MonoBehaviour:
   _scoreCounter: {fileID: 169665616}
   _healthbarUI: {fileID: 1940779741}
   _cloversCollectedUI: {fileID: 106340960}
+  _outroScenePlayer: {fileID: 2039297497}
+  _deathScreenUI: {fileID: 1788958712}
   _scoreCanvasGroup: {fileID: 169665617}
   _healthCanvasGroup: {fileID: 1940779742}
   _cloversCanvasGroup: {fileID: 106340961}
@@ -9389,7 +9391,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -12656,6 +12658,7 @@ RectTransform:
   - {fileID: 1160313905}
   - {fileID: 1788958711}
   - {fileID: 118023668}
+  - {fileID: 2039297496}
   - {fileID: 189209857}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -13618,13 +13621,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _camera: {fileID: 388855705}
-  _outroScenes:
-  - {fileID: 5710961590367465030, guid: c2d127835a480437f8ea888e3938a49b, type: 3}
-  - {fileID: 2495751905780427949, guid: f6023b75d327643c7b109e1bd7180fa0, type: 3}
   _outroDelay: 1
   _sceneReloadDelay: 1
-  _deathScreenUI: {fileID: 1788958712}
-  _outroTransitionDuration: 2
   _currentGameState: 0
 --- !u!1 &1969522049
 GameObject:
@@ -14070,6 +14068,58 @@ MonoBehaviour:
   _lastChunk: {fileID: 0}
   _nextChunk: {fileID: 0}
   _bridgeChunkSpawnCooldownCurrent: 0
+--- !u!1 &2039297495
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2039297496}
+  - component: {fileID: 2039297497}
+  m_Layer: 5
+  m_Name: OutroScenePlayer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2039297496
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2039297495}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1673285481}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2039297497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2039297495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f49f83e8063844def9400c6e7489bc76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _outroTransitionDuration: 1
+  _outroScenes:
+  - {fileID: 2660137275269844242, guid: c2d127835a480437f8ea888e3938a49b, type: 3}
+  - {fileID: 2660137275269844242, guid: ed82b0e753d9a4775aa1258ef3e7a40a, type: 3}
 --- !u!1 &2083534751
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,22 +5,22 @@ using System.Collections;
 using DG.Tweening;
 using Youregone.SL;
 using Youregone.YPlayerController;
+using UnityEngine.UI;
 
-namespace Youregone.GameSystems
+namespace Youregone.UI
 {
     public class OutroScene : MonoBehaviour
     {
         [CustomHeader("Config")]
         [SerializeField] private List<TextMeshProUGUI> _textObjectsList;
         [SerializeField] private TextMeshProUGUI _pressAnyKeyText;
-        [SerializeField] private SpriteRenderer _spriteRenderer;
 
         [CustomHeader("DOTween Config")]
         [SerializeField] private float _textFadeDuration;
+        [SerializeField] private float _textFadeTarget;
         [SerializeField] private float _pressAnyKeyFadeDuration;
 
         public List<TextMeshProUGUI> TextObjectList => _textObjectsList;
-        public SpriteRenderer SpriteRenderer => _spriteRenderer;
 
         private Tween _currentTween;
 
@@ -48,12 +48,12 @@ namespace Youregone.GameSystems
         {
             foreach(TextMeshProUGUI text in _textObjectsList)
             {
-                _currentTween = text.DOFade(1f, _textFadeDuration).SetEase(Ease.Linear);
+                _currentTween = text.DOFade(_textFadeTarget, _textFadeDuration).From(0f).SetEase(Ease.Linear);
                 yield return _currentTween.WaitForCompletion();
                 _currentTween = null;
             }
 
-            Tween pressAnyKeyTween = _pressAnyKeyText.DOFade(1f, _pressAnyKeyFadeDuration).SetEase(Ease.Linear);
+            Tween pressAnyKeyTween = _pressAnyKeyText.DOFade(_textFadeTarget, _pressAnyKeyFadeDuration).From(0f).SetEase(Ease.Linear);
             yield return pressAnyKeyTween.WaitForCompletion();
         }
 

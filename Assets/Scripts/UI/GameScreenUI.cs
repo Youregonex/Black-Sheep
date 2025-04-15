@@ -16,10 +16,14 @@ namespace Youregone.UI
         public event Action OnGameOutroToggleRequest;
         public event Action OnPauseButtonPressed;
 
-        [CustomHeader("Config")]
+        [CustomHeader("UI Elements")]
         [SerializeField] private ScoreCounterUI _scoreCounter;
         [SerializeField] private HealthbarUI _healthbarUI;
         [SerializeField] private CloversCollectedUI _cloversCollectedUI;
+        [SerializeField] private OutroScenePlayer _outroScenePlayer;
+        [SerializeField] private DeathScreenUI _deathScreenUI;
+
+        [CustomHeader("Canvas Groups")]
         [SerializeField] private CanvasGroup _scoreCanvasGroup;
         [SerializeField] private CanvasGroup _healthCanvasGroup;
         [SerializeField] private CanvasGroup _cloversCanvasGroup;
@@ -64,9 +68,11 @@ namespace Youregone.UI
 
         public HealthbarUI HealthbarUI => _healthbarUI;
         public ScoreCounterUI ScoreCounter => _scoreCounter;
+        public CloversCollectedUI CloversCollectedUI => _cloversCollectedUI;
+        public OutroScenePlayer OutroScenePlayer => _outroScenePlayer;
+        public DeathScreenUI DeathScreenUI => _deathScreenUI;
         public Button MainMenuButton => _mainMenuButton;
         public Button OutroDisableButton => _outroToggleButton;
-        public CloversCollectedUI CloversCollectedUI => _cloversCollectedUI;
 
         private void Start()
         {

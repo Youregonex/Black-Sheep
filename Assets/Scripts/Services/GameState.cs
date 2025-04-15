@@ -5,7 +5,6 @@ using Youregone.YPlayerController;
 using System;
 using System.Collections;
 using UnityEngine.SceneManagement;
-using System.Collections.Generic;
 using Youregone.SL;
 using Youregone.SaveSystem;
 
@@ -17,31 +16,29 @@ namespace Youregone.GameSystems
 
         [CustomHeader("Config")]
         [SerializeField] private GameCamera _camera;
-        [SerializeField] private List<OutroScene> _outroScenes;
         [SerializeField] private float _outroDelay;
         [SerializeField] private float _sceneReloadDelay;
-
-        [CustomHeader("UI Elements")]
-        [SerializeField] private DeathScreenUI _deathScreenUI;
-
-        [CustomHeader("DOTWeen Config")]
-        [SerializeField] private float _outroTransitionDuration;
 
         [CustomHeader("Debug")]
         [SerializeField] private EGameState _currentGameState;
 
+        private DeathScreenUI _deathScreenUI;
         private Transition _transition;
+        private GameScreenUI _gameScreenUI;
 
         public EGameState CurrentGameState => _currentGameState;
 
         private void Initialize()
         {
             _transition = ServiceLocator.Get<Transition>();
-            ServiceLocator.Get<PlayerController>().OnDeath += PlayerController_OnDeath;
-            ServiceLocator.Get<GameScreenUI>().OnMainMenuLoadRequest += GameScreenUI_OnMainMenuLoadRequest;
+            _gameScreenUI = ServiceLocator.Get<GameScreenUI>();
+            _gameScreenUI.OnMainMenuLoadRequest += GameScreenUI_OnMainMenuLoadRequest;
 
+            _deathScreenUI = _gameScreenUI.DeathScreenUI;
             _deathScreenUI.OnTryAgainButtonPressed += DeathScreenUI_OnTryAgainButtonPressed;
             _deathScreenUI.OnMainMenuButtonPressed += DeathScreenUI_OnMainMenuButtonPressed;
+
+            ServiceLocator.Get<PlayerController>().OnDeath += PlayerController_OnDeath;
         }
 
         private void Awake()
@@ -53,8 +50,8 @@ namespace Youregone.GameSystems
         {
             base.Start();
 
-            HideUI();
             Initialize();
+            HideUI();
 
             StartCoroutine(StartGameCoroutine());
         }
@@ -64,7 +61,7 @@ namespace Youregone.GameSystems
             base.OnDestroy();
 
             ServiceLocator.Get<PlayerController>().OnDeath -= PlayerController_OnDeath;
-            ServiceLocator.Get<GameScreenUI>().OnMainMenuLoadRequest -= GameScreenUI_OnMainMenuLoadRequest;
+            _gameScreenUI.OnMainMenuLoadRequest -= GameScreenUI_OnMainMenuLoadRequest;
 
             _deathScreenUI.OnTryAgainButtonPressed -= DeathScreenUI_OnTryAgainButtonPressed;
             _deathScreenUI.OnMainMenuButtonPressed -= DeathScreenUI_OnMainMenuButtonPressed;
@@ -80,6 +77,9 @@ namespace Youregone.GameSystems
 
         public override void Unpause()
         {
+            if (_currentGameState != EGameState.Pause)
+                return;
+
             _currentGameState = EGameState.Gameplay;
         }
 
@@ -137,25 +137,8 @@ namespace Youregone.GameSystems
         {
             HideUI();
 
-            yield return _transition.StartCoroutine(_transition.PlayTransitionStart());
+            yield return StartCoroutine(_gameScreenUI.OutroScenePlayer.PlayOutroCoroutine());
 
-            foreach (OutroScene outroScene in _outroScenes)
-            {
-                OutroScene currentOutroScene = Instantiate(outroScene);
-                currentOutroScene.transform.position = new Vector3(_camera.transform.position.x, _camera.transform.position.y, 0f);
-
-                yield return _transition.StartCoroutine(_transition.PlayTransitionEnd());
-
-                yield return StartCoroutine(currentOutroScene.ShowTextCoroutine());
-
-                yield return new WaitUntil(() => Input.anyKeyDown);
-
-                yield return _transition.StartCoroutine(_transition.PlayTransitionStart());
-
-                Destroy(currentOutroScene.gameObject);
-            }
-
-            yield return _transition.StartCoroutine(_transition.PlayTransitionEnd());
             _deathScreenUI.ShowWindow();
         }
 
@@ -164,8 +147,8 @@ namespace Youregone.GameSystems
             StartCoroutine(PlayerController_OnDeath_Coroutine());
         }
 
-        private void ShowUI() => ServiceLocator.Get<GameScreenUI>().ShowUIElements();
-        private void HideUI() => ServiceLocator.Get<GameScreenUI>().HideUIElements();
+        private void ShowUI() => _gameScreenUI.ShowUIElements();
+        private void HideUI() => _gameScreenUI.HideUIElements();
 
         private IEnumerator PlayerController_OnDeath_Coroutine()
         {
@@ -176,7 +159,6 @@ namespace Youregone.GameSystems
             if (!ServiceLocator.Get<GameSettings>().OutroEnabled)
             {
                 _deathScreenUI.ShowWindow();
-
                 yield break;
             }
 
