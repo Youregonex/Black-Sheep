@@ -7,6 +7,7 @@ using Youregone.GameSystems;
 using Youregone.SaveSystem;
 using DG.Tweening;
 using System.Collections;
+using Youregone.YPlayerController;
 
 namespace Youregone.UI
 {
@@ -15,6 +16,9 @@ namespace Youregone.UI
         public event Action OnMainMenuLoadRequest;
         public event Action OnGameOutroToggleRequest;
         public event Action OnPauseButtonPressed;
+
+        private const string ANIMATION_RUN_TRIGGER = "RUN";
+        private const string ANIMATION_DEATH_TRIGGER = "DEATH";
 
         [CustomHeader("UI Elements")]
         [SerializeField] private ScoreCounterUI _scoreCounter;
@@ -45,7 +49,7 @@ namespace Youregone.UI
         [SerializeField] private CanvasGroup _uiSheep;
         [SerializeField] private CanvasGroup _flagWebHS;
         [SerializeField] private CanvasGroup _flagPersonalHS;
-        [SerializeField] private RectTransform _flagParent;
+        [SerializeField] private RectTransform _flagAndSheepParent;
 
         [CustomHeader("DOTween Settings")]
         [SerializeField] private float _buttonAnimationTime;
@@ -102,11 +106,15 @@ namespace Youregone.UI
             });
 
             _outroToggleButton.image.sprite = ServiceLocator.Get<GameSettings>().OutroEnabled ? _outroDisableButtonSpriteOn : _outroDisableButtonSpriteOff;
+            ServiceLocator.Get<PlayerController>().OnDeath += PlayerController_OnDeath;
+            ServiceLocator.Get<GameState>().OnGameStarted += GameState_OnGameStarted;
         }
 
         private void OnDestroy()
         {
             ServiceLocator.Get<ScoreCounter>().OnScoreChanged -= ScoreCounter_OnScoreChanged;
+            ServiceLocator.Get<PlayerController>().OnDeath -= PlayerController_OnDeath;
+            ServiceLocator.Get<GameState>().OnGameStarted -= GameState_OnGameStarted;
         }
 
         public void ShowUIElements()
@@ -125,6 +133,9 @@ namespace Youregone.UI
             _cloversCollectedUI.gameObject.SetActive(false);
         }
 
+        private void GameState_OnGameStarted() => _uiSheep.GetComponent<Animator>().SetTrigger(ANIMATION_RUN_TRIGGER);
+        private void PlayerController_OnDeath() => _uiSheep.GetComponent<Animator>().SetTrigger(ANIMATION_DEATH_TRIGGER);
+
         private IEnumerator ShowUIElementsCoroutin()
         {
             yield return PlayButtonAnimations().WaitForCompletion();
@@ -134,9 +145,9 @@ namespace Youregone.UI
             _healthbarUI.gameObject.SetActive(true);
             _cloversCollectedUI.gameObject.SetActive(true);
 
-            _scoreCanvasGroup.DOFade(1f, _otherElementsAnimationTime).From(0f).SetEase(Ease.InQuad);
-            _scoreCanvasGroup.DOFade(1f, _otherElementsAnimationTime).From(0f).SetEase(Ease.InQuad);
-            _scoreCanvasGroup.DOFade(1f, _otherElementsAnimationTime).From(0f).SetEase(Ease.InQuad);
+            _scoreCanvasGroup.DOFade(1f, _otherElementsAnimationTime).From(0f).SetEase(Ease.InOutQuad);
+            _scoreCanvasGroup.DOFade(1f, _otherElementsAnimationTime).From(0f).SetEase(Ease.InOutQuad);
+            _scoreCanvasGroup.DOFade(1f, _otherElementsAnimationTime).From(0f).SetEase(Ease.InOutQuad);
         }
 
         private Sequence PlayButtonAnimations()
@@ -163,13 +174,16 @@ namespace Youregone.UI
             _flagPersonalHS.alpha = 0f;
             _flagWebHS.alpha = 0f;
 
-            _flagParent.sizeDelta = new Vector2(0f, _flagParent.sizeDelta.y);
+            _flagAndSheepParent.sizeDelta = new Vector2(0f, _flagAndSheepParent.sizeDelta.y);
             _onScreenPathCanvasGroup.alpha = 1f;
+
+            Vector2 uiSheepStartPosition = new(-_pathTargerWidth / 2f, _uiSheep.transform.localPosition.y);
+            _uiSheep.GetComponent<RectTransform>().anchoredPosition = uiSheepStartPosition;
 
             Sequence sequence = DOTween.Sequence();
 
-            Vector2 pathWidthGoal = new(_pathTargerWidth, _flagParent.sizeDelta.y);
-            sequence.Append(_flagParent.DOSizeDelta(pathWidthGoal, _pathAnimationTime));
+            Vector2 pathWidthGoal = new(_pathTargerWidth, _flagAndSheepParent.sizeDelta.y);
+            sequence.Append(_flagAndSheepParent.DOSizeDelta(pathWidthGoal, _pathAnimationTime)).SetEase(Ease.InOutQuad);
 
             _personalHighscore = ServiceLocator.Get<LocalDatabase>().GetHighscore(true);
             _webHighscore = ServiceLocator.Get<LocalDatabase>().GetHighscore(false);
@@ -177,7 +191,7 @@ namespace Youregone.UI
             if(_personalHighscore >= _webHighscore)
             {
                 _flagWebHS.gameObject.SetActive(false);
-                _flagPersonalHS.transform.localPosition = new Vector2(_pathTargerWidth / 2, _flagPersonalHS.transform.localPosition.y);
+                _flagPersonalHS.transform.localPosition = new Vector2(_pathTargerWidth / 2f, _flagPersonalHS.transform.localPosition.y);
 
                 sequence
                     .Append(_flagPersonalHS.DOFade(1f, _pathIconsAnimationTime).SetEase(Ease.Linear))
@@ -185,7 +199,7 @@ namespace Youregone.UI
             }
             else
             {
-                _flagWebHS.transform.localPosition = new Vector2(_pathTargerWidth / 2, _flagWebHS.transform.localPosition.y);
+                _flagWebHS.transform.localPosition = new Vector2(_pathTargerWidth / 2f, _flagWebHS.transform.localPosition.y);
 
                 if (_personalHighscore != 0)
                 {
@@ -193,8 +207,8 @@ namespace Youregone.UI
 
                     _flagPersonalHS.transform.localPosition =
                         Vector2.Lerp(
-                            new Vector2(-_pathTargerWidth / 2, _flagPersonalHS.transform.localPosition.y),
-                            new Vector2(_pathTargerWidth / 2, _flagPersonalHS.transform.localPosition.y),
+                            new Vector2(-_pathTargerWidth / 2f, _flagPersonalHS.transform.localPosition.y),
+                            new Vector2(_pathTargerWidth / 2f, _flagPersonalHS.transform.localPosition.y),
                             t);
 
                     sequence
@@ -223,8 +237,8 @@ namespace Youregone.UI
 
             _uiSheep.transform.localPosition =
                 Vector2.Lerp(
-                    new Vector2(-_pathTargerWidth / 2, _uiSheep.transform.localPosition.y),
-                    new Vector2(_pathTargerWidth / 2, _uiSheep.transform.localPosition.y),
+                    new Vector2(-_pathTargerWidth / 2f, _uiSheep.transform.localPosition.y),
+                    new Vector2(_pathTargerWidth / 2f, _uiSheep.transform.localPosition.y),
                     t);
         }
     }

@@ -20,6 +20,9 @@ namespace Youregone.UI
         public event Action OnTryAgainButtonPressed;
         public event Action OnMainMenuButtonPressed;
 
+        private const string ANIMATION_RUN_TRIGGER = "RUN";
+        private const string ANIMATION_DEATH_TRIGGER = "DEATH";
+
         [CustomHeader("Canvas Groups")]
         [SerializeField] private CanvasGroup _highScoreCanvasGroup;
         [SerializeField] private CanvasGroup _currentScoreCanvasGroup;
@@ -171,11 +174,17 @@ namespace Youregone.UI
             float uiSheepYOffset = 20f;
             Vector2 sheepGoalPosition = new(Mathf.Lerp(-_pathImage.rectTransform.rect.width / 2f, _pathImage.rectTransform.rect.width / 2f, t), uiSheepYOffset);
 
+            _sheepImage.GetComponent<Animator>().SetTrigger(ANIMATION_RUN_TRIGGER);
+
             _currentSequence = DOTween.Sequence();
             _currentSequence
                 .Append(_sheepImage.rectTransform.DOAnchorPos(sheepGoalPosition, _sheepSpeed)
                 .SetEase(Ease.InOutQuad))
-                .OnComplete(() => _currentSequence = null);
+                .OnComplete(() =>
+                {
+                    _sheepImage.GetComponent<Animator>().SetTrigger(ANIMATION_DEATH_TRIGGER);
+                    _currentSequence = null;
+                });
 
             yield return _currentSequence.WaitForCompletion();
         }
