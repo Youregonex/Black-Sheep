@@ -146,8 +146,13 @@ namespace Youregone.UI
             _cloversCollectedUI.gameObject.SetActive(true);
 
             _scoreCanvasGroup.DOFade(1f, _otherElementsAnimationTime).From(0f).SetEase(Ease.InOutQuad);
-            _scoreCanvasGroup.DOFade(1f, _otherElementsAnimationTime).From(0f).SetEase(Ease.InOutQuad);
-            _scoreCanvasGroup.DOFade(1f, _otherElementsAnimationTime).From(0f).SetEase(Ease.InOutQuad);
+            _scoreCanvasGroup.transform.DOScale(1f, _otherElementsAnimationTime).From(.75f).SetEase(Ease.OutBounce);
+
+            _healthCanvasGroup.DOFade(1f, _otherElementsAnimationTime).From(0f).SetEase(Ease.InOutQuad);
+            _healthCanvasGroup.transform.DOScale(1f, _otherElementsAnimationTime).From(.75f).SetEase(Ease.OutBounce);
+
+            _cloversCanvasGroup.DOFade(1f, _otherElementsAnimationTime).From(0f).SetEase(Ease.InOutQuad);
+            _cloversCanvasGroup.transform.DOScale(1f, _otherElementsAnimationTime).From(.75f).SetEase(Ease.OutBounce);
         }
 
         private Sequence PlayButtonAnimations()
