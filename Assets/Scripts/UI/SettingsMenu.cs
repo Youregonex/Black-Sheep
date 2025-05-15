@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Youregone.SaveSystem;
 using Youregone.SL;
@@ -21,6 +22,10 @@ namespace Youregone.UI
         [SerializeField] private Slider _masterVolumeSlider;
         [SerializeField] private Slider _musicVolumeSlider;
         [SerializeField] private Slider _soundFXSlider;
+
+        [CustomHeader("Main Menu Settings")]
+        [SerializeField] private Button _openWindowButton;
+        [SerializeField] private Button _closeWindowButton;
 
         private PlayerPrefsSaverLoader _playerPrefsSaverLoader;
         private bool _isOpened = false;
@@ -51,6 +56,24 @@ namespace Youregone.UI
             {
                 _playerPrefsSaverLoader.ToggleOutroEnable(enabled);
             });
+
+            if (_openWindowButton != null)
+                _openWindowButton.onClick.AddListener(() =>
+                {
+                    if (_isOpened)
+                        HideWindow();
+                    else
+                        ShowWindow();
+
+                    EventSystem.current.SetSelectedGameObject(null);
+                });
+
+            if (_closeWindowButton != null)
+                _closeWindowButton.onClick.AddListener(() =>
+                {
+                    HideWindow();
+                    EventSystem.current.SetSelectedGameObject(null);
+                });
         }
 
         private void Start()
