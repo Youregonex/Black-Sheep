@@ -22,7 +22,7 @@ namespace Youregone.YCamera
         [CustomHeader("UI Elements")]
         [SerializeField] private Button _playButton;
         [SerializeField] private Button _exitButton;
-        [SerializeField] private Button _shopButton;
+        //[SerializeField] private Button _shopButton;
         [SerializeField] private TextMeshProUGUI _highScoreText;
         [SerializeField] private CanvasGroup _highScoreCanvasGroup;
         [SerializeField] private ShopUI _shopUI;
@@ -31,11 +31,11 @@ namespace Youregone.YCamera
         [SerializeField] private float _cameraMoveDuration;
         [SerializeField] private float _objectFadeTime;
 
-        public Transform CameraStartPoint => _cameraStartPoint;
-        public Transform CameraEndPoint => _cameraEndPoint;
-
         private Tween _currentTween;
         private bool _introSkipped = false;
+
+        public Transform CameraStartPoint => _cameraStartPoint;
+        public Transform CameraEndPoint => _cameraEndPoint;
 
         private void Awake()
         {
@@ -83,15 +83,15 @@ namespace Youregone.YCamera
         {
             _playButton.interactable = false;
             _exitButton.interactable = false;
-            _shopButton.interactable = false;
+            //_shopButton.interactable = false;
 
-            _shopButton.onClick.AddListener(() =>
-            {
-                if (_shopUI.ShopOpened)
-                    return;
+            //_shopButton.onClick.AddListener(() =>
+            //{
+            //    if (_shopUI.ShopOpened)
+            //        return;
 
-                _shopUI.ShowWindow();
-            });
+            //    _shopUI.ShowWindow();
+            //});
 
             _playButton.onClick.RemoveAllListeners();
             _playButton.onClick.AddListener(() =>
@@ -134,13 +134,13 @@ namespace Youregone.YCamera
             sequence
                 .Append(_playButton.image.DOFade(1f, _objectFadeTime))
                 .Join(_exitButton.image.DOFade(1f, _objectFadeTime))
-                .Join(_shopButton.image.DOFade(1f, _objectFadeTime))
+                //.Join(_shopButton.image.DOFade(1f, _objectFadeTime))
                 .SetEase(Ease.Linear)
                 .OnComplete(() =>
                 {
                     _playButton.interactable = true;
                     _exitButton.interactable = true;
-                    _shopButton.interactable = true;
+                    //_shopButton.interactable = true;
                 });
         }
 

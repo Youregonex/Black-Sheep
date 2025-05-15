@@ -10,6 +10,10 @@ namespace Youregone.SaveSystem
         private const string PLAYER_CLOVERS_COLLECTED = "PLAYERCLOVERSCOLLECTED";
         private const string PLAYER_RARE_CLOVERS_COLLECTED = "PLAYERRARECLOVERSCOLLECTED";
 
+        private const string AUDIO_MASTER_VOLUME = "AUDIO_MASTER_VOLUME";
+        private const string AUDIO_MUSIC_VOLUME = "AUDIO_MUSIC_VOLUME";
+        private const string AUDIO_SOUNDFX_VOLUME = "AUDIO_SOUNDFX_VOLUME";
+
         public bool OutroEnabled
         {
             get
@@ -48,9 +52,9 @@ namespace Youregone.SaveSystem
             PlayerPrefs.Save();
         }
 
-        public void ToggleOutroEnable()
+        public void ToggleOutroEnable(bool enableOutro)
         {
-            if(PlayerPrefs.GetInt(OUTRO_ENABLED_PLAYER_PREFS_KEY) == 0)
+            if(enableOutro)
             {
                 PlayerPrefs.SetInt(OUTRO_ENABLED_PLAYER_PREFS_KEY, 1);
                 PlayerPrefs.Save();
@@ -61,7 +65,6 @@ namespace Youregone.SaveSystem
                 PlayerPrefs.Save();
             }
         }
-
 
         public void SavePlayerClovers(int baseCloversCollectedAmount, int rareCloversCollectedAmount)
         {
@@ -98,6 +101,48 @@ namespace Youregone.SaveSystem
                 return PlayerPrefs.GetInt(PLAYER_RARE_CLOVERS_COLLECTED);
 
             return 0;
+        }
+
+        public void SaveMasterVolume(float level)
+        {
+            PlayerPrefs.SetFloat(AUDIO_MASTER_VOLUME, level);
+            PlayerPrefs.Save();
+        }
+
+        public void SaveMusicVolume(float level)
+        {
+            PlayerPrefs.SetFloat(AUDIO_MUSIC_VOLUME, level);
+            PlayerPrefs.Save();
+        }
+
+        public void SaveSoundFXVolume(float level)
+        {
+            PlayerPrefs.SetFloat(AUDIO_SOUNDFX_VOLUME, level);
+            PlayerPrefs.Save();
+        }
+
+        public float GetSavedMasterVolume()
+        {
+            if (!PlayerPrefs.HasKey(AUDIO_MASTER_VOLUME))
+                return 1f;
+
+            return PlayerPrefs.GetFloat(AUDIO_MASTER_VOLUME);
+        }
+
+        public float GetSavedMusicVolume()
+        {
+            if (!PlayerPrefs.HasKey(AUDIO_MUSIC_VOLUME))
+                return 1f;
+
+            return PlayerPrefs.GetFloat(AUDIO_MUSIC_VOLUME);
+        }
+
+        public float GetSavedSoundFXVolume()
+        {
+            if (!PlayerPrefs.HasKey(AUDIO_SOUNDFX_VOLUME))
+                return 1f;
+
+            return PlayerPrefs.GetFloat(AUDIO_SOUNDFX_VOLUME);
         }
     }
 }

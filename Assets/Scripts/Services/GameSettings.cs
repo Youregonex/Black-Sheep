@@ -3,7 +3,6 @@ using UnityEngine;
 using Youregone.LevelGeneration;
 using Youregone.SaveSystem;
 using Youregone.SL;
-using Youregone.UI;
 
 namespace Youregone.GameSystems
 {
@@ -69,18 +68,6 @@ namespace Youregone.GameSystems
         {
             if(_playerPrefsSaverLoader == null)
                 _playerPrefsSaverLoader = ServiceLocator.Get<PlayerPrefsSaverLoader>();
-
-            ServiceLocator.Get<GameScreenUI>().OnGameOutroToggleRequest += GameScreenUI_OnGameOutroToggleRequest;
-        }
-
-        private void OnDestroy()
-        {
-            ServiceLocator.Get<GameScreenUI>().OnGameOutroToggleRequest -= GameScreenUI_OnGameOutroToggleRequest;
-        }
-
-        private void GameScreenUI_OnGameOutroToggleRequest()
-        {
-            _playerPrefsSaverLoader.ToggleOutroEnable();
         }
     }
 }

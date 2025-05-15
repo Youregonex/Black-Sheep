@@ -99,7 +99,6 @@ namespace Youregone.YPlayerController
 
         private Coroutine _flashCoroutine;
         private Coroutine _staminaCoroutine;
-        private Coroutine _infiniteStaminaCoroutine;
 
         private Sequence _comboTextSequence;
         private Tween _comboTimerTween;
@@ -234,7 +233,7 @@ namespace Youregone.YPlayerController
                     0f,
                     duration)
                 .SetEase(Ease.Linear)
-                .OnUpdate(() => _infiniteStaminaText.text = $"Infinite Stamina: {_currentInfiniteStaminaTimer:F1}")
+                .OnUpdate(() => _infiniteStaminaText.text = $"Бесконечная выносливость: {_currentInfiniteStaminaTimer:F1}")
                 .OnComplete(() =>
                 {
                     _infiniteStaminaTween = null;

@@ -1,4 +1,5 @@
 using UnityEngine;
+using Youregone.GameSystems;
 using Youregone.SaveSystem;
 using Youregone.UI;
 
@@ -10,12 +11,14 @@ namespace Youregone.SL
         [SerializeField] private PlayerPrefsSaverLoader _playerPrefsSaverLoader;
         [SerializeField] private Transition _transition;
         [SerializeField] private LocalDatabase _localDatabase;
+        [SerializeField] private SoundManager _soundManager;
 
         private void Awake()
         {
-            ServiceLocator.Register<PlayerPrefsSaverLoader>(_playerPrefsSaverLoader);
-            ServiceLocator.Register<Transition>(_transition);
-            ServiceLocator.Register<LocalDatabase>(_localDatabase);
+            ServiceLocator.Register(_playerPrefsSaverLoader);
+            ServiceLocator.Register(_transition);
+            ServiceLocator.Register(_localDatabase);
+            ServiceLocator.Register(_soundManager);
         }
     }
 }

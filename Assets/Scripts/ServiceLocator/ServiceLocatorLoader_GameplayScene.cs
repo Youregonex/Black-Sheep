@@ -26,19 +26,19 @@ namespace Youregone.SL
 
         private void Awake()
         {
-            ServiceLocator.Register<PlayerController>(_playerController);
-            ServiceLocator.Register<GameState>(_gameState);
-            ServiceLocator.Register<MovingObjectHandler>(_movingObjectHandler);
-            ServiceLocator.Register<MovingObjectSpawner>(_movingObjectSpawner);
-            ServiceLocator.Register<PauseManager>(_pauseManager);
-            ServiceLocator.Register<SoundManager>(_soundManager);
-            ServiceLocator.Register<GameScreenUI>(_gameScreenUI);
-            ServiceLocator.Register<GameSettings>(_gameSettings);
-            ServiceLocator.Register<PlayerPrefsSaverLoader>(_playerPrefsSaverLoader);
-            ServiceLocator.Register<Transition>(_transition);
-            ServiceLocator.Register<ScoreCounter>(_scoreCounter);
-            ServiceLocator.Register<LocalDatabase>(_localDatabase);
-            ServiceLocator.Register<PlayerCloversCollected>(_playerCloversCollected);
+            ServiceLocator.Register(_playerController);
+            ServiceLocator.Register(_gameState);
+            ServiceLocator.Register(_movingObjectHandler);
+            ServiceLocator.Register(_movingObjectSpawner);
+            ServiceLocator.Register(_pauseManager);
+            ServiceLocator.Register(_soundManager);
+            ServiceLocator.Register(_gameScreenUI);
+            ServiceLocator.Register(_gameSettings);
+            ServiceLocator.Register(_playerPrefsSaverLoader);
+            ServiceLocator.Register(_transition);
+            ServiceLocator.Register(_scoreCounter);
+            ServiceLocator.Register(_localDatabase);
+            ServiceLocator.Register(_playerCloversCollected);
         }
     }
 }
