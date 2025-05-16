@@ -49,7 +49,7 @@ namespace Youregone.UI
 
         private void ScoreCounter_OnScoreChanged(int updatedScore)
         {
-            _scoreText.text = $"Score: {updatedScore}";
+            _scoreText.text = $"Счет: {updatedScore}";
         }
     }
 }

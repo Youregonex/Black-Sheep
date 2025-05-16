@@ -15,7 +15,7 @@ namespace Youregone.UI
     {
         public event Action OnMainMenuLoadRequest;
         public event Action OnGameOutroToggleRequest;
-        public event Action OnPauseButtonPressed;
+        public event Action OnPauseToggleRequest;
 
         private const string ANIMATION_RUN_TRIGGER = "RUN";
         private const string ANIMATION_DEATH_TRIGGER = "DEATH";
@@ -26,6 +26,7 @@ namespace Youregone.UI
         [SerializeField] private CloversCollectedUI _cloversCollectedUI;
         [SerializeField] private OutroScenePlayer _outroScenePlayer;
         [SerializeField] private DeathScreenUI _deathScreenUI;
+        [SerializeField] private SettingsMenu _settingsMenu;
 
         [CustomHeader("Canvas Groups")]
         [SerializeField] private CanvasGroup _scoreCanvasGroup;
@@ -34,13 +35,12 @@ namespace Youregone.UI
 
         [CustomHeader("Buttons")]
         [SerializeField] private Button _mainMenuButton;
-        [SerializeField] private Button _outroToggleButton;
         [SerializeField] private Button _pauseButton;
+        [SerializeField] private Button _openSettingsButton;
+        [SerializeField] private Button _closeSettingsButton;
 
         [CustomHeader("Sprites")]
         [SerializeField] private Sprite _mainMenuButtonPressedSprite;
-        [SerializeField] private Sprite _outroDisableButtonSpriteOn;
-        [SerializeField] private Sprite _outroDisableButtonSpriteOff;
         [SerializeField] private Sprite _pauseSpriteGameNotPaused;
         [SerializeField] private Sprite _pauseSpriteGamePaused;
 
@@ -76,21 +76,14 @@ namespace Youregone.UI
         public OutroScenePlayer OutroScenePlayer => _outroScenePlayer;
         public DeathScreenUI DeathScreenUI => _deathScreenUI;
         public Button MainMenuButton => _mainMenuButton;
-        public Button OutroDisableButton => _outroToggleButton;
 
         private void Start()
         {
             _mainMenuButton.onClick.AddListener(() =>
             {
                 _mainMenuButton.image.sprite = _mainMenuButtonPressedSprite;
-                OnMainMenuLoadRequest?.Invoke();
-                EventSystem.current.SetSelectedGameObject(null);
-            });
 
-            _outroToggleButton.onClick.AddListener(() =>
-            {
-                OnGameOutroToggleRequest?.Invoke();
-                _outroToggleButton.image.sprite = !ServiceLocator.Get<GameSettings>().OutroEnabled ? _outroDisableButtonSpriteOff : _outroDisableButtonSpriteOn;
+                OnMainMenuLoadRequest?.Invoke();
                 EventSystem.current.SetSelectedGameObject(null);
             });
 
@@ -101,11 +94,30 @@ namespace Youregone.UI
                 else
                     _pauseButton.image.sprite = _pauseSpriteGamePaused;
 
-                OnPauseButtonPressed?.Invoke();
+                OnPauseToggleRequest?.Invoke();
                 EventSystem.current.SetSelectedGameObject(null);
             });
 
-            _outroToggleButton.image.sprite = ServiceLocator.Get<GameSettings>().OutroEnabled ? _outroDisableButtonSpriteOn : _outroDisableButtonSpriteOff;
+            _openSettingsButton.onClick.AddListener(() =>
+            {
+                if (_settingsMenu.IsOpened)
+                    _settingsMenu.HideWindow();
+                else
+                    _settingsMenu.ShowWindow();
+
+                OnPauseToggleRequest?.Invoke();
+                EventSystem.current.SetSelectedGameObject(null);
+            });
+
+            _closeSettingsButton.onClick.AddListener(() =>
+            {
+                if (_settingsMenu.IsOpened)
+                    _settingsMenu.HideWindow();
+
+                OnPauseToggleRequest?.Invoke();
+                EventSystem.current.SetSelectedGameObject(null);
+            });
+
             ServiceLocator.Get<PlayerController>().OnDeath += PlayerController_OnDeath;
             ServiceLocator.Get<GameState>().OnGameStarted += GameState_OnGameStarted;
         }
@@ -127,10 +139,10 @@ namespace Youregone.UI
             _onScreenPathCanvasGroup.alpha = 0f;
             _scoreCounter.gameObject.SetActive(false);
             _healthbarUI.gameObject.SetActive(false);
-            _outroToggleButton.gameObject.SetActive(false);
             _mainMenuButton.gameObject.SetActive(false);
+            _openSettingsButton.gameObject.SetActive(false);
             _pauseButton.gameObject.SetActive(false);
-            _cloversCollectedUI.gameObject.SetActive(false);
+            //_cloversCollectedUI.gameObject.SetActive(false);
         }
 
         private void GameState_OnGameStarted() => _uiSheep.GetComponent<Animator>().SetTrigger(ANIMATION_RUN_TRIGGER);
@@ -143,7 +155,7 @@ namespace Youregone.UI
 
             _scoreCounter.gameObject.SetActive(true);
             _healthbarUI.gameObject.SetActive(true);
-            _cloversCollectedUI.gameObject.SetActive(true);
+            //_cloversCollectedUI.gameObject.SetActive(true);
 
             _scoreCanvasGroup.DOFade(1f, _otherElementsAnimationTime).From(0f).SetEase(Ease.InOutQuad);
             _scoreCanvasGroup.transform.DOScale(1f, _otherElementsAnimationTime).From(.75f).SetEase(Ease.OutBounce);
@@ -151,22 +163,22 @@ namespace Youregone.UI
             _healthCanvasGroup.DOFade(1f, _otherElementsAnimationTime).From(0f).SetEase(Ease.InOutQuad);
             _healthCanvasGroup.transform.DOScale(1f, _otherElementsAnimationTime).From(.75f).SetEase(Ease.OutBounce);
 
-            _cloversCanvasGroup.DOFade(1f, _otherElementsAnimationTime).From(0f).SetEase(Ease.InOutQuad);
-            _cloversCanvasGroup.transform.DOScale(1f, _otherElementsAnimationTime).From(.75f).SetEase(Ease.OutBounce);
+            //_cloversCanvasGroup.DOFade(1f, _otherElementsAnimationTime).From(0f).SetEase(Ease.InOutQuad);
+            //_cloversCanvasGroup.transform.DOScale(1f, _otherElementsAnimationTime).From(.75f).SetEase(Ease.OutBounce);
         }
 
         private Sequence PlayButtonAnimations()
         {
             _pauseButton.gameObject.SetActive(true);
-            _outroToggleButton.gameObject.SetActive(true);
             _mainMenuButton.gameObject.SetActive(true);
+            _openSettingsButton.gameObject.SetActive(true);
 
             Sequence sequence = DOTween.Sequence();
             sequence
                 .Append(_pauseButton.image.DOFade(1f, _buttonAnimationTime).From(0f).SetEase(Ease.Linear))
                 .Join(_pauseButton.transform.DOScale(1f, _buttonAnimationTime).From(.5f).SetEase(Ease.OutBounce))
-                .Append(_outroToggleButton.image.DOFade(1f, _buttonAnimationTime).From(0f).SetEase(Ease.Linear))
-                .Join(_outroToggleButton.transform.DOScale(1f, _buttonAnimationTime).From(.5f).SetEase(Ease.OutBounce))
+                .Append(_openSettingsButton.image.DOFade(1f, _buttonAnimationTime).From(0f).SetEase(Ease.Linear))
+                .Join(_openSettingsButton.transform.DOScale(1f, _buttonAnimationTime).From(.5f).SetEase(Ease.OutBounce))
                 .Append(_mainMenuButton.image.DOFade(1f, _buttonAnimationTime).From(0f).SetEase(Ease.Linear))
                 .Join(_mainMenuButton.transform.DOScale(1f, _buttonAnimationTime).From(.5f).SetEase(Ease.OutBounce));
 

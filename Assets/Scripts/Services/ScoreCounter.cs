@@ -20,10 +20,7 @@ namespace Youregone.GameSystems
 
         public float CurrentScore
         {
-            get
-            {
-                return _currentScore;
-            }
+            get => _currentScore;
             private set
             {
                 if (value <= 0)

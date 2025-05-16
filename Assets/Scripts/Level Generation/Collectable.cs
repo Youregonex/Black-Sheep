@@ -94,7 +94,6 @@ namespace Youregone.LevelGeneration
 
                 ServiceLocator.Get<ScoreCounter>().AddPoints(_pointsBonus);
                 ServiceLocator.Get<PlayerCloversCollected>().CollectClover(_isRareCollectable);
-                ServiceLocator.Get<SoundManager>().PlaySoundAtPosition(_pickUpAudioClip, .05f, transform.position);
 
                 _rigidBody.velocity = Vector2.zero;
 

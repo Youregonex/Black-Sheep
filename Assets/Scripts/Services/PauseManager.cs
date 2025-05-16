@@ -19,7 +19,6 @@ namespace Youregone.GameSystems
         private GameState _gameState;
         private List<PausableMonoBehaviour> _pausableObjectList = new();
 
-
         private void Start()
         {
             _playerController = ServiceLocator.Get<PlayerController>();
@@ -29,17 +28,17 @@ namespace Youregone.GameSystems
 
             _gameState = ServiceLocator.Get<GameState>();
 
-            ServiceLocator.Get<GameScreenUI>().OnPauseButtonPressed += GameScreenUI_OnPauseButtonPressed;
+            ServiceLocator.Get<GameScreenUI>().OnPauseToggleRequest += GameScreenUI_OnPauseToggleRequest;
         }
 
-        private void GameScreenUI_OnPauseButtonPressed()
+        private void GameScreenUI_OnPauseToggleRequest()
         {
-            PauseTriggered();
+            TogglePause();
         }
 
         private void PlayerCharacterInput_OnPauseButtonPressed()
         {
-            PauseTriggered();
+            TogglePause();
         }
 
         private void OnDestroy()
@@ -65,6 +64,8 @@ namespace Youregone.GameSystems
 
         private void PauseGame()
         {
+            if (_gamePaused) return;
+
             _gamePaused = true;
             _pauseBackground.gameObject.SetActive(true);
 
@@ -74,6 +75,8 @@ namespace Youregone.GameSystems
 
         private void UnpauseGame()
         {
+            if (!_gamePaused) return;
+
             _gamePaused = false;
             _pauseBackground.gameObject.SetActive(false);
 
@@ -81,7 +84,7 @@ namespace Youregone.GameSystems
                 pausable.Unpause();
         }
 
-        private void PauseTriggered()
+        private void TogglePause()
         {
             if (!(_gameState.CurrentGameState == EGameState.Gameplay || _gameState.CurrentGameState == EGameState.Pause))
                 return;

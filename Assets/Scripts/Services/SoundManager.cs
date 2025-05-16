@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using Youregone.SL;
 
@@ -5,31 +6,25 @@ namespace Youregone.GameSystems
 {
     public class SoundManager : MonoBehaviour, IService
     {
-        [SerializeField] private bool _sound;
-        [SerializeField] private AudioSource _audioSourceObjectPrefab;
-        [SerializeField] private AudioSource _audioSourceFX;
+        [CustomHeader("Settings")]
+        [SerializeField] private AudioSource _audioSourcePrefab;
 
-        //public void PlaySoundAtPosition(AudioClip audioClip, float volume, Vector3 position)
-        //{
-        //    AudioSource audioSource = Instantiate(_audioSourceObjectPrefab, position, Quaternion.identity);
-        //    audioSource.clip = audioClip;
-        //    audioSource.volume = volume;
-        //    audioSource.Play();
-
-        //    float clipLength = audioSource.clip.length;
-
-        //    Destroy(audioSource.gameObject, clipLength);
-        //}
-
-        public void PlaySoundAtPosition(AudioClip audioClip, float volume, Vector3 position)
+        public void PlaySoundFXClip(AudioClip audioClip, Vector3 position, float volume)
         {
-            if (!_sound)
-                return;
+            AudioSource audioSource = Instantiate(_audioSourcePrefab, position, Quaternion.identity);
+            audioSource.clip = audioClip;
+            audioSource.volume = volume;
+            float clipLength = audioSource.clip.length;
+            audioSource.Play();
+            Destroy(audioSource.gameObject, clipLength);
+        }
 
-            _audioSourceFX.transform.position = position;
-            _audioSourceFX.clip = audioClip;
-            _audioSourceFX.volume = volume;
-            _audioSourceFX.Play();
+        public void PlaySoundFXClip(List<AudioClip> audioClipList, Vector3 position, float volume)
+        {
+            int randomClipIndex = UnityEngine.Random.Range(0, audioClipList.Count);
+            AudioClip audioClip = audioClipList[randomClipIndex];
+
+            PlaySoundFXClip(audioClip, position, volume);
         }
     }
 }
