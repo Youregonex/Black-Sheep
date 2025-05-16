@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="10" height="23" tilewidth="24" tileheight="24" infinite="0" nextlayerid="6" nextobjectid="19">
+<map version="1.9" tiledversion="1.9.0" orientation="orthogonal" renderorder="right-down" width="10" height="23" tilewidth="24" tileheight="24" infinite="0" nextlayerid="6" nextobjectid="19">
  <tileset firstgid="1" source="../../Tileset/TileSet.tsx"/>
+ <tileset firstgid="400" source="../../Tileset/NewTileset.tsx"/>
  <layer id="2" name="Background" width="10" height="23">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,
@@ -21,11 +22,11 @@
 0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,
-44,44,44,44,44,44,44,44,44,44,
-44,44,44,44,44,44,44,44,44,44,
-44,44,44,44,44,44,44,44,44,44,
-44,44,44,44,44,44,44,44,44,44,
-44,44,44,44,44,44,44,44,44,44
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
  <layer id="1" name="Ground" width="10" height="23">
@@ -47,11 +48,11 @@
 0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,
-139,2,3,2,3,140,139,2,3,140,
-160,23,24,23,24,161,160,23,24,161,
-0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,
+553,553,553,553,553,553,553,553,553,553,
+591,592,591,592,591,592,591,592,591,592,
+629,630,629,630,629,630,629,630,629,630,
+667,668,667,668,667,668,667,668,667,668,
+705,705,705,705,705,705,705,705,705,705,
 0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
