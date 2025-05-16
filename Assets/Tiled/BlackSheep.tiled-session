@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "",
+    "activeFile": "Tileset/NewTileset.tsx",
     "expandedProjectPaths": [
     ],
     "file.lastUsedOpenFilter": "Все файлы (*)",
@@ -268,7 +268,7 @@
             "scale": 1.5,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 81.33333333333337,
+                "x": 82,
                 "y": 402
             }
         },
@@ -281,11 +281,11 @@
             }
         },
         "Chunks/Bridges/7TiledBridgeRock10.tmx": {
-            "scale": 1.5,
+            "scale": 2,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 11.333333333333371,
-                "y": 380.66666666666663
+                "x": 74.5,
+                "y": 462
             }
         },
         "Chunks/Bridges/8TiledBridgeMoss10.tmx": {
@@ -615,7 +615,7 @@
             }
         },
         "Tileset/NewTileset.tsx": {
-            "scaleInDock": 1.5,
+            "scaleInDock": 11,
             "scaleInEditor": 1
         },
         "Tileset/TileSet.tsx": {
@@ -632,21 +632,22 @@
     "map.tileWidth": 24,
     "map.width": 23,
     "openFiles": [
+        "Tileset/NewTileset.tsx"
     ],
     "project": "BlackSheep.tiled-project",
     "recentFiles": [
         "Tileset/NewTileset.tsx",
-        "Tileset/TileSet.tsx",
-        "Chunks/Platforms/StartRock20.tmx",
-        "Chunks/Platforms/StartMoss20.tmx",
-        "Chunks/Platforms/RightRockRock10.tmx",
-        "Chunks/Platforms/RightRockMoss10.tmx",
-        "Chunks/Platforms/MidRockRock10.tmx",
-        "Chunks/Platforms/MidRockMoss10.tmx",
-        "Chunks/Platforms/LeftRockRock10.tmx",
-        "Chunks/Platforms/LeftRockMoss10.tmx",
-        "Chunks/Platforms/EmptyRock10.tmx",
-        "Chunks/Platforms/EmptyMoss10.tmx"
+        "Chunks/Pits/4TiledPitMoss10.tmx",
+        "Chunks/Pits/4TiledPitRock10.tmx",
+        "Chunks/Pits/5TiledPitMoss10.tmx",
+        "Chunks/Pits/5TiledPitRock10.tmx",
+        "Chunks/Pits/6TiledPitMoss10.tmx",
+        "Chunks/Pits/6TiledPitRock10.tmx",
+        "Chunks/Pits/7TiledPitMoss10.tmx",
+        "Chunks/Pits/7TiledPitRock10.tmx",
+        "Chunks/Pits/8TiledPitRock10.tmx",
+        "Chunks/Bridges/7TiledBridgeMoss10.tmx",
+        "Chunks/Bridges/7TiledBridgeRock10.tmx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {
