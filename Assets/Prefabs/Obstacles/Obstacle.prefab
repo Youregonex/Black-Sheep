@@ -84,6 +84,10 @@ MonoBehaviour:
   _birdSpawnPointsParent: {fileID: 1163305888812281605}
   _breakPiecesCountMin: 0
   _breakPiecesCountMax: 0
+  _rockBreakingClipList:
+  - {fileID: 8300000, guid: 9958e697012424955831aea87235eb36, type: 3}
+  - {fileID: 8300000, guid: 0363c4be42a1942519f93b810956437c, type: 3}
+  - {fileID: 8300000, guid: a8cd8d92c96e041158c179fc67db82ec, type: 3}
 --- !u!50 &5421996440791337296
 Rigidbody2D:
   serializedVersion: 4

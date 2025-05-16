@@ -2,6 +2,9 @@ using UnityEngine;
 using Youregone.SO;
 using System;
 using Youregone.YPlayerController;
+using Youregone.GameSystems;
+using Youregone.SL;
+using System.Collections.Generic;
 
 namespace Youregone.LevelGeneration
 {
@@ -15,9 +18,19 @@ namespace Youregone.LevelGeneration
         [SerializeField] private Transform _birdSpawnPointsParent;
         [SerializeField] private int _breakPiecesCountMin;
         [SerializeField] private int _breakPiecesCountMax;
+        [SerializeField] private List<AudioClip> _rockBreakingClipList;
+
+        private SoundManager _soundManager;
 
         public Transform BirdSpawnPointsParent => _birdSpawnPointsParent;
         public ObstacleSO ObstacleSO => _obstacleSO;
+
+        protected override void Awake()
+        {
+            base.Awake();
+
+            _soundManager = ServiceLocator.Get<SoundManager>();
+        }
 
         private void OnEnable()
         {
@@ -27,7 +40,12 @@ namespace Youregone.LevelGeneration
         protected override void OnCollisionEnter2D(Collision2D collision)
         {
             if(collision.transform.GetComponent<PlayerController>() || collision.transform.GetComponent<MovingObjectDestroyer>())
+            {
+                if (collision.transform.GetComponent<PlayerController>())
+                    _soundManager.PlaySoundFXClip(_rockBreakingClipList, transform.position, 1f);
+
                 OnDestruction?.Invoke(this);
+            }
         }
 
         public int GetBreakPiecesAmount()
