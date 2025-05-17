@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "Tileset/NewTileset.tsx",
+    "activeFile": "Chunks/Bridges/7TiledBridgeMoss10.tmx",
     "expandedProjectPaths": [
     ],
     "file.lastUsedOpenFilter": "Все файлы (*)",
@@ -273,11 +273,11 @@
             }
         },
         "Chunks/Bridges/7TiledBridgeMoss10.tmx": {
-            "scale": 3,
+            "scale": 2,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 84,
-                "y": 432.3333333333333
+                "x": 8.5,
+                "y": 429.5
             }
         },
         "Chunks/Bridges/7TiledBridgeRock10.tmx": {
@@ -632,11 +632,13 @@
     "map.tileWidth": 24,
     "map.width": 23,
     "openFiles": [
-        "Tileset/NewTileset.tsx"
+        "Tileset/NewTileset.tsx",
+        "Chunks/Bridges/7TiledBridgeMoss10.tmx"
     ],
     "project": "BlackSheep.tiled-project",
     "recentFiles": [
         "Tileset/NewTileset.tsx",
+        "Chunks/Bridges/7TiledBridgeMoss10.tmx",
         "Chunks/Pits/4TiledPitMoss10.tmx",
         "Chunks/Pits/4TiledPitRock10.tmx",
         "Chunks/Pits/5TiledPitMoss10.tmx",
@@ -646,7 +648,6 @@
         "Chunks/Pits/7TiledPitMoss10.tmx",
         "Chunks/Pits/7TiledPitRock10.tmx",
         "Chunks/Pits/8TiledPitRock10.tmx",
-        "Chunks/Bridges/7TiledBridgeMoss10.tmx",
         "Chunks/Bridges/7TiledBridgeRock10.tmx"
     ],
     "tileset.lastUsedFormat": "tsx",
