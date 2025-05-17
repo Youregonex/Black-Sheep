@@ -5258,7 +5258,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 661f1c7fe165e4599b290edddb64529e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mainMusicClip: {fileID: 8300000, guid: 17333a08bec4c48e1bc5012bd529a6b0, type: 3}
+  _mainMusicClip: {fileID: 8300000, guid: e126ca3b847284a2e8e061cf0b3a5c87, type: 3}
   _musicFadeInDuration: 5
   _musicFadeOutDuration: 0.75
 --- !u!1 &68478382
