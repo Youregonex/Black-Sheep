@@ -85,7 +85,7 @@ MonoBehaviour:
   _breakPiecesCountMin: 0
   _breakPiecesCountMax: 0
   _rockBreakingClipList:
-  - {fileID: 8300000, guid: 30836a851484543da82d75fa5a22a3cf, type: 3}
+  - {fileID: 8300000, guid: 79a9820b05f3040d9bf6666c3a728d4b, type: 3}
 --- !u!50 &5421996440791337296
 Rigidbody2D:
   serializedVersion: 4

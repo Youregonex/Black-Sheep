@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 using Youregone.UI;
+using Youregone.SoundFX;
 
 namespace Youregone.YCamera
 {
@@ -33,19 +34,25 @@ namespace Youregone.YCamera
 
         private Tween _currentTween;
         private bool _introSkipped = false;
+        private Transition _transition;
+        private Music _music;
 
         public Transform CameraStartPoint => _cameraStartPoint;
         public Transform CameraEndPoint => _cameraEndPoint;
 
         private void Awake()
         {
-            SetupButtons();
             _highScoreCanvasGroup.alpha = 0;
             _stihCanvasGroup.alpha = 0f;
+
+            SetupButtons();
         }
 
         private void Start()
         {
+            _transition = ServiceLocator.Get<Transition>();
+            _music = ServiceLocator.Get<Music>();
+
             StartCoroutine(PlayCameraIntroSequence());
         }
 
@@ -58,8 +65,8 @@ namespace Youregone.YCamera
         private IEnumerator PlayCameraIntroSequence()
         {
             transform.position = new Vector3(_cameraStartPoint.position.x, _cameraStartPoint.position.y, _cameraZOffset);
-            yield return StartCoroutine(ServiceLocator.Get<Transition>().PlayTransitionEnd());
-
+            yield return StartCoroutine(_transition.PlayTransitionEnd());
+            _music.StartMusicWithFadeIn();
             StartCoroutine(CameraIntroSequenceCoroutine(_cameraSequenceDelay));
         }
 
@@ -108,7 +115,8 @@ namespace Youregone.YCamera
 
         private IEnumerator StartGame()
         {
-            yield return StartCoroutine(ServiceLocator.Get<Transition>().PlayTransitionStart());
+            _music.FadeOutMusic();
+            yield return StartCoroutine(_transition.PlayTransitionStart());
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
 
@@ -121,15 +129,11 @@ namespace Youregone.YCamera
             if(highScore == 0)
             {
                 if(ServiceLocator.Get<LocalDatabase>().PersonalResults.Count != 0)
-                {
                     ServiceLocator.Get<LocalDatabase>().OnLocalDatabaseUpdated += UpdateHighscoreUI;
-                }
             }
             else
-            {
                 UpdateHighscoreUI();
-            }
-
+            
             Sequence sequence = DOTween.Sequence();
             sequence
                 .Append(_playButton.image.DOFade(1f, _objectFadeTime))

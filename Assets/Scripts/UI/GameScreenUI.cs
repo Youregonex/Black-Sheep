@@ -14,7 +14,6 @@ namespace Youregone.UI
     public class GameScreenUI : MonoBehaviour, IService
     {
         public event Action OnMainMenuLoadRequest;
-        public event Action OnGameOutroToggleRequest;
         public event Action OnPauseToggleRequest;
 
         private const string ANIMATION_RUN_TRIGGER = "RUN";

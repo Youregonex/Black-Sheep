@@ -1253,7 +1253,8 @@ MonoBehaviour:
   _playerPrefsSaverLoader: {fileID: 1807941322}
   _transition: {fileID: 1029972594}
   _localDatabase: {fileID: 339717117}
-  _soundManager: {fileID: 0}
+  _soundManager: {fileID: 1607744372}
+  _mainMusic: {fileID: 1999383781}
 --- !u!224 &476809492 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1704718794116672947, guid: 3e1fef6ee1a77409e98d1c59dccb1d5e, type: 3}
@@ -4710,6 +4711,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4896517688690733005, guid: b7836059759eb46aeb1dd28ea7336cea, type: 3}
   m_PrefabInstance: {fileID: 1673162791231973040}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1607744372 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6675311263518418358, guid: b7836059759eb46aeb1dd28ea7336cea, type: 3}
+  m_PrefabInstance: {fileID: 1673162791231973040}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 078d013424c5042d6bf4cf6df33607b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1728204081
 GameObject:
   m_ObjectHideFlags: 0
@@ -5217,6 +5229,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1999383779}
   - component: {fileID: 1999383780}
+  - component: {fileID: 1999383781}
   m_Layer: 0
   m_Name: MenuMusic
   m_TagString: Untagged
@@ -5249,8 +5262,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 5256856827095693702, guid: 86e59c7ba80144631b2837204bae2e63, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 18479fcf1cbb3464a92e2420dda92fc4, type: 3}
-  m_PlayOnAwake: 1
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 1
@@ -5335,6 +5348,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1999383781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1999383778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 661f1c7fe165e4599b290edddb64529e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mainMusicClip: {fileID: 8300000, guid: 17333a08bec4c48e1bc5012bd529a6b0, type: 3}
+  _musicFadeInDuration: 5
+  _musicFadeOutDuration: 0.75
 --- !u!1 &2009891138
 GameObject:
   m_ObjectHideFlags: 0
@@ -5656,9 +5684,9 @@ Transform:
   - {fileID: 1807941321}
   - {fileID: 251193427}
   - {fileID: 339717116}
-  - {fileID: 385990566}
   - {fileID: 1999383779}
   - {fileID: 1607744371}
+  - {fileID: 385990566}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2074601218

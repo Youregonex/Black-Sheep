@@ -4,6 +4,7 @@ using Youregone.GameSystems;
 using Youregone.LevelGeneration;
 using Youregone.UI;
 using Youregone.SaveSystem;
+using Youregone.SoundFX;
 
 namespace Youregone.SL
 {
@@ -23,6 +24,7 @@ namespace Youregone.SL
         [SerializeField] private ScoreCounter _scoreCounter;
         [SerializeField] private LocalDatabase _localDatabase;
         [SerializeField] private PlayerCloversCollected _playerCloversCollected;
+        [SerializeField] private Music _mainMusic;
 
         private void Awake()
         {
@@ -39,6 +41,7 @@ namespace Youregone.SL
             ServiceLocator.Register(_scoreCounter);
             ServiceLocator.Register(_localDatabase);
             ServiceLocator.Register(_playerCloversCollected);
+            ServiceLocator.Register(_mainMusic);
         }
     }
 }

@@ -42,6 +42,7 @@ namespace Youregone.YPlayerController
         [SerializeField] private float _staminaRechargeDelay;
         [SerializeField] private int _maxHealth;
         [SerializeField] private bool _immortal;
+        [SerializeField] private AudioClip _drownClip;
 
         [CustomHeader("Sprite Flash Config")]
         [SerializeField] private Material _flashMaterial;
@@ -68,7 +69,7 @@ namespace Youregone.YPlayerController
         [SerializeField] private float _boxCastWidth;
         [SerializeField] private float _boxCastHeight;
 
-        [CustomHeader("Rock Break Combo UI")]
+        [CustomHeader("Rock Break Combo")]
         [SerializeField] private TextMeshProUGUI _comboText;
         [SerializeField] private float _comboTextFontSizeStart;
         [SerializeField] private float _comboTextFontSizeMax;
@@ -96,6 +97,7 @@ namespace Youregone.YPlayerController
         private PlayerCharacterInput _playerInput;
         private Rigidbody2D _rigidBody;
         private GameState _gameState;
+        private SoundManager _soundManager;
 
         private Coroutine _flashCoroutine;
         private Coroutine _staminaCoroutine;
@@ -154,6 +156,8 @@ namespace Youregone.YPlayerController
             
             _gameState = ServiceLocator.Get<GameState>();
             _gameState.OnGameStarted += GameState_OnGameStarted;
+
+            _soundManager = ServiceLocator.Get<SoundManager>();
         }
 
         public void ObservedUpdate()
@@ -387,6 +391,8 @@ namespace Youregone.YPlayerController
 
         private void Fall()
         {
+            _soundManager.PlaySoundFXClip(_drownClip, transform.position, .2f);
+            _spriteRenderer.sprite = null;
             CharacterDie();
         }
 
@@ -499,10 +505,10 @@ namespace Youregone.YPlayerController
             _animator.SetTrigger(ANIMATION_JUMP_TRIGGER);
         }
 
-        private void OnDrawGizmos()
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireCube(new Vector3(transform.position.x, _collider.bounds.min.y, 0f), new Vector3(_boxCastWidth, _boxCastHeight, 0f));
-        }
+        //private void OnDrawGizmos()
+        //{
+        //    Gizmos.color = Color.red;
+        //    Gizmos.DrawWireCube(new Vector3(transform.position.x, _collider.bounds.min.y, 0f), new Vector3(_boxCastWidth, _boxCastHeight, 0f));
+        //}
     }
 }

@@ -7,6 +7,7 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 using Youregone.SL;
 using Youregone.SaveSystem;
+using Youregone.SoundFX;
 
 namespace Youregone.GameSystems
 {
@@ -25,6 +26,7 @@ namespace Youregone.GameSystems
         private DeathScreenUI _deathScreenUI;
         private Transition _transition;
         private GameScreenUI _gameScreenUI;
+        private Music _music;
 
         public EGameState CurrentGameState => _currentGameState;
 
@@ -32,6 +34,7 @@ namespace Youregone.GameSystems
         {
             _transition = ServiceLocator.Get<Transition>();
             _gameScreenUI = ServiceLocator.Get<GameScreenUI>();
+            _music = ServiceLocator.Get<Music>();
             _gameScreenUI.OnMainMenuLoadRequest += GameScreenUI_OnMainMenuLoadRequest;
 
             _deathScreenUI = _gameScreenUI.DeathScreenUI;
@@ -121,6 +124,7 @@ namespace Youregone.GameSystems
                 yield return new WaitUntil(() => ServiceLocator.Get<LocalDatabase>().DatabaseUpdated); 
             
             yield return StartCoroutine(_transition.PlayTransitionEnd());
+            _music.StartMusicWithFadeIn();
             ShowUI();
             yield return new WaitUntil(() => Input.anyKeyDown);
 
@@ -152,8 +156,9 @@ namespace Youregone.GameSystems
 
         private IEnumerator PlayerController_OnDeath_Coroutine()
         {
-            _currentGameState = EGameState.Outro;
+            _music.FadeOutMusic();
 
+            _currentGameState = EGameState.Outro;
             yield return new WaitForSeconds(_outroDelay);
 
             if (!ServiceLocator.Get<GameSettings>().OutroEnabled)

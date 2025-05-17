@@ -17,7 +17,9 @@ namespace Youregone.GameSystems
         [SerializeField, Range(0f, 1f)] private float _pitSpawnChanceStart;
         [SerializeField, Range(0f, 1f)] private float _pitSpawnChanceMidGame;
         [SerializeField, Range(0f, 1f)] private float _pitSpawnChanceMax;
+
         [Space(10f)]
+
         [SerializeField, Range(0f, 100f)] private float _bridgeSpawnCooldownStart;
         [SerializeField, Range(0f, 100f)] private float _bridgeSpawnCooldownMidGame;
         [SerializeField, Range(0f, 100f)] private float _bridgeSpawnCooldownMax;
