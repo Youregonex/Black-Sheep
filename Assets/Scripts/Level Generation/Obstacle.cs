@@ -42,7 +42,7 @@ namespace Youregone.LevelGeneration
             if(collision.transform.GetComponent<PlayerController>() || collision.transform.GetComponent<MovingObjectDestroyer>())
             {
                 if (collision.transform.GetComponent<PlayerController>())
-                    _soundManager.PlaySoundFXClip(_rockBreakingClipList, transform.position, 1f);
+                    _soundManager.PlaySoundFXClip(_rockBreakingClipList, transform.position, .6f);
 
                 OnDestruction?.Invoke(this);
             }
