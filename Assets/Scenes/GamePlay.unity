@@ -6803,7 +6803,7 @@ Transform:
   m_GameObject: {fileID: 342034431}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 16, y: 2.82, z: -10}
+  m_LocalPosition: {x: 16, y: 2.26, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7078,7 +7078,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -51428364, guid: 44d4442ae53b04573bb21b1c98ff3e18, type: 3}
+  m_Sprite: {fileID: -542491966, guid: 8efb454219de7354fb39780527f777c9, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -8221,7 +8221,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 774277695775258530, guid: 5d7a4edf6d0c64d00a8e6caab3991c7d, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 60
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 774277695775258530, guid: 5d7a4edf6d0c64d00a8e6caab3991c7d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -11151,7 +11151,7 @@ Transform:
   m_GameObject: {fileID: 1280818425}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 16, y: 0.21999991, z: 0}
+  m_LocalPosition: {x: 16, y: -0.34000003, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -11839,7 +11839,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 774277695775258530, guid: 5d7a4edf6d0c64d00a8e6caab3991c7d, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 60
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 774277695775258530, guid: 5d7a4edf6d0c64d00a8e6caab3991c7d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -14322,14 +14322,10 @@ MonoBehaviour:
   - {fileID: 151219202837881634, guid: ebc8a9f995dcd4689aace45642b641f9, type: 3}
   - {fileID: 151219202837881634, guid: a60d416335fb24dae81ef81fbeae1fb1, type: 3}
   - {fileID: 151219202837881634, guid: 25063e06caeab4ba4987a0db4fb633eb, type: 3}
-  - {fileID: 151219202837881634, guid: 82fab521e118545539daf335884b5023, type: 3}
   _bridgeChunkPrefab:
   - {fileID: 7078118116238077049, guid: 25b10a7297a8942d3a685dd4e818e5e0, type: 3}
-  - {fileID: 4980497933865100573, guid: 6d7149500e9cb4d8f870af281fc4543d, type: 3}
   - {fileID: 3962304590763111793, guid: ec36d798d42964aedaa09ca74160cbfb, type: 3}
-  - {fileID: 8955263863341417930, guid: 90292422e10ee48e59f4157b19a5ad5d, type: 3}
   - {fileID: 2936817898505050731, guid: 9cd90d14d774b4892afc06894a5bd6bc, type: 3}
-  - {fileID: 1746810401142198347, guid: 951c7ba90d3f0432db695f6ba23d361d, type: 3}
   _platformChunkPrefabList:
   - {fileID: 151219202837881634, guid: 53bf13e79e85747918a2fee1724986f3, type: 3}
   - {fileID: 151219202837881634, guid: 7979700f4466e421abaa792d9493a47f, type: 3}
@@ -14808,7 +14804,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 774277695775258530, guid: 5d7a4edf6d0c64d00a8e6caab3991c7d, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 60
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 774277695775258530, guid: 5d7a4edf6d0c64d00a8e6caab3991c7d, type: 3}
       propertyPath: m_LocalPosition.x
