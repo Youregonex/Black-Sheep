@@ -1,5 +1,6 @@
 using DG.Tweening;
 using UnityEngine;
+using Youregone.GameSystems;
 using Youregone.SL;
 using Youregone.YPlayerController;
 
@@ -15,6 +16,8 @@ namespace Youregone.LevelGeneration
         [CustomHeader("DOTween Config")]
         [SerializeField] protected float _slowdownDuration;
 
+        private SoundManager _soundManager;
+
         private Vector2 _prePauseVelocity;
         private float _prePauseGravityScale;
         private float _prePauseAngularVelocity;
@@ -23,6 +26,9 @@ namespace Youregone.LevelGeneration
         private void OnEnable()
         {
             ApplyForce();
+
+            if (_soundManager == null)
+                _soundManager = ServiceLocator.Get<SoundManager>();
 
             Vector2 newVelocity = new(ServiceLocator.Get<PlayerController>().CurrentSpeed, _rigidBody.velocity.y);
             ChangeVelocity(newVelocity);
@@ -38,6 +44,12 @@ namespace Youregone.LevelGeneration
             {
                 _collider.enabled = false;
                 Apply(player);
+            }
+
+            if (collision.transform.GetComponent<FallZone>())
+            {
+                _soundManager.PlayWaterSplashClip(transform.position);
+                Destroy(gameObject);
             }
         }
 

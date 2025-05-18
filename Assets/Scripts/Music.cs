@@ -8,6 +8,7 @@ namespace Youregone.SoundFX
     {
         [CustomHeader("Settings")]
         [SerializeField] private AudioClip _mainMusicClip;
+        [SerializeField, Range(0f, 1f)] private float _musicTargetVolume;
 
         [CustomHeader("DOTween Settings")]
         [SerializeField] private float _musicFadeInDuration = 5f;
@@ -29,7 +30,7 @@ namespace Youregone.SoundFX
 
         public void StartMusic()
         {
-            _audioSource.volume = 1f;
+            _audioSource.volume = _musicTargetVolume;
             _audioSource.Play();
         }
 
@@ -39,6 +40,16 @@ namespace Youregone.SoundFX
             _audioSource.Play();
 
             FadeInMusic();
+        }
+
+        public void PauseMusic()
+        {
+            _audioSource.Pause();
+        }
+
+        public void ResumeMusic()
+        {
+            _audioSource.Play();
         }
 
         public void FadeOutMusic()
@@ -56,13 +67,13 @@ namespace Youregone.SoundFX
                 .OnComplete(() => _currentTween = null);
         }
 
-        public void FadeInMusic(float targetVolume = 1f)
+        public void FadeInMusic()
         {
             _currentTween = DOTween
                 .To(
                     () => _audioSource.volume,
                     x => _audioSource.volume = x,
-                    targetVolume,
+                    _musicTargetVolume,
                     _musicFadeInDuration)
                 .OnComplete(() => _currentTween = null);
         }

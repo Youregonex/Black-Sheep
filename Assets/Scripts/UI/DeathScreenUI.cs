@@ -20,9 +20,6 @@ namespace Youregone.UI
         public event Action OnTryAgainButtonPressed;
         public event Action OnMainMenuButtonPressed;
 
-        private const string ANIMATION_RUN_TRIGGER = "RUN";
-        private const string ANIMATION_DEATH_TRIGGER = "DEATH";
-
         [CustomHeader("Canvas Groups")]
         [SerializeField] private CanvasGroup _highScoreCanvasGroup;
         [SerializeField] private CanvasGroup _currentScoreCanvasGroup;
@@ -32,11 +29,11 @@ namespace Youregone.UI
         [CustomHeader("Buttons")]
         [SerializeField] private Button _tryAgainButton;
         [SerializeField] private Button _mainMenuButton;
+        [SerializeField] private Button _exitGameButton;
 
         [CustomHeader("Images")]
         [SerializeField] private Image _backgroundImage;
         [SerializeField] private Image _sheepImage;
-        [SerializeField] private Image _pathImage;
 
         [CustomHeader("TMPs")]
         [SerializeField] private TextMeshProUGUI _highScoreText;
@@ -45,6 +42,7 @@ namespace Youregone.UI
         [SerializeField] private TextMeshProUGUI _rareCloversCollectedText;
 
         [CustomHeader("Other")]
+        [SerializeField] private RectTransform _pathRectTransform;
         [SerializeField] private TMP_InputField _nameInputField;
         [SerializeField] private RectTransform _flag;
         [SerializeField] private CanvasGroup _leaderBoardCanvasGroup;
@@ -102,7 +100,7 @@ namespace Youregone.UI
         private IEnumerator ShowWindowCoroutine()
         {
             float currentScore = ServiceLocator.Get<ScoreCounter>().CurrentScore;
-            int highScrore = _localDatabase.Highscore;
+            int highScore = _localDatabase.Highscore;
             float t;
 
             string lastName = _playerPrefs.GetLastRecordHolderName();
@@ -110,15 +108,15 @@ namespace Youregone.UI
             if (lastName != null)
                 _nameInputField.text = lastName;
 
-            if (highScrore != 0)
-                t = currentScore / highScrore;
+            if (highScore != 0)
+                t = currentScore / highScore;
             else
                 t = 100f;
 
             if (t > 1)
             {
                 t = .75f; // (.51f -- 1f)
-                _flag.anchoredPosition = _pathImage.rectTransform.anchoredPosition;
+                _flag.anchoredPosition = _pathRectTransform.anchoredPosition;
             }
             else
                 t = t <= .1f ? .1f : t; // min distance so sheep doesn't stand at 0 without movement
@@ -155,8 +153,7 @@ namespace Youregone.UI
 
         private IEnumerator PlayTextAndPathFadeInAnimation()
         {
-            float uiSheepYOffset = 20f;
-            Vector2 uiSheepStartPosition = new(-_pathImage.rectTransform.rect.width / 2f, uiSheepYOffset);
+            Vector2 uiSheepStartPosition = new(-_pathRectTransform.rect.width / 2f, 0f);
             _sheepImage.rectTransform.anchoredPosition = uiSheepStartPosition;
 
             _currentSequence = DOTween.Sequence();
@@ -171,10 +168,7 @@ namespace Youregone.UI
 
         private IEnumerator PlaySheepAnimation(float t)
         {
-            float uiSheepYOffset = 20f;
-            Vector2 sheepGoalPosition = new(Mathf.Lerp(-_pathImage.rectTransform.rect.width / 2f, _pathImage.rectTransform.rect.width / 2f, t), uiSheepYOffset);
-
-            _sheepImage.GetComponent<Animator>().SetTrigger(ANIMATION_RUN_TRIGGER);
+            Vector2 sheepGoalPosition = new(Mathf.Lerp(-_pathRectTransform.rect.width / 2f, _pathRectTransform.rect.width / 2f, t), 0f);
 
             _currentSequence = DOTween.Sequence();
             _currentSequence
@@ -182,7 +176,6 @@ namespace Youregone.UI
                 .SetEase(Ease.InOutQuad))
                 .OnComplete(() =>
                 {
-                    _sheepImage.GetComponent<Animator>().SetTrigger(ANIMATION_DEATH_TRIGGER);
                     _currentSequence = null;
                 });
 
@@ -193,6 +186,7 @@ namespace Youregone.UI
         {
             _tryAgainButton.gameObject.SetActive(true);
             _mainMenuButton.gameObject.SetActive(true);
+            _exitGameButton.gameObject.SetActive(true);
             _nameInputField.gameObject.SetActive(true);
 
             _baseCloversCollectedText.text = "0";
@@ -200,11 +194,13 @@ namespace Youregone.UI
 
             _tryAgainButton.interactable = false;
             _mainMenuButton.interactable = false;
+            _exitGameButton.interactable = true;
 
             _currentSequence = DOTween.Sequence();
             _currentSequence
                 .Append(_tryAgainButton.image.DOFade(1f, _buttonsFadeDuration).From(0f))
                 .Join(_mainMenuButton.image.DOFade(1f, _buttonsFadeDuration).From(0f))
+                .Join(_exitGameButton.image.DOFade(1f, _buttonsFadeDuration).From(0f))
                 .Join(_nameInputField.image.DOFade(1f, _buttonsFadeDuration).From(0f))
                 .Join(_cloversCollectedCanvasGroup.DOFade(1f, _buttonsFadeDuration).From(0f))
                 .SetEase(Ease.Linear)
@@ -212,6 +208,7 @@ namespace Youregone.UI
                 {
                     _tryAgainButton.image.color = new Color(1f, 1f, 1f, .5f);
                     _mainMenuButton.image.color = new Color(1f, 1f, 1f, .5f);
+                    _exitGameButton.image.color = new Color(1f, 1f, 1f, 1f);
 
                     int baseCloverGoal = ServiceLocator.Get<PlayerCloversCollected>().BaseCloversCollected;
                     int rareCloverGoal = ServiceLocator.Get<PlayerCloversCollected>().RareCloversCollected;
@@ -293,6 +290,7 @@ namespace Youregone.UI
         {
             _tryAgainButton.gameObject.SetActive(false);
             _mainMenuButton.gameObject.SetActive(false);
+            _exitGameButton.gameObject.SetActive(false);
             _nameInputField.gameObject.SetActive(false);
 
             _cloversCollectedCanvasGroup.alpha = 0f;
@@ -313,6 +311,7 @@ namespace Youregone.UI
             
             _tryAgainButton.interactable = false;
             _mainMenuButton.interactable = false;
+            _exitGameButton.interactable = false;
         }
 
         private void SetupButtons()
@@ -327,6 +326,11 @@ namespace Youregone.UI
             {
                 ButtonClickSaveResults();
                 OnMainMenuButtonPressed?.Invoke();
+            });
+
+            _exitGameButton.onClick.AddListener(() =>
+            {
+                Application.Quit();
             });
         }
     }

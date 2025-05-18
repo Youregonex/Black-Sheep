@@ -43,6 +43,8 @@ namespace Youregone.YPlayerController
         [SerializeField] private int _maxHealth;
         [SerializeField] private bool _immortal;
         [SerializeField] private AudioClip _drownClip;
+        [SerializeField] private AudioClip _damageClip;
+        [SerializeField] private AudioClip _rockBreakClip;
 
         [CustomHeader("Sprite Flash Config")]
         [SerializeField] private Material _flashMaterial;
@@ -191,6 +193,7 @@ namespace Youregone.YPlayerController
             {
                 OnObstacleDestroyed?.Invoke();
                 StartCombo();
+                _soundManager.PlaySoundFXClip(_rockBreakClip, transform.position);
                 return;
             }
 
@@ -378,6 +381,7 @@ namespace Youregone.YPlayerController
         private void TakeDamage()
         {
             Flash();
+            _soundManager.PlaySoundFXClip(_damageClip, transform.position);
 
             if (_immortal)
                 return;

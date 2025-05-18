@@ -105,6 +105,17 @@ namespace Youregone.UI
             _audioMixer.SetFloat(AUDIO_MIXER_EXPOSED_PARAMETER_SOUNDFX_VOLUME, Mathf.Log10(level) * 20f);
         }
 
+        public void Toggle()
+        {
+            if (_isOpened)
+            {
+                HideWindow();
+                return;
+            }
+
+            ShowWindow();
+        }
+
         public void ShowWindow()
         {
             _windowCanvasGroup.gameObject.SetActive(true);

@@ -3,6 +3,7 @@ using UnityEngine;
 using Youregone.YPlayerController;
 using Youregone.SL;
 using Youregone.UI;
+using Youregone.SoundFX;
 
 namespace Youregone.GameSystems
 {
@@ -17,6 +18,7 @@ namespace Youregone.GameSystems
         private PlayerCharacterInput _playerInput;
         private PlayerController _playerController;
         private GameState _gameState;
+        private Music _music;
         private List<PausableMonoBehaviour> _pausableObjectList = new();
 
         private void Start()
@@ -28,6 +30,7 @@ namespace Youregone.GameSystems
 
             _gameState = ServiceLocator.Get<GameState>();
 
+            _music = ServiceLocator.Get<Music>();
             ServiceLocator.Get<GameScreenUI>().OnPauseToggleRequest += GameScreenUI_OnPauseToggleRequest;
         }
 
@@ -66,6 +69,7 @@ namespace Youregone.GameSystems
         {
             if (_gamePaused) return;
 
+            _music.PauseMusic();
             _gamePaused = true;
             _pauseBackground.gameObject.SetActive(true);
 
@@ -77,6 +81,7 @@ namespace Youregone.GameSystems
         {
             if (!_gamePaused) return;
 
+            _music.ResumeMusic();
             _gamePaused = false;
             _pauseBackground.gameObject.SetActive(false);
 
