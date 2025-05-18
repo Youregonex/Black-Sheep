@@ -271,6 +271,7 @@ namespace Youregone.UI
             else
                 scoreHolders = _localDatabase.PersonalResults;
 
+
             int amountOfHoldersToShow = Mathf.Min(8, scoreHolders.Count);
             float _delay = .15f;
 
