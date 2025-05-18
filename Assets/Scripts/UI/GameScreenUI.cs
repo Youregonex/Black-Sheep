@@ -16,9 +16,6 @@ namespace Youregone.UI
         public event Action OnMainMenuLoadRequest;
         public event Action OnPauseToggleRequest;
 
-        private const string ANIMATION_RUN_TRIGGER = "RUN";
-        private const string ANIMATION_DEATH_TRIGGER = "DEATH";
-
         [CustomHeader("UI Elements")]
         [SerializeField] private ScoreCounterUI _scoreCounter;
         [SerializeField] private HealthbarUI _healthbarUI;
@@ -34,7 +31,6 @@ namespace Youregone.UI
 
         [CustomHeader("Buttons")]
         [SerializeField] private Button _mainMenuButton;
-        [SerializeField] private Button _pauseButton;
         [SerializeField] private Button _openSettingsButton;
         [SerializeField] private Button _closeSettingsButton;
 
@@ -61,13 +57,7 @@ namespace Youregone.UI
         private int _personalHighscore;
         private int _webHighscore;
 
-        private int _highestOverall
-        {
-            get
-            {
-                return _personalHighscore >= _webHighscore ? _personalHighscore : _webHighscore;
-            }
-        }
+        private int _highestOverall => Mathf.Max(_personalHighscore, _webHighscore);
 
         public HealthbarUI HealthbarUI => _healthbarUI;
         public ScoreCounterUI ScoreCounter => _scoreCounter;
@@ -83,17 +73,6 @@ namespace Youregone.UI
                 _mainMenuButton.image.sprite = _mainMenuButtonPressedSprite;
 
                 OnMainMenuLoadRequest?.Invoke();
-                EventSystem.current.SetSelectedGameObject(null);
-            });
-
-            _pauseButton.onClick.AddListener(() =>
-            {
-                if(ServiceLocator.Get<GameState>().CurrentGameState == EGameState.Pause)
-                    _pauseButton.image.sprite = _pauseSpriteGameNotPaused;
-                else
-                    _pauseButton.image.sprite = _pauseSpriteGamePaused;
-
-                OnPauseToggleRequest?.Invoke();
                 EventSystem.current.SetSelectedGameObject(null);
             });
 
@@ -117,15 +96,13 @@ namespace Youregone.UI
                 EventSystem.current.SetSelectedGameObject(null);
             });
 
-            ServiceLocator.Get<PlayerController>().OnDeath += PlayerController_OnDeath;
-            ServiceLocator.Get<GameState>().OnGameStarted += GameState_OnGameStarted;
+            ServiceLocator.Get<PlayerController>().PlayerCharacterInput.OnPauseButtonPressed += PlayerCharacterInput_OnPauseButtonPressed;
         }
 
         private void OnDestroy()
         {
             ServiceLocator.Get<ScoreCounter>().OnScoreChanged -= ScoreCounter_OnScoreChanged;
-            ServiceLocator.Get<PlayerController>().OnDeath -= PlayerController_OnDeath;
-            ServiceLocator.Get<GameState>().OnGameStarted -= GameState_OnGameStarted;
+            ServiceLocator.Get<PlayerController>().PlayerCharacterInput.OnPauseButtonPressed -= PlayerCharacterInput_OnPauseButtonPressed;
         }
 
         public void ShowUIElements()
@@ -140,12 +117,13 @@ namespace Youregone.UI
             _healthbarUI.gameObject.SetActive(false);
             _mainMenuButton.gameObject.SetActive(false);
             _openSettingsButton.gameObject.SetActive(false);
-            _pauseButton.gameObject.SetActive(false);
             //_cloversCollectedUI.gameObject.SetActive(false);
         }
 
-        private void GameState_OnGameStarted() => _uiSheep.GetComponent<Animator>().SetTrigger(ANIMATION_RUN_TRIGGER);
-        private void PlayerController_OnDeath() => _uiSheep.GetComponent<Animator>().SetTrigger(ANIMATION_DEATH_TRIGGER);
+        private void PlayerCharacterInput_OnPauseButtonPressed()
+        {
+            _settingsMenu.Toggle();
+        }
 
         private IEnumerator ShowUIElementsCoroutin()
         {
@@ -168,14 +146,11 @@ namespace Youregone.UI
 
         private Sequence PlayButtonAnimations()
         {
-            _pauseButton.gameObject.SetActive(true);
             _mainMenuButton.gameObject.SetActive(true);
             _openSettingsButton.gameObject.SetActive(true);
 
             Sequence sequence = DOTween.Sequence();
             sequence
-                .Append(_pauseButton.image.DOFade(1f, _buttonAnimationTime).From(0f).SetEase(Ease.Linear))
-                .Join(_pauseButton.transform.DOScale(1f, _buttonAnimationTime).From(.5f).SetEase(Ease.OutBounce))
                 .Append(_openSettingsButton.image.DOFade(1f, _buttonAnimationTime).From(0f).SetEase(Ease.Linear))
                 .Join(_openSettingsButton.transform.DOScale(1f, _buttonAnimationTime).From(.5f).SetEase(Ease.OutBounce))
                 .Append(_mainMenuButton.image.DOFade(1f, _buttonAnimationTime).From(0f).SetEase(Ease.Linear))
@@ -241,7 +216,7 @@ namespace Youregone.UI
 
             sequence
                 .Insert(_pathAnimationTime + _iconAnimationsDelay, _uiSheep.DOFade(1f, _pathIconsAnimationTime)).SetEase(Ease.Linear)
-                .Join(_uiSheep.transform.DOScale(new Vector2(-1f, 1f), _pathIconsAnimationTime).From(0f).SetEase(Ease.OutBounce));
+                .Join(_uiSheep.transform.DOScale(new Vector2(1f, 1f), _pathIconsAnimationTime).From(0f).SetEase(Ease.OutBounce));
 
             ServiceLocator.Get<ScoreCounter>().OnScoreChanged += ScoreCounter_OnScoreChanged;
             return sequence;

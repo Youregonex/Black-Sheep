@@ -4,6 +4,7 @@ using System;
 using DG.Tweening;
 using Youregone.SL;
 using Youregone.YPlayerController;
+using Youregone.GameSystems;
 
 namespace Youregone.LevelGeneration
 {
@@ -22,6 +23,8 @@ namespace Youregone.LevelGeneration
         [SerializeField] private float _fadeDelay;
         [SerializeField] private float _slowdownDuration;
 
+        private SoundManager _soundManager;
+
         private Vector2 _prePauseVelocity;
         private float _prePauseGravityScale;
         private float _prePauseAngularVelocity;
@@ -32,6 +35,9 @@ namespace Youregone.LevelGeneration
         {
             ServiceLocator.Get<MovingObjectHandler>().AddObject(this);
 
+            if (_soundManager == null)
+                _soundManager = ServiceLocator.Get<SoundManager>();
+
             PickRandomSprite();
             _spriteRenderer.color = new Color(1f, 1f, 1f, 1f);
 
@@ -39,11 +45,30 @@ namespace Youregone.LevelGeneration
             Vector2 newVelocity = new(ServiceLocator.Get<PlayerController>().CurrentSpeed, _rigidBody.velocity.y);
             ChangeVelocity(newVelocity);
 
-            _fadeTween = _spriteRenderer.DOFade(0f, _fadeDuration).SetDelay(_fadeDelay).SetEase(Ease.InOutQuad).OnComplete(() =>
+            _fadeTween = _spriteRenderer
+                .DOFade(0f, _fadeDuration)
+                .SetDelay(_fadeDelay)
+                .SetEase(Ease.InOutQuad)
+                .OnComplete(() =>
+                {
+                    OnDestruction?.Invoke(this);
+                    _fadeTween = null;
+                });
+        }
+
+        protected override void OnCollisionEnter2D(Collision2D collision)
+        {
+            base.OnCollisionEnter2D(collision);
+
+            if (collision.transform.GetComponent<FallZone>())
             {
+                _spriteRenderer.color = new Color(1f, 1f, 1f, 0f);
+
+                KillActiveTweens();
+
+                _soundManager.PlayWaterSplashClip(transform.position);
                 OnDestruction?.Invoke(this);
-                _fadeTween = null;
-            });
+            }
         }
 
         private void OnDisable()

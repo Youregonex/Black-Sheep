@@ -18,9 +18,6 @@ namespace Youregone.LevelGeneration
         [SerializeField] private Transform _birdSpawnPointsParent;
         [SerializeField] private int _breakPiecesCountMin;
         [SerializeField] private int _breakPiecesCountMax;
-        [SerializeField] private List<AudioClip> _rockBreakingClipList;
-
-        private SoundManager _soundManager;
 
         public Transform BirdSpawnPointsParent => _birdSpawnPointsParent;
         public ObstacleSO ObstacleSO => _obstacleSO;
@@ -28,8 +25,6 @@ namespace Youregone.LevelGeneration
         protected override void Awake()
         {
             base.Awake();
-
-            _soundManager = ServiceLocator.Get<SoundManager>();
         }
 
         private void OnEnable()
@@ -41,9 +36,6 @@ namespace Youregone.LevelGeneration
         {
             if(collision.transform.GetComponent<PlayerController>() || collision.transform.GetComponent<MovingObjectDestroyer>())
             {
-                if (collision.transform.GetComponent<PlayerController>())
-                    _soundManager.PlaySoundFXClip(_rockBreakingClipList, transform.position, .6f);
-
                 OnDestruction?.Invoke(this);
             }
         }
