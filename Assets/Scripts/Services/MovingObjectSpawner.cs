@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Youregone.YPlayerController;
-using Youregone.UI;
 using System;
 using Youregone.Factories;
 using Youregone.ObjectPooling;
@@ -40,10 +39,11 @@ namespace Youregone.LevelGeneration
 
         private float _obstacleSpawnChance;
         private int _maxDifficultyScore;
-        private float _midDifficultyScore => _maxDifficultyScore / 2;
+        private float _midDifficultyScore => _maxDifficultyScore / 2f;
 
         private GameSettings _gameSettings;
         private ScoreCounter _scoreCounter;
+        private SoundManager _soundManagr;
         private PlayerController _player;
         private Factory<Obstacle> _obstacleFactory = new();
         private Factory<Collectable> _collectableFactory = new();
@@ -63,6 +63,8 @@ namespace Youregone.LevelGeneration
 
             _player = ServiceLocator.Get<PlayerController>();
             _scoreCounter = ServiceLocator.Get<ScoreCounter>();
+
+            _soundManagr = ServiceLocator.Get<SoundManager>();
         }
 
         private void Start()
@@ -180,6 +182,7 @@ namespace Youregone.LevelGeneration
         private void Collectable_OnDestraction(Collectable collectable)
         {
             collectable.OnDestraction -= Collectable_OnDestraction;
+            _soundManagr.PlayCollectablePickupClip(collectable.transform.position);
             _collectablPool.EnqueueCollectable(collectable, collectable.IsRareCollectable);
         }
 

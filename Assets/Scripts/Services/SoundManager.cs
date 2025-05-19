@@ -12,8 +12,8 @@ namespace Youregone.GameSystems
         [CustomHeader("Settings")]
         [SerializeField] private AudioSourceSoundFX _audioSourcePrefab;
         [SerializeField] private AudioClip _waterSpashClip;
-        [SerializeField] private AudioClip _uiPointerEnter;
         [SerializeField] private AudioClip _uiClick;
+        [SerializeField] private List<AudioClip> _collectablePickupClipList;
 
         private BasicPool<AudioSourceSoundFX> _audioSourcePool;
         private Factory<AudioSourceSoundFX> _audioSourceFactory;
@@ -53,14 +53,14 @@ namespace Youregone.GameSystems
             PlaySoundFXClip(_waterSpashClip, position, .1f);
         }
 
-        public void PlayUIPointerEnter()
-        {
-            PlaySoundFXClip(_uiPointerEnter, Vector2.zero);
-        }
-
         public void PlayUIClick()
         {
             PlaySoundFXClip(_uiClick, Vector2.zero);
+        }
+
+        public void PlayCollectablePickupClip(Vector3 position)
+        {
+            PlaySoundFXClip(_collectablePickupClipList, position, 1f);
         }
     }
 }

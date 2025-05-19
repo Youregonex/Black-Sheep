@@ -5,7 +5,7 @@ using Youregone.SL;
 
 namespace Youregone.UI
 {
-    public class UISound : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler
+    public class UISound : MonoBehaviour, IPointerClickHandler
     {
         private SoundManager _soundManager;
 
@@ -24,11 +24,6 @@ namespace Youregone.UI
         public void OnPointerClick(PointerEventData eventData)
         {
             _soundManager.PlayUIClick();
-        }
-
-        public void OnPointerEnter(PointerEventData eventData)
-        {
-            _soundManager.PlayUIPointerEnter();
         }
     }
 }

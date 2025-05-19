@@ -115,7 +115,6 @@ MonoBehaviour:
   _collider: {fileID: 6455378796687310478}
   _slowdownDuration: 3
   _duration: 3
-  _visual: {fileID: 7095415642358433425}
 --- !u!1 &7095415642358433425
 GameObject:
   m_ObjectHideFlags: 0
@@ -188,7 +187,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 0.81745416, g: 0.8666667, b: 0.19999999, a: 1}
   m_FlipX: 0
