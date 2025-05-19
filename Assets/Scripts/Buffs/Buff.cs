@@ -93,7 +93,13 @@ namespace Youregone.LevelGeneration
                 _slowDownTween = null;
             }
 
-            float currentVelocityX = _rigidBody.velocity.x;
+            float currentVelocityX = 0f;
+
+            if (_rigidBody != null)
+                currentVelocityX = _rigidBody.velocity.x;
+            else
+                return;
+
             _slowDownTween = DOTween.To(
                 () => currentVelocityX,
                 x => currentVelocityX = x,
