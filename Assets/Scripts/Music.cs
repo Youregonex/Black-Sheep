@@ -25,9 +25,6 @@ namespace Youregone.SoundFX
 
         private void OnDestroy()
         {
-            if (_currentTween != null)
-                _currentTween.Kill();
-
             _currentTween?.Kill();
         }
 
@@ -57,9 +54,10 @@ namespace Youregone.SoundFX
 
         public void FadeOutMusic()
         {
+            float volume = _musicTargetVolume;
             _currentTween = DOTween.To(
-                () => _audioSource.volume,
-                x => _audioSource.volume = x,
+                () => volume,
+                x => volume = x,
                 0f,
                 _musicFadeOutDuration)
                 .OnUpdate(() =>
@@ -67,18 +65,29 @@ namespace Youregone.SoundFX
                     if (_audioSource == null)
                         _currentTween.Kill();
                 })
-                .OnComplete(() => _currentTween = null);
+                .OnComplete(() => _currentTween = null)
+                .OnUpdate(() =>
+                {
+                    if (_audioSource != null)
+                        _audioSource.volume = volume;
+                });
         }
 
         public void FadeInMusic()
         {
+            float volume = 0f;
             _currentTween = DOTween
                 .To(
-                    () => _audioSource.volume,
-                    x => _audioSource.volume = x,
+                    () => volume,
+                    x => volume = x,
                     _musicTargetVolume,
                     _musicFadeInDuration)
-                .OnComplete(() => _currentTween = null);
+                .OnComplete(() => _currentTween = null)
+                .OnUpdate(() =>
+                {
+                    if (_audioSource != null)
+                        _audioSource.volume = volume;
+                });
         }
     }
 }
