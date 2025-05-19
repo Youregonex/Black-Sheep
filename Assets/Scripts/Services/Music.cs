@@ -8,6 +8,7 @@ namespace Youregone.SoundFX
     {
         [CustomHeader("Settings")]
         [SerializeField] private AudioClip _mainMusicClip;
+        [SerializeField] private AudioClip _gameOverClip;
         [SerializeField, Range(0f, 1f)] private float _musicTargetVolume;
 
         [CustomHeader("DOTween Settings")]
@@ -88,6 +89,15 @@ namespace Youregone.SoundFX
                     if (_audioSource != null)
                         _audioSource.volume = volume;
                 });
+        }
+
+        public void PlayGameOverClip()
+        {
+            PauseMusic();
+            _audioSource.volume = _musicTargetVolume;
+            _audioSource.loop = false;
+            _audioSource.clip = _gameOverClip;
+            _audioSource.Play();
         }
     }
 }

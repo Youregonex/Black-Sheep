@@ -134,13 +134,12 @@ namespace Youregone.UI
 
         private IEnumerator PlayBackgroundAnimation()
         {
-            float backgroundGoalAlpha = .8f;
-
+            float backgroundGoalAlpha = 1f;
             _currentSequence = DOTween.Sequence();
             _currentSequence
-                .Append(_selfRectTransform.DOAnchorPos(Vector2.zero, _animationDuration).From(new Vector2(0f, Screen.height / 2)))
+                .Append(_selfRectTransform.DOAnchorPos(Vector2.zero, _animationDuration).From(new Vector2(0f, Screen.height / 2f)))
                 .Join(_backgroundImage.DOFade(backgroundGoalAlpha, _animationDuration).From(0f))
-                .Join(_leaderBoardCanvasGroup.GetComponent<RectTransform>().DOAnchorPos(Vector2.zero, _animationDuration).From(new Vector2(0f, Screen.height / 2)))
+                .Join(_leaderBoardCanvasGroup.GetComponent<RectTransform>().DOAnchorPos(Vector2.zero, _animationDuration).From(new Vector2(0f, Screen.height / 2f)))
                 .Join(_leaderBoardCanvasGroup.DOFade(1f, _animationDuration).From(0f))
                 .OnComplete(() =>
                 {
@@ -271,8 +270,8 @@ namespace Youregone.UI
             else
                 scoreHolders = _localDatabase.PersonalResults;
 
-
-            int amountOfHoldersToShow = Mathf.Min(8, scoreHolders.Count);
+            int maxScoreHoldersToDisplay = 8;
+            int amountOfHoldersToShow = Mathf.Min(maxScoreHoldersToDisplay, scoreHolders.Count);
             float _delay = .15f;
 
             for(int i = 0; i < amountOfHoldersToShow; i++)

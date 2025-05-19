@@ -1,23 +1,43 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Youregone.Factories;
+using Youregone.ObjectPooling;
 using Youregone.SL;
+using Youregone.SoundFX;
 
 namespace Youregone.GameSystems
 {
     public class SoundManager : MonoBehaviour, IService
     {
         [CustomHeader("Settings")]
-        [SerializeField] private AudioSource _audioSourcePrefab;
+        [SerializeField] private AudioSourceSoundFX _audioSourcePrefab;
         [SerializeField] private AudioClip _waterSpashClip;
+        [SerializeField] private AudioClip _uiPointerEnter;
+        [SerializeField] private AudioClip _uiClick;
+
+        private BasicPool<AudioSourceSoundFX> _audioSourcePool;
+        private Factory<AudioSourceSoundFX> _audioSourceFactory;
+
+        private void Awake()
+        {
+            _audioSourceFactory = new();
+            int initialPoolSize = 5;
+            _audioSourcePool = new(_audioSourceFactory, _audioSourcePrefab, null, initialPoolSize);
+        }
 
         public void PlaySoundFXClip(AudioClip audioClip, Vector3 position, float volume = 1f)
         {
-            AudioSource audioSource = Instantiate(_audioSourcePrefab, position, Quaternion.identity);
-            audioSource.clip = audioClip;
-            audioSource.volume = volume;
-            float clipLength = audioSource.clip.length;
-            audioSource.Play();
-            Destroy(audioSource.gameObject, clipLength);
+            AudioSourceSoundFX audioSource = _audioSourcePool.Dequeue();
+            audioSource.transform.position = position;
+
+            audioSource.Initialize(audioClip, volume);
+            audioSource.OnDestruction += AudioSourceSoundFX_OnDestruction;
+        }
+
+        private void AudioSourceSoundFX_OnDestruction(AudioSourceSoundFX audioSourceSoundFX)
+        {
+            audioSourceSoundFX.OnDestruction -= AudioSourceSoundFX_OnDestruction;
+            _audioSourcePool.Enqueue(audioSourceSoundFX);
         }
 
         public void PlaySoundFXClip(List<AudioClip> audioClipList, Vector3 position, float volume = 1f)
@@ -31,6 +51,16 @@ namespace Youregone.GameSystems
         public void PlayWaterSplashClip(Vector3 position)
         {
             PlaySoundFXClip(_waterSpashClip, position, .1f);
+        }
+
+        public void PlayUIPointerEnter()
+        {
+            PlaySoundFXClip(_uiPointerEnter, Vector2.zero);
+        }
+
+        public void PlayUIClick()
+        {
+            PlaySoundFXClip(_uiClick, Vector2.zero);
         }
     }
 }

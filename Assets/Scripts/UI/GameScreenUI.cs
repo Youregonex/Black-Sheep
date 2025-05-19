@@ -44,11 +44,12 @@ namespace Youregone.UI
         [SerializeField] private CanvasGroup _uiSheep;
         [SerializeField] private CanvasGroup _flagWebHS;
         [SerializeField] private CanvasGroup _flagPersonalHS;
-        [SerializeField] private RectTransform _flagAndSheepParent;
+        [SerializeField] private RectTransform _pathWindowRectTransform;
+        [SerializeField] private float _pathOffset;
 
         [CustomHeader("DOTween Settings")]
         [SerializeField] private float _buttonAnimationTime;
-        [SerializeField] private float _pathTargerWidth;
+        [SerializeField] private float _pathWindowTargetWidth;
         [SerializeField] private float _pathAnimationTime;
         [SerializeField] private float _pathIconsAnimationTime;
         [SerializeField] private float _iconAnimationsDelay;
@@ -165,16 +166,15 @@ namespace Youregone.UI
             _flagPersonalHS.alpha = 0f;
             _flagWebHS.alpha = 0f;
 
-            _flagAndSheepParent.sizeDelta = new Vector2(0f, _flagAndSheepParent.sizeDelta.y);
+            _pathWindowRectTransform.sizeDelta = new Vector2(0f, _pathWindowRectTransform.sizeDelta.y);
             _onScreenPathCanvasGroup.alpha = 1f;
 
-            Vector2 uiSheepStartPosition = new(-_pathTargerWidth / 2f, _uiSheep.transform.localPosition.y);
-            _uiSheep.GetComponent<RectTransform>().anchoredPosition = uiSheepStartPosition;
-
             Sequence sequence = DOTween.Sequence();
+            Vector2 pathWidthGoal = new(_pathWindowTargetWidth, _pathWindowRectTransform.sizeDelta.y);
+            sequence.Append(_pathWindowRectTransform.DOSizeDelta(pathWidthGoal, _pathAnimationTime)).SetEase(Ease.InOutQuad);
 
-            Vector2 pathWidthGoal = new(_pathTargerWidth, _flagAndSheepParent.sizeDelta.y);
-            sequence.Append(_flagAndSheepParent.DOSizeDelta(pathWidthGoal, _pathAnimationTime)).SetEase(Ease.InOutQuad);
+            Vector2 uiSheepStartPosition = new(0f, _uiSheep.GetComponent<RectTransform>().anchoredPosition.y);
+            _uiSheep.GetComponent<RectTransform>().anchoredPosition = uiSheepStartPosition;
 
             _personalHighscore = ServiceLocator.Get<LocalDatabase>().GetHighscore(true);
             _webHighscore = ServiceLocator.Get<LocalDatabase>().GetHighscore(false);
@@ -182,7 +182,7 @@ namespace Youregone.UI
             if(_personalHighscore >= _webHighscore)
             {
                 _flagWebHS.gameObject.SetActive(false);
-                _flagPersonalHS.transform.localPosition = new Vector2(_pathTargerWidth / 2f, _flagPersonalHS.transform.localPosition.y);
+                _flagPersonalHS.transform.localPosition = new Vector2(_pathWindowTargetWidth / 2f - _pathOffset, _flagPersonalHS.transform.localPosition.y);
 
                 sequence
                     .Append(_flagPersonalHS.DOFade(1f, _pathIconsAnimationTime).SetEase(Ease.Linear))
@@ -190,7 +190,7 @@ namespace Youregone.UI
             }
             else
             {
-                _flagWebHS.transform.localPosition = new Vector2(_pathTargerWidth / 2f, _flagWebHS.transform.localPosition.y);
+                _flagWebHS.transform.localPosition = new Vector2(_pathWindowTargetWidth / 2f - _pathOffset, _flagWebHS.transform.localPosition.y);
 
                 if (_personalHighscore != 0)
                 {
@@ -198,8 +198,8 @@ namespace Youregone.UI
 
                     _flagPersonalHS.transform.localPosition =
                         Vector2.Lerp(
-                            new Vector2(-_pathTargerWidth / 2f, _flagPersonalHS.transform.localPosition.y),
-                            new Vector2(_pathTargerWidth / 2f, _flagPersonalHS.transform.localPosition.y),
+                            new Vector2(-_pathWindowTargetWidth / 2f + _pathOffset, _flagPersonalHS.transform.localPosition.y),
+                            new Vector2(_pathWindowTargetWidth / 2f - _pathOffset, _flagPersonalHS.transform.localPosition.y),
                             t);
 
                     sequence
@@ -228,8 +228,8 @@ namespace Youregone.UI
 
             _uiSheep.transform.localPosition =
                 Vector2.Lerp(
-                    new Vector2(-_pathTargerWidth / 2f, _uiSheep.transform.localPosition.y),
-                    new Vector2(_pathTargerWidth / 2f, _uiSheep.transform.localPosition.y),
+                    new Vector2(-_pathWindowTargetWidth / 2f + _pathOffset, _uiSheep.transform.localPosition.y),
+                    new Vector2(_pathWindowTargetWidth / 2f - _pathOffset, _uiSheep.transform.localPosition.y),
                     t);
         }
     }

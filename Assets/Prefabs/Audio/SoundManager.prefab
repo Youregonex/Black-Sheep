@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8486750423309037391}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 078d013424c5042d6bf4cf6df33607b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _audioMixer: {fileID: 24100000, guid: 86e59c7ba80144631b2837204bae2e63, type: 2}
-  _soundEnabled: 0
-  _audioSourcePrefab: {fileID: 2993379468165423622, guid: 7634117f57c644131b25fb2e4e8d190a, type: 3}
+  _audioSourcePrefab: {fileID: 5070842248679102116, guid: 7634117f57c644131b25fb2e4e8d190a, type: 3}
+  _waterSpashClip: {fileID: 8300000, guid: a4d1cd4f7e7ed4f06aab4edc10773090, type: 3}
+  _uiPointerEnter: {fileID: 8300000, guid: 386ffe9737acf434094bcc0584b50d6a, type: 3}
+  _uiClick: {fileID: 8300000, guid: ca93846bb086f4d0f84a184e3e44cd27, type: 3}

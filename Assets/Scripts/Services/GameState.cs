@@ -156,7 +156,7 @@ namespace Youregone.GameSystems
 
         private IEnumerator PlayerController_OnDeath_Coroutine()
         {
-            _music.FadeOutMusic();
+            _music.PlayGameOverClip();
 
             _currentGameState = EGameState.Outro;
             yield return new WaitForSeconds(_outroDelay);
