@@ -25,6 +25,9 @@ namespace Youregone.SoundFX
 
         private void OnDestroy()
         {
+            if (_currentTween != null)
+                _currentTween.Kill();
+
             _currentTween?.Kill();
         }
 
