@@ -43,7 +43,6 @@ namespace Youregone.LevelGeneration
 
         private GameSettings _gameSettings;
         private ScoreCounter _scoreCounter;
-        private SoundManager _soundManagr;
         private PlayerController _player;
         private Factory<Obstacle> _obstacleFactory = new();
         private Factory<Collectable> _collectableFactory = new();
@@ -63,8 +62,6 @@ namespace Youregone.LevelGeneration
 
             _player = ServiceLocator.Get<PlayerController>();
             _scoreCounter = ServiceLocator.Get<ScoreCounter>();
-
-            _soundManagr = ServiceLocator.Get<SoundManager>();
         }
 
         private void Start()
@@ -182,7 +179,6 @@ namespace Youregone.LevelGeneration
         private void Collectable_OnDestraction(Collectable collectable)
         {
             collectable.OnDestraction -= Collectable_OnDestraction;
-            _soundManagr.PlayCollectablePickupClip(collectable.transform.position);
             _collectablPool.EnqueueCollectable(collectable, collectable.IsRareCollectable);
         }
 

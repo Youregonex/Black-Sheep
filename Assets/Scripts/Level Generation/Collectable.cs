@@ -23,7 +23,7 @@ namespace Youregone.LevelGeneration
         [SerializeField] private GameObject _lightGameObject;
         [SerializeField] private Collider2D _triggerZone;
 
-        [CustomHeader("Sin Wave Config")]
+        [CustomHeader("Sin Wave Movement Config")]
         [SerializeField] private float _amplitude;
         [SerializeField] private float _frequency;
 
@@ -36,13 +36,14 @@ namespace Youregone.LevelGeneration
         [SerializeField] private float _randomSinWaveOffset;
         [SerializeField] private float _timeUnpaused;
 
-        public bool IsRareCollectable => _isRareCollectable;
+        private GameState _gameState;
+        private SoundManager _soundManager;
+        private Coroutine _currentCoroutine;
 
         private bool _isTriggered;
-        private GameState _gameState;
-        private Coroutine _currentCoroutine;
         private float _randomAnimationDelay;
 
+        public bool IsRareCollectable => _isRareCollectable;
 
         protected override void Awake()
         {
@@ -55,6 +56,9 @@ namespace Youregone.LevelGeneration
 
         private void OnEnable()
         {
+            if (_soundManager == null)
+                _soundManager = ServiceLocator.Get<SoundManager>();
+
             _isTriggered = false;
             _triggerZone.enabled = true;
             _lightGameObject.SetActive(true);
@@ -94,6 +98,8 @@ namespace Youregone.LevelGeneration
 
                 ServiceLocator.Get<ScoreCounter>().AddPoints(_pointsBonus);
                 ServiceLocator.Get<PlayerCloversCollected>().CollectClover(_isRareCollectable);
+
+                _soundManager.PlayCollectablePickupClip(transform.position);
 
                 _rigidBody.velocity = Vector2.zero;
 
