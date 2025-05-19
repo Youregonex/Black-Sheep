@@ -93,13 +93,17 @@ namespace Youregone.LevelGeneration
                 _slowDownTween = null;
             }
 
+            float currentVelocityX = _rigidBody.velocity.x;
             _slowDownTween = DOTween.To(
-                () => _rigidBody.velocity.x,
-                x => _rigidBody.velocity = new Vector2(x, _rigidBody.velocity.y),
+                () => currentVelocityX,
+                x => currentVelocityX = x,
                 -newVelocity.x,
                 _slowdownDuration
             ).SetEase(Ease.OutQuad).OnComplete(() =>
             {
+                if (_rigidBody != null)
+                    _rigidBody.velocity = new Vector2(currentVelocityX, _rigidBody.velocity.y);
+
                 _slowDownTween = null;
             });
         }
@@ -109,18 +113,27 @@ namespace Youregone.LevelGeneration
             float randomXForceModifier;
             float randomYForceModifier;
 
+            float randomForceMidifierRamSpeedMin = 1.25f;
+            float randomForceMidifierRamSpeedMax = 2f;
+
+            float randomForceMidifierNormalSpeedMin = 1f;
+            float randomForceeModifierNormalSpeedMax = 1.75f;
+
             if (ServiceLocator.Get<PlayerController>().IsRaming)
             {
-                randomXForceModifier = UnityEngine.Random.Range(1.25f, 2f);
-                randomYForceModifier = UnityEngine.Random.Range(1.25f, 2f);
+                randomXForceModifier = UnityEngine.Random.Range(randomForceMidifierRamSpeedMin, randomForceMidifierRamSpeedMax);
+                randomYForceModifier = UnityEngine.Random.Range(randomForceMidifierRamSpeedMin, randomForceMidifierRamSpeedMax);
             }
             else
             {
-                randomXForceModifier = UnityEngine.Random.Range(1f, 1.75f);
-                randomYForceModifier = UnityEngine.Random.Range(1f, 1.75f);
+                randomXForceModifier = UnityEngine.Random.Range(randomForceMidifierNormalSpeedMin, randomForceeModifierNormalSpeedMax);
+                randomYForceModifier = UnityEngine.Random.Range(randomForceMidifierNormalSpeedMin, randomForceeModifierNormalSpeedMax);
             }
 
-            _rigidBody.AddForce(new Vector2(_direction.x * _forceMultiplier * randomXForceModifier, _direction.y * _forceMultiplier * randomYForceModifier), ForceMode2D.Impulse);
+            _rigidBody.AddForce(new Vector2(
+                _direction.x * _forceMultiplier * randomXForceModifier,
+                _direction.y * _forceMultiplier * randomYForceModifier),
+                ForceMode2D.Impulse);
         }
     }
 }
