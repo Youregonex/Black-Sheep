@@ -134,12 +134,14 @@ namespace Youregone.UI
 
         private IEnumerator PlayBackgroundAnimation()
         {
+            RectTransform leaderboardRectTransform = _leaderBoardCanvasGroup.GetComponent<RectTransform>();
+            Vector2 leaderboardGoalPosition = new(20f, 0f);
             float backgroundGoalAlpha = 1f;
             _currentSequence = DOTween.Sequence();
             _currentSequence
                 .Append(_selfRectTransform.DOAnchorPos(Vector2.zero, _animationDuration).From(new Vector2(0f, Screen.height / 2f)))
                 .Join(_backgroundImage.DOFade(backgroundGoalAlpha, _animationDuration).From(0f))
-                .Join(_leaderBoardCanvasGroup.GetComponent<RectTransform>().DOAnchorPos(Vector2.zero, _animationDuration).From(new Vector2(0f, Screen.height / 2f)))
+                .Join(leaderboardRectTransform.DOAnchorPos(leaderboardGoalPosition, _animationDuration).From(new Vector2(leaderboardRectTransform.rect.x, Screen.height / 2f)))
                 .Join(_leaderBoardCanvasGroup.DOFade(1f, _animationDuration).From(0f))
                 .OnComplete(() =>
                 {
@@ -243,7 +245,8 @@ namespace Youregone.UI
 
         private void CheckNameInputField(string name)
         {
-            if(!string.IsNullOrWhiteSpace(name))
+            int nameLengthMax = 15;
+            if(!string.IsNullOrWhiteSpace(name) && name.Length <= nameLengthMax)
             {
                 _tryAgainButton.image.color = new Color(1f, 1f, 1f, 1f);
                 _mainMenuButton.image.color = new Color(1f, 1f, 1f, 1f);
