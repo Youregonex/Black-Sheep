@@ -100,18 +100,22 @@ namespace Youregone.LevelGeneration
             else
                 return;
 
-            _slowDownTween = DOTween.To(
-                () => currentVelocityX,
-                x => currentVelocityX = x,
-                -newVelocity.x,
-                _slowdownDuration
-            ).SetEase(Ease.OutQuad).OnComplete(() =>
-            {
-                if (_rigidBody != null)
-                    _rigidBody.velocity = new Vector2(currentVelocityX, _rigidBody.velocity.y);
-
-                _slowDownTween = null;
-            });
+            _slowDownTween = DOTween
+                .To(
+                    () => currentVelocityX,
+                    x => currentVelocityX = x,
+                    -newVelocity.x,
+                    _slowdownDuration)
+                .SetEase(Ease.OutQuad)
+                .OnComplete(() =>
+                {
+                    _slowDownTween = null;
+                })
+                .OnUpdate(() =>
+                {
+                    if (_rigidBody != null)
+                        _rigidBody.velocity = new Vector2(currentVelocityX, _rigidBody.velocity.y);
+                });
         }
 
         private void ApplyForce()

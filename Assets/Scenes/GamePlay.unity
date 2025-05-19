@@ -6710,7 +6710,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5353740583962076114, guid: 3e1fef6ee1a77409e98d1c59dccb1d5e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1286971457}
   m_SourcePrefab: {fileID: 100100000, guid: 3e1fef6ee1a77409e98d1c59dccb1d5e, type: 3}
 --- !u!224 &335065206 stripped
 RectTransform:
@@ -6728,6 +6731,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cd1b7483db7346978b07dcb1248b0bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &335065208 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5353740583962076114, guid: 3e1fef6ee1a77409e98d1c59dccb1d5e, type: 3}
+  m_PrefabInstance: {fileID: 335065205}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &342034431
 GameObject:
   m_ObjectHideFlags: 0
@@ -10535,11 +10543,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3173250925293081108, guid: b5f153c8bf39a4e9d97095b23865ba34, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 25
+      value: 37.5
       objectReference: {fileID: 0}
     - target: {fileID: 3173250925293081108, guid: b5f153c8bf39a4e9d97095b23865ba34, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 22
+      value: 33
       objectReference: {fileID: 0}
     - target: {fileID: 3173250925293081108, guid: b5f153c8bf39a4e9d97095b23865ba34, type: 3}
       propertyPath: m_LocalScale.x
@@ -11583,10 +11591,22 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3587744372723462979, guid: 3e1fef6ee1a77409e98d1c59dccb1d5e, type: 3}
   m_PrefabInstance: {fileID: 335065205}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 335065208}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1286971457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 335065208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a28fc4cea5b424701b2682b7255b410c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1305242528
@@ -11760,11 +11780,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3173250925293081108, guid: b5f153c8bf39a4e9d97095b23865ba34, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 25
+      value: 37.5
       objectReference: {fileID: 0}
     - target: {fileID: 3173250925293081108, guid: b5f153c8bf39a4e9d97095b23865ba34, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 22
+      value: 33
       objectReference: {fileID: 0}
     - target: {fileID: 3173250925293081108, guid: b5f153c8bf39a4e9d97095b23865ba34, type: 3}
       propertyPath: m_LocalScale.x
