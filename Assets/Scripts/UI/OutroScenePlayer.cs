@@ -32,6 +32,7 @@ namespace Youregone.UI
             foreach (OutroScene outroScene in _outroScenesList)
             {
                 OutroScene currentOutroScene = Instantiate(outroScene);
+                currentOutroScene.transform.localScale = Vector3.one;
                 currentOutroScene.transform.SetParent(transform);
 
                 RectTransform rectTransform = currentOutroScene.GetComponent<RectTransform>();
