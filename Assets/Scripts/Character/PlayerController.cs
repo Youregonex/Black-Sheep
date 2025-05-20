@@ -48,6 +48,7 @@ namespace Youregone.YPlayerController
         [SerializeField] private float _flashDuration;
 
         [CustomHeader("Components")]
+        [SerializeField] private WaterSplash _waterSplashPrefab;
         [SerializeField] private GameObject _staminaBar;
         [SerializeField] private Image _staminaBarFill;
         [SerializeField] private Animator _animator;
@@ -259,6 +260,7 @@ namespace Youregone.YPlayerController
             _windParticleSystem.Pause();
 
             _staminaBarFill.GetComponent<Animator>().speed = 0f;
+            _stepAudioSource.Pause();
         }
 
         public override void Unpause()
@@ -278,6 +280,7 @@ namespace Youregone.YPlayerController
             }
 
             _staminaBarFill.GetComponent<Animator>().speed = 1f;
+            _stepAudioSource.Play();
         }
 
         private void GameState_OnGameStarted()
@@ -395,8 +398,9 @@ namespace Youregone.YPlayerController
         private void Drown()
         {
             _soundManager.PlayPlayerDrownClip(transform.position);
-            _spriteRenderer.sprite = null;
+            _spriteRenderer.gameObject.SetActive(false);
             _stepAudioSource.Stop();
+            Instantiate(_waterSplashPrefab, transform.position, Quaternion.identity);
             CharacterDie();
         }
 
@@ -479,11 +483,8 @@ namespace Youregone.YPlayerController
                 return;
 
             if(_gameState.CurrentGameState == EGameState.Gameplay)
-            {
-                Debug.Log("Starting Sound");
                 _stepAudioSource.Play();
-            }
-
+            
             StartCoroutine(LandCoroutine());
         }
 

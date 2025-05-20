@@ -28,6 +28,7 @@ namespace Youregone.EnemyAI
 
         [CustomHeader("Debug")]
         [SerializeField] private bool _triggered = false;
+        [SerializeField] private bool _running = false;
         [SerializeField] private float _alertZoneSize;
         [SerializeField] private float _triggerZoneSize;
         [SerializeField] private Vector2 _sheepVelocity;
@@ -77,17 +78,19 @@ namespace Youregone.EnemyAI
         {
             if(collision.transform.GetComponent<PlayerController>())
             {
-                if(_triggered)
+                if(_triggered && !_running)
                 {
                     RamTowardsPlayer();
-                    _triggered = false;
                     return;
                 }
 
-                ShowAlertSign();
-                _soundManager.PlaySheepSound(transform.position);
-                _triggerCollider.radius = _triggerZoneSize;
-                _triggered = true;
+                if(!_running)
+                {
+                    ShowAlertSign();
+                    _soundManager.PlaySheepSound(transform.position);
+                    _triggerCollider.radius = _triggerZoneSize;
+                    _triggered = true;
+                }
             }
         }
 
@@ -147,6 +150,7 @@ namespace Youregone.EnemyAI
 
         private void RamTowardsPlayer()
         {
+            _running = true;
             transform.SetParent(null);
             _sheepVelocity = new Vector2(_moveSpeed, 0f);
             _rigidBody.velocity = new Vector2(-(_player.CurrentSpeed + _sheepVelocity.x), 0f);

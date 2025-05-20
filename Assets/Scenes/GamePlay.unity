@@ -15094,6 +15094,10 @@ PrefabInstance:
       value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 5257244555878351172, guid: 5a327b5a138c846628f9028e402ba0d7, type: 3}
+      propertyPath: _waterSplashPrefab
+      value: 
+      objectReference: {fileID: 3036393979727015260, guid: 43098a53241dc423a904dc71326b6bbb, type: 3}
+    - target: {fileID: 5257244555878351172, guid: 5a327b5a138c846628f9028e402ba0d7, type: 3}
       propertyPath: _windParticleSystem
       value: 
       objectReference: {fileID: 9314634}
