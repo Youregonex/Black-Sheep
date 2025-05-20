@@ -17,6 +17,7 @@ namespace Youregone.LevelGeneration
         [SerializeField] private float _forceMultiplier;
         [SerializeField] private List<Sprite> _rockPiecesSpriteList;
         [SerializeField] private SpriteRenderer _spriteRenderer;
+        [SerializeField] private WaterSplash _waterSplashSmallPrefab;
 
         [CustomHeader("DOTween Config")]
         [SerializeField] private float _fadeDuration;
@@ -67,6 +68,8 @@ namespace Youregone.LevelGeneration
                 KillActiveTweens();
 
                 _soundManager.PlayWaterSplashClip(transform.position);
+                WaterSplash waterSplash = Instantiate(_waterSplashSmallPrefab, transform.position, Quaternion.identity);
+                waterSplash.Initialize(false);
                 OnDestruction?.Invoke(this);
             }
         }

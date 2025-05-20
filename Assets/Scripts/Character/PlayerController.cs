@@ -400,7 +400,8 @@ namespace Youregone.YPlayerController
             _soundManager.PlayPlayerDrownClip(transform.position);
             _spriteRenderer.gameObject.SetActive(false);
             _stepAudioSource.Stop();
-            Instantiate(_waterSplashPrefab, transform.position, Quaternion.identity);
+            WaterSplash waterSplash = Instantiate(_waterSplashPrefab, transform.position, Quaternion.identity);
+            waterSplash.Initialize(true);
             CharacterDie();
         }
 
