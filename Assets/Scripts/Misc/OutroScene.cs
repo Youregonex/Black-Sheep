@@ -5,7 +5,6 @@ using System.Collections;
 using DG.Tweening;
 using Youregone.SL;
 using Youregone.YPlayerController;
-using UnityEngine.UI;
 
 namespace Youregone.UI
 {

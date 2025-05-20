@@ -12967,6 +12967,41 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1549660481}
   m_CullTransparentMesh: 1
+--- !u!1 &1583440215
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1583440216}
+  m_Layer: 5
+  m_Name: WaterSplashSpawnPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1583440216
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1583440215}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2039297496}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -540}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!4 &1593498113
 Transform:
   m_ObjectHideFlags: 0
@@ -14829,7 +14864,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1583440216}
   m_Father: {fileID: 1673285481}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -14850,9 +14886,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _outroTransitionDuration: 1
-  _outroScenes:
+  _outroScenesList:
   - {fileID: 2660137275269844242, guid: c2d127835a480437f8ea888e3938a49b, type: 3}
-  - {fileID: 2660137275269844242, guid: ed82b0e753d9a4775aa1258ef3e7a40a, type: 3}
+  - {fileID: 2660137275269844242, guid: 7a32f9c2037da486ebec135f37428643, type: 3}
+  _waterSplashPrefab: {fileID: 7004415970280068966, guid: 934cfd75ec5904312ac19e066d7ee401, type: 3}
+  _waterSplashSpawnPositionRectTransform: {fileID: 1583440216}
 --- !u!1 &2083534751
 GameObject:
   m_ObjectHideFlags: 0
