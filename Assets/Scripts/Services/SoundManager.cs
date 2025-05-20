@@ -90,7 +90,7 @@ namespace Youregone.GameSystems
 
         public void PlayPlayerJumpClip(Vector3 position)
         {
-            PlaySoundFXClip(_playerJumpClip, position, false, .6f);
+            PlaySoundFXClip(_playerJumpClip, position, false, .5f);
         }
     }
 }

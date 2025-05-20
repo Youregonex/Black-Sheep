@@ -34,6 +34,7 @@ namespace Youregone.UI
         {
             HeartUI heartUI = Instantiate(_heartPrefab);
             heartUI.transform.SetParent(_heartParent);
+            heartUI.transform.localScale = Vector3.one;
             heartUI.Initialize(_targetScale, _rotateMin, _rotateMax, _heartAnimationDuration);
             _heartsUIList.Add(heartUI);
         }
