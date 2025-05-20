@@ -12471,9 +12471,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6675311263518418358, guid: b7836059759eb46aeb1dd28ea7336cea, type: 3}
+      propertyPath: _uiClickClip
+      value: 
+      objectReference: {fileID: 8300000, guid: ca93846bb086f4d0f84a184e3e44cd27, type: 3}
+    - target: {fileID: 6675311263518418358, guid: b7836059759eb46aeb1dd28ea7336cea, type: 3}
       propertyPath: _rockBreakClip
       value: 
       objectReference: {fileID: 8300000, guid: 79a9820b05f3040d9bf6666c3a728d4b, type: 3}
+    - target: {fileID: 6675311263518418358, guid: b7836059759eb46aeb1dd28ea7336cea, type: 3}
+      propertyPath: _playerJumpClip
+      value: 
+      objectReference: {fileID: 8300000, guid: cc1595dd0396b4f6ca1693a42ec043d1, type: 3}
     - target: {fileID: 6675311263518418358, guid: b7836059759eb46aeb1dd28ea7336cea, type: 3}
       propertyPath: _playerDrownClip
       value: 

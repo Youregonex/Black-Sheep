@@ -14,8 +14,9 @@ namespace Youregone.GameSystems
         [SerializeField] private AudioClip _waterSpashClip;
         [SerializeField] private AudioClip _playerDrownClip;
         [SerializeField] private AudioClip _playerDamagedClip;
+        [SerializeField] private AudioClip _playerJumpClip;
         [SerializeField] private AudioClip _rockBreakClip;
-        [SerializeField] private AudioClip _uiClick;
+        [SerializeField] private AudioClip _uiClickClip;
         [SerializeField] private List<AudioClip> _collectablePickupClipList;
         [SerializeField] private List<AudioClip> _sheepClipList;
 
@@ -59,7 +60,7 @@ namespace Youregone.GameSystems
 
         public void PlayUIClick()
         {
-            PlaySoundFXClip(_uiClick, Vector2.zero, false);
+            PlaySoundFXClip(_uiClickClip, Vector2.zero, false);
         }
 
         public void PlayCollectablePickupClip(Vector3 position)
@@ -85,6 +86,11 @@ namespace Youregone.GameSystems
         public void PlayRockBreakClip(Vector3 position)
         {
             PlaySoundFXClip(_rockBreakClip, position, false);
+        }
+
+        public void PlayPlayerJumpClip(Vector3 position)
+        {
+            PlaySoundFXClip(_playerJumpClip, position, false, .3f);
         }
     }
 }

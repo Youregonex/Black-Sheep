@@ -518,6 +518,7 @@ namespace Youregone.YPlayerController
             _rigidBody.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
             _animator.SetTrigger(ANIMATION_JUMP_TRIGGER);
             _stepAudioSource.Stop();
+            _soundManager.PlayPlayerJumpClip(transform.position);
         }
 
         //private void OnDrawGizmos()

@@ -80,12 +80,12 @@ namespace Youregone.EnemyAI
                 if(_triggered)
                 {
                     RamTowardsPlayer();
-                    _soundManager.PlaySheepSound(transform.position);
                     _triggered = false;
                     return;
                 }
 
                 ShowAlertSign();
+                _soundManager.PlaySheepSound(transform.position);
                 _triggerCollider.radius = _triggerZoneSize;
                 _triggered = true;
             }
