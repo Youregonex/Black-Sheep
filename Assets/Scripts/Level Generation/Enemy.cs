@@ -3,6 +3,7 @@ using Youregone.YPlayerController;
 using Youregone.LevelGeneration;
 using DG.Tweening;
 using Youregone.SL;
+using Youregone.GameSystems;
 
 namespace Youregone.EnemyAI
 {
@@ -32,10 +33,18 @@ namespace Youregone.EnemyAI
         [SerializeField] private Vector2 _sheepVelocity;
         [SerializeField] private CircleCollider2D _triggerCollider;
 
-        private float _baseGravityScale;
         private PlayerController _player;
         private Tween _currentTween;
         private Animator _alertSignAnimator;
+        private SoundManager _soundManager;
+
+        private float _baseGravityScale;
+
+        private void OnEnable()
+        {
+            if (_soundManager == null)
+                _soundManager = ServiceLocator.Get<SoundManager>();
+        }
 
         protected override void Start()
         {
@@ -71,6 +80,8 @@ namespace Youregone.EnemyAI
                 if(_triggered)
                 {
                     RamTowardsPlayer();
+                    _soundManager.PlaySheepSound(transform.position);
+                    _triggered = false;
                     return;
                 }
 
@@ -82,10 +93,10 @@ namespace Youregone.EnemyAI
 
         protected override void OnDestroy()
         {
-            base.OnDestroy();
-
             if (_currentTween != null)
                 _currentTween.Kill();
+
+            base.OnDestroy();
         }
 
         public override void Pause()
@@ -146,14 +157,31 @@ namespace Youregone.EnemyAI
         {
             _alertSign.SetActive(true);
 
-            _currentTween = _alertSign.transform.DOMoveY(_alertSign.transform.position.y + _alertSignUpwardsMovementAmount, _alertSignAnimationDuration).OnComplete(() =>
-            {
-                _currentTween = _alertSign.transform.GetChild(0).GetComponent<SpriteRenderer>().DOFade(0f, _alertSignFadeTime).OnComplete(() =>
+            _currentTween = _alertSign.transform
+                .DOMoveY(_alertSign.transform.position.y + _alertSignUpwardsMovementAmount, _alertSignAnimationDuration)
+                .OnComplete(() =>
                 {
-                    _alertSign.SetActive(false);
-                    _currentTween = null;
-                });
-            });
+                    _currentTween = _alertSign.transform
+                    .GetChild(0)
+                    .GetComponent<SpriteRenderer>()
+                    .DOFade(0f, _alertSignFadeTime)
+                    .OnComplete(() =>
+                    {
+                        _alertSign.transform.GetChild(1).gameObject.SetActive(false);
+                        _alertSign.SetActive(false);
+                        _currentTween = null;
+                    })
+                    .OnUpdate(() =>
+                    {
+                        if (_alertSign == null)
+                            _currentTween.Kill();
+                    });
+                })
+                .OnUpdate(() =>
+                {
+                    if (_alertSign == null)
+                        _currentTween.Kill();
+                }); ;
         }
     }
 }

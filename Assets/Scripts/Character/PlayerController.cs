@@ -42,9 +42,6 @@ namespace Youregone.YPlayerController
         [SerializeField] private float _staminaRechargeDelay;
         [SerializeField] private int _maxHealth;
         [SerializeField] private bool _immortal;
-        [SerializeField] private AudioClip _drownClip;
-        [SerializeField] private AudioClip _damageClip;
-        [SerializeField] private AudioClip _rockBreakClip;
 
         [CustomHeader("Sprite Flash Config")]
         [SerializeField] private Material _flashMaterial;
@@ -100,6 +97,7 @@ namespace Youregone.YPlayerController
         private Rigidbody2D _rigidBody;
         private GameState _gameState;
         private SoundManager _soundManager;
+        private AudioSource _stepAudioSource;
 
         private Coroutine _flashCoroutine;
         private Coroutine _staminaCoroutine;
@@ -131,9 +129,9 @@ namespace Youregone.YPlayerController
 
             _baseMaterial = _spriteRenderer.material;
             _rigidBody = GetComponent<Rigidbody2D>();
+            _stepAudioSource = GetComponent<AudioSource>();
             _groundCheck.Landed += Land;
             _currentHealth = _maxHealth;
-
             _currentStaminaDrain = _baseStaminaDrain;
             _baseGravityScale = _rigidBody.gravityScale;
             _staminaCurrent = _staminaMax;
@@ -193,12 +191,12 @@ namespace Youregone.YPlayerController
             {
                 OnObstacleDestroyed?.Invoke();
                 StartCombo();
-                _soundManager.PlaySoundFXClip(_rockBreakClip, transform.position);
+                _soundManager.PlayRockBreakClip(transform.position);
                 return;
             }
 
             if (collision.transform.GetComponent<FallZone>())
-                Fall();
+                Drown();
         }
 
         private void OnDisable()
@@ -286,6 +284,7 @@ namespace Youregone.YPlayerController
         {
             CurrentSpeed = _baseMoveSpeed;
             _animator.SetTrigger(ANIMATION_GAME_STARTED);
+            _stepAudioSource.Play();
         }
 
         private void StartCombo()
@@ -381,7 +380,7 @@ namespace Youregone.YPlayerController
         private void TakeDamage()
         {
             Flash();
-            _soundManager.PlaySoundFXClip(_damageClip, transform.position);
+            _soundManager.PlayPlayerDamagedClip(transform.position);
 
             if (_immortal)
                 return;
@@ -393,10 +392,11 @@ namespace Youregone.YPlayerController
                 CharacterDie();
         }
 
-        private void Fall()
+        private void Drown()
         {
-            _soundManager.PlaySoundFXClip(_drownClip, transform.position, .2f);
+            _soundManager.PlayPlayerDrownClip(transform.position);
             _spriteRenderer.sprite = null;
+            _stepAudioSource.Stop();
             CharacterDie();
         }
 
@@ -407,6 +407,7 @@ namespace Youregone.YPlayerController
             CurrentSpeed = 0f;
             _staminaBar.SetActive(false);
             _infiniteStaminaText.gameObject.SetActive(false);
+            _stepAudioSource.Stop();
             OnDeath?.Invoke();
 
             if (_isRaming)
@@ -474,6 +475,15 @@ namespace Youregone.YPlayerController
 
         private void Land()
         {
+            if (_isGrounded)
+                return;
+
+            if(_gameState.CurrentGameState == EGameState.Gameplay)
+            {
+                Debug.Log("Starting Sound");
+                _stepAudioSource.Play();
+            }
+
             StartCoroutine(LandCoroutine());
         }
 
@@ -507,6 +517,7 @@ namespace Youregone.YPlayerController
             _rigidBody.velocity = new Vector2(_currentSpeed, 0f);
             _rigidBody.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
             _animator.SetTrigger(ANIMATION_JUMP_TRIGGER);
+            _stepAudioSource.Stop();
         }
 
         //private void OnDrawGizmos()

@@ -81,9 +81,9 @@ MonoBehaviour:
   _triggerRadiusMin: 6
   _triggerRadiusMax: 12
   _alertRangeAddition: 8
-  _alertSignAnimationDuration: 0.6
+  _alertSignAnimationDuration: 0.4
   _alertSignUpwardsMovementAmount: 0.4
-  _alertSignFadeTime: 0.2
+  _alertSignFadeTime: 0.15
   _animator: {fileID: 1252676227212039795}
   _alertSign: {fileID: 2903740719011309789}
   _triggered: 0

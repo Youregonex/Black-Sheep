@@ -12,8 +12,12 @@ namespace Youregone.GameSystems
         [CustomHeader("Settings")]
         [SerializeField] private AudioSourceSoundFX _audioSourcePrefab;
         [SerializeField] private AudioClip _waterSpashClip;
+        [SerializeField] private AudioClip _playerDrownClip;
+        [SerializeField] private AudioClip _playerDamagedClip;
+        [SerializeField] private AudioClip _rockBreakClip;
         [SerializeField] private AudioClip _uiClick;
         [SerializeField] private List<AudioClip> _collectablePickupClipList;
+        [SerializeField] private List<AudioClip> _sheepClipList;
 
         private BasicPool<AudioSourceSoundFX> _audioSourcePool;
         private Factory<AudioSourceSoundFX> _audioSourceFactory;
@@ -25,12 +29,12 @@ namespace Youregone.GameSystems
             _audioSourcePool = new(_audioSourceFactory, _audioSourcePrefab, null, initialPoolSize);
         }
 
-        public void PlaySoundFXClip(AudioClip audioClip, Vector3 position, float volume = 1f)
+        public void PlaySoundFXClip(AudioClip audioClip, Vector3 position, bool proximityVolume, float volume = 1f)
         {
             AudioSourceSoundFX audioSource = _audioSourcePool.Dequeue();
             audioSource.transform.position = position;
 
-            audioSource.Initialize(audioClip, volume);
+            audioSource.Initialize(audioClip, volume, proximityVolume);
             audioSource.OnDestruction += AudioSourceSoundFX_OnDestruction;
         }
 
@@ -40,27 +44,47 @@ namespace Youregone.GameSystems
             _audioSourcePool.Enqueue(audioSourceSoundFX);
         }
 
-        public void PlaySoundFXClip(List<AudioClip> audioClipList, Vector3 position, float volume = 1f)
+        public void PlaySoundFXClip(List<AudioClip> audioClipList, Vector3 position, bool proximityVolume, float volume = 1f)
         {
             int randomClipIndex = UnityEngine.Random.Range(0, audioClipList.Count);
             AudioClip audioClip = audioClipList[randomClipIndex];
 
-            PlaySoundFXClip(audioClip, position, volume);
+            PlaySoundFXClip(audioClip, position, proximityVolume, volume);
         }
 
         public void PlayWaterSplashClip(Vector3 position)
         {
-            PlaySoundFXClip(_waterSpashClip, position, .1f);
+            PlaySoundFXClip(_waterSpashClip, position, true, 1f);
         }
 
         public void PlayUIClick()
         {
-            PlaySoundFXClip(_uiClick, Vector2.zero);
+            PlaySoundFXClip(_uiClick, Vector2.zero, false);
         }
 
         public void PlayCollectablePickupClip(Vector3 position)
         {
-            PlaySoundFXClip(_collectablePickupClipList, position, 1f);
+            PlaySoundFXClip(_collectablePickupClipList, position, false, 1f);
+        }
+
+        public void PlayPlayerDrownClip(Vector3 position)
+        {
+            PlaySoundFXClip(_playerDrownClip, position, false, .2f);
+        }
+
+        public void PlaySheepSound(Vector3 position)
+        {
+            PlaySoundFXClip(_sheepClipList, position, true, .9f);
+        }
+
+        public void PlayPlayerDamagedClip(Vector3 position)
+        {
+            PlaySoundFXClip(_playerDamagedClip, position, false, 1f);
+        }
+
+        public void PlayRockBreakClip(Vector3 position)
+        {
+            PlaySoundFXClip(_rockBreakClip, position, false);
         }
     }
 }

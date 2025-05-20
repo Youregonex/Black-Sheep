@@ -11,11 +11,14 @@ namespace Youregone.SoundFX
         private AudioSource _audioSource;
 
         private Coroutine _currentCoroutine;
-        public void Initialize(AudioClip clip, float volume)
+
+
+        public void Initialize(AudioClip clip, float volume, bool proximityVolume = false)
         {
             _audioSource.clip = clip;
             _audioSource.volume = volume;
             float clipLength = _audioSource.clip.length;
+            _audioSource.spatialBlend = proximityVolume ? 1f : 0f;
             _audioSource.Play();
 
             _currentCoroutine = StartCoroutine(DelayedDestructionCoroutine(clipLength));
