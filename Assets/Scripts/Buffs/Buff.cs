@@ -12,6 +12,7 @@ namespace Youregone.LevelGeneration
         [SerializeField] protected Vector2 _direction;
         [SerializeField] protected float _forceMultiplier;
         [SerializeField] protected Collider2D _collider;
+        [SerializeField] protected WaterSplash _waterSplashSmallPrefab;
 
         [CustomHeader("DOTween Config")]
         [SerializeField] protected float _slowdownDuration;
@@ -49,6 +50,8 @@ namespace Youregone.LevelGeneration
             if (collision.transform.GetComponent<FallZone>())
             {
                 _soundManager.PlayWaterSplashClip(transform.position);
+                WaterSplash waterSplash = Instantiate(_waterSplashSmallPrefab, transform.position, Quaternion.identity);
+                waterSplash.Initialize(false);
                 Destroy(gameObject);
             }
         }

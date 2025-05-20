@@ -113,6 +113,7 @@ MonoBehaviour:
   _direction: {x: 1, y: 1}
   _forceMultiplier: 0.6
   _collider: {fileID: 6455378796687310478}
+  _waterSplashSmallPrefab: {fileID: 3036393979727015260, guid: 9369326cd8ac848dfb4b33a77a92a276, type: 3}
   _slowdownDuration: 3
   _duration: 3
 --- !u!1 &7095415642358433425

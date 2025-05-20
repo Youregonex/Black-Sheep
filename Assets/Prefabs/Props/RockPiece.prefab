@@ -61,7 +61,7 @@ MonoBehaviour:
   - {fileID: 812597209, guid: 0897b9eac66b1472ea6f6a2b012ab46c, type: 3}
   - {fileID: -1571089454, guid: 0897b9eac66b1472ea6f6a2b012ab46c, type: 3}
   _spriteRenderer: {fileID: 8714222722974623676}
-  _drownClip: {fileID: 8300000, guid: a4d1cd4f7e7ed4f06aab4edc10773090, type: 3}
+  _waterSplashSmallPrefab: {fileID: 3036393979727015260, guid: 9369326cd8ac848dfb4b33a77a92a276, type: 3}
   _fadeDuration: 1
   _fadeDelay: 2
   _slowdownDuration: 3
