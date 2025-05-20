@@ -4622,7 +4622,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -6040,6 +6040,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6675311263518418358, guid: b7836059759eb46aeb1dd28ea7336cea, type: 3}
+      propertyPath: _uiClickClip
+      value: 
+      objectReference: {fileID: 8300000, guid: ca93846bb086f4d0f84a184e3e44cd27, type: 3}
+    - target: {fileID: 6675311263518418358, guid: b7836059759eb46aeb1dd28ea7336cea, type: 3}
+      propertyPath: _rockBreakClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 79a9820b05f3040d9bf6666c3a728d4b, type: 3}
+    - target: {fileID: 6675311263518418358, guid: b7836059759eb46aeb1dd28ea7336cea, type: 3}
+      propertyPath: _playerJumpClip
+      value: 
+      objectReference: {fileID: 8300000, guid: cc1595dd0396b4f6ca1693a42ec043d1, type: 3}
+    - target: {fileID: 6675311263518418358, guid: b7836059759eb46aeb1dd28ea7336cea, type: 3}
+      propertyPath: _playerDrownClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 3551c3391ffd34124bf5b443b8d95d1f, type: 3}
+    - target: {fileID: 6675311263518418358, guid: b7836059759eb46aeb1dd28ea7336cea, type: 3}
+      propertyPath: _playerDamagedClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 750f4eb04583b491eb4b4b636732ea50, type: 3}
     - target: {fileID: 8486750423309037391, guid: b7836059759eb46aeb1dd28ea7336cea, type: 3}
       propertyPath: m_Name
       value: SoundManager
