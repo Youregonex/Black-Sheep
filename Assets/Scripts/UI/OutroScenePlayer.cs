@@ -35,15 +35,15 @@ namespace Youregone.UI
                 currentOutroScene.transform.localScale = Vector3.one;
                 currentOutroScene.transform.SetParent(transform);
 
-                RectTransform rectTransform = currentOutroScene.GetComponent<RectTransform>();
+                //RectTransform rectTransform = currentOutroScene.GetComponent<RectTransform>();
 
-                if (rectTransform != null)
-                {
-                    rectTransform.anchorMin = Vector2.zero;
-                    rectTransform.anchorMax = Vector2.one;
-                    rectTransform.offsetMin = Vector2.zero;
-                    rectTransform.offsetMax = Vector2.zero;
-                }
+                //if (rectTransform != null)
+                //{
+                //    rectTransform.anchorMin = Vector2.zero;
+                //    rectTransform.anchorMax = Vector2.one;
+                //    rectTransform.offsetMin = Vector2.zero;
+                //    rectTransform.offsetMax = Vector2.zero;
+                //}
 
                 yield return _transition.StartCoroutine(_transition.PlayTransitionEnd());
 
