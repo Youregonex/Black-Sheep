@@ -14,11 +14,9 @@ namespace Youregone.YCamera
     public class CameraGameStartSequence : MonoBehaviour
     {
         [CustomHeader("Settings")]
-        [SerializeField] private float _cameraSequenceDelay;
-        [SerializeField] private float _cameraZOffset;
-        [SerializeField] private Transform _cameraStartPoint;
-        [SerializeField] private Transform _cameraEndPoint;
+        [SerializeField] private float _artMovementDelay;
         [SerializeField] private CanvasGroup _stihCanvasGroup;
+        [SerializeField] private RectTransform _artRectTransform;
 
         [CustomHeader("UI Elements")]
         [SerializeField] private Button _playButton;
@@ -29,16 +27,13 @@ namespace Youregone.YCamera
         [SerializeField] private ShopUI _shopUI;
 
         [CustomHeader("DOTween Settings")]
-        [SerializeField] private float _cameraMoveDuration;
+        [SerializeField] private float _artMoveDuration;
         [SerializeField] private float _objectFadeTime;
 
         private Tween _currentTween;
         private bool _introSkipped = false;
         private Transition _transition;
         private Music _music;
-
-        public Transform CameraStartPoint => _cameraStartPoint;
-        public Transform CameraEndPoint => _cameraEndPoint;
 
         private void Awake()
         {
@@ -53,7 +48,7 @@ namespace Youregone.YCamera
             _transition = ServiceLocator.Get<Transition>();
             _music = ServiceLocator.Get<Music>();
 
-            StartCoroutine(PlayCameraIntroSequence());
+            StartCoroutine(PlayArtIntroSequence());
         }
 
         private void Update()
@@ -62,12 +57,11 @@ namespace Youregone.YCamera
                 ForceCompleteCurrentTween();
         }
 
-        private IEnumerator PlayCameraIntroSequence()
+        private IEnumerator PlayArtIntroSequence()
         {
-            transform.position = new Vector3(_cameraStartPoint.position.x, _cameraStartPoint.position.y, _cameraZOffset);
             yield return StartCoroutine(_transition.PlayTransitionEnd());
             _music.StartMusicWithFadeIn();
-            StartCoroutine(CameraIntroSequenceCoroutine(_cameraSequenceDelay));
+            StartCoroutine(ArtMovementCoroutine(_artMovementDelay));
         }
 
         private void ForceCompleteCurrentTween()
@@ -77,13 +71,7 @@ namespace Youregone.YCamera
 
             _introSkipped = true;
             _currentTween.Kill();
-
-            Vector3 cameraDestination = new(_cameraEndPoint.position.x, _cameraEndPoint.position.y, _cameraZOffset);
-            _currentTween = transform.DOMove(cameraDestination, _cameraMoveDuration / 3f).OnComplete(() =>
-            {
-                _currentTween = null;
-                OnCameraInPosition();
-            });
+            PlayArtMovementAnimation(_artMoveDuration / 3f);
         }
 
         private void SetupButtons()
@@ -120,7 +108,7 @@ namespace Youregone.YCamera
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
 
-        private void OnCameraInPosition()
+        private void OnArtInPosition()
         {
             _stihCanvasGroup.DOFade(1f, _objectFadeTime);
 
@@ -157,16 +145,23 @@ namespace Youregone.YCamera
             _highScoreCanvasGroup.DOFade(1f, _objectFadeTime).From(0f);
         }
 
-        private IEnumerator CameraIntroSequenceCoroutine(float delay)
+        private IEnumerator ArtMovementCoroutine(float delay)
         {
             yield return new WaitForSeconds(delay);
+            PlayArtMovementAnimation(_artMoveDuration);
+        }
 
-            Vector3 cameraDestination = new(_cameraEndPoint.position.x, _cameraEndPoint.position.y, _cameraZOffset);
-            _currentTween = transform.DOMove(cameraDestination, _cameraMoveDuration).OnComplete(() =>
-            {
-                _currentTween = null;
-                OnCameraInPosition();
-            });
+        private void PlayArtMovementAnimation(float duration)
+        {
+            float artStartPositionY = _artRectTransform.anchoredPosition.y;
+            _currentTween = _artRectTransform
+                .DOAnchorPos(Vector3.zero, duration)
+                .From(new Vector3(0f, artStartPositionY))
+                .OnComplete(() =>
+                {
+                    _currentTween = null;
+                    OnArtInPosition();
+                });
         }
     }
 }
