@@ -13581,9 +13581,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b152e04ed42a64af8bad8993fc876a77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _progressiveDifficultyEnabled: 1
+  _progressiveDifficultyEnabled: 0
   _maxDifficultyScore: 3000
-  _obstacleSpawnChance: 0
+  _obstacleSpawnChance: 1
   _pitSpawnChanceStart: 0.2
   _pitSpawnChanceMidGame: 0.3
   _pitSpawnChanceMax: 0.4
