@@ -73,6 +73,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5629391139996844654}
     m_Modifications:
+    - target: {fileID: -7177783644974082755, guid: 3a313063727904847a09f9d656b426fd, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: -6234081452995345040, guid: 3a313063727904847a09f9d656b426fd, type: 3}
       propertyPath: m_Name
       value: StartMoss20
@@ -125,6 +129,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+    - target: {fileID: 5968013889345272028, guid: 3a313063727904847a09f9d656b426fd, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 7734248841634786106, guid: 3a313063727904847a09f9d656b426fd, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 

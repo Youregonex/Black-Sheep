@@ -37,7 +37,12 @@ namespace Youregone.LevelGeneration
         protected override void OnCollisionEnter2D(Collision2D collision)
         {
             if (collision.transform.GetComponent<MovingObjectDestroyer>())
+            {
+                if (_chunkType == EChunkType.None)
+                    Destroy(gameObject);
+
                 OnDestruction?.Invoke(this);
+            }
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
