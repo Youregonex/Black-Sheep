@@ -161,7 +161,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _paralaxSpawnDistance: 40
   _paralaxSpawnXOffset: 5.25
-  _paralaxFactor: 0.95
+  _paralaxFactor: 0.6
   _paralaxLayerPrefab: {fileID: 4479110502401007619}
   _paralaxEndPoint: {fileID: 408005291609600749}
   _paralaxCreated: 0
