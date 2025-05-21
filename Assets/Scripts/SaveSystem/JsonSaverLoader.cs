@@ -19,7 +19,7 @@ namespace Youregone.SaveSystem
         {
             EnsureSaveDirectoryExists();
             DeleteOldJsonFiles();
-            DeleteLegacySaveFiles();
+            DeleteSaveFiles();
 
             ScoreEntryList scoreEntryList = new(scoreHolders);
             string json = JsonUtility.ToJson(scoreEntryList, true);
@@ -30,7 +30,7 @@ namespace Youregone.SaveSystem
         {
             EnsureSaveDirectoryExists();
             DeleteOldJsonFiles();
-            DeleteLegacySaveFiles();
+            DeleteSaveFiles();
 
             if (!File.Exists(CurrentFilePath))
             {
@@ -44,13 +44,16 @@ namespace Youregone.SaveSystem
             return scoreEntryList.list;
         }
 
-        public static void DeleteLegacySaveFiles()
+        public static void DeleteSaveFiles()
         {
             if (File.Exists(_oldFilePath))
                 File.Delete(_oldFilePath);
 
             if (File.Exists(_newFilePath))
                 File.Delete(_newFilePath);
+
+            if (File.Exists(CurrentFilePath))
+                File.Delete(CurrentFilePath);
         }
 
         public static void DeleteOldJsonFiles()

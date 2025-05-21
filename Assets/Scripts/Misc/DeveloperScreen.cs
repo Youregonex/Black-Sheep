@@ -16,7 +16,7 @@ namespace Youregone.DeveloperTools
         {
             _deleteSaveFilesButton.onClick.AddListener(() =>
             {
-                JsonSaverLoader.DeleteLegacySaveFiles();
+                JsonSaverLoader.DeleteSaveFiles();
             });
         }
 
