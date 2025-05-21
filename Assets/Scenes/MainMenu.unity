@@ -936,6 +936,18 @@ PrefabInstance:
       propertyPath: _parentCanvas
       value: 
       objectReference: {fileID: 572093473}
+    - target: {fileID: 7323590441406937911, guid: 276f3b954d14b4688ae4123447335027, type: 3}
+      propertyPath: m_fontSize
+      value: 128
+      objectReference: {fileID: 0}
+    - target: {fileID: 7323590441406937911, guid: 276f3b954d14b4688ae4123447335027, type: 3}
+      propertyPath: m_fontStyle
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7323590441406937911, guid: 276f3b954d14b4688ae4123447335027, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 128
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
