@@ -58,7 +58,16 @@ namespace Youregone.UI
         private int _personalHighscore;
         private int _webHighscore;
 
-        private int _highestOverall => Mathf.Max(_personalHighscore, _webHighscore);
+        private int _highestOverall
+        {
+            get
+            {
+                int hs = Mathf.Max(_personalHighscore, _webHighscore);
+                if (hs <= 0)
+                    return 3000;
+                else return hs;
+            }
+        }
 
         public HealthbarUI HealthbarUI => _healthbarUI;
         public ScoreCounterUI ScoreCounter => _scoreCounter;
@@ -225,7 +234,6 @@ namespace Youregone.UI
         private void ScoreCounter_OnScoreChanged(int newScore)
         {
             float t = (float)newScore / _highestOverall;
-
             _uiSheep.transform.localPosition =
                 Vector2.Lerp(
                     new Vector2(-_pathWindowTargetWidth / 2f + _pathOffset, _uiSheep.transform.localPosition.y),

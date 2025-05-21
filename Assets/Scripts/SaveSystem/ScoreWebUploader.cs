@@ -11,7 +11,7 @@ namespace Youregone.Web
 {
     public static partial class ScoreWebUploader
     {
-        private const string URL = "https://script.google.com/macros/s/AKfycbxKT9NoCeXjaPoiMLM3DRplwZvQoMFk8-9L_KFw8BW1Xk0og6w_etsRTgwwU2Vw6c94/exec";
+        private const string URL = "https://script.google.com/macros/s/AKfycbwX7S4iOQaxb2yBHHRc6o0Cgs8zqQ3Nw27AYJcuazfNOWia1RAs5KJGp6eU68mlA4b6/exec";
         private const string AMOUNT_OF_TOP_RECORD_HOLDERS = "topAmount=8";
 
         public static void UploadScoreHolder(string name, int playerScore, bool isShortName)

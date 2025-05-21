@@ -115,8 +115,8 @@ namespace Youregone.UI
 
             if (t > 1)
             {
-                t = .75f; // (.51f -- 1f)
-                _flag.anchoredPosition = _pathRectTransform.anchoredPosition;
+                t = 1f; // (.51f -- 1f)
+                _flag.anchoredPosition = new Vector2(_pathRectTransform.rect.width / 2f, 0f);
             }
             else
                 t = t <= .1f ? .1f : t; // min distance so sheep doesn't stand at 0 without movement

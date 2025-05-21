@@ -146,7 +146,8 @@ namespace Youregone.SaveSystem
                 yield return null;
             }
 
-            Highscore = _personalAndWebResults.OrderByDescending(entry => entry.score).First().score;
+            if(_personalAndWebResults.Count > 0)
+                Highscore = _personalAndWebResults.OrderByDescending(entry => entry.score).First().score;
 
             _currentCoroutine = null;
             DatabaseUpdated = true;
