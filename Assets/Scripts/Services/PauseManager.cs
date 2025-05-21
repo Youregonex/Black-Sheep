@@ -36,12 +36,14 @@ namespace Youregone.GameSystems
 
         private void GameScreenUI_OnPauseToggleRequest()
         {
-            TogglePause();
+            if(_gameState.GameStarted)
+                TogglePause();
         }
 
         private void PlayerCharacterInput_OnPauseButtonPressed()
         {
-            TogglePause();
+            if(_gameState.GameStarted)
+                TogglePause();
         }
 
         private void OnDestroy()

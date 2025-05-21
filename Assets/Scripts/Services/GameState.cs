@@ -28,6 +28,9 @@ namespace Youregone.GameSystems
         private GameScreenUI _gameScreenUI;
         private Music _music;
 
+        private bool _gameStarted;
+
+        public bool GameStarted => _gameStarted;
         public EGameState CurrentGameState => _currentGameState;
 
         private void Initialize()
@@ -129,6 +132,7 @@ namespace Youregone.GameSystems
             yield return new WaitUntil(() => Input.anyKeyDown);
 
             _currentGameState = EGameState.Gameplay;
+            _gameStarted = true;
             OnGameStarted?.Invoke();
         }
 
