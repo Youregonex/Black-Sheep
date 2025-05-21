@@ -37,6 +37,7 @@ namespace Youregone.YCamera
 
         private void Awake()
         {
+            DOTween.KillAll();
             _highScoreCanvasGroup.alpha = 0;
             _stihCanvasGroup.alpha = 0f;
 
@@ -55,6 +56,11 @@ namespace Youregone.YCamera
         {
             if (Input.GetKeyDown(KeyCode.Mouse0) && !_introSkipped)
                 ForceCompleteCurrentTween();
+        }
+
+        private void OnDestroy()
+        {
+            _currentTween?.Kill();
         }
 
         private IEnumerator PlayArtIntroSequence()
@@ -91,12 +97,16 @@ namespace Youregone.YCamera
             _playButton.onClick.RemoveAllListeners();
             _playButton.onClick.AddListener(() =>
             {
+                _playButton.interactable = false;
+                _exitButton.interactable = false;
                 StartCoroutine(StartGame());
             });
 
             _exitButton.onClick.RemoveAllListeners();
             _exitButton.onClick.AddListener(() =>
             {
+                _playButton.interactable = false;
+                _exitButton.interactable = false;
                 Application.Quit();
             });
         }
