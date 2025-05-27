@@ -5160,11 +5160,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\xA9 \u041B\u0443\u043F\u043E\u0432 \u0411. \u0411. \u0438 \u041F\u0443\u043F\u043E\u0432
+  m_text: "\u0451 \u041B\u0443\u043F\u043E\u0432 \u0411. \u0411. \u0438 \u041F\u0443\u043F\u043E\u0432
     \u0410. \u0410., 2025"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ffe9adea737f444a8b4ec948b904c2b2, type: 2}
+  m_sharedMaterial: {fileID: 1435166669087638663, guid: ffe9adea737f444a8b4ec948b904c2b2, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
