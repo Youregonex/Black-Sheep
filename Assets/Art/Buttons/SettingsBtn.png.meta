@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 8efb454219de7354fb39780527f777c9
+guid: 11c9baa1e6c1921408e1c527c66d8d6a
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -43,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -121,62 +121,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: SettingsBtn_0
-      rect:
-        serializedVersion: 2
-        x: 5
-        y: 4
-        width: 39
-        height: 40
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 59f8010865a224c1cadd79069080b885
-      internalID: -542491966
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: SettingsBtn_1
-      rect:
-        serializedVersion: 2
-        x: 53
-        y: 5
-        width: 39
-        height: 39
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b61431034c85b4a1e9abcd88496b15c1
-      internalID: -1759959191
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
+    sprites: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 2bd5cda0bffa36145812fee4a820d40b
+    spriteID: 9c8d0e12544c2e64fbf7478f4393788f
     internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable:
-      SettingsBtn_0: -542491966
-      SettingsBtn_1: -1759959191
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
